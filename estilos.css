@@ -1,0 +1,326 @@
+/*1. Variables: cambia un color aqui y cambia en toda la pagina*/
+:root {
+  --fondo: #0E1220;
+  --superficie: #161D2F;
+  --borde: #26304A;
+  --borde-fuerte: #3A4668;
+  --texto: #EEF1F8;
+  --texto-suave: #A9B3CA;
+  --acento: #C6F24E;
+}
+
+/*2. Reset basico */
+* {box-sizing: border-box;}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3,.logo {
+  font-family: "Space Grotesk", sans-serif;
+}   
+
+img {
+    max-width: 100%; 
+    height: auto;
+    display: block;
+}
+
+a {
+    color: inherit; 
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*4. Encabezado: menu de navegacion*/
+header {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.375rem;
+}
+
+header nav ul{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    color: var(--texto-suave);
+}
+
+header nav a:hover {
+    color: var(--acento);
+}
+
+/*5. Contenido principal*/
+main {
+    max-width: 70rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+main section {
+    padding: 4.5rem 0;
+    border-top: 1px solid var(--borde);
+}
+
+main section h2 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0 0 2rem;
+}
+
+/*hero*/
+#inicio {
+ border-top: 0;
+ padding: 4.5rem 0 6rem;
+ }
+
+#inicio h1 {
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+  max-width: 14em;
+}
+
+#inicio p { color: var(--texto-suave); max-width: 30rem; margin: 0 0 2rem; }
+
+/* Botones: añade class="btn" al enlace "Ver proyectos"
+   y class="btn btn-borde" al enlace "Descargar CV" */
+.btn {
+  display: inline-block;
+  min-height: 44px;
+  padding: .85rem 1.75rem;
+  margin: 0 1rem 1rem 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto);
+  font-weight: 500;
+  border: 1.5px solid var(--borde-fuerte);
+}
+
+.btn:hover { 
+    filter: brightness(1.08); 
+    border-color: var(--acento);
+}
+
+.btn-borde {
+  background: transparent;
+  color: var(--texto);
+  border: 1.5px solid var(--borde-fuerte);
+}
+
+.btn-borde:hover { 
+  border-color: var(--acento);
+}
+
+ /* Sobre mí */
+#sobre-mi { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); 
+    gap: 3rem; 
+    align-items: center; 
+}
+
+#sobre-mi h2 { 
+    margin-bottom: 1rem;
+}
+
+#sobre-mi img { 
+    border-radius: 1.5rem;
+    border: 1px solid var(--borde); 
+    max-width: 20rem;
+}
+
+#sobre-mi p { 
+    color: var(--texto-suave); 
+    max-width: 35rem; 
+}
+
+/* Habilidades: etiquetas redondeadas */
+#habilidades ul { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: .75rem;
+}
+#habilidades li {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  padding: .6rem 1.4rem;
+}
+
+/* Proyectos: cuadrícula de tarjetas */
+#proyectos { 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+  gap: 2rem;
+}
+#proyectos h2 { 
+  grid-column: 1 / -1; 
+  margin-bottom: .5rem; 
+}
+
+#proyectos article {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  padding-bottom: 1.75rem;
+  transition: transform .2s, border-color .2s;
+}
+
+#proyectos article:hover { 
+    transform: translateY(-4px); 
+    border-color: var(--acento);
+}
+#proyectos article img { 
+    width: 100%;
+    height: 12.5rem; 
+    object-fit: cover;
+}
+#proyectos article h3 { 
+    font-size: 1.5rem; 
+    margin: 1.5rem 1.75rem .5rem; 
+}
+#proyectos article p { 
+    color: var(--texto-suave);
+    margin: 0 1.75rem 1.25rem; 
+}
+#proyectos article a { 
+    margin-left: 1.75rem; 
+    font-weight: 500; 
+}
+#proyectos article a:first-of-type { 
+    color: var(--acento); 
+}
+
+/* Contacto: formulario */
+#contacto { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr)); 
+    gap: 3rem; 
+    padding-bottom: 6rem; 
+}
+
+#contacto h2 { 
+    margin-bottom: 0; 
+}
+
+form { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.25rem; 
+}
+
+form div { 
+    display: flex; 
+    flex-direction: column; 
+    gap: .5rem; 
+}
+
+label { 
+    font-weight: 500; 
+}
+
+input, textarea {
+  background: var(--superficie);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: .75rem;
+  padding: .85rem 1rem;
+  min-height: 44px;
+  color: var(--texto);
+  font: inherit;
+}
+
+textarea { 
+  resize: vertical; 
+}
+
+button {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: .85rem 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--acento);
+  color: var(--fondo);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+button:hover { 
+  filter: brightness(1.08); 
+}
+
+/* 6. Pie de página */
+footer {
+  border-top: 1px solid var(--borde);
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--texto-suave);
+  font-size: .95rem;
+}
+
+footer p { 
+  margin: 0; 
+}
+
+footer ul { 
+  display: flex; 
+  gap: 1.5rem; 
+}
+
+footer a:hover { 
+    color: var(--acento); 
+}
+
+/* 7. Móvil: ajustes para pantallas pequeñas */
+@media (max-width: 40rem) {
+  header, main { 
+    padding-left: 1.25rem; 
+    padding-right: 1.25rem; }
+
+  main section { 
+    padding: 3rem 0; }
+
+  main section h2 { 
+    font-size: 2rem; }
+}
+
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html { 
+    scroll-behavior: auto; }
+    
+  #proyectos article {
+     transition: none; }
+}
