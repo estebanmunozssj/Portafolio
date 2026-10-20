@@ -1,0 +1,314 @@
+:root {
+  --cafe-oscuro: #3B2417;
+  --marron: #8B4A2B;
+  --crema: #F6EFE4;
+  --tierra: #D9B98F;
+  --verde: #4F6B2E;
+  --texto: #2A1B12;
+  --fuente-titulo: "Fraunces", serif;
+  --fuente-texto: "Manrope", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-titulo);
+  line-height: 1.1;
+  margin: 0 0 0.5em;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--cafe-oscuro);
+}
+
+section {
+  padding: 3rem 1.25rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.9rem 1.6rem;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn-claro  { background: var(--crema); color: var(--cafe-oscuro); }
+.btn-borde  { border: 2px solid var(--tierra); color: var(--crema); }
+.btn-verde  { background: var(--verde); color: #fff; }
+
+.btn-marron {
+  background: var(--marron);
+  color: #fff;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+}
+
+.logo {
+  font-family: var(--fuente-titulo);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.menu-btn {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--crema);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.nav {
+  display: none;
+  width: 100%;
+  background: var(--crema);
+  left: 0;
+  right: 0;
+  top: 100%;
+}
+
+.nav.abierto {
+  display: block;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (min-width: 769px) {
+  .menu-btn { display: none; }
+
+  .nav {
+    display: block;
+    width: auto;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+
+.hero {
+  background: var(--cafe-oscuro);
+  color: var(--crema);
+  display: grid;
+  gap: 2rem;
+  padding: 3rem 1.25rem;
+}
+
+.hero-etiqueta {
+  color: var(--tierra);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(2.25rem, 8vw, 4rem);
+}
+
+.hero-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+.carrusel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  border-radius: 24px;
+  scrollbar-width: none;
+}
+.carrusel img {
+  flex: 0 0 100%;
+  height: 60vh;
+  object-fit: cover;
+  scroll-snap-align: center;
+}
+
+.seccion-intro {
+  color: #5B4636;
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.producto {
+  background: var(--crema);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+}
+
+.producto img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.precio {
+  color: var(--marron);
+}
+
+.experiencias {
+  background: var(--crema);
+  display: grid;
+  gap: 2rem;
+}
+
+.experiencias img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+.contacto {
+  display: grid;
+  gap: 2.5rem;
+}
+
+address {
+  font-style: normal;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+iframe {
+  width: 100%;
+  height: 220px;
+  border: 0;
+  border-radius: 1rem;
+}
+
+.campo {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid #CDB9A0;
+  border-radius: 0.6rem;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: 3px solid var(--tierra);
+  border-color: var(--marron);
+}
+
+.campo-check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.campo-check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.2rem;
+}
+
+.campo-check label {
+  margin: 0;
+  font-weight: 400;
+}
+
+.mensaje-estado {
+  min-height: 1.5rem;
+  font-weight: 600;
+}
+
+.whatsapp-flotante {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #25d366;
+  color: #fff;
+  font-size: 1.9rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  z-index: 1000;
+  transition: transform .2s;
+  text-decoration: none;
+}
+
+.whatsapp-flotante:hover {
+  transform: scale(1.08);
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospedaje rey de los Vientos | Yotoco, Valle del Cauca</title>
+    <meta name="description" content="Hospedaje pequeño y familiar en yotoco, Wifi gratis y precios desde US$18 por noche. Reserva directo por WhatsApp.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@600;700&display=swap">
+    <link rel="stylesheet" href="estilos.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- ===== ENCABEZADO + HERO ===== -->
+<header class="hero">
+    <!-- La imagen de portada se pone desde el CSS (img/portada.jpg) -->
+ 
+    <nav class="nav-contenedor">
+      <a href="#" class="logo">
+        <svg width="34" height="28" viewBox="0 0 34 28" aria-hidden="true"><path d="M3 24L1 6l9 8 7-12 7 12 9-8-2 18Z" fill="#f2c230"/></svg>
+        <span><small>Hospedaje</small><strong>Rey de los Vientos</strong></span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="#habitaciones">Habitaciones</a></li>
+        <li><a href="#alrededores">Yotoco</a></li>
+        <li><a href="#ventajas">Por qué elegirnos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="boton">Reservar</a>
+    </nav>
+
+    <div class="hero__texto contenedor">
+      <p class="etiqueta-etiqueta--clara">Hospedaje · Yotoco, Valle del Cauca</p>
+      <h1>Descansa donde el buen viento sopla</h1>
+      <p>Un hospedaje pequeño, tranquilo y familiar para conocer Yotoco y el centro del Valle.</p>
+
+      <form id="reserva-form" class="buscador">
+        <label>Llegada <input type="date" id="llegada" required></label>
+        <label>Salida <input type="date" id="salida" required></label>
+        <label>Huéspedes <input type="number" id="huespedes" value="2" min="1" required></label>
+        <button type="submit" class="boton boton--oscuro">Consultar</button>
+      </form>
+    </div>
+</header>
+
+<main>
+    <!-- ===== FRANJA DE VENTAJAS ===== -->
+    <section class="franja contenedor">
+      <div><h3>Wifi gratis</h3><p>Para descansar y trabajar</p></div>
+      <div><h3>Ambiente familiar</h3><p>Pequeño y tranquilo</p></div>
+      <div><h3>Desde 60.000</h3><p>Precio por noche [CONFIRMAR]</p></div>
+      <div><h3>Ubicación central</h3><p>En Yotoco, Valle del Cauca</p></div>
+    </section>
+
+    <!-- ===== HABITACIONES Y TARIFAS ===== -->
+   <section id="habitaciones" class="seccion contenedor">
+    <p class="etiqueta">Habitaciones y tarifas</p>
+    <h2>Elige la tarifa que más te convenga</h2>
+    <p class="nota">Precios por noche en pesos colombianos (COP) Pueden variar según la fecha.</p>
+
+    <div class="grid grid--tarifas">
+
+    <!-- 1 adulto · no reembolsable -->
+    <article class="tarjeta">
+      <h3>1 adulto</h3>
+      <p class="tarjeta__tipo">Tarifa económica</p>
+      <p class="tarifa__precio">COP 52.260 <small>/ noche</small></p>
+      <ul class="tarifa__lista">
+        <li class="no">No reembolsable</li>
+        <li>Pagas en el alojamiento antes de llegar</li>
+        <li>No se necesita tarjeta de crédito</li>
+        <li>Desayuno opcional: COP 15.000</li>
+      </ul>
+      <a href="" class="boton boton--oscuro">Reservar</a>
+    </article>
+
+    <!-- 1 adulto · cancelación gratis -->
+    <article class="tarjeta tarifa--destacada">
+      <span class="insignia">Más flexible</span>
+      <h3>1 adulto</h3>
+      <p class="tarifa__tipo">Cancelación gratis</p>
+      <p class="tarifa__precio">COP 55.000 <small>/ noche</small></p>
+      <ul class="tarifa__lista">
+        <li class="si">Cancelación gratis hasta [FECHA LÍMITE]</li>
+        <li>Pagas en el alojamiento antes de llegar</li>
+        <li>No se necesita tarjeta de crédito</li>
+        <li>Desayuno opcional: COP 15.000</li>
+      </ul>
+      <a href="" class="boton">Reservar</a>
+    </article>
+
+    <!-- 2 adultos · no reembolsable -->
+    <article class="tarjeta">
+      <h3>2 adultos</h3>
+      <p class="tarifa__tipo">Tarifa económica</p>
+      <p class="tarifa__precio">COP 72.260 <small>/ noche</small></p>
+      <ul class="tarifa__lista">
+        <li class="no">No reembolsable</li>
+        <li>Pagas en el alojamiento antes de llegar</li>
+        <li>No se necesita tarjeta de crédito</li>
+        <li>Desayuno opcional: COP 15.000</li>
+      </ul>
+      <a href="" class="boton boton--oscuro">Reservar</a>
+    </article>
+
+    <!-- 2 adultos · cancelación gratis -->
+    <article class="tarjeta tarifa--destacada">
+      <span class="insignia">Más flexible</span>
+      <h3>2 adultos</h3>
+      <p class="tarifa__tipo">Cancelación gratis</p>
+      <p class="precio">COP 75.000 <small>/ noche</small></p>
+      <ul class="tarifa__lista">
+        <li class="si">Cancelación gratis hasta [FECHA LÍMITE]</li>
+        <li>Pagas en el alojamiento antes de llegar</li>
+        <li>No se necesita tarjeta de crédito</li>
+        <li>Desayuno opcional: COP 15.000</li>
+      </ul>
+     </article>
+    </div>
+  </section>
+
+  
+
+ <!-- ===== ALREDEDORES ===== -->
+    <section id="alrededores" class="alrededores">
+      <div class="foto-foto--paisaje">[FOTO: paisaje de Yotoco]</div>
+      <div class="alrededores__texto">
+        <p class="etiqueta-etiqueta--clara">Alrededores</p>
+        <h2>Más que un lugar para dormir</h2>
+        <div class="grid-grid--chico">
+          <div><div class="foto-foto--mini foto--1">[FOTO]</div><h3>Laguna de Sonso</h3><p>Naturaleza y aves cerca</p></div>
+          <div><div class="foto-foto--mini foto--2">[FOTO]</div><h3>Cultura campesina</h3><p>Fiestas y tradiciones</p></div>
+          <div><div class="foto-foto--mini foto--3">[FOTO]</div><h3>Rutas de montaña</h3><p>[AGREGAR PLANES]</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== POR QUÉ ELEGIRNOS ===== -->
+    <section id="ventajas" class="seccion-contenedor-dos-columnas">
+      <div>
+        <p class="etiqueta">Por qué elegirnos</p>
+        <h2>Trato cercano, precio justo</h2>
+        <div class="grid-grid--chico">
+          <div class="tarjeta-tarjeta--simple"><h3>Atención personal</h3><p>[CONFIRMAR]</p></div>
+          <div class="tarjeta-tarjeta--simple"><h3>Precio accesible</h3><p>Desde COP 60.000 por noche</p></div>
+          <div class="tarjeta-tarjeta--simple"><h3>Reserva directa</h3><p>Por WhatsApp, sin intermediarios</p></div>
+          <div class="tarjeta-tarjeta--simple"><h3>Tranquilidad</h3><p>Ambiente pequeño y familiar</p></div>
+        </div>
+      </div>
+      <blockquote class="tarjeta-testimonio">
+        <p>[TESTIMONIO REAL DE UN HUÉSPED]</p>
+        <footer>[NOMBRE] · [CIUDAD]</footer>
+      </blockquote>
+    </section>
+
+    <!-- ===== CONTACTO ===== -->
+    <section id="contacto" class="cta-contenedor">
+      <div>
+        <h2>Reserva directo y asegura tu noche</h2>
+        <p>Escríbenos por WhatsApp con tus fechas y cuántas personas son.</p>
+      </div>
+      <div class="cta__botones">
+        <a href="https://wa.me/57XXXXXXXXXX" class="boton">WhatsApp [TU NÚMERO]</a>
+        <a href="https://www.google.com/maps/place/HOSPEDAJE+REY+DE+LOS+VIENTOS/@3.8612863,-76.3847061,20.54z" class="boton boton--borde">Ver en Google Maps</a>
+      </div>
+    </section>
+
+</main>
+
+    <!-- ===== PIE DE PÁGINA ===== -->
+      <footer class="pie">
+      <div class="contenedor-pie__fila">
+      <div><strong class="pie__marca">Rey de los Vientos</strong><p>Hospedaje · Yotoco, Valle del Cauca, Colombia</p></div>
+      <ul class="nav__links">
+        <li><a href="#habitaciones">Habitaciones</a></li>
+        <li><a href="#alrededores">Yotoco</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="contenedor-pie__legal">
+      <span>© <span id="anio">2026</span> Hospedaje Rey de los Vientos</span>
+      <span><a href="#">Aviso legal</a> · <a href="#">Política de privacidad</a> · <a href="#">Cookies</a></span>
+    </div>
+  </footer>
+
+</body>
+</html>
