@@ -55,12 +55,12 @@
     </section>
 
     <!-- ===== HABITACIONES Y TARIFAS ===== -->
-   <section id="habitaciones" class="seccion contenedor">
+   <section id="habitaciones" class="contenedor">
     <p class="etiqueta">Habitaciones y tarifas</p>
     <h2>Elige la tarifa que más te convenga</h2>
     <p class="nota">Precios por noche en pesos colombianos (COP) Pueden variar según la fecha.</p>
 
-    <div class="grid grid--tarifas">
+    <div class="grid--tarifas">
 
     <!-- 1 adulto · no reembolsable -->
     <article class="tarjeta">
@@ -73,11 +73,11 @@
         <li>No se necesita tarjeta de crédito</li>
         <li>Desayuno opcional: COP 15.000</li>
       </ul>
-      <a href="" class="boton boton--oscuro">Reservar</a>
+      <a href="" class="boton">Reservar</a>
     </article>
 
     <!-- 1 adulto · cancelación gratis -->
-    <article class="tarjeta tarifa--destacada">
+    <article class="tarifa--destacada">
       <span class="insignia">Más flexible</span>
       <h3>1 adulto</h3>
       <p class="tarifa__tipo">Cancelación gratis</p>
@@ -102,11 +102,11 @@
         <li>No se necesita tarjeta de crédito</li>
         <li>Desayuno opcional: COP 15.000</li>
       </ul>
-      <a href="" class="boton boton--oscuro">Reservar</a>
+      <a href="" class="boton">Reservar</a>
     </article>
 
     <!-- 2 adultos · cancelación gratis -->
-    <article class="tarjeta tarifa--destacada">
+    <article class="tarifa--destacada">
       <span class="insignia">Más flexible</span>
       <h3>2 adultos</h3>
       <p class="tarifa__tipo">Cancelación gratis</p>
@@ -117,6 +117,7 @@
         <li>No se necesita tarjeta de crédito</li>
         <li>Desayuno opcional: COP 15.000</li>
       </ul>
+      <a href="" class="boton">Reservar</a>
      </article>
     </div>
   </section>
@@ -125,35 +126,79 @@
 
  <!-- ===== ALREDEDORES ===== -->
     <section id="alrededores" class="alrededores">
-      <div class="foto-foto--paisaje">[FOTO: paisaje de Yotoco]</div>
+      <div class="foto--paisaje"><img src="img/paisaje-yotoco.jpg" alt="paisaje de yotoco"></div>
       <div class="alrededores__texto">
-        <p class="etiqueta-etiqueta--clara">Alrededores</p>
+        <p class="etiqueta">Alrededores</p>
         <h2>Más que un lugar para dormir</h2>
-        <div class="grid-grid--chico">
-          <div><div class="foto-foto--mini foto--1">[FOTO]</div><h3>Laguna de Sonso</h3><p>Naturaleza y aves cerca</p></div>
-          <div><div class="foto-foto--mini foto--2">[FOTO]</div><h3>Cultura campesina</h3><p>Fiestas y tradiciones</p></div>
-          <div><div class="foto-foto--mini foto--3">[FOTO]</div><h3>Rutas de montaña</h3><p>[AGREGAR PLANES]</p></div>
+      <div class="grid--chico">
+        <div class="mini">
+          <div class="foto-mini"><img src="img/laguna-sonso.jpeg" alt="laguna de sonso"></div>
+          <h3>Laguna de Sonso</h3>
+          <p>Naturaleza y aves cerca</p>
+        </div>
+        <div class="mini">
+          <div class="foto-mini"><img src="img/cultura-yotoco.jpeg" alt="cultura de yotoco"></div>
+          <h3>Cultura campesina</h3>
+          <p>Fiestas y tradiciones</p>
+        </div>
+        <div class="mini">
+          <div class="foto-mini"><img src="img/ruta.png" alt="ruta"></div>
+          <h3>Rutas de montaña</h3>
+          <p>[AGREGAR PLANES]</p>
         </div>
       </div>
     </section>
 
     <!-- ===== POR QUÉ ELEGIRNOS ===== -->
-    <section id="ventajas" class="seccion-contenedor-dos-columnas">
-      <div>
-        <p class="etiqueta">Por qué elegirnos</p>
-        <h2>Trato cercano, precio justo</h2>
-        <div class="grid-grid--chico">
-          <div class="tarjeta-tarjeta--simple"><h3>Atención personal</h3><p>[CONFIRMAR]</p></div>
-          <div class="tarjeta-tarjeta--simple"><h3>Precio accesible</h3><p>Desde COP 60.000 por noche</p></div>
-          <div class="tarjeta-tarjeta--simple"><h3>Reserva directa</h3><p>Por WhatsApp, sin intermediarios</p></div>
-          <div class="tarjeta-tarjeta--simple"><h3>Tranquilidad</h3><p>Ambiente pequeño y familiar</p></div>
+<section id="ventajas" class="seccion">
+  <div class="contenedor dos-columnas">
+
+    <div>
+      <p class="etiqueta">Por qué elegirnos</p>
+      <h2>Trato cercano, precio justo</h2>
+      <div class="grid--chico">
+        <div class="tarjeta">
+          <h3>Atención personal</h3>
+          <p>Te atienden sus dueños [CONFIRMAR]</p>
+        </div>
+        <div class="tarjeta tarjeta--simple">
+          <h3>Precio accesible</h3>
+          <p>Desde US$18 por noche</p>
+        </div>
+        <div class="tarjeta tarjeta--simple">
+          <h3>Reserva directa</h3>
+          <p>Por WhatsApp, sin intermediarios</p>
+        </div>
+        <div class="tarjeta tarjeta--simple">
+          <h3>Tranquilidad</h3>
+          <p>Ambiente pequeño y familiar</p>
         </div>
       </div>
-      <blockquote class="tarjeta-testimonio">
-        <p>[TESTIMONIO REAL DE UN HUÉSPED]</p>
-        <footer>[NOMBRE] · [CIUDAD]</footer>
-      </blockquote>
-    </section>
+    </div>
+
+    <blockquote class="testimonio">
+      <p>[TESTIMONIO REAL DE UN HUÉSPED]</p>
+      <footer><strong>[NOMBRE]</strong> · [CIUDAD]</footer>
+    </blockquote>
+
+  </div>
+</section>
+
+<!-- ===== LLAMADO A RESERVAR ===== -->
+<section id="contacto" class="seccion seccion--cta">
+  <div class="contenedor">
+    <div class="cta">
+      <div>
+        <h2>Reserva directo y asegura tu noche</h2>
+        <p>Escríbenos por WhatsApp con tus fechas y cuántas personas son.</p>
+      </div>
+      <div class="cta__botones">
+        <a href="https://wa.me/57XXXXXXXXXX" class="boton">WhatsApp [TU NÚMERO]</a>
+        <a href="https://www.google.com/maps/place/HOSPEDAJE+REY+DE+LOS+VIENTOS/@3.8612863,-76.3847061,20.54z" class="boton boton--borde">Ver en Google Maps</a>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- ===== CONTACTO ===== -->
     <section id="contacto" class="cta-contenedor">

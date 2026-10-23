@@ -85,7 +85,8 @@ ul { list-style: none;
 .hero {
   position: relative; 
   overflow: hidden; 
-  min-height: 640px; color: var(--blanco);
+  min-height: 640px; 
+  color: var(--blanco);
   background:
     /* capa 1: sombra oscura para que el texto blanco se lea */
     linear-gradient(180deg, rgba(10, 16, 48, .75) 0%, rgba(10, 16, 48, .35) 60%, rgba(10, 16, 48, .7) 100%),
@@ -95,40 +96,66 @@ ul { list-style: none;
     linear-gradient(180deg, var(--medianoche) 0%, #2a2a7a 55%, var(--dorado) 100%);
     }
 
-.nav {  
-  position: relative; 
-  display: flex; 
-  flex-wrap: wrap;
-  align-items: center; 
-  justify-content: space-between; 
-  gap: 16px;
-  padding-top: 24px; 
-  padding-bottom: 24px;
+
+
+.nav-contenedor {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 40px;
 }
 
-.nav__links { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 28px; 
-    font-size: .9rem; 
-    font-weight: 700; 
+
+.nav-contenedor > .logo {
+    grid-column: 1;
+    justify-self: start;
 }
+
+.nav-contenedor > .boton {
+    grid-column: 3;
+    justify-self: end;
+    margin-left: 0;
+    white-space: nowrap;
+}
+
+
+
+
+.nav__links {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
 
 .logo { 
     display: flex; 
     align-items: center; 
     gap: 12px; 
     line-height: 1.1; 
+    flex-shrink: 0;
 }
 .logo small { 
     display: block; 
-    font-size: .75rem; 
-    letter-spacing: .12em; 
+    font-size: 0.75rem; 
+    letter-spacing: 0.12em; 
 }
 
 .logo strong { 
     font-family: var(--fuente-titulos); 
-    font-size: 1.5rem; 
+    font-size: 1.35rem; 
 }
  
 .hero__texto { 
@@ -145,7 +172,8 @@ ul { list-style: none;
 }
 
 .hero__texto > p:not(.etiqueta) { 
-    font-size: 1.15rem; max-width: 520px; }
+    font-size: 1.15rem; 
+    max-width: 520px; }
  
 /* Buscador: grid que se acomoda solo al ancho disponible */
 .buscador {
@@ -200,326 +228,532 @@ ul { list-style: none;
 }
  
 /* ========== 6. TARJETAS / GRID ========== */
-/* From Uiverse.io by SachinKumar666 */ 
-.card {
-  --card-bg: #ffffff;
-  --card-accent: #7c3aed;
-  --card-text: #1e293b;
-  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-
-  width: 190px;
-  height: 254px;
-  background: var(--card-bg);
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+#habitaciones {
+  padding-top: 75px;
+  padding-bottom: 85px;
+  background: var(--fondo);
 }
 
-.card__shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0) 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
+/*encabezado de la seccion*/
+.contenedor { 
+  box-sizing: border-box;
 }
 
-.card__glow {
-  position: absolute;
-  inset: -10px;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(124, 58, 237, 0.3) 0%,
-    rgba(124, 58, 237, 0) 70%
-  );
-  opacity: 0;
-  transition: opacity 0.5s ease;
+/*encabezado*/
+.etiqueta {
+  margin-bottom: 12px;
+  color: var(--violeta);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.card__content {
-  padding: 1.25em;
-  height: 100%;
+#habitaciones h2 {
+  margin: 0 auto 16px;
+  color: var(--medianoche);
+  font-family: var(--fuente-titulos);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.nota {
+  margin: 0 auto 42px;
+  color: #657087;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/*CUADRICULA DE TRAJETAS*/
+#habitaciones .grid--tarifas {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 22px;
+}
+
+#habitaciones .tarjeta {
   display: flex;
   flex-direction: column;
-  gap: 0.75em;
-  position: relative;
-  z-index: 2;
-}
-
-.card__badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #10b981;
-  color: white;
-  padding: 0.25em 0.5em;
-  border-radius: 999px;
-  font-size: 0.7em;
-  font-weight: 600;
-  transform: scale(0.8);
-  opacity: 0;
-  transition: all 0.4s ease 0.1s;
-}
-
-.card__image {
-  width: 100%;
-  height: 100px;
-  background: linear-gradient(45deg, #a78bfa, #8b5cf6);
-  border-radius: 12px;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
+  min-width: 0;
+  padding: 26px 22px 22px;
   overflow: hidden;
+  background: var(--blanco);
+  border: 1px solid #e2e7f1;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(10, 16, 48, 0.07);
+  transition: transform 0.25s ease;
+  box-shadow: 0.25s ease;
 }
 
-.card__image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 30%
-    ),
-    repeating-linear-gradient(
-      45deg,
-      rgba(139, 92, 246, 0.1) 0px,
-      rgba(139, 92, 246, 0.1) 2px,
-      transparent 2px,
-      transparent 4px
-    );
-  opacity: 0.5;
+#habitaciones .tarjeta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(10, 16, 48, 0.13);
 }
 
-.card__text {
+/*titulo de huspedes*/
+#habitaciones .tarjeta h3 {
+  margin: 0 0 8px;
+  color: var(--medianoche);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+/*tipo de tarifa*/
+#habitaciones .tarjeta__tipo {
+  margin: 0 0 20px;
+  color:#67848a;
+  font-size: 0.92rem;
+}
+
+#habitaciones .tarifa--destacada {
   display: flex;
   flex-direction: column;
-  gap: 0.25em;
+  min-width: 0;
+  padding: 26px 22px 22px;
+  overflow: hidden;
+  background: var(--blanco);
+  border: 1px solid #e2e7f1;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(10, 16, 48, 0.07);
+  transition: transform 0.25s ease;
+  box-shadow: 0.25s ease;
 }
 
-.card__title {
-  color: var(--card-text);
-  font-size: 1.1em;
-  margin: 0;
-  font-weight: 700;
-  transition: all 0.3s ease;
+#habitaciones .tarifa--destacada:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(10, 16, 48, 0.13);
 }
 
-.card__description {
-  color: var(--card-text);
-  font-size: 0.75em;
-  margin: 0;
-  opacity: 0.7;
-  transition: all 0.3s ease;
+#habitaciones .tarifa__tipo {
+  margin: 0 0 20px;
+  color:#67848a;
+  font-size: 0.92rem;
 }
 
-.card__footer {
+/*precio*/
+#habitaciones .tarifa__precio, #habitaciones .precio {
+  margin: 0 0 24px;
+  color: var(--indigo);
+  font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+#habitaciones .tarifa__precio small, #habitaciones .precio small {
+  color: #68748a;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/*lista de beneficios*/
+#habitaciones .tarifa__lista {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
 }
 
-.card__price {
-  color: var(--card-text);
-  font-weight: 700;
-  font-size: 1em;
-  transition: all 0.3s ease;
+#habitaciones .tarifa__lista li {
+  position: relative;
+  padding-left: 30px;
+  color: #526079;
+  font-size: 0.87rem;
+  line-height: 1.55;
 }
 
-.card__button {
-  width: 28px;
-  height: 28px;
-  background: var(--card-accent);
-  border-radius: 50%;
+/*iconos de beneficio*/
+#habitaciones .tarifa__lista li::before {
+  content: "✓";
+  position: absolute;
+  top: 1px;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  transform: scale(0.9);
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #e0f4eb;
+  font-size: 0.8rem;
+  color: #268667;
+  font-weight: 900;
 }
 
-/* Hover Effects */
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border-color: rgba(124, 58, 237, 0.2);
+/*no reembolsable*/
+#habitaciones .tarifa__lista li.no::before {
+  content: "✕";
+  background: #fde8e9;
+  color: #c94f5a;
+  font-size: 1.15rem;
 }
 
-.card:hover .card__shine {
-  opacity: 1;
-  animation: shine 3s infinite;
+/*etiqueta de tarrifa flexible*/
+#habitaciones .insignia {
+  align-self: flex-start;
+  margin-bottom: 16px;
+  padding: 7px 12px;
+  border-radius: 30px;
+  background: #fff3cf;
+  color: #77591a;
+  font-size: 0.74rem;
+  font-weight: 800;
 }
 
-.card:hover .card__glow {
-  opacity: 1;
+/*tarjetas flexibles destacadas*/
+#habitaciones .tarifa--destacada {
+  border: 2px solid var(--violeta);
+  box-shadow: 0 10px 28px rgba(90, 63, 181, 0.1);
 }
 
-.card:hover .card__badge {
-  transform: scale(1);
-  opacity: 1;
-  z-index: 1;
+#habitaciones .tarjeta {
+  border: 2px solid var(--violeta);
+  box-shadow: 0 10px 28px rgba(90, 63, 181, 0.1);
 }
 
-.card:hover .card__image {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+/*encabezado visual de las tarjetas*/
+#habitaciones .tarjeta::before {
+  content: "";
+  display: block;
+  height: 8px;
+  margin: -26px -24px 24px;
+  background: linear-gradient(90deg, #7650d8, #382d91);
 }
 
-.card:hover .card__title {
-  color: var(--card-accent);
-  transform: translateX(2px);
+#habitaciones .tarifa--destacada::before {
+   content: "";
+  display: block;
+  height: 8px;
+  margin: -26px -24px 24px;
+  background: linear-gradient(90deg, #7650d8, #382d91);
 }
 
-.card:hover .card__description {
-  opacity: 1;
-  transform: translateX(2px);
+
+/*botones de reserva*/
+#habitaciones .boton {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--indigo);
+  border-radius: 12px;
+  background: var(--indigo);
+  border-radius: 12px;
+  color: #ffffff;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
 
-.card:hover .card__price {
-  color: var(--card-accent);
-  transform: translateX(2px);
+#habitaciones .boton::after {
+  content: "→";
 }
 
-.card:hover .card__button {
-  transform: scale(1);
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+#habitaciones .boton:hover {
+  transform: translateY(-2px);
+  background: #172d55;
+  border-color: #172d55;
 }
 
-.card:hover .card__button svg {
-  animation: pulse 1.5s infinite;
+/*botones morados para tarifas flexibles*/
+#habitaciones .tarifa--destacada .boton:hover {
+  background: #4633a9;
+  background-color: #4633a9;
 }
 
-/* Active State */
-.card:active {
-  transform: translateY(-5px) scale(0.98);
+#habitaciones .tarjeta .boton:hover {
+    background: #4633a9;
+    background-color: #4633a9;
 }
-
-/* Animations */
-@keyframes shine {
-  0% {
-    background-position: -100% 0;
+/*tablet*/
+@media (max-widt: 1100px) {
+  #habitaciones .grid--tarifas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
   }
-  100% {
-    background-position: 200% 0;
+  #habitaciones .tarifa__precio, #habitaciones .precio {
+    font-size: 1.65rem;
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
+/*celulares*/
+@media (max-width: 600px) {
+  #habitaciones {
+    padding: 55px 18px;
   }
-  50% {
-    transform: scale(1.2);
+  #habitaciones h2 {
+    font-size: 2rem;
   }
-  100% {
-    transform: scale(1);
+  #habitaciones .nota {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+  }
+  #habitaciones .grid--tarifas {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  #habitaciones .tarjeta {
+    padding: 24px 22px 22px;
+  }
+  #habitaciones .tarjeta h3{
+    font-size: 1.3rem;
+  }
+  #habitaciones .tarifa__precio, #habitaciones .precio {
+    font-size: 1.65rem;
   }
 }
 
+/*accesibilidad*/
+@media (prefers-reduced-motion: reduce) {
+  #habitaciones .tarjeta,
+  #habitaciones .boton {
+    transition: none;
+  }
+  #habitaciones .tarjeta:hover,
+  #habitaciones .boton:hover {
+    transform: none;
+  }
+} 
 
-
-
-.nota {
-
-}
-
-
-.grid {
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-    gap: 24px; 
-    align-items: start; 
-}
-
-.grid--tarifas {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-    gap: 16px; 
-}
-
-.tarjeta { 
-    background: var(--blanco); 
-    border-radius: 14px; 
-    box-shadow: 0 6px 24px rgba(10, 16, 48, .08); 
-    overflow: hidden; 
-}
-
-.tarjeta { 
-    padding: 18px; 
-}
-
-.tarjeta h3 {
-    font-family: var(--fuente-texto); 
-    font-size: 1.1rem; 
-}
-
-.tarjeta p {
-    margin: 6px 0 0; 
-    font-size: .9rem; 
-    opacity: .8; 
-}
-
-.precio { 
-    color: var(--violeta); 
-    font-weight: 700; 
-    opacity: 1 !important; 
-}
-
-.tarjeta--simple {
-    padding: 16px; 
-}
-
-.tarjeta--simple h3 {
-    font-family: var(--fuente-texto); 
-    font-size: 1rem; 
-}
-
-.tarjeta--simple p {
-    margin: 4px 0 0; 
-    font-size: .9rem; 
-    opacity: .75; }
- /*
-Marcadores de foto (se borran cuando pongas <img>) 
-.foto {
-  display: flex; align-items: flex-end; padding: 12px; min-height: 200px;
-  color: var(--blanco); font-size: .75rem; font-weight: 700;
-}
-.foto--1 { background: linear-gradient(135deg, var(--turquesa-oscuro), var(--indigo)); }
-.foto--2 { background: linear-gradient(135deg, #6a4fc0, var(--indigo)); }
-.foto--3 { background: linear-gradient(135deg, var(--turquesa-oscuro), #6a4fc0); }
-.foto--4 { background: linear-gradient(135deg, var(--indigo), var(--medianoche)); }
-.foto--mini { min-height: 110px; border-radius: 10px; margin-bottom: 10px; }
-.foto--paisaje { min-height: 420px; background: linear-gradient(160deg, var(--medianoche), var(--turquesa-oscuro)); }
- 
 /* ========== 7. ALREDEDORES (bloque oscuro en dos columnas) ========== */
 .alrededores {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  background: var(--medianoche); color: var(--blanco);
+  display: grid; 
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--medianoche); 
+  color: var(--blanco);
 }
-.alrededores__texto { padding: 56px 48px; }
-.alrededores h3 { font-family: var(--fuente-texto); font-size: 1rem; }
-.alrededores p { margin: 4px 0 0; font-size: .9rem; opacity: .85; }
-.alrededores .etiqueta + h2 { margin-bottom: 1.8rem; }
- 
+
+.alrededores__texto { 
+  text-align: center;
+  align-self: center;
+  padding: 3rem 2.5rem;
+}
+
+.alrededores h3 {
+   font-family: var(--fuente-texto); 
+   font-size: 1rem; 
+}
+
+.alrededores p {
+   margin: 4px 0 0; 
+   font-size: .9rem; 
+   opacity: .85; 
+  }
+
+  @media (max-width: 800px) {
+    .alrededores { grid-template-columns: minmax(0, 1fr);}
+  }
+
+.foto--paisaje {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.foto--paisaje img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 25%;
+}
+
+.etiqueta h2 {
+   margin-bottom: 1.8rem; 
+   text-align: center;
+  }
+
+
+.grid--chico{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.mini {
+  min-width: 0;
+  text-align: left;
+}
+
+.foto-mini {
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: .75rem;
+}
+
+.foto-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mini h3 {
+  font-size: .95rem;
+  margin: 0 0 4px;
+}
+
+.mini p {
+  font-size: .8rem;
+  margin: 0;
+  opacity: .8;
+}
+
 /* ========== 8. POR QUÉ ELEGIRNOS ========== */
-.dos-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: start; }
-.testimonio { margin: 0; padding: 32px; font-size: 1.15rem; }
-.testimonio p { margin: 0; }
-.testimonio footer { margin-top: 18px; font-size: .9rem; font-weight: 700; }
+.dos-columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 36px;
+  align-items: start;
+}
+
+/*cuadricula de las cuatro tarjetas*/
+.grid-- {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+/*tarjetas*/
+.tarjeta {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 04px 14px rgba(0, 0, 0, .06);
+  min-width: 0;
+  min-height: 145px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.testimonio { 
+  margin: 0; 
+  padding: 32px; 
+  font-size: 1.15rem; 
+}
+
+/* Títulos de las tarjetas */
+.tarjeta h3 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: var(--turquesa-oscuro);
+}
+
+/* Texto de las tarjetas */
+.tarjeta p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+/* Tarjetas sencillas */
+
+.tarjeta--simple {
+    background: #f8fafc;
+}
+
+/* Testimonio */
+.testimonio {
+    margin: 0;
+    padding: 32px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border-left: 4px solid var(--turquesa-oscuro);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.testimonio::before {
+    content: "“";
+    display: block;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--turquesa-oscuro);
+}
+
+.testimonio p {
+    margin: 0;
+}
+
+.testimonio footer {
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 768px) {
+    .dos-columnas {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .grid--chico {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .tarjeta {
+        padding: 20px;
+    }
+
+    .testimonio {
+       padding: 24px;
+    }
+
+    
+
+/* ========== 9. LLAMADO A RESERVAR ========== */
+.seccion--cta { 
+  padding-top: 0; 
+}   /* la sección anterior ya deja espacio */
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 56px 48px;
+  border-radius: 18px;
+  color: var(--blanco);
+  background: linear-gradient(120deg, var(--medianoche), var(--turquesa-oscuro));
+}
+.cta h2 { 
+  font-size: 2.4rem;
+  margin: 0 0 10px; 
+  max-width: 560px; 
+}
+
+.cta p { 
+  margin: 0;
+  opacity: .9; 
+}
+
+.cta__botones { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 14px; 
+}
+
  
-/* ========== 9. LLAMADO A LA ACCIÓN ========== */
+/* ========== 9. LLAMADO A LA ACCIÓN ========== 
 .cta {
   display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;
   margin-bottom: 72px; padding: 56px 48px; border-radius: 18px; color: var(--blanco);
@@ -529,7 +763,7 @@ Marcadores de foto (se borran cuando pongas <img>)
 .cta p { margin: 0; opacity: .9; }
 .cta__botones { display: flex; flex-wrap: wrap; gap: 14px; }
  
-/* ========== 10. PIE ========== */
+/* ========== 10. PIE ========== 
 .pie { background: #060a1e; color: var(--blanco); padding: 40px 0 28px; font-size: .9rem; }
 .pie__fila { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; }
 .pie__marca { font-family: var(--fuente-titulos); font-size: 1.4rem; }
@@ -539,7 +773,7 @@ Marcadores de foto (se borran cuando pongas <img>)
   margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .2); opacity: .85;
 }
  
-/* ========== 11. RESPONSIVE (pantallas pequeñas) ========== */
+/* ========== 11. RESPONSIVE (pantallas pequeñas) ========== 
 @media (max-width: 700px) {
   .contenedor { padding-left: 20px; padding-right: 20px; }
   .hero h1 { font-size: 2.6rem; }
