@@ -1,0 +1,238 @@
+@font-face {
+    font-family: 'Beatford';
+    src: url('../fonts/Beatford.ttf') format('truetype');
+    font-display: swap;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    margin: 0;
+    font-family: 'inter';
+    background: #1c1c1c;
+    color: #f2ebdd;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.saltar-link {
+    position: absolute;
+    left: -999px;
+}
+
+.saltar-link:focus {
+    left: 16px;
+    top: 8px;
+    z-index: 200;
+    background: #B08D57;
+    color: #1C1C1C;
+    padding: 8px 12px;
+}
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 48px;
+    background: #1c1c1c;
+    border-bottom: 1px solid #b08d57;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-main {
+    font-family: 'Beatford', serif;
+    font-size: 28px;
+    color: #b08d57;
+}
+
+.logo-sub {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #f2ebdd;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: #f2ebdd;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #b08d57;
+}
+
+.btn-reservar {
+    background: #8b1e1e;
+    color: #f2ebdd;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-reservar:hover {
+    background: #a62525;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    color: #f2ebdd;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px){
+    .nav {padding: 12px 20px;}
+    .menu-toggle {display: block;}
+    .btn-reservar {margin-left: auto;
+                    padding: 10px 16px;}
+    .menu {display: none;
+           position:absolute;
+           top: 100%;
+           left: 0;
+           right: 0;
+           background: #1c1c1c;
+           border-bottom: 1px solid #b08d57;
+           padding: 16px 20px;}
+    .menu.open {display: block;}
+    .nav-links{flex-direction: column;
+               gap: 16px;}
+}
+
+
+/* ===== INTRO MINIMALISTA ===== */
+
+.intro-minimalista {
+    min-height: calc(100vh - 80px); /* Ocupa la altura de la pantalla menos los 80px del menú */
+    min-height: calc(100svh - 80px); /* Ajusta la altura a la pantalla visible, especialmente en móviles */
+    background: #1c1c1c; /* Establece el fondo negro oscuro */
+    display: grid; /* Activa CSS Grid para organizar el contenido */
+    place-items: center; /* Centra el contenido horizontal y verticalmente */
+    padding: 50px 24px 35px; /* Añade espacio interior: arriba, lados y abajo */
+    overflow: hidden; /* Evita que elementos sobresalientes generen desbordamiento */
+    text-align: center; /* Centra el texto horizontalmente */
+}
+
+.intro-contenido {
+    width: 100%; /* Permite que el contenido use todo el ancho disponible */
+    display: flex; /* Activa Flexbox para organizar los elementos */
+    flex-direction: column; /* Coloca los elementos uno debajo del otro */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos en el eje vertical */
+}
+
+.intro-etiqueta {
+    color: #b08d57; /* Aplica el color dorado al texto superior */
+    font-size: 11px; /* Define un tamaño pequeño para el texto */
+    letter-spacing: 0.35em; /* Aumenta el espacio entre las letras */
+    margin: 0 0 30px; /* Elimina el margen superior y deja 30px abajo */
+}
+
+.intro-titulo {
+    font-family: 'Beatford', serif; /* Usa la fuente Beatford y una alternativa serif */
+    font-size: clamp(3.5rem, 12vw, 10rem); /* Adapta el tamaño: mínimo 3.5rem, preferido 12vw y máximo 10rem */
+    font-weight: 400; /* Establece un grosor de letra normal */
+    line-height: 0.82; /* Reduce el espacio vertical entre las líneas */
+    letter-spacing: -0.04em; /* Acerca ligeramente las letras entre sí */
+    color: #f2ebdd; /* Aplica un color crema al título */
+    margin: 0; /* Elimina el margen exterior predeterminado del título */
+}
+
+.intro-titulo span {
+    display: block; /* Coloca URBANA en una línea independiente */
+    color: #b08d57; /* Aplica el dorado a la palabra URBANA */
+    margin-top: 18px; /* Añade espacio entre CUCHILLA y URBANA */
+}
+
+.intro-descubre {
+    display: flex; /* Activa Flexbox para organizar el texto y la flecha */
+    flex-direction: column; /* Coloca la flecha debajo de DESCUBRE */
+    align-items: center; /* Centra el texto y la flecha horizontalmente */
+    gap: 12px; /* Deja 12px de separación entre ambos elementos */
+    margin-top: clamp(65px, 12vh, 120px); /* Ajusta el espacio superior según la pantalla */
+    color: #f2ebdd; /* Aplica el color crema al enlace */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    font-size: 11px; /* Define el tamaño del texto DESCUBRE */
+    letter-spacing: 0.3em; /* Separa las letras para un estilo elegante */
+}
+
+.intro-flecha {
+    color: #b08d57; /* Pinta la flecha de dorado */
+    font-size: 32px; /* Aumenta el tamaño de la flecha */
+    line-height: 1; /* Evita espacio vertical adicional alrededor del símbolo */
+    animation: flecha-flota 1.5s ease-in-out infinite; /* Repite la animación de movimiento continuamente */
+}
+
+@keyframes flecha-flota {
+    0%, 100% {
+        transform: translateY(0); /* Coloca la flecha en su posición inicial */
+    }
+
+    50% {
+        transform: translateY(8px); /* Desplaza la flecha 8px hacia abajo a mitad de la animación */
+    }
+}
+
+/* ===== AJUSTES PARA TELÉFONOS ===== */
+
+@media (max-width: 600px) { /* Aplica estas reglas cuando la pantalla mide 600px o menos */
+
+    .intro-minimalista {
+        padding-inline: 18px; /* Reduce el espacio horizontal interior en móviles */
+    }
+
+    .intro-etiqueta {
+        font-size: 9px; /* Reduce el tamaño de la etiqueta superior */
+        letter-spacing: 0.2em; /* Reduce la separación entre letras para aprovechar el ancho */
+    }
+
+    .intro-titulo {
+        font-size: clamp(3.2rem, 15vw, 6rem); /* Ajusta el título para teléfonos sin dejarlo demasiado pequeño o grande */
+    }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+
+@media (prefers-reduced-motion: reduce) { /* Detecta si el usuario prefiere reducir las animaciones */
+
+    .intro-flecha {
+        animation: none; /* Desactiva el movimiento repetitivo de la flecha */
+    }
+}
+
