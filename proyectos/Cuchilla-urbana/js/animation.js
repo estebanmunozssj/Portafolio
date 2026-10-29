@@ -1,89 +1,92 @@
 
-import { animate, stagger } from 'https://esm.sh/animejs';
+import { animate, stagger } from 'https://esm.sh/animejs@4'; // Librería de animaciones, con versión fija
 
-// Animación del logo
-animate('.logo', {
-    opacity: [0, 1],
-    x: [-20, 0],
-    duration: 800,
-    ease: 'outCubic'
-});
+const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // true si el usuario desactivó animaciones
 
-// Enlaces del menú, uno por uno
-animate('.nav-links li', {
-    opacity: [0, 1],
-    y: [15, 0],
-    delay: stagger(150, { start: 200 }),
-    duration: 600,
-    ease: 'outCubic'
-});
+if (!sinMovimiento) { // Todas las animaciones de entrada solo corren si no pidió reducir movimiento
 
+    /* ===== MENÚ ===== */
 
-/* Animación del botón de reserva */
-animate('.btn-reservar', {
-    opacity: [0, 1],
-    scale: [0.85, 1],
-    duration: 700,
-    delay: 900,
-    ease: 'outBack'
-});
+    animate('.logo', { // Logo del menú
+        opacity: [0, 1], // De transparente a visible
+        x: [-20, 0], // Entra desde 20px a la izquierda
+        duration: 800,
+        ease: 'outCubic'
+    });
 
-/* ===== ANIMACIÓN DEL LOGO ===== */
+    animate('.nav-links li', { // Enlaces del menú, uno por uno
+        opacity: [0, 1],
+        y: [15, 0], // Suben 15px
+        delay: stagger(150, { start: 200 }), // 150 ms de diferencia entre cada uno
+        duration: 600,
+        ease: 'outCubic'
+    });
 
-animate('.logo', { // Selecciona el elemento HTML que tiene la clase logo
-    opacity: [0, 1], // Hace que el logo pase de transparente a visible
-    x: [-20, 0], // Mueve el logo desde 20px a la izquierda hasta su posición original
-    duration: 800, // Establece una duración de 800 milisegundos
-    ease: 'outCubic' // Hace que el movimiento termine suavemente
-});
+    animate('.btn-reservar', { // Botón de reserva
+        opacity: [0, 1],
+        scale: [0.85, 1], // Crece hasta su tamaño normal
+        duration: 700,
+        delay: 900,
+        ease: 'outBack' // Con un pequeño rebote
+    });
 
-/* ===== ANIMACIÓN DE LOS ENLACES DEL MENÚ ===== */
+    /* ===== INTRO ===== */
 
-animate('.nav-links li', { // Selecciona cada elemento li dentro de la lista de navegación
-    opacity: [0, 1], // Hace que cada enlace aparezca gradualmente
-    y: [15, 0], // Desplaza cada enlace desde abajo hasta su posición original
-    delay: stagger(150, { start: 200 }), // Inicia las animaciones con 150ms de diferencia, comenzando después de 200ms
-    duration: 600, // Hace que cada enlace tarde 600 milisegundos en animarse
-    ease: 'outCubic' // Suaviza el final del movimiento
-});
+    animate('.intro-etiqueta', { // Texto superior
+        opacity: [0, 1],
+        y: [10, 0],
+        duration: 700,
+        delay: 300,
+        ease: 'outCubic'
+    });
 
-/* ===== ANIMACIÓN DEL BOTÓN DE RESERVA ===== */
+    animate('.intro-titulo', { // CUCHILLA URBANA
+        opacity: [0, 1],
+        y: [35, 0],
+        scale: [0.96, 1],
+        duration: 1100,
+        delay: 450,
+        ease: 'outCubic'
+    });
 
-animate('.btn-reservar', { // Selecciona el botón que tiene la clase btn-reservar
-    opacity: [0, 1], // Hace aparecer el botón gradualmente
-    scale: [0.85, 1], // Aumenta el botón desde el 85% hasta su tamaño normal
-    duration: 700, // Establece una duración de 700 milisegundos
-    delay: 900, // Espera 900 milisegundos antes de comenzar
-    ease: 'outBack' // Añade un pequeño efecto de rebote al final
-});
+    animate('.intro-descubre', { // Enlace DESCUBRE y su flecha
+        opacity: [0, 1],
+        y: [15, 0],
+        duration: 700,
+        delay: 1000,
+        ease: 'outCubic'
+    });
+}
 
-/* ===== ANIMACIÓN DE LA ETIQUETA SUPERIOR ===== */
+/* ===== EFECTO AL HACER SCROLL ===== */
 
-animate('.intro-etiqueta', { // Selecciona el texto superior de la introducción
-    opacity: [0, 1], // Hace que el texto aparezca gradualmente
-    y: [10, 0], // Lo mueve 10px hacia arriba hasta su posición original
-    duration: 700, // Establece una duración de 700 milisegundos
-    delay: 300, // Espera 300 milisegundos antes de comenzar
-    ease: 'outCubic' // Hace que el movimiento termine suavemente
-});
+(() => { // Envuelto para que sus variables no choquen con otros bloques
+    if (sinMovimiento || !('IntersectionObserver' in window)) return; // Sin animaciones, todo se ve normal
 
-/* ===== ANIMACIÓN DEL TÍTULO PRINCIPAL ===== */
+    const elementos = document.querySelectorAll('.hero-texto, .hero-3d, .Servicios-encabezado, .Servicios-card, .galeria-encabezado, .galeria-foto, .testimonio-encabezado, .testimonio-grid, .nosotros-encabezado, .barbero-card, productos-encabezado, producto-card, contacto-info, contacto-mapa'); // Lo que se anima al llegar
 
-animate('.intro-titulo', { // Selecciona el título CUCHILLA URBANA
-    opacity: [0, 1], // Hace que el título aparezca desde transparente
-    y: [35, 0], // Lo desplaza desde 35px más abajo hasta su posición original
-    scale: [0.96, 1], // Lo hace crecer ligeramente hasta su tamaño normal
-    duration: 1100, // Hace que la animación dure 1.1 segundos
-    delay: 450, // Espera 450 milisegundos antes de comenzar
-    ease: 'outCubic' // Suaviza el final de la animación
-});
+    const observador = new IntersectionObserver((entradas) => { // Vigila cuándo entra cada elemento en pantalla
+        entradas.forEach((entrada) => {
+            if (!entrada.isIntersecting) return; // Si aún no se ve, no hace nada
+            const el = entrada.target;
+            el.classList.add('visible'); // Lo muestra
+            observador.unobserve(el); // Ya no hace falta vigilarlo
 
-/* ===== ANIMACIÓN DEL ENLACE DESCUBRE ===== */
+            const terminar = (e) => {
+                if (e.target !== el) return; // Ignora transiciones de elementos internos
+                el.removeEventListener('transitionend', terminar);
+                el.classList.remove('reveal', 'visible'); // Quita las clases para que los efectos hover funcionen normal
+                el.style.transitionDelay = '';
+            };
+            el.addEventListener('transitionend', terminar);
+        });
+    }, { threshold: 0.15 }); // Se activa cuando se ve el 15% del elemento
 
-animate('.intro-descubre', { // Selecciona el enlace DESCUBRE y su flecha
-    opacity: [0, 1], // Hace que el conjunto aparezca gradualmente
-    y: [15, 0], // Lo desplaza desde abajo hasta su posición original
-    duration: 700, // Establece una duración de 700 milisegundos
-    delay: 1000, // Espera un segundo antes de comenzar
-    ease: 'outCubic' // Hace que el movimiento termine suavemente
-});
+    elementos.forEach((el) => {
+        const posicion = Array.from(el.parentElement.children).indexOf(el); // Qué número de hijo es dentro de su grupo
+        el.style.transitionDelay = `${Math.min(posicion, 4) * 0.1}s`; // Retraso de 0.1 s por elemento, hasta 0.4 s
+        el.classList.add('reveal'); // Lo esconde para animarlo después
+        observador.observe(el);
+    });
+})();
+
