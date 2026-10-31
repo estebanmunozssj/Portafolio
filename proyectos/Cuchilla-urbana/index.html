@@ -1,76 +1,102 @@
 <!DOCTYPE html>
 
-<html lang="es">
+<html lang="CO">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuchilla Urbana | Barbería en Yotoco, valle del cauca</title> <!-- Título de la pestaña y de Google -->
+    <title>Cuchilla Urbana | Barbería en Yotoco, Valle del Cauca</title> <!-- Título de la pestaña y de Google -->
     <meta name="description" content="Cuchilla Urbana: cortes, degradados y barba. Reserva tu cita por WhatsApp."> <!-- Resumen que muestra Google -->
     <meta name="theme-color" content="#1C1C1C"> <!-- Color de la barra del navegador en celular -->
 
+    
     <meta property="og:type" content="website"> <!-- Al compartir el enlace: tipo de contenido -->
+    <meta property="og:site_name" content="Cuchilla Urbana"> <!-- Nombre del sitio en la tarjeta -->
     <meta property="og:title" content="Cuchilla Urbana | Barbería"> <!-- Título de la tarjeta al compartir -->
     <meta property="og:description" content="Cortes, degradados y barba. Reserva por WhatsApp."> <!-- Descripción de la tarjeta -->
-    <meta property="og:image" content="https://tudominio.com/img/og.jpg"> <!-- Imagen de la tarjeta (1200x630) -->
+    <!--<meta property="og:image" content="https://tudominio.com/img/og.jpg"> <!-- TODO: crea img/og.jpg (1200x630) y usa la dirección completa -->
+    <meta property="og:image:alt" content="Cuchilla Urbana, barbería en Yotoco"> <!-- Descripción de la imagen para lectores de pantalla -->
     <meta property="og:url" content="https://tudominio.com/"> <!-- Dirección oficial de la página -->
     <meta property="og:locale" content="es_CO"> <!-- Español de Colombia -->
-    <meta name="twitter:card" content="summary_large_image"> <!-- Tarjeta con imagen grande en X -->
+    <meta name="robots" content="noindex"> <!--le dice a google que es una pagina ficticia-->
 
-    <link rel="icon" href="img/logo.webp"> <!-- Iconito de la pestaña -->
+    <link rel="icon" href="img/logo.webp" type="image/webp"> <!-- Iconito de la pestaña -->
     <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Acelera la carga de Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Lo mismo, para los archivos de fuentes -->
+    <link rel="preload" href="fonts/Beatford.ttf" as="font" type="font/ttf" crossorigin> <!-- Carga la fuente de los títulos desde el inicio -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"> <!-- Fuente Inter -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="css/estilos.css">
+
+    <!-- Datos para Google (negocio local). TODO: cuando tengas la dirección real, agrega "streetAddress" dentro de "address" -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BarberShop",
+        "name": "Cuchilla Urbana",
+        "description": "Barbería en Yotoco, Valle del Cauca: cortes, degradados, barba y cejas.",
+        "telephone": "+573147772991",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Yotoco",
+            "addressRegion": "Valle del Cauca",
+            "addressCountry": "CO"
+        },
+        "openingHours": ["Mo-Fr 09:00-20:00", "Sa 08:00-21:00", "Su 10:00-16:00"],
+        "sameAs": [
+            "https://instagram.com/cuchillaurbana.co",
+            "https://tiktok.com/@cuchillaurbana"
+        ]
+    }
+    </script>
 </head>
 
 <body>
     <a class="saltar-link" href="#main">Saltar al contenido</a>
 
-    <header class="nav">
-        <a href="#Inicio" class="logo-con-poste">
+ <header class="nav">
+        <a href="#inicio" class="logo-con-poste">
               <span class="poste-mini" aria-hidden="true"> 
-              <span class="poste-mini-tapa"></span>
-              <span class="poste-mini-cuerpo"><span class="poste-mini-rayas"></span></span>
-              <span class="poste-mini-tapa"></span>
+                <span class="poste-mini-tapa"></span>
+                <span class="poste-mini-cuerpo"><span class="poste-mini-rayas"></span></span>
+                <span class="poste-mini-tapa"></span>
               </span>
               <span class="logo">
-              <span class="logo-main">Cuchilla</span>
-              <span class="logo-sub">Urbana</span>
+                <span class="logo-main">Cuchilla</span>
+                <span class="logo-sub">Urbana</span>
               </span>
         </a>
 
-    <nav id="menu" class="menu" aria-label="Principal">
+     <nav id="menu" class="menu" aria-label="Principal">
         <ul class="nav-links">
-            <li><a href="#Inicio">Inicio</a></li>
+            <li><a href="#intro">Inicio</a></li>
             <li><a href="#Servicios">Servicios</a></li>
-            <li><a href="#Galeria">Galeria</a></li>
-            <li><a href="#Nosotros">Nosotros</a></li>
-            <li><a href="#Contacto">Contacto</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#contacto">Contacto</a></li>
         </ul>
-    </nav>
+     </nav>
 
-    <a href="https://wa.me/573147772991" class="btn-reservar">reserva</a>
+     <a href="https://wa.me/573147772991" class="btn-reservar">reserva</a>
 
-    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
-        <i class="bi bi-list"></i>
-    
-    </button>
-    </header>
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+            <i class="bi bi-list" aria-hidden="true"></i> 
+        </button>
+ </header>
 
 <main id="main">
-<!----------INTRO------->
-         <section class="intro-minimalista" id="intro">
-    <div class="intro-contenido">
-        <p class="intro-etiqueta">BARBERÍA · ESTILO · ACTITUD</p>
 
-        <h2 class="intro-titulo">
+<!----------INTRO------->
+    <section class="intro-minimalista" id="intro">
+        <div class="intro-contenido">
+            <p class="intro-etiqueta">BARBERÍA · ESTILO · ACTITUD</p>
+
+        <p class="intro-titulo">
             CUCHILLA
             <span>URBANA</span>
-        </h2>
+        </p>
 
-        <a href="#Servicios" class="intro-descubre">
+        <a href="#inicio" class="intro-descubre">
             <span>DESCUBRE</span>
             <span class="intro-flecha" aria-hidden="true">↓</span>
         </a>
@@ -78,23 +104,25 @@
     </section>
 
 <!-- Sección de inicio--->
-    <section id="Inicio" class="hero"> 
+    <section id="Inicio" class="hero" aria-labelledby="hero-titulo"> 
         <div class="hero-texto"> 
-            <p class="hero-etiqueta">Barbería en Yotoco, Valle del cauca</p> <!-- Línea pequeña que dice qué eres y dónde -->
-            <h1>Cortes con estilo urbano</h1> 
-            <p class="hero-subtitulo">Degradados, barba y cejas. Reserva tu cita por WhatsApp en segundos.</p> 
+            <p class="hero-etiqueta">Barbería en Yotoco, Valle del cauca</p> 
+            <h1 id="hero-titulo">Cortes con estilo urbano</h1> 
+            <p class="hero-subtitulo">Degradados, barba y cejas. Reserva tu cita por WhatsApp en segundos.</p>
+            <a class="btn-hero" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20una%20cita" target="_blank" rel="noopener noreferrer">Reservar por WhatsApp</a>
         </div>
 
         <div class="hero-3d"> 
-            <img src="img/corte-hero.jpeg" alt="Barbero haciendo un degradado en Cuchilla Urbana" width="800" height="1000"> 
+            <img src="img/corte-hero.webp" alt="Barbero haciendo un degradado en Cuchilla Urbana" width="800" height="1000">
+        </div> 
      </section>
 
 <!-- Sección de Servicios" -->
-     <section class="Servicios" id="Servicios">
+     <section class="Servicios" id="Servicios" aria-labelledby="servicios-titulo">
         <div class="servicios-contenedor">
             <div class="Servicios-encabezado">
                 <p class="Servicios-etiqueta">Servicios y Precios</p>
-                <h2 class="Servicios-titulo">Tu estilo,<br><span>Nuestra precision</span></h2>
+                <h2 class="Servicios-titulo" id="servicios-titulo">Tu estilo,<br><span>Nuestra precision</span></h2>
                 <p class="Servicios-descripcion">Cada detalle cuenta. Encuentra el servicio ideal para ti.</p>
             </div>
             <div class="Servicios-grid">
@@ -105,52 +133,47 @@
                     <p class="Servicios-Precio">$18.000</p>
                     <a class="Servicios-boton" href="#" target="_blank" rel="noopener noreferrer">Reservar</a>
                 </article>
-            
-          
+                 
                 <article class="Servicios-card">
                     <span class="Servicios-numero">02</span>
                     <h3>Corte de cabello <span>Niños</span></h3>
                     <p>Corte cuidado pensado para los mas pequeños.</p>
                     <p class="Servicios-Precio">$17.000</p>
-                    <a class="Servicios-boton" href="#" target="_blank" rel="noopener noreferrer">Reservar</a>
+                    <a class="Servicios-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20un%20corte%20de%20cabello%20para%20adulto" target="_blank" rel="noopener noreferrer" aria-label="Reservar corte de cabello adulto por whatsapp">Reservar</a>
                 </article>
-           
-            
+             
                 <article class="Servicios-card servicios-card--destacado">
                     <span class="servicio-etiqueta-destacado">Mas pedido</span>
                     <span class="Servicios-numero ">03</span>
-                    <h3>Corte <span>Padre & Hijo</span></h3>
+                    <h3>Corte <span>Padre &amp; Hijo</span></h3>
                     <p>Un momento de estilo compartido.</p>
                     <p class="Servicios-Precio">$33.900</p>
-                    <a class="Servicios-boton" href="#" target="_blank" rel="noopenernoreferrer">Reservar</a>
+                    <a class="Servicios-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20el%20corte%20Padre%20e%20Hijo" target="_blank" rel="noopener noreferrer" aria-label="Reservar corte Padre e Hijo por WhatsApp">Reservar</a>
                 </article>
             
-        
                 <article class="Servicios-card">
                     <span class="Servicios-numero">04</span>
                     <h3>Arreglo de <span>Barba express</span></h3>
                     <p>Perfilado limpio y rapido.</p>
                     <p class="Servicios-Precio">$12.900</p>
-                    <a class="Servicios-boton" href="#" target="_blank" rel="noopenernoreferrer">Reservar</a>
+                    <a class="Servicios-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20un%20arreglo%20de%20barba%20express" target="_blank" rel="noopener noreferrer" aria-label="Reservar arreglo de barba express por WhatsApp">Reservar</a>
                 </article>
-            
             
                 <article class="Servicios-card">
                     <span class="Servicios-numero">05</span>
                     <h3>Ritual de <span>Barba clasico</span></h3>
                     <p>Afeitado tradicional con toallas calientes.</p>
                     <p class="Servicios-Precio">$20.900</p>
-                    <a class="Servicios-boton" href="#" target="_blank" rel="noopenernoreferrer">Reservar</a>
+                    <a class="Servicios-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20el%20ritual%20de%20barba%20cl%C3%A1sico" target="_blank" rel="noopener noreferrer" aria-label="Reservar ritual de barba clásico por WhatsApp">Reservar</a>
                 </article>
            
-        
                 <article class="Servicios-card servicios-card--destacado">
                     <span class="servicio-etiqueta-destacado">Mas pedido</span>
                     <span class="Servicios-numero">06</span>
                     <h3>Corte de <span>Cabello + Barba</span></h3>
                     <p>El servicio completo para un look impecable.</p>
                     <p class="Servicios-Precio">$28.900</p>
-                    <a class="Servicios-boton" href="#" target="_blank" rel="noopenernoreferrer">Reservar</a>
+                    <a class="Servicios-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20el%20servicio%20de%20corte%20de%20cabello%20%2B%20barba" target="_blank" rel="noopener noreferrer" aria-label="Reservar corte de cabello más barba por WhatsApp">Reservar</a>
                 </article>
             </div>
         </div>
@@ -158,51 +181,51 @@
 
 <!------Sección de galería --------->
 
-    <section class="galeria" id="Galeria"> 
-    <div class="galeria-contenedor"> 
+    <section class="galeria" id="galeria" aria-labelledby="galeria-titulo"> 
+     <div class="galeria-contenedor"> 
              <div class="galeria-encabezado"> 
                 <p class="galeria-etiqueta">Galería</p>
-                <h2 class="galeria-titulo">Nuestros<br><span>trabajos</span></h2>
+                <h2 class="galeria-titulo" id="galeria-titulo">Nuestros<br><span>trabajos</span></h2>
                 <p class="galeria-descripcion">Cortes reales, resultados que hablan solos.</p>
             </div>
 
          <div class="galeria-grid"> 
                 <figure class="galeria-foto"> 
                     <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                    <img src="img/corte-1.png" alt="Degradado con acabado a navaja" width="600" height="750" loading="lazy"> 
+                    <img src="img/1.webp" alt="Degradado con acabado a navaja" width="600" height="750" loading="lazy"> 
                 </figure>
                 <figure class="galeria-foto">
                      <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                    <img src="img/corte-2.png" alt="Arreglo de barba con perfilado" width="600" height="750" loading="lazy">
+                    <img src="img/2.webp" alt="Arreglo de barba con perfilado" width="600" height="750" loading="lazy">
                     </button>
                 </figure>
                 <figure class="galeria-foto">
                      <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                     <img src="img/corte-3.png" alt="Corte clásico con tijera" width="600" height="750" loading="lazy">
+                     <img src="img/3.webp" alt="Corte clásico con tijera" width="600" height="750" loading="lazy">
                      </button>
                 </figure>
                 <figure class="galeria-foto">
                      <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                     <img src="img/corte-4.png" alt="Corte y barba" width="600" height="750" loading="lazy">
+                     <img src="img/4.webp" alt="Corte y barba" width="600" height="750" loading="lazy">
                      </button>
                 </figure>
                 <figure class="galeria-foto">
                      <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                     <img src="img/corte-5.png" alt="Perfilado de cejas" width="600" height="750" loading="lazy">
+                     <img src="img/5.webp" alt="Perfilado de cejas" width="600" height="750" loading="lazy">
                      </button>
                     </figure>
                 <figure class="galeria-foto">
                      <button class="galeria-abrir" type="button" aria-label="ver foto ampliada">
-                     <img src="img/corte-6.png" alt="Afeitado clásico con toalla caliente" width="600" height="750" loading="lazy">
+                     <img src="img/6.webp" alt="Afeitado clásico con toalla caliente" width="600" height="750" loading="lazy">
                      </button>
                 </figure>
          </div>
-    </div>
+     </div>
     </section>
 
 <!--TESTIMONIOS-->
 
-    <section class="testimonio" id="testimonio">
+    <section class="testimonio" id="testimonio" aria-labelledby="testimonio-titulo">
         <div class="testimonio-contenedor">
             <div class="testimonio-encabezado">
                 <p class="testimonio-etiqueta">Reseñas</p>
@@ -211,22 +234,22 @@
             </div>
             <div class="testimonio-grid">
                 <article class="testimonio-card">
-                    <span class="testimonio-estrellas">★★★★★</span>
+                    <span class="testimonio-estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
                     <p class="testimonio-reseñas">Me gusto la atencion y el corte quedo muy bien.</p>
                     <h3>Juan David Avalo</h3>
                 </article>
                 <article class="testimonio-card">
-                    <span class="testimonio-estrellas">★★★★★</span>
+                    <span class="testimonio-estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
                     <p class="testimonio-reseñas">Me gusto la atencion.</p>
                     <h3>Stiven Lozano</h3>
                 </article>
                 <article class="testimonio-card">
-                    <span class="testimonio-estrellas">★★★★★</span>
+                    <span class="testimonio-estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
                     <p class="testimonio-reseñas">Buen lugar, Vale la pena esperar.</p>
                     <h3>Fernando Valencia</h3>
                 </article>
                 <article class="testimonio-card">
-                    <span class="testimonio-estrellas">★★★★★</span>
+                    <span class="testimonio-estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
                     <p class="testimonio-reseñas">Quede melo.</p>
                     <h3>Esteban Muñoz</h3>
                 </article>
@@ -236,11 +259,11 @@
 
  <!--NOSOTROS------->
    
-    <section class="nosotros" id="nosotros">
+    <section class="nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
         <div class="nosotros-contenedor">
             <div class="nosotros-encabezado">
                 <p class="nosotros-etiqueta">Nosotros</p>
-                <h2 class="nosotros-titulo">El<br><span>Equipo</span></h2>
+                <h2 class="nosotros-titulo" id="nosotros-titulo">El<br><span>Equipo</span></h2>
                 <p class="nosotros-descripcion">Dos barberos, un mismo estandar: precision en cada corte.</p>
             </div>
 
@@ -264,17 +287,18 @@
     </section>
 
 <!----------PRODUCTO------>
-
-    <section class="productos" id="productos"> 
+ <!-- TODO: cada tarjeta debe ser un producto distinto (nombre, descripción, precio, foto y mensaje de WhatsApp) -->
+    <section class="productos" id="productos" aria-labelledby="productos-titulo"> 
+        <div class="productos-contenedor">
              <div class="productos-encabezado"> 
                 <p class="productos-etiqueta">Productos</p>
-                <h2 class="productos-titulo">Cuida tu <span>estilo</span></h2>
+                <h2 class="productos-titulo" id="producto-titulo">Cuida tu <span>estilo</span></h2>
                 <p class="productos-descripcion">Lo que usamos en la silla, para que lo mantengas en casa.</p>
             </div>
             <div class="productos-grid"> 
                 <article class="producto-card"> 
                     <figure class="producto-imagen">
-                        <img src="img/producto.jpg" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
+                        <img src="img/producto.webp" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
                     </figure>
                      <h3 class="producto-nombre">Pomada mate</h3>
                      <p class="producto-descripcion">Fijación fuerte y acabado natural.</p>
@@ -283,7 +307,7 @@
                 </article>
                 <article class="producto-card"> 
                     <figure class="producto-imagen">
-                        <img src="img/producto.jpg" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
+                        <img src="img/producto.webp" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
                     </figure>
                      <h3 class="producto-nombre">Pomada mate</h3>
                      <p class="producto-descripcion">Fijación fuerte y acabado natural.</p>
@@ -292,16 +316,7 @@
                 </article>
                 <article class="producto-card"> 
                     <figure class="producto-imagen">
-                        <img src="img/producto.jpg" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
-                    </figure>
-                     <h3 class="producto-nombre">Pomada mate</h3>
-                     <p class="producto-descripcion">Fijación fuerte y acabado natural.</p>
-                     <p class="producto-precio">$28.000</p>
-                     <a class="producto-enlace" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20pedir%20la%20pomada%20mate" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
-                </article>
-                <article class="producto-card"> 
-                    <figure class="producto-imagen">
-                        <img src="img/producto.jpg" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
+                        <img src="img/producto.webp" alt="Pomada mate para peinar" width="600" height="450" loading="lazy">
                     </figure>
                      <h3 class="producto-nombre">Pomada mate</h3>
                      <p class="producto-descripcion">Fijación fuerte y acabado natural.</p>
@@ -310,17 +325,17 @@
                 </article>
             </div>
         </div>
-    </section>
+</section>
 
 <!-- Sección de contacto -->
-    <section class="contacto" id="contacto"> <!-- El id coincide con el enlace "Contacto" del menú -->
+    <section class="contacto" id="contacto" aria-labelledby="contacto-titulo"> 
         <div class="contacto-contenedor"> <!-- Centra y limita el ancho -->
-            <div class="contacto-info"> <!-- Columna izquierda: datos -->
+            <div class="contacto-info"> 
                 <p class="contacto-etiqueta">Contacto</p>
-                <h2 class="contacto-titulo">Visítanos</h2>
-                    <ul class="contacto-lista"> <!-- Lista de datos con icono -->
+                <h2 class="contacto-titulo" id="contacto-titulo">Visítanos</h2>
+                    <ul class="contacto-lista"> 
                         <li>
-                            <i class="bi bi-clock" aria-hidden="true"></i> <!-- Icono decorativo -->
+                            <i class="bi bi-clock" aria-hidden="true"></i> 
                                 <div>
                                     <strong>Horarios</strong>
                                     <span>Lunes a viernes: <strong>9:00 a. m. a 8:00 p. m.</strong></span>
@@ -360,26 +375,26 @@
                 <a class="contacto-boton" href="https://wa.me/573147772991?text=Hola%2C%20quiero%20reservar%20una%20cita" target="_blank" rel="noopener noreferrer">Reservar</a>
             </div>
 
-            <div class="contacto-mapa"> <!-- Columna derecha: mapa -->
+                <div class="contacto-mapa"> 
                 <iframe
                     title="Mapa de ubicación de Cuchilla Urbana"
                     src="https://www.google.com/maps?q=Yotoco,+Valle+del+Cauca&output=embed"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    allowfullscreen></iframe> <!-- Cambia lo que va después de q= por tu dirección real -->
-            </div>
+                    allowfullscreen></iframe> 
+                </div>
         </div>
     </section>
 </main>
 
-<footer class="pie"> <!-- Pie de página -->
+<footer class="pie"> 
     <div class="pie-contenedor">
-        <a href="#inicio" class="pie-logo"> <!-- Logo: lleva al inicio -->
+        <a href="#inicio" class="pie-logo"> 
             <span class="logo-main">Cuchilla</span>
             <span class="logo-sub">Urbana</span>
         </a>
 
-        <nav class="pie-redes" aria-label="Redes sociales"> <!-- Redes -->
+        <nav class="pie-redes" aria-label="Redes sociales"> 
             <a href="https://instagram.com/cuchillaurbana.co" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://tiktok.com/@cuchillaurbana" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
             <a href="https://wa.me/573147772991" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
@@ -389,27 +404,23 @@
     </div>
 </footer>
 
-
-
-
-    
-
-
-
-        <dialog class="visor" id="visor" aria-label="Foto ampliada"> <!-- Ventana emergente nativa -->
-        <button class="visor-cerrar" type="button" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
-        <button class="visor-nav visor-prev" type="button" aria-label="Foto anterior"><i class="bi bi-chevron-left"></i></button>
-        <img class="visor-img" src="" alt=""> <!-- Aquí se muestra la foto grande -->
-        <button class="visor-nav visor-next" type="button" aria-label="Foto siguiente"><i class="bi bi-chevron-right"></i></button>
+        <dialog class="visor" id="visor" aria-label="Foto ampliada"> 
+            <button class="visor-cerrar" type="button" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
+            <button class="visor-nav visor-prev" type="button" aria-label="Foto anterior"><i class="bi bi-chevron-left"></i></button>
+            <img class="visor-img" src="" alt=""> 
+            <button class="visor-nav visor-next" type="button" aria-label="Foto siguiente"><i class="bi bi-chevron-right"></i></button>
         </dialog>
 
+        <a href="https://wa.me/573147772991?text=Hola%2C%20quiero%20consultar%20disponibilidad"
+         class="whatsapp-flotante" target="_blank" rel="noopener"
+         aria-label="Escribir por WhatsApp">
+        <svg viewBox="0 0 448 512" width="30" height="30" fill="#fff" aria-hidden="true">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+        </svg>
+        </a>
+
     <script src="js/main.js" defer></script>
-
-    <script type="module" src="./js/animation.js"></script>
-
-
-
-
-    
+    <script type="module" src="./js/animation.js"></script>  
 </body>
+
 </html>

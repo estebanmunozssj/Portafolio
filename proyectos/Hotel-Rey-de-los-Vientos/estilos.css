@@ -1,13 +1,45 @@
 /* ========== 1. VARIABLES (colores y fuentes en un solo lugar) ========== */
 :root {
+  /* Colores de marca */
   --medianoche: #0a1030;
   --indigo: #141b4d;
   --dorado: #f2c230;
   --turquesa: #2fb7c9;
   --turquesa-oscuro: #177a8c;
   --violeta: #5a3fb5;
+  --violeta-oscuro: #4633a9;   /* Botones de tarifas al pasar el mouse */
   --fondo: #eef2fb;
   --blanco: #ffffff;
+
+  /* Superficies y bordes */
+  --superficie: #f8fafc;       /* Tarjetas sencillas y testimonio */
+  --pie: #060a1e;              /* Fondo del pie de página */
+  --borde: #e5e7eb;            /* Borde de las tarjetas de "por qué elegirnos" */
+  --borde-input: #bcdcf2;      /* Borde de los campos del buscador */
+  --hero-respaldo: #2a2a7a;    /* Color intermedio del degradado de respaldo del hero */
+
+  /* Textos grises (todos con contraste suficiente sobre blanco y sobre --fondo) */
+  --gris: #64748b;
+  --gris-nota: #5a647a;
+  --gris-tipo: #4f6a70;
+  --gris-lista: #526079;
+
+  /* Iconos y etiquetas de las tarifas */
+  --verde: #268667;
+  --verde-fondo: #e0f4eb;
+  --rojo: #c94f5a;
+  --rojo-fondo: #fde8e9;
+  --ambar: #77591a;
+  --ambar-fondo: #fff3cf;
+  --violeta-claro: #7650d8;    /* Barra superior de las tarifas */
+  --violeta-profundo: #382d91;
+
+  --whatsapp: #25d366;
+
+  /* Medidas */
+  --pad-contenedor: 48px;      /* Margen lateral del contenido (baja a 20px en celular) */
+
+  /* Fuentes */
   --fuente-titulos: "Playfair Display", serif;
   --fuente-texto: "Lato", sans-serif;
 }
@@ -15,6 +47,10 @@
 /* ========== 2. BASE ========== */
 * { box-sizing: 
     border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
     
 body {
   margin: 0;
@@ -24,36 +60,80 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3 { font-family: var(--fuente-titulos); 
-    margin: 0; }
+img {
+  max-width: 100%;
+}
 
-h2 { font-size: 2.5rem; 
-    margin: .6rem 0 1.5rem; }
+h1, h2, h3 { 
+  font-family: var(--fuente-titulos); 
+  margin: 0; 
+}
 
-a { color: inherit; 
-    text-decoration: none; }
+h2 { 
+  font-size: 2.5rem; 
+  margin: .6rem 0 1.5rem; 
+}
+
+a { 
+  color: inherit; 
+  text-decoration: none; }
 
 ul { list-style: none; 
      margin: 0; 
-     padding: 0;  }
+     padding: 0;  
+    }
  
 .contenedor {
     max-width: 1360px; 
     margin: 0 auto; 
     padding-left: 48px; 
-    padding-right: 48px; }
+    padding-right: 48px; 
+  }
 
-.seccion { padding-top: 72px; 
-           padding-bottom: 72px; }
+.seccion { 
+    padding-top: 72px; 
+    padding-bottom: 72px; }
  
 .etiqueta {
-  font-size: .75rem; 
-  font-weight: 700;
-  letter-spacing: .16em; 
+  margin: 0 0 12px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--violeta); margin: 0;
+  color: var(--violeta);
 }
 .etiqueta--clara { color: var(--dorado); }
+
+/* ========== 3. ACCESIBILIDAD (foco con teclado y salto al contenido) ========== */
+.saltar-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2000;
+  padding: 12px 18px;
+  border-radius: 0 0 10px 0;
+  background: var(--dorado);
+  color: var(--medianoche);
+  font-weight: 700;
+}
+.saltar-link:focus { left: 0; }
+
+:focus-visible {
+  outline: 3px solid var(--violeta);
+  outline-offset: 3px;
+}
+
+/* Sobre fondos oscuros el anillo es dorado; dentro del buscador (blanco) vuelve a ser violeta */
+.hero :focus-visible,
+.alrededores :focus-visible,
+.cta :focus-visible,
+.pie :focus-visible { 
+  outline-color: var(--dorado); 
+}
+
+.buscador :focus-visible { 
+  outline-color: var(--violeta); 
+}
 
 /* ========== 3. BOTONES ========== */
 .boton {
@@ -62,24 +142,27 @@ ul { list-style: none;
   border-radius: 10px;
   background: var(--dorado); 
   color: var(--medianoche);
-  font-weight: 700; 
   border: 0; 
   font: inherit; 
   font-weight: 700; 
   cursor: pointer;
+  text-align: center;
 }
 
 .boton:hover { 
-    filter: brightness(1.08); }
+    filter: brightness(1.08); 
+  }
 
 .boton--oscuro { 
     background: var(--medianoche); 
-    color: var(--blanco); }
+    color: var(--blanco); 
+  }
 
 .boton--borde { 
     background: transparent; 
     border: 1.5px solid var(--blanco); 
-    color: var(--blanco); }
+    color: var(--blanco); 
+  }
 
     /* ========== 4. HERO + NAVEGACIÓN ========== */
 .hero {
@@ -96,16 +179,16 @@ ul { list-style: none;
     linear-gradient(180deg, var(--medianoche) 0%, #2a2a7a 55%, var(--dorado) 100%);
     }
 
-    
+/* Menú en escritorio: logo | enlaces | botón, en un grid de 3 columnas */
 .nav-contenedor {
     position: relative;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 20px;
-    max-width: 1400px;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 24px 40px;
+    padding: 24px 40px (var(--pad-contenedor));
 }
 
 
@@ -114,11 +197,10 @@ ul { list-style: none;
     justify-self: start;
 }
 
-.nav-contenedor > .boton {
-    grid-column: 3;
-    justify-self: end;
-    margin-left: 0;
-    white-space: nowrap;
+/* En escritorio el wrapper "desaparece" y sus hijos
+   siguen siendo parte de tu grid de 3 columnas */
+.nav__menu { 
+  display: contents; 
 }
 
 .nav__menu > .boton {
@@ -127,9 +209,31 @@ ul { list-style: none;
   margin-left: nowrap;
 }
 
-/* En escritorio el wrapper "desaparece" y sus hijos
-   siguen siendo parte de tu grid de 3 columnas */
-.nav__menu { display: contents; }
+.nav-contenedor .nav__links { 
+  grid-column: 2; 
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.nav__links a { 
+  transition: color .2s ease; 
+}
+
+.nav__links a:hover { 
+  color: var(--dorado); 
+}
+
+
+
+
 
 .menu-btn {
     display: none;
@@ -147,25 +251,6 @@ ul { list-style: none;
     transition: .3s;
 }
 
-
-
-
-
-.nav__links {
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-
 .logo { 
     display: flex; 
     align-items: center; 
@@ -173,6 +258,7 @@ ul { list-style: none;
     line-height: 1.1; 
     flex-shrink: 0;
 }
+
 .logo small { 
     display: block; 
     font-size: 0.75rem; 
@@ -241,11 +327,17 @@ ul { list-style: none;
   padding-bottom: 40px;
   max-width: none; 
   background: var(--blanco);
+  /* La franja ocupa todo el ancho, pero el texto se alinea con el resto de la página */
+  padding-left: max(var(--pad-contenedor), calc((100% - 1360px) / 2 + var(--pad-contenedor)));
+  padding-right: max(var(--pad-contenedor), calc((100% - 1360px) / 2 + var(--pad-contenedor)));
 }
-.franja h3 {
-    font-size: 1.1rem; 
-    font-family: var(--fuente-texto);
- }
+
+.franja__titulo {
+  display: block;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
 
 .franja p {
     margin: 4px 0 0; 
@@ -253,27 +345,15 @@ ul { list-style: none;
     opacity: .75; 
 }
  
-/* ========== 6. TARJETAS / GRID ========== */
+/* ========== 6. HABITACIONES Y TARIFAS ========== */
 #habitaciones {
   padding-top: 75px;
   padding-bottom: 85px;
   background: var(--fondo);
 }
 
-/*encabezado de la seccion*/
-.contenedor { 
-  box-sizing: border-box;
-}
-
-/*encabezado*/
-.etiqueta {
-  margin-bottom: 12px;
-  color: var(--violeta);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-align: center;
-  text-transform: uppercase;
+#habitaciones .etiqueta { 
+  text-align: center; 
 }
 
 #habitaciones h2 {
@@ -301,67 +381,69 @@ ul { list-style: none;
   gap: 22px;
 }
 
-#habitaciones .tarjeta {
+/* Tarjeta de tarifa (las 4 comparten estilo; la "destacada" solo suma un realce suave) */
+.tarifa {
+  --relleno-arriba: 26px;      /* Se usa también para que la barra superior quede pegada al borde */
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 26px 22px 22px;
+  padding: var(--relleno-arriba) 22px 22px;
   overflow: hidden;
   background: var(--blanco);
-  border: 1px solid #e2e7f1;
+  border: 2px solid var(--violeta);
   border-radius: 16px;
-  box-shadow: 0 10px 28px rgba(10, 16, 48, 0.07);
-  transition: transform 0.25s ease;
-  box-shadow: 0.25s ease;
+  box-shadow: 0 10px 28px rgba(90, 63, 181, .1);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-#habitaciones .tarjeta:hover {
+.tarifa:hover {
   transform: translateY(-5px);
-  box-shadow: 0 16px 32px rgba(10, 16, 48, 0.13);
+  box-shadow: 0 16px 32px rgba(10, 16, 48, .13);
 }
 
-/*titulo de huspedes*/
-#habitaciones .tarjeta h3 {
+.tarifa--destacada {
+  background: #fbf9ff;
+  box-shadow: 0 14px 34px rgba(90, 63, 181, .18);
+}
+
+/* Barra de color arriba de cada tarjeta */
+.tarifa::before {
+  content: "";
+  display: block;
+  height: 8px;
+  margin: calc(-1 * var(--relleno-arriba)) -24px 24px;
+  background: linear-gradient(90deg, var(--violeta-claro), var(--violeta-profundo));
+}
+
+/* Etiqueta "Más flexible" */
+.insignia {
+  align-self: flex-start;
+  margin-bottom: 16px;
+  padding: 7px 12px;
+  border-radius: 30px;
+  background: var(--ambar-fondo);
+  color: var(--ambar);
+  font-size: .74rem;
+  font-weight: 800;
+}
+
+/* Título: número de huéspedes */
+.tarifa h3 {
   margin: 0 0 8px;
   color: var(--medianoche);
   font-size: 1.35rem;
   font-weight: 800;
 }
 
-/*tipo de tarifa*/
-#habitaciones .tarjeta__tipo {
+/* Tipo de tarifa */
+.tarifa__tipo {
   margin: 0 0 20px;
-  color:#67848a;
-  font-size: 0.92rem;
+  color: var(--gris-tipo);
+  font-size: .92rem;
 }
 
-#habitaciones .tarifa--destacada {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 26px 22px 22px;
-  overflow: hidden;
-  background: var(--blanco);
-  border: 1px solid #e2e7f1;
-  border-radius: 16px;
-  box-shadow: 0 10px 28px rgba(10, 16, 48, 0.07);
-  transition: transform 0.25s ease;
-  box-shadow: 0.25s ease;
-}
-
-#habitaciones .tarifa--destacada:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 32px rgba(10, 16, 48, 0.13);
-}
-
-#habitaciones .tarifa__tipo {
-  margin: 0 0 20px;
-  color:#67848a;
-  font-size: 0.92rem;
-}
-
-/*precio*/
-#habitaciones .tarifa__precio, #habitaciones .precio {
+/* Precio */
+.tarifa__precio {
   margin: 0 0 24px;
   color: var(--indigo);
   font-size: clamp(1.35rem, 1.8vw, 1.7rem);
@@ -369,32 +451,31 @@ ul { list-style: none;
   line-height: 1.3;
 }
 
-#habitaciones .tarifa__precio small, #habitaciones .precio small {
-  color: #68748a;
-  font-size: 0.78rem;
+.tarifa__precio small {
+  color: var(--gris);
+  font-size: .78rem;
   font-weight: 500;
 }
 
-/*lista de beneficios*/
-#habitaciones .tarifa__lista {
+/* Lista de beneficios */
+.tarifa__lista {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin: 0 0 26px;
   padding: 0;
-  list-style: none;
 }
 
-#habitaciones .tarifa__lista li {
+.tarifa__lista li {
   position: relative;
   padding-left: 30px;
-  color: #526079;
-  font-size: 0.87rem;
+  color: var(--gris-lista);
+  font-size: .87rem;
   line-height: 1.55;
 }
 
-/*iconos de beneficio*/
-#habitaciones .tarifa__lista li::before {
+/* Icono de cada beneficio (✓) */
+.tarifa__lista li::before {
   content: "✓";
   position: absolute;
   top: 1px;
@@ -405,150 +486,86 @@ ul { list-style: none;
   width: 21px;
   height: 21px;
   border-radius: 50%;
-  background: #e0f4eb;
-  font-size: 0.8rem;
-  color: #268667;
+  background: var(--verde-fondo);
+  font-size: .8rem;
+  color: var(--verde);
   font-weight: 900;
 }
 
-/*no reembolsable*/
-#habitaciones .tarifa__lista li.no::before {
+/* Icono de lo que NO incluye (✕) */
+.tarifa__lista li.no::before {
   content: "✕";
-  background: #fde8e9;
-  color: #c94f5a;
+  background: var(--rojo-fondo);
+  color: var(--rojo);
   font-size: 1.15rem;
 }
 
-/*etiqueta de tarrifa flexible*/
-#habitaciones .insignia {
-  align-self: flex-start;
-  margin-bottom: 16px;
-  padding: 7px 12px;
-  border-radius: 30px;
-  background: #fff3cf;
-  color: #77591a;
-  font-size: 0.74rem;
-  font-weight: 800;
+/* Icono de lo que NO incluye (✕) */
+.tarifa__lista li.no::before {
+  content: "✕";
+  background: var(--rojo-fondo);
+  color: var(--rojo);
+  font-size: 1.15rem;
 }
 
-/*tarjetas flexibles destacadas*/
-#habitaciones .tarifa--destacada {
-  border: 2px solid var(--violeta);
-  box-shadow: 0 10px 28px rgba(90, 63, 181, 0.1);
-}
-
-#habitaciones .tarjeta {
-  border: 2px solid var(--violeta);
-  box-shadow: 0 10px 28px rgba(90, 63, 181, 0.1);
-}
-
-
-/*encabezado visual de las tarjetas*/
-#habitaciones .tarjeta::before {
-  content: "";
-  display: block;
-  height: 8px;
-  margin: -26px -24px 24px;
-  background: linear-gradient(90deg, #7650d8, #382d91);
-}
-
-#habitaciones .tarifa--destacada::before {
-   content: "";
-  display: block;
-  height: 8px;
-  margin: -26px -24px 24px;
-  background: linear-gradient(90deg, #7650d8, #382d91);
-}
-
-
-/*botones de reserva*/
+/* Botón de reservar de cada tarifa */
 #habitaciones .boton {
   display: block;
   width: 100%;
-  box-sizing: border-box;
   margin-top: auto;
   flex-shrink: 0;
   padding: 14px 18px;
   border: 1px solid var(--indigo);
   border-radius: 12px;
   background: var(--indigo);
-  border-radius: 12px;
-  color: #ffffff;
+  color: var(--blanco);
   font-weight: 800;
   text-align: center;
-  text-decoration: none;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
 }
 
-#habitaciones .boton::after {
-  content: "→";
+#habitaciones .boton::after { 
+  content: " →"; 
 }
 
 #habitaciones .boton:hover {
   transform: translateY(-2px);
-  background: #172d55;
-  border-color: #172d55;
+  background: var(--violeta-oscuro);
+  border-color: var(--violeta-oscuro);
 }
 
-/*botones morados para tarifas flexibles*/
-#habitaciones .tarifa--destacada .boton:hover {
-  background: #4633a9;
-  background-color: #4633a9;
-}
-
-#habitaciones .tarjeta .boton:hover {
-    background: #4633a9;
-    background-color: #4633a9;
-}
-/*tablet*/
-@media (max-widt: 1100px) {
+/* Tablet: 2 tarjetas por fila */
+@media (max-width: 1100px) {
   #habitaciones .grid--tarifas {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
   }
-  #habitaciones .tarifa__precio, #habitaciones .precio {
-    font-size: 1.65rem;
-  }
+  .tarifa__precio { font-size: 1.65rem; }
 }
 
-/*celulares*/
+/* Celular: 1 tarjeta por fila */
 @media (max-width: 600px) {
-  #habitaciones {
-    padding: 55px 18px;
-  }
-  #habitaciones h2 {
-    font-size: 2rem;
-  }
-  #habitaciones .nota {
+  #habitaciones { padding: 55px 20px; }
+  #habitaciones h2 { font-size: 2rem; }
+  .nota {
     margin-bottom: 30px;
-    font-size: 0.9rem;
+    font-size: .9rem;
   }
-  #habitaciones .grid--tarifas {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-  #habitaciones .tarjeta {
-    padding: 24px 22px 22px;
-  }
-  #habitaciones .tarjeta h3{
-    font-size: 1.3rem;
-  }
-  #habitaciones .tarifa__precio, #habitaciones .precio {
-    font-size: 1.65rem;
-  }
+  #habitaciones .grid--tarifas { grid-template-columns: 1fr; }
+  .tarifa { --relleno-arriba: 24px; }
+  .tarifa h3 { font-size: 1.3rem; }
 }
 
-/*accesibilidad*/
+/* Para quien pidió menos movimiento */
 @media (prefers-reduced-motion: reduce) {
-  #habitaciones .tarjeta,
-  #habitaciones .boton {
-    transition: none;
-  }
-  #habitaciones .tarjeta:hover,
-  #habitaciones .boton:hover {
-    transform: none;
-  }
-} 
+  html { scroll-behavior: auto; }
+  .tarifa,
+  #habitaciones .boton,
+  .nav__links a,
+  .whatsapp-flotante { transition: none; }
+  .tarifa:hover,
+  #habitaciones .boton:hover,
+  .whatsapp-flotante:hover { transform: none; }
+}
 
 /* ========== 7. ALREDEDORES (bloque oscuro en dos columnas) ========== */
 .alrededores {
@@ -569,16 +586,6 @@ ul { list-style: none;
    font-size: 1rem; 
 }
 
-.alrededores p {
-   margin: 4px 0 0; 
-   font-size: .9rem; 
-   opacity: .85; 
-  }
-
-  @media (max-width: 800px) {
-    .alrededores { grid-template-columns: minmax(0, 1fr);}
-  }
-
 .foto--paisaje {
   position: relative;
   min-height: 420px;
@@ -593,12 +600,6 @@ ul { list-style: none;
   object-fit: cover;
   object-position: 30% 25%;
 }
-
-.etiqueta h2 {
-   margin-bottom: 1.8rem; 
-   text-align: center;
-  }
-
 
 .grid--chico{
   display: grid;
@@ -645,8 +646,13 @@ ul { list-style: none;
   align-items: start;
 }
 
+/* Si todavía no hay testimonio, el contenido ocupa todo el ancho */
+.dos-columnas:not(:has(.testimonio)) { 
+  grid-template-columns: minmax(0, 1fr); 
+}
+
 /*cuadricula de las cuatro tarjetas*/
-.grid-- {
+.grid--ventajas {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
@@ -655,20 +661,13 @@ ul { list-style: none;
 
 /*tarjetas*/
 .tarjeta {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 04px 14px rgba(0, 0, 0, .06);
   min-width: 0;
   min-height: 145px;
   padding: 24px;
-  box-sizing: border-box;
-}
-.testimonio { 
-  margin: 0; 
-  padding: 32px; 
-  font-size: 1.15rem; 
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
 }
 
 /* Títulos de las tarjetas */
@@ -722,118 +721,7 @@ ul { list-style: none;
     color: #64748b;
 }
 
-/* Adaptación para celulares */
-
-@media (max-width: 768px) {
-    .dos-columnas {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .grid--chico {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .tarjeta {
-        padding: 20px;
-    }
-
-    .testimonio {
-       padding: 24px;
-    }
-
-    
-
 /* ========== 9. LLAMADO A RESERVAR ========== */
-.seccion--cta { 
-  padding-top: 0; 
-}   /* la sección anterior ya deja espacio */
-
-.cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 56px 48px;
-  border-radius: 18px;
-  color: var(--blanco);
-  background: linear-gradient(120deg, var(--medianoche), var(--turquesa-oscuro));
-}
-.cta h2 { 
-  font-size: 2.4rem;
-  margin: 0 0 10px; 
-  max-width: 560px; 
-}
-
-.cta p { 
-  margin: 0;
-  opacity: .9; 
-}
-
-.cta__botones { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 14px; 
-}
-
-/* ========== 9. LLAMADO A LA ACCIÓN ========== */
-.cta {
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 24px; 
-  align-items: center; 
-  justify-content: space-between;
-  margin-bottom: 72px; 
-  padding: 56px 48px; 
-  border-radius: 18px; 
-  color: var(--blanco);
-  background: linear-gradient(120deg, var(--medianoche), var(--turquesa-oscuro));
-}
-
-.cta h2 { 
-  font-size: 2.4rem; 
-  margin: 0 0 10px; 
-}
-.cta p { 
-  margin: 0; 
-  opacity: .9; 
-}
-.cta__botones { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 14px; 
-}
-}
-
-.cta {
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 24px; 
-  align-items: center; 
-  justify-content: space-between;
-  margin-bottom: 72px; 
-  padding: 56px 48px; 
-  border-radius: 18px; 
-  color: var(--blanco);
-  background: linear-gradient(120deg, var(--medianoche), var(--turquesa-oscuro));
-}
-
-.cta h2 { 
-  font-size: 2.4rem; 
-  margin: 0 0 10px; 
-}
-.cta p { 
-  margin: 0; 
-  opacity: .9; 
-}
-.cta__botones { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 14px; 
-}
- 
 .seccion--cta { 
   padding-top: 0; 
 }   /* la sección anterior ya deja espacio */
@@ -926,70 +814,81 @@ ul { list-style: none;
 }
 
  
-/* ========== 11. RESPONSIVE (pantallas pequeñas) ========== */
-@media (max-width: 700px) {
-  .contenedor { 
-    padding-left: 20px; 
-    padding-right: 20px; 
-  }
-  .hero h1 { 
-    font-size: 2.6rem; 
-  }
-  h2, .cta h2 { 
-    font-size: 1.9rem; 
-  }
-  .cta { padding: 32px 24px; 
-    margin-left: 20px; 
-    margin-right: 20px; 
-  }
-
-  .alrededores__texto { padding: 40px 20px; }
-}
-
+/* ========== 12. RESPONSIVE (pantallas pequeñas) ========== */
 @media (max-width: 768px) {
-    .nav-contenedor {
-        grid-template-columns: 1fr auto;
-        padding: 16px 20px;
-    }
+  :root { --pad-contenedor: 20px; }
 
-    .logo strong { font-size: 1.1rem; }
+  h2, .cta h2 { font-size: 1.9rem; }
 
-    .menu-btn {
-        display: block;
-        grid-column: 2;
-    }
+  /* el título de 4rem es demasiado grande en móvil */
+  .hero__texto h1 { font-size: 2.4rem; }
 
-    .nav__menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 16px;
-        padding: 20px;
-        background: rgba(10, 16, 48, .96);
-        border-radius: 0 0 14px 14px;
-        z-index: 10;
-    }
-    .nav__menu.abierto { display: flex; }
+  .alrededores { grid-template-columns: minmax(0, 1fr); }
+  .alrededores__texto { padding: 40px 20px; }
 
-    .nav__links {
-        grid-column: auto;
-        flex-direction: column;
-        gap: 16px;
-    }
-    .nav__menu > .boton {
-        grid-column: auto;
-        justify-self: stretch;
-        text-align: center;
-    }
+  .dos-columnas {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 
-    /* hamburguesa → X */
-    .menu-btn.activo span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-btn.activo span:nth-child(2) { opacity: 0; }
-    .menu-btn.activo span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  .grid--chico,
+  .grid--ventajas {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
 
-    /* el título de 4rem es demasiado grande en móvil */
-    .hero__texto h1 { font-size: 2.4rem; }
+  .tarjeta { padding: 20px; }
+  .testimonio { padding: 24px; }
+
+  .cta { padding: 32px 24px; }
+
+  /* Menú: se despliega al tocar la hamburguesa */
+  .nav-contenedor {
+    grid-template-columns: 1fr auto;
+    padding: 16px var(--pad-contenedor);
+  }
+
+  .logo strong { font-size: 1.1rem; }
+
+  .menu-btn {
+    display: block;
+    grid-column: 2;
+  }
+
+  .nav__menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(10, 16, 48, .96);
+    border-radius: 0 0 14px 14px;
+    z-index: 10;
+  }
+  .nav__menu.abierto { display: flex; }
+
+  .nav-contenedor .nav__links {
+    grid-column: auto;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav__links a {
+    display: block;
+    padding: 8px 0;
+  }
+
+  .nav__menu > .boton {
+    grid-column: auto;
+    justify-self: stretch;
+    text-align: center;
+  }
+
+  /* hamburguesa → X */
+  .menu-btn.activo span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .menu-btn.activo span:nth-child(2) { opacity: 0; }
+  .menu-btn.activo span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }

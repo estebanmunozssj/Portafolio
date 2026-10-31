@@ -1,8 +1,20 @@
 :root {
+    /* Colores base */
     --carbon: #1c1c1c;
     --dorado: #b08d57;
     --crema: #f2ebdd;
     --rojo: #8b1e1e;
+
+    --rojo-hover: #a62525;                    /* Rojo más claro al pasar el mouse */
+    --azul: #1f3a5f;                          /* Raya azul del poste de barbero */
+    --superficie: #232323;                    /* Fondo de las tarjetas */
+    --superficie-clara: #2a2a2a;              /* Fondo mientras carga una foto o el mapa */
+    --superficie-destacada: #2a2420;          /* Fondo de la tarjeta "Más pedido" */
+    --dorado-borde: rgba(176, 141, 87, 0.35); /* Borde dorado tenue de tarjetas y fotos */
+    --dorado-linea: rgba(176, 141, 87, 0.3);  /* Línea dorada que separa las secciones */
+    --carbon-visor: rgba(28, 28, 28, 0.8);    /* Fondo de los botones del visor de fotos */
+    --negro-visor: rgba(0, 0, 0, 0.92);       /* Fondo oscuro detrás del visor de fotos */
+    --sombra-foto: rgba(0, 0, 0, 0.5);        /* Sombra de la foto del hero */
 }
 
 @font-face {
@@ -20,15 +32,18 @@ html {
     scroll-padding-top: 80px;
 }
 
-body {
-    margin: 0;
-    font-family: 'inter';
-    background: #1c1c1c;
-    color: #f2ebdd;
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 
-.intro-titulo { line-height: 0.95; letter-spacing: -0.02em; }
-
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--carbon);
+    color: var(--crema);
+}
 
 img {
     max-width: 100%;
@@ -45,8 +60,8 @@ img {
     left: 16px;
     top: 8px;
     z-index: 200;
-    background: #B08D57;
-    color: #1C1C1C;
+    background: var(--dorado);
+    color: var(--carbon);
     padding: 8px 12px;
 }
 
@@ -59,8 +74,8 @@ img {
     justify-content: space-between;
     gap: 16px;
     padding: 16px 48px;
-    background: #1c1c1c;
-    border-bottom: 1px solid #b08d57;
+    background: var(--carbon);
+    border-bottom: 1px solid var(--dorado);
 }
 
 .logo {
@@ -73,7 +88,7 @@ img {
 .logo-main {
     font-family: 'Beatford', serif;
     font-size: 28px;
-    color: #b08d57;
+    color: var(--dorado);
 }
 
 .logo-sub {
@@ -82,6 +97,50 @@ img {
     color: #f2ebdd;
     text-transform: uppercase;
     margin-top: 4px;
+}
+
+/*====logo====*/
+.logo-con-poste {
+    display: flex;
+    align-items: center; /* Poste y logo centrados verticalmente */
+    gap: 10px;
+    text-decoration: none;
+}
+
+.poste-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.poste-mini-tapa {
+    width: 18px;
+    height: 5px;
+    background: var(--dorado);
+    border-radius: 3px;
+}
+
+.poste-mini-cuerpo {
+    position: relative;
+    width: 12px;
+    height: 30px; /* Alto parecido al del logo */
+    overflow: hidden; /* Recorta las rayas que sobran */
+    background: var(--crema);
+    border: 1px solid var(--dorado);
+}
+
+.poste-mini-rayas {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20px; /* Más alto que el tubo para que no queden huecos */
+    height: calc(100% + 40px);
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--rojo) 0 4px,
+        var(--crema) 4px 8px,
+        #1f3a5f 8px 12px
+    );
 }
 
 .nav-links {
@@ -126,23 +185,35 @@ img {
     cursor: pointer;
 }
 
+/*MENU EN CELULAR*/
 
 @media (max-width: 768px){
-    .nav {padding: 12px 20px;}
-    .menu-toggle {display: block;}
-    .btn-reservar {margin-left: auto;
-                    padding: 10px 16px;}
-    .menu {display: none;
+    .nav {
+        padding: 12px 20px;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .btn-reservar {
+        margin-left: auto;
+        padding: 10px 16px;
+    }
+    .menu {
+           display: none;
            position:absolute;
            top: 100%;
            left: 0;
            right: 0;
            background: #1c1c1c;
            border-bottom: 1px solid #b08d57;
-           padding: 16px 20px;}
-    .menu.open {display: block;}
-    .nav-links{flex-direction: column;
-               gap: 16px;}
+           padding: 16px 20px;
+        }
+    .menu.open {
+        display: block;
+    }
+    .nav-links{
+        flex-direction: column;
+        gap: 16px;}
 }
 
 
@@ -707,49 +778,7 @@ body:has(dialog[open]) {
 }
 
 
-/*====logo====*/
-.logo-con-poste {
-    display: flex;
-    align-items: center; /* Poste y logo centrados verticalmente */
-    gap: 10px;
-    text-decoration: none;
-}
 
-.poste-mini {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.poste-mini-tapa {
-    width: 18px;
-    height: 5px;
-    background: var(--dorado);
-    border-radius: 3px;
-}
-
-.poste-mini-cuerpo {
-    position: relative;
-    width: 12px;
-    height: 30px; /* Alto parecido al del logo */
-    overflow: hidden; /* Recorta las rayas que sobran */
-    background: var(--crema);
-    border: 1px solid var(--dorado);
-}
-
-.poste-mini-rayas {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -20px; /* Más alto que el tubo para que no queden huecos */
-    height: calc(100% + 40px);
-    background: repeating-linear-gradient(
-        -45deg,
-        var(--rojo) 0 4px,
-        var(--crema) 4px 8px,
-        #1f3a5f 8px 12px
-    );
-}
 /*TESTIMONIOS*/
 .testimonio {
     padding: 96px 24px;
@@ -1293,31 +1322,29 @@ body:has(dialog[open]) {
     }
 }
 
+/*WHATSAPP FLOTANTE*/
+.whatsapp-flotante {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #25d366;
+  color: #fff;
+  font-size: 1.9rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  z-index: 1000;
+  transition: transform .2s;
+  text-decoration: none;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.whatsapp-flotante:hover {
+  transform: scale(1.08);
+}
 
 /*EFECTO DE SCROLL*/
 .reveal {
