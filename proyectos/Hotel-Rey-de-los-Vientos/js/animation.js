@@ -1,113 +1,96 @@
-const URL_ANIME = 'https://esm.sh/animejs@4'; // Librería de animaciones
+'use strict';
 
-const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // true si el usuario desactivó animaciones
+/* ===== EFECTOS AL HACER SCROLL ===== */
+/* Un solo momento protagonista (la foto de Alrededores) y entradas sutiles en lo demás.
+   Usa la Web Animations API (element.animate), así no choca con las transiciones :hover del CSS. */
 
-/* ===== EFECTO AL HACER SCROLL ===== */
-/* Va primero y no depende de la librería: si Anime.js no carga, este efecto sigue funcionando */
+const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // true si el usuario pidió menos movimiento
+const SALIDA = 'cubic-bezier(0.16, 1, 0.3, 1)'; // Curva que arranca rápido y frena suave al final
 
-(() => { // Envuelto para que sus variables no choquen con otros bloques
-    if (sinMovimiento || !('IntersectionObserver' in window)) return; // Sin animaciones, todo se ve normal
+(() => {
+  if (sinMovimiento || !('IntersectionObserver' in window) || !Element.prototype.animate) return; // Sin soporte o sin movimiento: todo se ve normal
 
-    const elementos = document.querySelectorAll('.hero-texto, .hero-3d, .Servicios-encabezado, .Servicios-card, .galeria-encabezado, .galeria-foto, .testimonio-encabezado, .testimonio-grid, .nosotros-encabezado, .barbero-card, .productos-encabezado, .producto-card, .contacto-info, .contacto-mapa'); // Lo que se anima al llegar (cada clase lleva su punto)
+  // Tipos de entrada: de dónde parte cada elemento y cuánto dura
+  const efectos = {
+    sutil:   { cuadros: [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], duracion: 700 },
+    tarjeta: { cuadros: [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], duracion: 800 },
+    foto:    { cuadros: [{ opacity: 0, transform: 'translateY(20px) scale(.96)' }, { opacity: 1, transform: 'none' }], duracion: 900 },
+    cta:     { cuadros: [{ opacity: 0, transform: 'scale(.97)' }, { opacity: 1, transform: 'none' }], duracion: 900 }
+  };
 
-    const observador = new IntersectionObserver((entradas) => { // Vigila cuándo entra cada elemento en pantalla
-        entradas.forEach((entrada) => {
-            if (!entrada.isIntersecting) return; // Si aún no se ve, no hace nada
-            const el = entrada.target;
-            el.classList.add('visible'); // Lo muestra
-            observador.unobserve(el); // Ya no hace falta vigilarlo
+  // [qué elementos, qué efecto, ms entre uno y otro cuando entran juntos]
+  const grupos = [
+    ['#habitaciones > .etiqueta, #habitaciones > h2, #habitaciones > .nota', 'sutil', 80],
+    ['.grid--tarifas > .tarifa', 'tarjeta', 90],
+    ['.alrededores__texto > .etiqueta, .alrededores__texto > h2', 'sutil', 80],
+    ['.alrededores .mini', 'foto', 140],
+    ['#ventajas .etiqueta, #ventajas h2, #ventajas .tarjeta', 'sutil', 70],
+    ['.cta', 'cta', 0]
+  ];
 
-            let limpio = false; // Para limpiar una sola vez
-            const alTerminarTransicion = (e) => {
-                if (e.target === el) limpiar(); // Ignora transiciones de elementos internos
-            };
-            const limpiar = () => {
-                if (limpio) return;
-                limpio = true;
-                el.removeEventListener('transitionend', alTerminarTransicion);
-                clearTimeout(respaldo);
-                el.classList.remove('reveal', 'visible'); // Quita las clases para que los efectos hover funcionen normal
-                el.style.transitionDelay = '';
-            };
-            el.addEventListener('transitionend', alTerminarTransicion);
-            const respaldo = setTimeout(limpiar, 1600); // Por si la transición nunca avisa que terminó
-        });
-    }, { threshold: 0.15 }); // Se activa cuando se ve el 15% del elemento
+  const yaSeVe = (el) => el.getBoundingClientRect().top < window.innerHeight; // Lo que ya está en pantalla al cargar no se anima
+
+  /* Si alguien salta con un enlace del menú, algunos elementos quedan arriba sin haberse visto.
+     Esta revisión los muestra sin animar para que nunca queden ocultos. */
+  const pendientes = new Map(); // elemento -> función que lo muestra sin animar
+  let revisando = false;
+  const revisarSaltados = () => {
+    revisando = false;
+    pendientes.forEach((mostrar, el) => {
+      if (el.getBoundingClientRect().bottom < 0) { mostrar(); pendientes.delete(el); }
+    });
+    if (!pendientes.size) window.removeEventListener('scroll', alHacerScroll);
+  };
+  const alHacerScroll = () => {
+    if (revisando) return;
+    revisando = true;
+    requestAnimationFrame(revisarSaltados); // Como mucho una revisión por cuadro
+  };
+  window.addEventListener('scroll', alHacerScroll, { passive: true });
+
+  /* --- Momento protagonista: la foto de Alrededores se descubre de abajo hacia arriba --- */
+  const paisaje = document.querySelector('.foto--paisaje');
+  const paisajeImg = paisaje && paisaje.querySelector('img');
+
+  if (paisaje && paisajeImg && !yaSeVe(paisaje)) {
+    paisajeImg.style.clipPath = 'inset(100% 0 0 0)'; // Se recorta la foto; el contenedor queda visible para poder vigilarlo
+
+    const verPaisaje = new IntersectionObserver((entradas) => {
+      if (!entradas[0].isIntersecting) return; // Aún no llega
+      verPaisaje.disconnect();
+      pendientes.delete(paisaje);
+      paisajeImg.style.clipPath = '';
+      paisajeImg.animate( // Se descubre de abajo hacia arriba mientras se aleja un poco
+        [{ clipPath: 'inset(100% 0 0 0)', transform: 'scale(1.15)' }, { clipPath: 'inset(0 0 0 0)', transform: 'scale(1)' }],
+        { duration: 1400, easing: SALIDA }
+      );
+    }, { threshold: 0.2 });
+
+    verPaisaje.observe(paisaje);
+    pendientes.set(paisaje, () => { verPaisaje.disconnect(); paisajeImg.style.clipPath = ''; });
+  }
+
+  /* --- Entradas sutiles para el resto --- */
+  grupos.forEach(([selector, tipo, paso]) => {
+    const elementos = [...document.querySelectorAll(selector)].filter((el) => !yaSeVe(el));
+    if (!elementos.length) return;
+
+    const { cuadros, duracion } = efectos[tipo];
+
+    const observador = new IntersectionObserver((entradas) => {
+      const visibles = entradas.filter((e) => e.isIntersecting).map((e) => e.target);
+      visibles.forEach((el, i) => { // Los que entran juntos salen uno tras otro
+        observador.unobserve(el);
+        pendientes.delete(el);
+        el.style.opacity = ''; // Quita el escondite; 'backwards' lo mantiene oculto durante el retraso
+        el.animate(cuadros, { duration: duracion, delay: i * paso, easing: SALIDA, fill: 'backwards' });
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
     elementos.forEach((el) => {
-        const posicion = Array.from(el.parentElement.children).indexOf(el); // Qué número de hijo es dentro de su grupo
-        el.style.transitionDelay = `${Math.min(posicion, 4) * 0.1}s`; // Retraso de 0.1 s por elemento, hasta 0.4 s
-        el.classList.add('reveal'); // Lo esconde para animarlo después
-        observador.observe(el);
+      el.style.opacity = '0'; // Escondido hasta que llegue a la pantalla
+      observador.observe(el);
+      pendientes.set(el, () => { observador.unobserve(el); el.style.opacity = ''; });
     });
+  });
 })();
-
-/* ===== ANIMACIONES DE ENTRADA (MENÚ E INTRO) ===== */
-
-async function animarEntrada() {
-    const objetivos = document.querySelectorAll('.logo, .nav-links li, .btn-reservar, .intro-etiqueta, .intro-titulo, .intro-descubre'); // Lo que entra animado
-    objetivos.forEach((el) => { el.style.opacity = '0'; }); // Lo esconde ya, para que no parpadee mientras carga la librería
-
-    try {
-        const { animate, stagger } = await import(URL_ANIME); // Carga la librería (si falla, salta al catch)
-
-        /* ===== MENÚ ===== */
-
-        animate('.logo', { // Logo del menú
-            opacity: [0, 1], // De transparente a visible
-            x: [-20, 0], // Entra desde 20px a la izquierda
-            duration: 800,
-            ease: 'outCubic'
-        });
-
-        animate('.nav-links li', { // Enlaces del menú, uno por uno
-            opacity: [0, 1],
-            y: [15, 0], // Suben 15px
-            delay: stagger(150, { start: 200 }), // 150 ms de diferencia entre cada uno
-            duration: 600,
-            ease: 'outCubic'
-        });
-
-        animate('.btn-reservar', { // Botón de reserva
-            opacity: [0, 1],
-            scale: [0.85, 1], // Crece hasta su tamaño normal
-            duration: 700,
-            delay: 900,
-            ease: 'outBack' // Con un pequeño rebote
-        });
-
-        /* ===== INTRO ===== */
-
-        animate('.intro-etiqueta', { // Texto superior
-            opacity: [0, 1],
-            y: [10, 0],
-            duration: 700,
-            delay: 300,
-            ease: 'outCubic'
-        });
-
-        animate('.intro-titulo', { // CUCHILLA URBANA
-            opacity: [0, 1],
-            y: [35, 0],
-            scale: [0.96, 1],
-            duration: 1100,
-            delay: 450,
-            ease: 'outCubic'
-        });
-
-        animate('.intro-descubre', { // Enlace DESCUBRE y su flecha
-            opacity: [0, 1],
-            y: [15, 0],
-            duration: 700,
-            delay: 1000,
-            ease: 'outCubic'
-        });
-    } catch (error) {
-        console.warn('No se pudo cargar la librería de animaciones; la página se muestra sin ellas.', error);
-        objetivos.forEach((el) => { el.style.opacity = ''; }); // Si falló, vuelve a mostrar todo normal
-    }
-}
-
-if (!sinMovimiento) { // Las animaciones de entrada solo corren si no pidió reducir movimiento
-    animarEntrada();
-}

@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="img/Hero-hotel.webp" fetchpriority="high"> <!-- Carga la foto de portada desde el inicio -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@600;700&display=swap">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/estilos.css?v=2">
 
     <!-- Datos para Google (negocio local). CONFIRMAR con el dueño el número y la ubicación -->
     <script type="application/ld+json">
@@ -38,11 +38,6 @@
             "addressLocality": "Yotoco",
             "addressRegion": "Valle del Cauca",
             "addressCountry": "CO"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 3.8612863,
-            "longitude": -76.3847061
         },
         "amenityFeature": [
             { "@type": "LocationFeatureSpecification", "name": "WiFi gratis", "value": true }
@@ -59,7 +54,7 @@
     <!-- La imagen de portada se pone desde el CSS (img/portada.jpg) -->
 
     <nav class="nav-contenedor" aria-label="Principal">
-      <a href="inicio" class="logo">
+      <a href="#inicio" class="logo">
         <svg width="34" height="28" viewBox="0 0 34 28" aria-hidden="true"><path d="M3 24L1 6l9 8 7-12 7 12 9-8-2 18Z" fill="#f2c230"/></svg>
         <span><small>Hospedaje</small><strong>Rey de los Vientos</strong></span>
       </a>
@@ -174,23 +169,23 @@
   
  <!-- ===== ALREDEDORES ===== -->
     <section id="alrededores" class="alrededores" aria-labelledby="alrededores-titulo">
-      <div class="foto--paisaje"><img src="img/paisaje-yotoco.jpg" alt="paisaje de yotoco"></div>
+      <div class="foto--paisaje"><img src="img/paisaje-yotoco.jpg" alt="Paisaje de Yotoco al atardecer, con la iglesia del pueblo entre palmas"></div>
       <div class="alrededores__texto">
         <p class="etiqueta etiqueta--clara">Alrededores</p>
         <h2 id="alrededores-titulo">Más que un lugar para dormir</h2>
         <div class="grid--chico">
           <div class="mini">
-            <div class="foto-mini"><img src="img/laguna-sonso.jpeg" alt="laguna de sonso"></div>
+            <div class="foto-mini"><img src="img/laguna-sonso.jpg" alt="Muelle de madera en la Laguna de Sonso, con montañas al fondo y personas observando aves"></div>
             <h3>Laguna de Sonso</h3>
             <p>Naturaleza y aves cerca</p>
           </div>
           <div class="mini">
-            <div class="foto-mini"><img src="img/cultura-yotoco.jpeg" alt="cultura de yotoco"></div>
+            <div class="foto-mini"><img src="img/cultura-yotoco.jpeg" alt="Parque principal de Yotoco con su kiosco, una estatua y bancas"></div>
             <h3>Cultura campesina</h3>
             <p>Fiestas y tradiciones</p>
           </div>
           <div class="mini">
-            <div class="foto-mini"><img src="img/ruta.png" alt="ruta"></div>
+            <div class="foto-mini"><img src="img/ruta.jpg" alt="Letrero de bienvenida a Yotoco con sus atractivos: ríos, café, monos aulladores y música"></div>
             <h3>Rutas de montaña</h3>
             <p>preguntanos por rutas y planes</p>
           </div>
@@ -205,10 +200,10 @@
     <div>
       <p class="etiqueta">Por qué elegirnos</p>
       <h2 id="ventajas-titulo">Trato cercano, precio justo</h2>
-      <div class="grid--chico">
+      <div class="grid--chico grid--cuatro">
         <div class="tarjeta">
           <h3>Atención personal</h3>
-          <p>Te atienden sus dueños [CONFIRMAR]</p>
+          <p>Te atienden sus dueños</p>
         </div>
         <div class="tarjeta tarjeta--simple">
           <h3>Precio accesible</h3>
@@ -245,7 +240,7 @@
       </div>
       <div class="cta__botones">
         <a href="https://wa.me/573147772991?text=Hola%2C%20quiero%20consultar%20disponibilidad" class="boton" target="_blank" rel="noopener noreferrer">Reservar por WhatsApp</a>
-        <a href="https://www.google.com/maps/place/HOSPEDAJE+REY+DE+LOS+VIENTOS/@3.8612863,-76.3847061,20.54z" class="boton boton--borde" target="_blank" rel="noopener noreferrer">Ver en Google Maps</a>
+        <a href="https://www.google.com/maps/place/Yotoco,+Valle+del+Cauca" class="boton boton--borde" target="_blank" rel="noopener noreferrer">Ver en Google Maps</a>
       </div>
     </div>
   </div>
@@ -278,6 +273,7 @@
         </svg>
     </a>
     <script src="js/main.js" defer></script>
+    <script src="js/animation.js?v=4" defer></script>
 
 
 </body>

@@ -174,7 +174,7 @@ ul { list-style: none;
     /* capa 1: sombra oscura para que el texto blanco se lea */
     linear-gradient(180deg, rgba(10, 16, 48, .75) 0%, rgba(10, 16, 48, .35) 60%, rgba(10, 16, 48, .7) 100%),
     /* capa 2: tu imagen (si no existe, se ve la capa 3) */
-    url("img/Hero-hotel.webp") center / cover no-repeat,
+    url("../img/Hero-hotel.webp") center / cover no-repeat,
     /* capa 3: degradado de respaldo */
     linear-gradient(180deg, var(--medianoche) 0%, #2a2a7a 55%, var(--dorado) 100%);
     }
@@ -892,3 +892,8 @@ ul { list-style: none;
   .menu-btn.activo span:nth-child(2) { opacity: 0; }
   .menu-btn.activo span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
+
+/* "Por qué elegirnos": 4 tarjetas en una fila, 2x2 en tablet, 1 columna en móvil */
+.grid--chico.grid--cuatro { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .grid--chico.grid--cuatro { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 768px) { .grid--chico.grid--cuatro { grid-template-columns: 1fr; } }

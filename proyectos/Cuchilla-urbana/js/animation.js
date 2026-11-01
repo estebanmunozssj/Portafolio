@@ -48,8 +48,13 @@ async function animarEntrada() {
     const objetivos = document.querySelectorAll('.logo, .nav-links li, .btn-reservar, .intro-etiqueta, .intro-titulo, .intro-descubre'); // Lo que entra animado
     objetivos.forEach((el) => { el.style.opacity = '0'; }); // Lo esconde ya, para que no parpadee mientras carga la librería
 
+    // Red de seguridad: pase lo que pase, a los 2,5 s todo queda visible
+    setTimeout(() => { objetivos.forEach((el) => { el.style.opacity = ''; }); }, 2500);
+
     try {
-        const { animate, stagger } = await import(URL_ANIME); // Carga la librería (si falla, salta al catch)
+        // Si la librería tarda más de 1,2 s, no esperamos: se muestra la página sin animación
+        const limite = new Promise((_, rechazar) => setTimeout(() => rechazar(new Error('La librería tardó demasiado')), 1200));
+        const { animate, stagger } = await Promise.race([import(URL_ANIME), limite]); // Carga la librería (si falla o tarda, salta al catch)
 
         /* ===== MENÚ ===== */
 

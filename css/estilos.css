@@ -7,7 +7,33 @@
   --texto: #EEF1F8;
   --texto-suave: #A9B3CA;
   --acento: #C6F24E;
+  color-scheme: dark;
 }
+
+/* Superficies del navegador con los colores del sitio */
+::selection { background: var(--acento); color: var(--fondo); }
+input, textarea { caret-color: var(--acento); }
+
+/* Foco visible al navegar con teclado */
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+  border-radius: .25rem;
+}
+
+/* Enlace para saltar al contenido: solo aparece al usar Tab */
+.saltar {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 10;
+  padding: .75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--acento);
+  color: var(--fondo);
+  font-weight: 500;
+}
+.saltar:focus { top: 1rem; }
 
 /*2. Reset basico */
 * {box-sizing: border-box;}
@@ -27,6 +53,7 @@ body {
 
 h1, h2, h3,.logo {
   font-family: "Space Grotesk", sans-serif;
+  text-wrap: balance;
 }   
 
 img {
@@ -71,6 +98,13 @@ header nav ul{
     color: var(--texto-suave);
 }
 
+/* Zona de toque de 44px sin cambiar cómo se ve el texto */
+header nav a, footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+}
+
 header nav a:hover {
     color: var(--acento);
 }
@@ -96,7 +130,7 @@ main section h2 {
 /*hero*/
 #inicio {
  border-top: 0;
- padding: 4.5rem 0 6rem;
+ padding: 4.5rem 0 5rem;
  }
 
 #inicio h1 {
@@ -108,24 +142,30 @@ main section h2 {
 
 #inicio p { color: var(--texto-suave); max-width: 30rem; margin: 0 0 2rem; }
 
-/* Botones: añade class="btn" al enlace "Ver proyectos"
-   y class="btn btn-borde" al enlace "Descargar CV" */
+/* Botones: .btn es la acción principal (relleno);
+   .btn-borde es la secundaria (solo borde) */
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .btn {
   display: inline-block;
   min-height: 44px;
   padding: .85rem 1.75rem;
-  margin: 0 1rem 1rem 0;
   border-radius: 999px;
-  background: transparent;
-  color: var(--texto);
+  background: var(--acento);
+  color: var(--fondo);
   font-weight: 500;
-  border: 1.5px solid var(--borde-fuerte);
+  border: 1.5px solid var(--acento);
 }
 
 .btn:hover { 
     filter: brightness(1.08); 
-    border-color: var(--acento);
 }
+
+.btn:active, button:active { transform: translateY(1px); }
 
 .btn-borde {
   background: transparent;
@@ -138,9 +178,10 @@ main section h2 {
 }
 
  /* Sobre mí */
+/* Imagen a la izquierda y texto a la derecha; en móvil, texto primero */
 #sobre-mi { 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); 
+    grid-template-columns: 16rem 1fr; 
     gap: 3rem; 
     align-items: center; 
 }
@@ -150,9 +191,13 @@ main section h2 {
 }
 
 #sobre-mi img { 
+    grid-row: 1;
+    grid-column: 1;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
     border-radius: 1.5rem;
     border: 1px solid var(--borde); 
-    max-width: 20rem;
 }
 
 #sobre-mi p { 
@@ -181,10 +226,20 @@ main section h2 {
 }
 #proyectos h2 { 
   grid-column: 1 / -1; 
-  margin-bottom: .5rem; 
+  margin-bottom: -1rem; 
 }
 
+/* Aviso de que los proyectos son ficticios */
+.nota-proyectos {
+  grid-column: 1 / -1;
+  margin: 0;
+  max-width: 60ch;
+  color: var(--texto-suave);
+}
+
+/* Toda la tarjeta abre el sitio; "Ver código" queda encima como enlace aparte */
 #proyectos article {
+  position: relative;
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: 1.25rem;
@@ -193,10 +248,24 @@ main section h2 {
   transition: transform .2s, border-color .2s;
 }
 
-#proyectos article:hover { 
-    transform: translateY(-4px); 
+@media (hover: hover) {
+  #proyectos article:hover { 
+      transform: translateY(-4px); 
+      border-color: var(--acento);
+  }
+}
+
+#proyectos article:has(.enlace-tarjeta:focus-visible) {
     border-color: var(--acento);
 }
+
+#proyectos .enlace-tarjeta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+#proyectos .enlace-tarjeta:focus-visible { outline: none; }
 #proyectos article img { 
     width: 100%;
     height: 12.5rem; 
@@ -211,9 +280,18 @@ main section h2 {
     margin: 0 1.75rem 1.25rem; 
 }
 #proyectos article a { 
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     margin-left: 1.75rem; 
     font-weight: 500; 
 }
+
+#proyectos article a:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+#proyectos .enlace-tarjeta { position: static; }
 #proyectos article a:first-of-type { 
     color: var(--acento); 
 }
@@ -244,6 +322,12 @@ form div {
 
 label { 
     font-weight: 500; 
+}
+
+input:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px rgb(198 242 78 / .25);
 }
 
 input, textarea {
@@ -314,6 +398,23 @@ footer a:hover {
 
   main section h2 { 
     font-size: 2rem; }
+
+  /* Menú en una sola fila, repartido a lo ancho */
+  header nav { width: 100%; }
+  header nav ul {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: .5rem;
+    font-size: .95rem; }
+
+  #sobre-mi {
+    grid-template-columns: 1fr;
+    gap: 2rem; }
+
+  #sobre-mi img {
+    grid-row: auto;
+    grid-column: auto;
+    max-width: 11rem; }
 }
 
 /* Respeta a quien prefiere menos movimiento */
@@ -323,4 +424,83 @@ footer a:hover {
     
   #proyectos article {
      transition: none; }
+
+  #proyectos article:hover,
+  .btn:active, button:active { transform: none; }
 }
+/* Texto de apoyo junto al título de Contacto */
+#contacto h2 + p { color: var(--texto-suave); max-width: 32ch; margin: 1rem 0 0; }
+
+#contacto h2 + p a { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+
+/* Ayuda y estado del formulario */
+form small { color: var(--texto-suave); font-size: .9rem; }
+.estado-form { margin: 0; color: var(--texto-suave); }
+.estado-form:empty { display: none; }
+
+/* Servicios: la oferta a la izquierda, lo que incluye a la derecha */
+#servicios {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 3rem 4rem;
+  align-items: start;
+}
+.servicios-intro p { color: var(--texto-suave); max-width: 34ch; margin: 0 0 1rem; }
+.servicios-intro .btn { margin-top: .75rem; }
+.servicios-listas h3 { font-size: 1.25rem; margin: 0 0 1rem; }
+.servicios-listas h3 + ul { margin-bottom: 2.5rem; }
+.servicios-listas ul:last-child { margin-bottom: 0; }
+.lista-servicios li {
+  position: relative;
+  padding: 0 0 1rem 1.5rem;
+  color: var(--texto-suave);
+}
+.lista-servicios li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .6em;
+  width: .6rem;
+  height: 2px;
+  background: var(--acento);
+}
+.lista-servicios strong { display: block; color: var(--texto); font-weight: 500; }
+
+/* Botón de WhatsApp en Contacto */
+#contacto h2 + p + .btn { margin-top: 1.5rem; }
+
+@media (max-width: 40rem) {
+  #servicios { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+/* WhatsApp es la acción principal en Contacto; el formulario queda como alternativa */
+form button {
+  background: transparent;
+  color: var(--texto);
+  border: 1.5px solid var(--borde-fuerte);
+}
+form button:hover { filter: none; border-color: var(--acento); }
+
+.whatsapp-flotante {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #25d366;
+  color: #fff;
+  font-size: 1.9rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  z-index: 1000;
+  transition: transform .2s;
+  text-decoration: none;
+}
+
+.whatsapp-flotante:hover {
+  transform: scale(1.08);
+}
+

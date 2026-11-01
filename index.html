@@ -6,46 +6,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--SEO basico: titulos unico y descripcion de 150 caracteres-->
     <title>Esteban Muñoz | Desarrollador Web Frontend</title>
-    <meta name="description" content="Portafolio web de Esteban Muñoz, desarrollador web frontend. Proyectos, habilidades y datos de contacto.">
+    <meta name="description" content="Portafolio de Esteban Muñoz, desarrollador web frontend. Sitios web hechos a mano con HTML, CSS y JavaScript para negocios locales.">
     <meta name="author" content="Esteban Muñoz">
     <!--Open graph: vista previa al compartir en redes sociales-->
     <meta property="og:title" content="Esteban Muñoz | Desarrollador Web Frontend">
-    <meta property="og:description" content="mira mis proyectos y ponte en contacto conmigo.">
+    <meta property="og:description" content="Mira mis proyectos y escríbeme.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="ruta/a/imagen.jpg">
-    <link rel ="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/estilos.css"> 
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#0E1220">
+    <link rel="stylesheet" href="css/estilos.css?v=6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
     <!--Encabezado + Navegacion-->
     <header>
-        <a href="#inicio" class="logo">Esteban DEV </a>
+        <a href="#inicio" class="logo">Esteban DEV</a>
         <nav aria-label="Navegación principal">
             <ul>
-                <li><a href="#sobre-mi">sobre mi</a></li>
-                <li><a href="#habilidades">habilidades</a></li>
-                <li><a href="#proyectos">proyectos</a></li>
-                <li><a href="#contacto">contacto</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
             </ul>
         </nav>
     </header>
     <!--Contenido principal: Solo un Main por pagina-->
     <main id="contenido">
         <section id="inicio" aria-labelledby="titulo-inicio">
-            <h1 id="titulo-inicio">Hola, soy Esteban Muñoz</h1>
-            <p>Desarrollador web frontend. Explora mis proyectos y habilidades.</p>
-            <a href="#proyectos" class="btn" >Ver proyectos</a>
-            <a href ="doc.pdf" class="btn btn-borde">Descargar CV</a>
+            <h1 id="titulo-inicio">Hago páginas web a mano para negocios locales</h1>
+            <p>Soy Esteban Muñoz, desarrollador web frontend. Escribo cada sitio con HTML, CSS y JavaScript, sin frameworks.</p>
+            <div class="acciones">
+                <a href="#proyectos" class="btn">Ver proyectos</a>
+                <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
+            </div>
+            <!--CV oculto hasta tener el PDF: <a href="cv-esteban-munoz.pdf" class="btn btn-borde" download>Descargar CV</a>-->
+        </section>
+        <!--Proyectos: cada proyecto es un artículo independiente--> 
+        <section id="proyectos" aria-labelledby="titulo-proyectos">
+            <h2 id="titulo-proyectos">Proyectos</h2>
+            <p class="nota-proyectos">Estos negocios son ficticios: creé sus páginas para practicar, con el mismo cuidado que le pondría a un sitio real.</p>
+            <article>
+                <img src="img/v1.png" alt="Portada del sitio Hospedaje Rey de los Vientos" width="400" height="300">
+                <h3>Hospedaje Rey de los Vientos</h3>
+                <p>Página para un hospedaje familiar ficticio en Yotoco: tarifas por habitación, lugares cercanos y reserva directa por WhatsApp.</p>
+                <a href="proyectos/Hotel-Rey-de-los-Vientos/index.html" class="enlace-tarjeta" aria-label="Ver el sitio de Hospedaje Rey de los Vientos">Ver sitio</a>
+                <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Hotel-Rey-de-los-Vientos" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Hospedaje Rey de los Vientos en GitHub">Ver código</a>
+            </article>
+
+            <article>
+                <img src="img/v2.png" alt="Portada del sitio Cuchilla Urbana" width="400" height="300">
+                <h3>Cuchilla Urbana</h3>
+                <p>Página para una barbería ficticia en Yotoco: servicios con reserva por WhatsApp, galería de cortes y productos.</p>
+                <a href="proyectos/Cuchilla-urbana/index.html" class="enlace-tarjeta" aria-label="Ver el sitio de Cuchilla Urbana">Ver sitio</a>
+                <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Cuchilla-urbana" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Cuchilla Urbana en GitHub">Ver código</a>
+            </article>
+        </section>
+        <!--Servicios: qué ofrezco a los negocios-->
+        <section id="servicios" aria-labelledby="titulo-servicios">
+            <div class="servicios-intro">
+                <h2 id="titulo-servicios">Servicios</h2>
+                <p>Hago la página web de tu negocio, lista para que tus clientes te encuentren y te escriban.</p>
+                <p>Cada negocio es distinto: cuéntame qué necesitas y te doy el precio sin compromiso.</p>
+                <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Pide tu cotización gratis por WhatsApp</a>
+            </div>
+            <div class="servicios-listas">
+                <h3>Toda página incluye</h3>
+                <ul class="lista-servicios">
+                    <li><strong>Botón de WhatsApp</strong> Tus clientes te escriben o reservan con un toque.</li>
+                    <li><strong>Se ve bien en celular</strong> Adaptada a celular, tablet y computador.</li>
+                    <li><strong>Ubicación y horarios</strong> Mapa de Google, dirección y horarios a la vista.</li>
+                    <li><strong>Galería de fotos</strong> Tus productos, tus servicios o tu local.</li>
+                </ul>
+                <h3>También puedo encargarme de</h3>
+                <ul class="lista-servicios">
+                    <li><strong>Dominio y publicación</strong> Dejo tu página en internet con su propia dirección.</li>
+                    <li><strong>Aparecer en Google</strong> Preparo los datos para que Google muestre tu negocio en búsquedas locales.</li>
+                    <li><strong>Plan de mantenimiento</strong> Actualizo textos, precios y fotos cuando lo necesites.</li>
+                </ul>
+            </div>
         </section>
         <!--Sobre mi-->
         <section id="sobre-mi" aria-labelledby="titulo-sobre-mi">
-            <h2 id="titulo-sobre-mi">Sobre mí</h2>
-            <img src="img/fotoperfil.jpg" alt="Foto de Esteban Muñoz" width="300" height="300" loading="lazy">
-            <p>Soy un apasionado del desarrollo web con experiencia en HTML, CSS y JavaScript. Me encanta crear interfaces atractivas y funcionales.</p>
+            <div>
+                <h2 id="titulo-sobre-mi">Sobre mí</h2>
+                <p>Construyo sitios web completos, desde la estructura hasta el último detalle visual. Sigo aprendiendo, y cada proyecto nuevo me sale mejor que el anterior.</p>
+            </div>
+            <img src="img/fotoperfil.jpg" alt="Ilustración de Luffy, de One Piece, descansando en el suelo con su sombrero de paja" width="300" height="533" loading="lazy">
         </section>
         <!--Habilidades-->
         <section id="habilidades" aria-labelledby="titulo-habilidades">
@@ -57,57 +107,55 @@
                 <li>Git y GitHub</li>
             </ul>
         </section>
-        <!--Proyectos: cada proyecto es un artículo independiente--> 
-        <section id="proyectos" aria-labelledby="titulo-proyectos">
-            <h2 id="titulo-proyectos">Proyecto</h2>
-            <article>
-                <img src="img/visualizacion-proyecto2.png" alt="Captura del proyecto 2" width="400" height="300" loading="lazy">
-                <h3>Hotel Rey de los Vientos</h3>
-                <p>Pagina web #1</p>
-                <a href="proyectos/Hotel-Rey-de-los-Vientos/index.html">Ver demo</a>
-                <a href="github.com/usuario/proyecto2">Ver codigo</a>
-            </article>
-
-            <article>
-                <img src="img/vizualizacion-proyecto3.png" alt="Captura del proyecto 2" width="400" height="300" loading="lazy">
-                <h3>Cuchilla Urbana</h3>
-                <p>Pagina web #2</p>
-                <a href="proyectos/Cuchilla-urbana/index.html">Ver demo</a>
-                <a href="github.com/usuario/proyecto2">Ver codigo</a>
-            </article>
-        </section>
         <!--Contacto: cada campo con su label asociado-->
         <section id="contacto" aria-labelledby="titulo-contacto">
-            <h2 id="titulo-contacto">Contacto</h2>
-            <form action="enviar.php" method="post">
+            <div>
+                <h2 id="titulo-contacto">Contacto</h2>
+                <p>¿Tienes un negocio que necesita página web, o una vacante para tu equipo? Escríbeme por WhatsApp, por correo a <a href="mailto:estebanmunozssj@gmail.com">estebanmunozssj@gmail.com</a> o con este formulario.</p>
+                <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
+            </div>
+            <form id="form-contacto" action="mailto:estebanmunozssj@gmail.com" method="post" enctype="text/plain">
                 <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" autocomplete="name" maxlength="80" required>
                 </div>
                 <div>
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" autocomplete="email" maxlength="120" required>
                 </div>
                 <div>
-                <label for="mensaje">Mensaje:</label>
-                <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="5" maxlength="1500" aria-describedby="ayuda-mensaje" required></textarea>
+                <small id="ayuda-mensaje">Al enviarlo se abre tu app de correo con el mensaje listo.</small>
                 </div>
-                <button type="submit">Enviar</button>
+                <button type="submit">Enviar mensaje</button>
+                <p id="estado-form" class="estado-form" role="status" aria-live="polite"></p>
             </form>
         </section>
     </main>
     <!--Pie de pagina-->
     <footer>
-        <p>&copy; 2026 Esteban Muñoz. Todos los derechos reservados.</p>
+        <p>&copy; 2026 Esteban Muñoz</p>
         <nav aria-label="Redes sociales">
             <ul>
-                <li><a href="https://github.com/usuario" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://linkedin.com/in/usuario" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://github.com/estebanmunozssj" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <!--LinkedIn oculto hasta tener el enlace: <li><a href="https://www.linkedin.com/in/TU-USUARIO" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>-->
+                <li><a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
                 <li><a href="mailto:estebanmunozssj@gmail.com">Correo</a></li>
             </ul>
         </nav>
     </footer>
+
+    <a href="https://wa.me/573147772991?text=Hola%2C%20quiero%20consultar%20disponibilidad"
+       class="whatsapp-flotante" target="_blank" rel="noopener noreferrer"
+       aria-label="Escribir por WhatsApp">
+        <svg viewBox="0 0 448 512" width="30" height="30" fill="#fff" aria-hidden="true">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+        </svg>
+    </a>
     <!--El script va al final y con defer para no bloquear la carga de la página-->
-    <script src="script.js" defer></script> 
+        <script src="js/script.js" defer></script>
+
+    
 </body>
 </html>
