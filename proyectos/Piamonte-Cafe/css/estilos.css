@@ -359,6 +359,7 @@ h2 {
     gap: 0.5rem;
     overflow-x: auto;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--margen);
     scrollbar-width: none; /* Oculta la barra en Firefox */
     margin: 1.5rem calc(var(--margen) * -1) 1.25rem; /* Llega hasta el borde de la pantalla */
     padding: 0.25rem var(--margen);
