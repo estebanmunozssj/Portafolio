@@ -194,14 +194,22 @@ main section h2 {
     margin-bottom: 1rem;
 }
 
-#sobre-mi img { 
+/* Logo <M>: el mismo de Instagram */
+#sobre-mi .marca-m { 
     grid-row: 1;
     grid-column: 1;
     width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: 1.5rem;
-    border: 1px solid var(--borde); 
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: var(--acento);
+    color: var(--fondo);
+    border-radius: 1.75rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 4.5rem;
+    line-height: 1;
+    letter-spacing: -.04em;
 }
 
 #sobre-mi p { 
@@ -423,10 +431,13 @@ footer ul {
     grid-template-columns: 1fr;
     gap: 2rem; }
 
-  #sobre-mi img {
+  #sobre-mi .marca-m {
     grid-row: auto;
     grid-column: auto;
-    max-width: 11rem; }
+    order: -1;
+    max-width: 9rem;
+    font-size: 2.75rem;
+    border-radius: 1.25rem; }
 }
 
 /* Texto de apoyo junto al título de Contacto */
