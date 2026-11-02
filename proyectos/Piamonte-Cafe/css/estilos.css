@@ -1,0 +1,571 @@
+/* =========================================
+   PIAMONTE CAFÉ - Estilos
+   Pensado primero para celular. Al final, @media ajusta para pantallas grandes
+   ========================================= */
+
+/* ===== COLORES Y LETRAS (cámbialos aquí y cambia toda la página) ===== */
+:root {
+    --cafe: #3b2418;         /* Café oscuro: portada, textos y botones */
+    --cafe-suave: #74533f;   /* Textos secundarios */
+    --crema: #f6efe4;        /* Fondo principal */
+    --crema-oscura: #ece0cd; /* Tarjetas y fondos suaves */
+    --verde: #3f5a33;        /* Verde montaña: sección Visítanos */
+    --caramelo: #c08a4e;     /* Acentos */
+    --caramelo-claro: #e6bd85;
+    --caramelo-oscuro: #8a5a2b; /* Caramelo para texto sobre fondo crema (se lee bien) */
+    --dorado-suave: #f0d3a6;   /* Para textos pequeños sobre el verde */
+
+    --letra-titulo: 'Fraunces', Georgia, serif;
+    --letra-texto: 'Nunito Sans', system-ui, sans-serif;
+    --letra-logo: 'Parisienne', cursive; /* Como la del logo. Solo para el nombre */
+
+    --margen: 1.25rem;  /* Espacio a los lados en celular */
+    --ancho: 40rem;     /* Ancho máximo del contenido (640px) */
+    --alto-encabezado: 4rem;
+
+    /* Curvas de movimiento (las de CSS como 'ease' son muy flojas) */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);     /* Arranca rápido y frena suave: para lo que entra */
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* Para lo que se mueve dentro de la pantalla */
+}
+
+/* ===== BASE ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--alto-encabezado); /* Al saltar a una sección, no queda tapada por el encabezado */
+}
+
+body {
+    margin: 0;
+    font-family: var(--letra-texto);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--cafe);
+    background: var(--crema);
+    -webkit-tap-highlight-color: transparent; /* Quita el recuadro gris al tocar en celular */
+}
+
+h1, h2, h3 { margin: 0; }
+p { margin: 0 0 1rem; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+
+.saltar-link {
+    position: absolute;
+    left: -999px;
+    background: var(--cafe);
+    color: var(--crema);
+    padding: 0.5rem 1rem;
+    z-index: 100;
+}
+.saltar-link:focus { left: 1rem; top: 1rem; }
+
+/* Contorno visible solo al navegar con teclado. Oscuro sobre fondo claro, claro sobre fondo oscuro */
+:focus-visible {
+    outline: 3px solid var(--cafe);
+    outline-offset: 3px;
+}
+.portada :focus-visible,
+.encabezado:not(.solido) :focus-visible,
+.visitanos :focus-visible { outline-color: var(--caramelo-claro); }
+
+/* Color al seleccionar texto con el dedo o el mouse */
+::selection { background: var(--caramelo-claro); color: var(--cafe); }
+
+/* Barra de desplazamiento con los colores de la página (computador) */
+html { scrollbar-color: var(--cafe-suave) var(--crema); }
+
+/* ===== PIEZAS QUE SE REPITEN ===== */
+.seccion {
+    width: min(100% - var(--margen) * 2, var(--ancho));
+    margin-inline: auto;
+    padding: 4rem 0;
+}
+
+h2 {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-wrap: balance; /* Reparte las palabras entre líneas para que no quede una sola abajo */
+    margin-bottom: 1rem;
+}
+
+.boton {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    background: var(--cafe);
+    color: var(--crema);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 160ms var(--ease-out), background-color 200ms ease;
+}
+.boton:active { transform: scale(0.97); } /* Se "hunde" un poco al tocarlo: el usuario siente que la página respondió */
+
+/* Efectos al pasar el mouse: solo en computador (en celular se quedarían "pegados" después de tocar) */
+@media (hover: hover) and (pointer: fine) { /* Solo con mouse, no con el dedo */
+    .boton:hover { background: var(--verde); }
+    .categorias button:hover { background: var(--crema-oscura); }
+    .categorias button[aria-pressed="true"]:hover { background: var(--cafe); }
+    .producto:hover { border-color: var(--cafe-suave); }
+    .nav-enlaces a:hover { border-bottom-color: currentColor; }
+    .datos a:hover { color: var(--dorado-suave); }
+}
+
+/* Recuadro mientras llegan las fotos reales. Bórralo cuando pongas las fotos */
+.foto-pendiente {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    margin-top: 2rem;
+    border-radius: 1.25rem;
+    border: 2px dashed var(--cafe-suave);
+    color: var(--cafe-suave);
+    background: var(--crema-oscura);
+    text-align: center;
+    padding: 1rem;
+}
+
+/* ===== ENCABEZADO FIJO ===== */
+.encabezado {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    height: var(--alto-encabezado);
+    padding: 0 var(--margen);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--crema);
+    background: var(--cafe);
+    transition: background-color 250ms ease, color 250ms ease;
+}
+.encabezado.solido { /* Al bajar de la portada */
+    background: var(--crema);
+    color: var(--cafe);
+    border-bottom: 1px solid var(--crema-oscura);
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    text-decoration: none;
+}
+.logo-nombre { font-family: var(--letra-logo); font-weight: 400; font-synthesis: none; font-size: 1.75rem; line-height: 1; }
+.logo-cafe { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; }
+
+.nav-enlaces {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.25rem;
+}
+.nav-enlaces a {
+    display: flex;
+    align-items: center;
+    min-height: 44px; /* Tamaño mínimo cómodo para el dedo */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-bottom: 2px solid transparent;
+}
+.nav-enlaces a.activo { border-bottom-color: currentColor; }
+
+/* ===== PORTADA ===== */
+.portada {
+    min-height: 100svh; /* svh: alto real de la pantalla del celular */
+    padding: calc(var(--alto-encabezado) + 2rem) var(--margen) 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--cafe);
+    color: var(--crema);
+}
+.portada-lugar { /* "Café 100% colombiano · Yotoco, Valle" debajo de la frase */
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    color: var(--caramelo-claro);
+    margin: 0;
+}
+.portada-centro { /* Agrupa logo, frase y lugar para moverlos juntos al hacer scroll */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.portada-logo {
+    width: min(80vw, 22rem); /* Casi todo el ancho en celular, sin pasar de 352px */
+    margin: 1.25rem 0 1.5rem;
+}
+.portada-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* Texto oculto a la vista pero que leen Google y los lectores de pantalla */
+.solo-lectores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Piezas del logo (su aspecto final) */
+.logo-circulo { fill: none; stroke: var(--caramelo-claro); stroke-width: 2; }
+.grano ellipse { fill: var(--caramelo); }
+.grano path { fill: none; stroke: var(--cafe); stroke-width: 2.5; stroke-linecap: round; }
+/* Parisienne solo existe en grosor normal (400). Si le pedimos negrita, el navegador la "inventa"
+   dibujando la letra dos veces un poco corrida: se ve doble. Por eso: peso 400 y sin negrita falsa */
+.logo-nombre-svg { font-family: var(--letra-logo); font-weight: 400; font-synthesis: none; font-size: 66px; fill: var(--crema); }
+.logo-cafe-svg { font-family: var(--letra-texto); font-size: 15px; font-weight: 700; letter-spacing: 0.5em; fill: var(--crema); }
+
+/* ===== ANIMACIÓN DE ENTRADA DEL LOGO =====
+   Orden: círculo → granos → se escribe "Piamonte" → "CAFÉ" → frase → botón
+   js/main.js le pone la clase "lista" a la portada cuando cargan las letras, y ahí arranca todo */
+
+/* Mientras cargan las letras, escondemos la portada para que no "salte" */
+.js .portada:not(.lista) .portada-logo,
+.js .portada:not(.lista) .portada-lugar,
+.js .portada:not(.lista) .portada-frase,
+.js .portada:not(.lista) .portada-boton { opacity: 0; }
+
+.lista .logo-circulo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: trazar-circulo 1.1s var(--ease-in-out) both;
+}
+
+.lista .grano {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: caer-grano 600ms var(--ease-out) both; /* Cae rápido y frena suave al final */
+}
+.lista .grano-1 { animation-delay: 0.55s; }
+.lista .grano-2 { animation-delay: 0.65s; } /* 100 ms después del primero */
+
+.lista .logo-pluma { /* El rectángulo se estira y va descubriendo el nombre */
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: escribir 1.2s var(--ease-in-out) 0.8s both;
+}
+
+.lista .logo-cafe-svg { animation: aparecer 500ms var(--ease-out) 1.8s both; }
+.lista .portada-frase { animation: aparecer 500ms var(--ease-out) 2.0s both; }
+.lista .portada-lugar { animation: aparecer 500ms var(--ease-out) 2.08s both; }
+.lista .portada-boton { animation: aparecer 500ms var(--ease-out) 2.16s both; }
+
+@keyframes trazar-circulo {
+    from { stroke-dasharray: 868; stroke-dashoffset: 868; transform: rotate(-90deg); } /* 868 = largo del círculo (2 × π × 138) */
+    to { stroke-dasharray: 868; stroke-dashoffset: 0; transform: rotate(-90deg); }
+}
+
+@keyframes caer-grano {
+    from { opacity: 0; transform: translateY(-24px) scale(0.6); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes escribir {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+@keyframes desvanecer {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(8px); filter: blur(3px); } /* Un poco de desenfoque hace la entrada más suave */
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* El logo pequeño del encabezado solo aparece cuando ya bajaste de la portada */
+.encabezado .logo { opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 200ms; }
+.encabezado.solido .logo { opacity: 1; visibility: visible; }
+.portada-frase {
+    font-family: var(--letra-titulo);
+    font-size: 1.25rem;
+    max-width: 22ch;
+    margin-bottom: 0.6rem;
+    text-wrap: balance; /* Reparte las palabras para que no quede una sola en la última línea */
+}
+.portada-boton {
+    margin-top: auto; /* Lo empuja al fondo de la pantalla */
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.portada-boton svg { animation: rebote 1.6s var(--ease-in-out) 2.8s 3; } /* Rebota 3 veces después de que aparece, y se queda quieta */
+
+@keyframes rebote {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+/* ===== HISTORIA ===== */
+.pasos {
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.pasos span {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 auto 0.4rem;
+    border-radius: 50%;
+    border: 2px solid var(--caramelo);
+    color: var(--caramelo-oscuro); /* Más oscuro para que el número se lea bien */
+    font-family: var(--letra-titulo);
+}
+
+/* ===== MENÚ ===== */
+.menu-ayuda { color: var(--cafe-suave); }
+
+/* Botones de categorías: fila que se desliza hacia los lados */
+.categorias {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none; /* Oculta la barra en Firefox */
+    margin: 1.5rem calc(var(--margen) * -1) 1.25rem; /* Llega hasta el borde de la pantalla */
+    padding: 0.25rem var(--margen);
+}
+.categorias::-webkit-scrollbar { display: none; } /* Oculta la barra en Chrome y Safari */
+.categorias button {
+    flex: none;
+    scroll-snap-align: start;
+    min-height: 44px; /* Tamaño mínimo cómodo para el dedo */
+    padding: 0 1.2rem;
+    border-radius: 999px;
+    border: 2px solid var(--cafe);
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+}
+.categorias button:active { transform: scale(0.96); }
+.categorias button[aria-pressed="true"] {
+    background: var(--cafe);
+    color: var(--crema);
+}
+
+/* Tarjeta grande con el dibujo. Se queda pegada arriba mientras bajas por la lista */
+.destacado {
+    position: sticky;
+    top: calc(var(--alto-encabezado) + 0.5rem);
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    background: var(--crema-oscura);
+    box-shadow: 0 10px 24px -14px rgba(59, 36, 24, 0.45);
+}
+.destacado h3 {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+.destacado-precio { margin: 0.3rem 0 0.4rem; font-size: 0.95rem; }
+.destacado-capas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.75rem;
+    font-size: 0.8rem;
+    color: var(--cafe-suave);
+}
+.destacado-capas li { display: flex; align-items: center; gap: 0.35rem; }
+.destacado-capas span {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border: 1px solid var(--cafe);
+}
+
+/* Lista de productos en 2 columnas */
+.productos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+.producto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-height: 4.25rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.9rem;
+    border: 1.5px solid var(--crema-oscura);
+    background: #fffaf3;
+    text-align: left;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 200ms ease, transform 160ms var(--ease-out);
+}
+.producto strong { color: var(--verde); font-size: 0.9rem; font-variant-numeric: tabular-nums; } /* Números del mismo ancho: los precios quedan alineados */
+.producto:active { transform: scale(0.97); }
+.producto[aria-pressed="true"] { border-color: var(--cafe); }
+
+/* ===== DIBUJOS (taza, vaso, platos) ===== */
+.dibujo { width: 100%; height: auto; display: block; overflow: visible; }
+.dibujo .ceramica { fill: none; stroke: var(--cafe); stroke-width: 4; }
+.dibujo .borde { stroke: var(--cafe); stroke-width: 5; stroke-linecap: round; }
+.dibujo .oreja { fill: none; stroke: var(--cafe); stroke-width: 8; stroke-linecap: round; }
+.dibujo .plato { fill: #fffaf3; stroke: var(--cafe); stroke-width: 3; }
+.dibujo .cristal { fill: rgba(255, 255, 255, 0.25); stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; }
+.dibujo .hielo { fill: rgba(255, 255, 255, 0.55); stroke: rgba(255, 255, 255, 0.9); stroke-width: 1.5; }
+.dibujo .pitillo { stroke: var(--verde); stroke-width: 6; stroke-linecap: round; }
+.dibujo .contorno { stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; fill-opacity: 1; }
+.dibujo path.contorno:not([fill]) { fill: none; }
+
+/* Vapor que sube de la taza */
+.dibujo .vapor path {
+    fill: none;
+    stroke: var(--caramelo);
+    stroke-width: 3;
+    stroke-linecap: round;
+    animation: vapor 2.4s ease-in-out infinite;
+}
+.dibujo .vapor path:nth-child(2) { animation-delay: 0.4s; }
+.dibujo .vapor path:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes vapor {
+    0% { opacity: 0; transform: translateY(6px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* La bebida se "llena" desde abajo cada vez que eliges una */
+.dibujo .liquido {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: llenar 450ms var(--ease-out); /* Corto: la persona puede tocar muchas bebidas seguidas */
+}
+
+@keyframes llenar {
+    from { transform: scaleY(0.05); } /* Casi vacía, no desde la nada */
+    to { transform: scaleY(1); }
+}
+
+/* ===== EXPERIENCIAS ===== */
+.lista-experiencias {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+}
+.lista-experiencias li {
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--crema-oscura);
+}
+.lista-experiencias h3 {
+    font-family: var(--letra-titulo);
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+}
+.lista-experiencias p { margin: 0; color: var(--cafe-suave); }
+
+/* ===== VISÍTANOS + PIE ===== */
+.visitanos {
+    background: var(--verde);
+    color: var(--crema);
+}
+.visitanos-contenido {
+    width: min(100% - var(--margen) * 2, var(--ancho));
+    margin-inline: auto;
+    padding: 4rem 0 3rem;
+}
+
+.datos { margin: 2rem 0 0; }
+.datos div + div { margin-top: 1.75rem; }
+.datos dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dorado-suave);
+    margin-bottom: 0.35rem;
+}
+.datos dd { margin: 0 0 0.3rem; font-size: 1.1rem; }
+.datos .dato-suave { opacity: 0.75; }
+.datos a {
+    display: inline-block;
+    padding: 0.2rem 0;
+    font-weight: 700;
+    text-underline-offset: 4px;
+}
+
+.pie {
+    width: min(100% - var(--margen) * 2, var(--ancho));
+    margin-inline: auto;
+    padding: 1.5rem 0 calc(1.5rem + env(safe-area-inset-bottom)); /* Respeta la barra del iPhone */
+    border-top: 1px solid rgba(246, 239, 228, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    font-size: 0.85rem;
+}
+.pie p { margin: 0; opacity: 0.8; }
+
+/* ===== PANTALLAS GRANDES (tablet y computador) ===== */
+@media (min-width: 769px) {
+    :root { --margen: 2.5rem; }
+    .seccion { padding: 6rem 0; }
+    .destacado { grid-template-columns: 10rem 1fr; padding: 1.5rem; }
+    .productos { grid-template-columns: repeat(3, 1fr); }
+    .nav-enlaces { gap: 2rem; }
+}
+
+/* Si la persona pidió menos movimiento en su sistema, quitamos animaciones */
+/* Menos movimiento NO es cero: quitamos lo que se desplaza o crece, pero dejamos fundidos suaves que ayudan a entender */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; } /* Las transiciones cortas de color y opacidad se quedan */
+    .lista .portada-logo,
+    .lista .portada-frase,
+    .lista .portada-lugar,
+    .lista .portada-boton { animation: desvanecer 400ms ease both !important; }
+    .dibujo { animation: desvanecer 200ms ease !important; }
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Piamonte Café | Café de finca en Yotoco, Valle del Cauca</title> <!-- Título de la pestaña y de Google -->
+    <meta name="description" content="Cafetería de una familia caficultora en Yotoco. Café 100% colombiano arábigo de nuestra finca en Dopo, postres, bebidas y experiencias alrededor del café.">
+    <meta name="theme-color" content="#3b2418"> <!-- Color de la barra del navegador en celular -->
+
+    <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Piamonte Café">
+    <meta property="og:title" content="Piamonte Café | De la finca, directo a tu mesa">
+    <meta property="og:description" content="Café de nuestra finca en Dopo, Yotoco. Mira el menú y ven a vivir la experiencia.">
+    <meta property="og:locale" content="es_CO">
+    <!-- TODO: cuando tengas el dominio, agrega og:url y og:image (imagen de 1200x630) -->
+
+    <!-- Iconito de la pestaña: un grano de café, sin necesitar un archivo aparte -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233b2418'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' transform='rotate(30 16 16)' fill='%23f5ede1'/%3E%3Cpath d='M12.5 8.5c5 4 1 11 7 15' stroke='%233b2418' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Parisienne&display=swap">
+    <link rel="stylesheet" href="css/estilos.css">
+    <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
+    <script>document.documentElement.classList.add('js');</script>
+
+    <!-- Datos para Google (negocio local). CONFIRMAR teléfono y horario con el dueño -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CafeOrCoffeeShop",
+        "name": "Piamonte Café",
+        "description": "Cafetería de una familia caficultora. Café 100% colombiano arábigo de nuestra finca en Dopo, Yotoco.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Calle 6 # 3-116",
+            "addressLocality": "Yotoco",
+            "addressRegion": "Valle del Cauca",
+            "addressCountry": "CO"
+        },
+        "sameAs": ["https://www.instagram.com/piamonte.cafe/"]
+    }
+    </script>
+</head>
+
+<body>
+    <a class="saltar-link" href="#contenido">Saltar al contenido</a>
+
+    <!-- ===== ENCABEZADO FIJO =====
+         Arriba de todo es oscuro (sobre la portada) y al bajar se vuelve crema (lo hace js/main.js) -->
+    <header class="encabezado" id="encabezado">
+        <a href="#inicio" class="logo" aria-label="Piamonte Café, ir al inicio">
+            <!-- TODO: cambiar por el logo real cuando lo mande tu amigo -->
+            <span class="logo-nombre">Piamonte</span>
+            <span class="logo-cafe">café</span>
+        </a>
+        <nav aria-label="Principal">
+            <ul class="nav-enlaces">
+                <li><a href="#menu" data-seccion="menu">Menú</a></li>
+                <li><a href="#visitanos" data-seccion="visitanos">Visítanos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ===== PORTADA ===== -->
+    <section class="portada" id="inicio" aria-label="Portada">
+        <!-- Bloque central: logo + frase. Al hacer scroll se mueve como una sola pieza (efecto parallax en js/scroll.js) -->
+        <div class="portada-centro">
+        <!-- Logo animado: se arma por partes (círculo, granos, nombre, "café"). Los tiempos están en css/estilos.css
+             TODO: cuando llegue el logo real, ajustar formas y colores -->
+        <h1 class="portada-logo">
+            <span class="solo-lectores">Piamonte café</span> <!-- Lo leen Google y los lectores de pantalla -->
+            <svg viewBox="0 0 300 300" aria-hidden="true">
+                <defs>
+                    <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
+                    <clipPath id="escribir"><rect class="logo-pluma" x="0" y="0" width="300" height="300"/></clipPath>
+                </defs>
+                <circle class="logo-circulo" cx="150" cy="150" r="138"/>
+                <g class="logo-granos">
+                    <!-- El <g> de afuera se anima; el de adentro guarda la posición e inclinación de cada grano -->
+                    <g class="grano grano-1"><g transform="translate(138 82) rotate(-25)">
+                        <ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/>
+                    </g></g>
+                    <g class="grano grano-2"><g transform="translate(163 76) rotate(20)">
+                        <ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/>
+                    </g></g>
+                </g>
+                <g clip-path="url(#escribir)">
+                    <text class="logo-nombre-svg" x="150" y="172" text-anchor="middle">Piamonte</text>
+                </g>
+                <text class="logo-cafe-svg" x="150" y="212" text-anchor="middle">CAFÉ</text>
+            </svg>
+        </h1>
+        <p class="portada-frase">De la finca, directo a tu mesa.</p>
+        <p class="portada-lugar">Café 100% colombiano · Yotoco, Valle</p>
+        </div>
+        <a href="#menu" class="portada-boton">
+            Ver menú
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+    </section>
+
+    <main id="contenido">
+
+        <!-- ===== HISTORIA (corta) ===== -->
+        <section class="seccion historia" id="historia">
+            <h2>Una familia caficultora.</h2>
+            <p>Nuestro café viene de nuestra finca <strong>Piamonte, en Dopo (Yotoco)</strong>. Lo sembramos, lo cosechamos y te lo servimos con nuestras propias manos.</p>
+
+            <ol class="pasos">
+                <li><span>1</span>Siembra</li>
+                <li><span>2</span>Cosecha</li>
+                <li><span>3</span>Tostión</li> <!-- CONFIRMAR: ¿ellos mismos tuestan el café? -->
+                <li><span>4</span>Tu taza</li>
+            </ol>
+
+            <!-- TODO: foto de la familia o de la finca (img/finca.webp) -->
+            <div class="foto-pendiente" role="img" aria-label="Foto de la finca Piamonte">Foto: la familia en la finca</div>
+        </section>
+
+        <!-- ===== MENÚ =====
+             Los productos y precios están en js/main.js (lista MENU). Ahí los cambias -->
+        <section class="seccion menu" id="menu">
+            <h2>¿Qué vas a pedir?</h2>
+            <p class="menu-ayuda">Toca una bebida para ver cómo se arma.</p>
+
+            <!-- Botones de categorías: se deslizan con el dedo hacia los lados -->
+            <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
+
+            <!-- Tarjeta grande con el dibujo de la bebida elegida -->
+            <div class="destacado" id="destacado" aria-live="polite">
+                <div class="destacado-dibujo" id="destacado-dibujo"></div>
+                <div class="destacado-texto">
+                    <h3 id="destacado-nombre">Capuchino</h3>
+                    <p class="destacado-precio" id="destacado-precio"></p>
+                    <ul class="destacado-capas" id="destacado-capas"></ul>
+                </div>
+            </div>
+
+            <!-- Lista de productos de la categoría elegida -->
+            <div class="productos" id="productos"></div>
+
+            <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
+        </section>
+
+        <!-- ===== EXPERIENCIAS ===== -->
+        <section class="seccion experiencias" id="experiencias">
+            <h2>El café no solo se toma, se vive.</h2>
+
+            <ul class="lista-experiencias">
+                <li>
+                    <h3>Coffee Party</h3>
+                    <p>Catas, música y bebidas a base de café. Una tarde para tus sentidos.</p>
+                </li>
+                <li>
+                    <h3>Reuniones</h3>
+                    <p>En la mañana o fuera de servicio, te recibimos para reuniones de empresa o de estudio.</p>
+                </li>
+                <li>
+                    <h3>Aprende de café</h3>
+                    <p>Te contamos cómo se cultiva, se procesa y se prepara.</p>
+                </li>
+                <li>
+                    <h3>Café para llevar</h3>
+                    <p>El café de nuestra finca para tu casa, y bonos de regalo para cualquier ocasión.</p> <!-- CONFIRMAR presentaciones y precios -->
+                </li>
+            </ul>
+            <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero información sobre sus experiencias" target="_blank" rel="noopener">Pregunta por WhatsApp</a>
+        </section>
+
+        <!-- ===== VISÍTANOS ===== -->
+        <section class="visitanos" id="visitanos">
+            <div class="visitanos-contenido">
+                <h2>Te esperamos en Yotoco.</h2>
+
+                <dl class="datos">
+                    <div>
+                        <dt>Dónde</dt>
+                        <dd>Calle 6 # 3-116, Yotoco</dd>
+                        <dd class="dato-suave">Cerca del parque</dd>
+                        <dd><a href="https://maps.app.goo.gl/hvNeRe5YRefwaEbQ7" target="_blank" rel="noopener">Abrir en Google Maps →</a></dd>
+                        <dd><a href="https://www.instagram.com/piamonte.cafe/reel/DNQslu0NVS-/" target="_blank" rel="noopener">Video: cómo llegar →</a></dd>
+                    </div>
+                    <div>
+                        <dt>Horario</dt>
+                        <dd>Por confirmar</dd> <!-- CONFIRMAR horario. Ej: Lunes a sábado · 2 a 9 p. m. -->
+                    </div>
+                    <div>
+                        <dt>Escríbenos</dt>
+                        <dd><a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener">WhatsApp →</a></dd>
+                        <dd><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">Instagram @piamonte.cafe →</a></dd>
+                    </div>
+                </dl>
+            </div>
+
+            <footer class="pie">
+                <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
+                <p>Hecho por Esteban Muñoz</p>
+                <a href="#inicio">Volver arriba</a>
+            </footer>
+        </section>
+
+    </main>
+
+    <!-- GSAP: librería de animaciones. ScrollTrigger: su plugin para animar al hacer scroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/scroll.js"></script> <!-- Efectos de scroll (usa GSAP) -->
+
+</body>
+
+</html>
