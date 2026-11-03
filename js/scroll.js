@@ -18,8 +18,8 @@
 
   // [qué elementos, ms entre uno y otro cuando entran juntos]
   const grupos = [
-    ['#proyectos > h2, #proyectos > .nota-proyectos', 60],
-    ['#proyectos article', 60],
+    ['.proyectos > h2, .proyectos > .nota-proyectos', 60],
+    ['.proyectos article', 60],
     ['#servicios > *', 60],
     ['#sobre-mi > *', 60],
     ['#habilidades > h2, #habilidades li', 40],

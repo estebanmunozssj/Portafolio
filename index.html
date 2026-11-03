@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <meta name="theme-color" content="#0E1220">
-    <link rel="stylesheet" href="css/estilos.css?v=9">
+    <link rel="stylesheet" href="css/estilos.css?v=12">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
@@ -55,7 +55,7 @@
             <!--CV oculto hasta tener el PDF: <a href="cv-esteban-munoz.pdf" class="btn btn-borde" download>Descargar CV</a>-->
         </section>
         <!--Proyectos: cada proyecto es un artículo independiente--> 
-        <section id="proyectos" aria-labelledby="titulo-proyectos">
+        <section id="proyectos" class="proyectos" aria-labelledby="titulo-proyectos">
             <h2 id="titulo-proyectos">Proyectos</h2>
 
             <p class="nota-proyectos">Estos negocios son ficticios: creé sus páginas para practicar, con el mismo cuidado que le pondría a un sitio real.</p>
@@ -83,6 +83,19 @@
                 <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Piamonte-Cafe" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Piamonte Cafe en GitHub">Ver código</a>
             </article>
 
+        </section>
+        <!--Proyectos propios: ideas mías, no son para un cliente-->
+        <section id="propios" class="proyectos" aria-labelledby="titulo-propios">
+            <h2 id="titulo-propios">Proyectos propios</h2>
+
+            <p class="nota-proyectos">Ideas mías que estoy construyendo para Yotoco.</p>
+            <article>
+                <img src="img/juego.jpg" alt="Yotoco visto desde el cielo, con el contorno del municipio marcado" width="400" height="300" loading="lazy">
+                <h3>Juego de rutas por Yotoco</h3>
+                <p>Un recorrido por puntos del pueblo: escaneas códigos QR escondidos, ganas sellos y armas un álbum de postales.</p>
+                <span class="etiqueta">En construcción</span>
+                <a href="proyectos/Juego/Yotoco-Escondido/demo/index.html" class="enlace-tarjeta" aria-label="Ver la demo del juego de rutas por Yotoco">Ver demo</a>
+            </article>
         </section>
         <!--Servicios: qué ofrezco a los negocios-->
         <section id="servicios" aria-labelledby="titulo-servicios">
@@ -174,7 +187,7 @@
     </a>
     <!--El script va al final y con defer para no bloquear la carga de la página-->
         <script src="js/script.js?v=2" defer></script>
-        <script src="js/scroll.js" defer></script>
+        <script src="js/scroll.js?v=2" defer></script>
 
     
 </body>

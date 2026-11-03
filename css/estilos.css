@@ -231,12 +231,12 @@ main section h2 {
 }
 
 /* Proyectos: cuadrícula de tarjetas */
-#proyectos { 
+.proyectos { 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
   gap: 2rem;
 }
-#proyectos h2 { 
+.proyectos h2 { 
   grid-column: 1 / -1; 
   margin-bottom: -1rem; 
 }
@@ -250,7 +250,11 @@ main section h2 {
 }
 
 /* Toda la tarjeta abre el sitio; "Ver código" queda encima como enlace aparte */
-#proyectos article {
+.proyectos article {
+  /* Cuadrícula interna: la descripción se estira y los enlaces quedan siempre abajo */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   position: relative;
   background: var(--superficie);
   border: 1px solid var(--borde);
@@ -261,43 +265,43 @@ main section h2 {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  #proyectos article:hover { 
+  .proyectos article:hover { 
       transform: translateY(-4px); 
       border-color: var(--acento);
   }
   /* La captura se acerca apenas dentro de su recorte */
-  #proyectos article:hover img { transform: scale(1.03); }
+  .proyectos article:hover img { transform: scale(1.03); }
 }
 
 /* Toda la tarjeta es un enlace: también responde al presionarla */
-#proyectos article:active { transform: translateY(-2px) scale(0.99); }
+.proyectos article:active { transform: translateY(-2px) scale(0.99); }
 
-#proyectos article:has(.enlace-tarjeta:focus-visible) {
+.proyectos article:has(.enlace-tarjeta:focus-visible) {
     border-color: var(--acento);
 }
 
-#proyectos .enlace-tarjeta::after {
+.proyectos .enlace-tarjeta::after {
     content: "";
     position: absolute;
     inset: 0;
 }
 
-#proyectos .enlace-tarjeta:focus-visible { outline: none; }
-#proyectos article img { 
+.proyectos .enlace-tarjeta:focus-visible { outline: none; }
+.proyectos article img { 
     width: 100%;
     height: 12.5rem; 
     object-fit: cover;
     transition: transform 400ms var(--ease-out);
 }
-#proyectos article h3 { 
+.proyectos article h3 { 
     font-size: 1.5rem; 
     margin: 1.5rem 1.75rem .5rem; 
 }
-#proyectos article p { 
+.proyectos article p { 
     color: var(--texto-suave);
     margin: 0 1.75rem 1.25rem; 
 }
-#proyectos article a { 
+.proyectos article a { 
     position: relative;
     z-index: 1;
     display: inline-flex;
@@ -307,11 +311,35 @@ main section h2 {
     font-weight: 500; 
 }
 
-#proyectos article a:hover { text-decoration: underline; text-underline-offset: .25em; }
+.proyectos article > :not(a) { grid-column: 1 / -1; }
+.proyectos article a { justify-self: start; }
 
-#proyectos .enlace-tarjeta { position: static; }
-#proyectos article a:first-of-type { 
+.proyectos article a:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+.proyectos .enlace-tarjeta { position: static; }
+.proyectos article a:first-of-type { 
     color: var(--acento); 
+}
+
+/* Proyectos propios: tarjeta sin enlace mientras está en construcción */
+.proyectos article.sin-enlace { cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .proyectos article.sin-enlace:hover { transform: none; border-color: var(--borde); }
+  .proyectos article.sin-enlace:hover img { transform: none; }
+}
+.proyectos article.sin-enlace:active { transform: none; }
+
+/* Etiqueta "En construcción" */
+.etiqueta {
+    display: block;
+    width: fit-content;
+    margin: 0 1.75rem .25rem;
+    padding: .3rem .85rem;
+    border: 1px solid var(--acento);
+    border-radius: 999px;
+    color: var(--acento);
+    font-size: .875rem;
+    font-weight: 500;
 }
 
 /* Contacto: formulario */
@@ -526,14 +554,14 @@ form button {
   html { scroll-behavior: auto; }
 
   .btn, button { transition: filter 150ms ease, border-color 150ms ease; }
-  #proyectos article { transition: border-color 200ms ease; }
-  #proyectos article img,
+  .proyectos article { transition: border-color 200ms ease; }
+  .proyectos article img,
   .whatsapp-flotante { transition: none; }
 
   .btn:active, button:active,
-  #proyectos article:hover,
-  #proyectos article:active,
-  #proyectos article:hover img,
+  .proyectos article:hover,
+  .proyectos article:active,
+  .proyectos article:hover img,
   .whatsapp-flotante:hover,
   .whatsapp-flotante:active { transform: none; }
 }
