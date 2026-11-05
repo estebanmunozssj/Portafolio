@@ -1,1 +1,8 @@
+# Archivos invisibles del Mac
 .DS_Store
+
+# Herramientas (Claude, diseño): notas de trabajo, no son parte de la web
+.claude/
+.impeccable/
+.taste-skill/
+md/
