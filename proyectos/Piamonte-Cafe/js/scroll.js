@@ -22,7 +22,7 @@
     /* ----- 1. Títulos, textos y listas aparecen al llegar a ellos ----- */
     // Ojo: no animamos los botones con clase .boton porque ya tienen su propio efecto al tocarlos
     const aparecen = gsap.utils.toArray(
-      '.seccion h2, .historia > p, .menu-ayuda, .categorias, .lista-experiencias li, .visitanos h2, .datos > div'
+      '.seccion h2, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .lista-experiencias li, .visitanos h2, .datos > div'
     );
 
     gsap.set(aparecen, { autoAlpha: 0, y: 28 }); // Empiezan invisibles y un poco más abajo
@@ -67,13 +67,13 @@
 
     /* ----- 3. La foto de la finca se revela de abajo hacia arriba ----- */
     // clip-path "recorta" la foto: inset(100% ...) = todo recortado; inset(0% ...) = se ve toda
-    gsap.fromTo('.foto-pendiente',
+    gsap.fromTo('.foto-historia',
       { clipPath: 'inset(100% 0% 0% 0% round 1.25rem)' },
       {
         clipPath: 'inset(0% 0% 0% 0% round 1.25rem)',
         duration: 1.1,
         ease: 'power3.inOut',
-        scrollTrigger: { trigger: '.foto-pendiente', start: 'top 85%', once: true },
+        scrollTrigger: { trigger: '.foto-historia', start: 'top 85%', once: true },
       }
     );
 

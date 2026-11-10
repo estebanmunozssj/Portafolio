@@ -121,18 +121,14 @@ h2 {
     .datos a:hover { color: var(--dorado-suave); }
 }
 
-/* Recuadro mientras llegan las fotos reales. Bórralo cuando pongas las fotos */
-.foto-pendiente {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 4 / 3;
+/* Foto de la finca en la historia */
+.foto-historia {
+    display: block;
+    width: 100%;
+    height: auto; /* Mantiene la proporción de la foto */
     margin-top: 2rem;
     border-radius: 1.25rem;
-    border: 2px dashed var(--cafe-suave);
-    color: var(--cafe-suave);
-    background: var(--crema-oscura);
-    text-align: center;
-    padding: 1rem;
+    background: var(--crema-oscura); /* Color de fondo mientras carga */
 }
 
 /* ===== ENCABEZADO FIJO ===== */
@@ -528,6 +524,59 @@ h2 {
 @keyframes llenar {
     from { transform: scaleY(0.05); } /* Casi vacía, no desde la nada */
     to { transform: scaleY(1); }
+}
+
+/* ===== GALERÍA ===== */
+.galeria-intro { color: var(--cafe-suave); }
+
+/* Fila de fotos que se desliza con el dedo (igual que las categorías del menú) */
+.galeria-fila {
+    list-style: none;
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* Cada foto se "acomoda" al soltar el dedo */
+    scrollbar-width: none;
+    margin: 1.5rem calc(var(--margen) * -1) 0; /* Llega hasta el borde de la pantalla */
+    padding: 0 var(--margen) 0.5rem;
+    scroll-padding-inline: var(--margen);
+}
+.galeria-fila::-webkit-scrollbar { display: none; }
+.galeria-fila li {
+    flex: none;
+    width: 78%; /* Se ve un pedacito de la siguiente: así se entiende que hay más */
+    max-width: 22rem;
+    scroll-snap-align: start;
+}
+.galeria-fila figure { margin: 0; }
+.galeria-fila img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    background: var(--crema-oscura); /* Color mientras carga */
+}
+.galeria-fila figcaption {
+    margin-top: 0.6rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+/* En computador no se desliza con el dedo: mostramos todas en cuadrícula (4 arriba, 3 centradas abajo) */
+@media (min-width: 769px) {
+    .seccion.galeria { width: min(100% - var(--margen) * 2, 64rem); } /* Un poco más ancha que las otras secciones */
+    .galeria-intro { display: none; } /* "Desliza para ver más" no aplica con mouse */
+    .galeria-fila {
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: visible;
+        margin: 2rem 0 0;
+        padding: 0;
+        gap: 1.25rem;
+    }
+    .galeria-fila li { width: calc(25% - 0.95rem); max-width: none; }
 }
 
 /* ===== EXPERIENCIAS ===== */

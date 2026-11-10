@@ -126,8 +126,9 @@
                 <li><span>4</span>Tu taza</li>
             </ol>
 
-            <!-- TODO: foto de la familia o de la finca (img/finca.webp) -->
-            <div class="foto-pendiente" role="img" aria-label="Foto de la finca Piamonte">Foto: la familia en la finca</div>
+            <!-- Foto de la finca (sacada del Instagram de Piamonte). width/height evitan que la página "salte" al cargar -->
+            <img class="foto-historia" src="img/finca.jpg" width="1100" height="641" loading="lazy" decoding="async"
+                 alt="Camino de piedra que sube a la casa de la finca Piamonte, entre potreros verdes, en Dopo (Yotoco)">
         </section>
 
         <!-- ===== MENÚ =====
@@ -164,6 +165,66 @@
             </div>
 
             <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
+        </section>
+
+        <!-- ===== GALERÍA =====
+             Fotos del Instagram de Piamonte. En celular es una fila que se desliza con el dedo.
+             Para agregar una foto: copia un <li> completo y cambia src, alt y el texto -->
+        <section class="seccion galeria" id="galeria">
+            <h2>Así se ve Piamonte.</h2>
+            <p class="galeria-intro">Desliza para ver más →</p>
+
+            <ul class="galeria-fila">
+                <li>
+                    <figure>
+                        <img src="img/capuchino.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Capuchino con una flor dibujada en chocolate sobre la espuma">
+                        <figcaption>Capuchino con arte</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/latte.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Latte con arte en forma de hoja, servido con una galleta">
+                        <figcaption>Latte con su galleta</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/sandwich.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Sándwich italiano con jamón serrano, tomate, queso y lechuga en pan de especias">
+                        <figcaption>Sándwich italiano</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/waffles.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Waffles rellenos servidos con papas en un plato">
+                        <figcaption>Waffles</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/torta.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Porción de torta de chocolate con un tenedor">
+                        <figcaption>Torta de chocolate</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/cerezas.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Cerezas de café rojas recién cosechadas, ordenadas en una tabla de madera">
+                        <figcaption>Cerezas de nuestra finca</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="img/granos.jpg" width="800" height="800" loading="lazy" decoding="async"
+                             alt="Manos sosteniendo granos de café verde antes de tostar">
+                        <figcaption>Café verde, antes de tostar</figcaption>
+                    </figure>
+                </li>
+            </ul>
         </section>
 
         <!-- ===== EXPERIENCIAS ===== -->
