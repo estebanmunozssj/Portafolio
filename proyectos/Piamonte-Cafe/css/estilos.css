@@ -494,8 +494,9 @@ h2 {
 .dibujo .borde { stroke: var(--cafe); stroke-width: 5; stroke-linecap: round; }
 .dibujo .oreja { fill: none; stroke: var(--cafe); stroke-width: 8; stroke-linecap: round; }
 .dibujo .plato { fill: #fffaf3; stroke: var(--cafe); stroke-width: 3; }
-.dibujo .cristal { fill: rgba(255, 255, 255, 0.25); stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; }
+.dibujo .cristal { fill: rgba(255, 255, 255, 0.12); stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; }
 .dibujo .hielo { fill: rgba(255, 255, 255, 0.55); stroke: rgba(255, 255, 255, 0.9); stroke-width: 1.5; }
+.dibujo .tallo { stroke: var(--cafe); stroke-width: 4; stroke-linecap: round; } /* Pie de las copas */
 .dibujo .pitillo { stroke: var(--verde); stroke-width: 6; stroke-linecap: round; }
 .dibujo .contorno { stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; fill-opacity: 1; }
 .dibujo path.contorno:not([fill]) { fill: none; }
