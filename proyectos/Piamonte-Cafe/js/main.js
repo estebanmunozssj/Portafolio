@@ -6,7 +6,10 @@ const NUMERO = '573026402521'; // WhatsApp de domicilios de Piamonte: 57 (Colomb
    MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
    - precio: número sin puntos (ej: 6500 → se ve $6.500). Si es null se ve "Precio pronto"
    - detalle: tamaño o ingredientes. Se muestra en la tarjeta grande
-   - recipiente: 'taza' (caliente), 'vaso' (frío), 'dulce', 'salado' o 'bolsa' (café para llevar)
+   - recipiente: el dibujo. 'taza' (caliente), 'vaso' (frío), 'dulce' (torta), 'bolsa' (café para llevar),
+     'waffle', 'sandwich', 'croissant' o 'tapa'
+   - encima: lo que va sobre el waffle o la tapa (ver dibujoWaffle y dibujoTapa)
+   - relleno: capas del sándwich de abajo hacia arriba (ver RELLENOS)
    - capas: de abajo hacia arriba. [ingrediente, cuánto llena] (1 = llena todo)
    - tipo (opcional): subgrupo con título dentro de la categoría (ej: 'Con leche')
    - bebidas: true en la categoría → la tarjeta de la taza se queda pegada arriba al bajar
@@ -96,17 +99,17 @@ const MENU = [
   {
     categoria: 'Comida',
     productos: [
-      { nombre: 'Waffle de pandebono + topping', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'salado' },
-      { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'salado' },
-      { nombre: 'Waffle de pollo', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'salado' },
-      { nombre: 'Waffle hawaiano', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'salado' },
-      { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'salado' },
-      { nombre: 'Sándwich italiano', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'salado' },
-      { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'salado' },
-      { nombre: 'Sándwich de atún', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'salado' },
-      { nombre: 'Luna serrana', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'salado' },
-      { nombre: 'Tapa artesanal', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'salado' },
-      { nombre: 'Tapa ibérica', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'salado' },
+      { nombre: 'Waffle de pandebono + topping', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'waffle', encima: 'dulce' },
+      { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'waffle', encima: 'jamonqueso' },
+      { nombre: 'Waffle de pollo', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'waffle', encima: 'pollo' },
+      { nombre: 'Waffle hawaiano', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'waffle', encima: 'hawaiano' },
+      { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'waffle', encima: 'helado' },
+      { nombre: 'Sándwich italiano', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'sandwich', relleno: ['rugula', 'tomate', 'serrano', 'pepperoni', 'mozzarella'] },
+      { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'sandwich', relleno: ['lechuga', 'tomate', 'carne', 'mozzarella'] },
+      { nombre: 'Sándwich de atún', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'sandwich', pan: 'tajado', relleno: ['lechuga', 'tomate', 'atun', 'mozzarella'] },
+      { nombre: 'Luna serrana', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'croissant' },
+      { nombre: 'Tapa artesanal', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'tapa', encima: 'artesanal' },
+      { nombre: 'Tapa ibérica', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'tapa', encima: 'iberica' },
     ],
   },
   {
@@ -222,14 +225,134 @@ function dibujoDulce(color) {
   </svg>`;
 }
 
-function dibujoSalado() {
+/* ----- Comida: cada plato tiene su propio dibujo ----- */
+
+const PLATO = '<ellipse cx="80" cy="112" rx="66" ry="14" class="plato"/>';
+
+// Waffle visto de frente. "encima" cambia lo que lleva arriba
+function dibujoWaffle(encima) {
+  const arriba = {
+    // Pandebono + topping: chorrito de arequipe y puntos de queso crema
+    dulce: `
+      <path d="M68 70c-2-8 6-12 12-10 8-4 16 4 12 10z" fill="#fbf3dc" class="contorno"/>
+      <path d="M42 80l12-8 12 8 12-8 12 8 12-8 12 8 6-4" stroke="#7a3b1f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    // Jamón y queso: lechuga, jamón rosado y queso que se derrite
+    jamonqueso: `
+      <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="80" cy="64" rx="38" ry="8" fill="#e8a0a0" class="contorno"/>
+      <path d="M50 60h60v6c-6 0-6 8-12 8s-4-8-10-8-6 10-12 10-4-10-10-10-6 6-16 4z" fill="#f2cf63" class="contorno"/>`,
+    // Pollo: lechuga, filete dorado con marcas de parrilla y tomate
+    pollo: `
+      <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M46 64c0-10 14-14 26-12 10-6 30-4 38 4 6 6 2 12-8 12H54c-6 0-8-2-8-4z" fill="#c8874a" class="contorno"/>
+      <path d="M62 56l6 10M76 54l6 12M90 55l6 11" stroke="#8a5328" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="46" cy="64" r="7" fill="#d9472f" class="contorno"/><circle cx="114" cy="64" r="7" fill="#d9472f" class="contorno"/>`,
+    // Hawaiano: jamón y trozos de piña
+    hawaiano: `
+      <ellipse cx="80" cy="66" rx="40" ry="8" fill="#e8a0a0" class="contorno"/>
+      <path d="M52 62l8-12 8 12z M72 60l8-12 8 12z M92 62l8-12 8 12z" fill="#f2c94c" class="contorno"/>`,
+    // Con helado: 2 bolas de vainilla y salsa de chocolate
+    helado: `
+      <circle cx="70" cy="60" r="15" fill="#f7edd8" class="contorno"/>
+      <circle cx="90" cy="52" r="15" fill="#f7edd8" class="contorno"/>
+      <path d="M78 42c6-4 18-2 24 4-4 2-6 8-10 6s-6 4-10 2-6-6-4-12z" fill="#4a2616"/>
+      <path d="M58 56c4-4 10-4 14 0-2 4-2 10-6 10s-2-6-8-10z" fill="#4a2616"/>`,
+  };
   return `
   <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
-    <ellipse cx="80" cy="112" rx="66" ry="14" class="plato"/>
+    ${PLATO}
     <g class="liquido">
-      <rect x="40" y="62" width="80" height="42" rx="8" fill="#e2b46a" class="contorno"/>
-      <path d="M60 62V104M80 62V104M100 62V104M40 76H120M40 90H120" stroke="#b9823f" stroke-width="3"/>
-      <path d="M52 60c8-14 48-14 56 0" fill="#c8793e" class="contorno"/>
+      <rect x="36" y="72" width="88" height="34" rx="10" fill="#e2b46a" class="contorno"/>
+      <path d="M58 72V106M80 72V106M102 72V106M36 83H124M36 95H124" stroke="#b9823f" stroke-width="3"/>
+      ${arriba[encima] || ''}
+    </g>
+  </svg>`;
+}
+
+// Capas que puede llevar un sándwich: color, alto y si tiene borde ondulado (hojas)
+const RELLENOS = {
+  lechuga: { color: '#7fa650', alto: 6, onda: true },
+  rugula: { color: '#5f8a3a', alto: 6, onda: true },
+  tomate: { color: '#d9472f', alto: 6 },
+  mozzarella: { color: '#fbf3dc', alto: 5 },
+  serrano: { color: '#d98b8b', alto: 5 },
+  pepperoni: { color: '#a8283c', alto: 5 },
+  carne: { color: '#7a4325', alto: 9 },
+  atun: { color: '#d8c49a', alto: 9 },
+};
+
+// Sándwich visto de lado: pan, capas de relleno (de abajo hacia arriba) y pan de arriba
+function dibujoSandwich(relleno = [], pan = 'especias') {
+  let y = 94; // Arriba del pan de abajo
+  const capas = relleno.map((nombre) => {
+    const r = RELLENOS[nombre];
+    y -= r.alto;
+    if (r.onda) { // Hojas: el borde de arriba es ondulado y se sale un poco del pan
+      return `<path d="M28 ${y + r.alto}V${y + 2}c6-5 10 3 16-2s10 3 16-2 10 3 16-2 10 3 16-2 10 3 16-2 10 3 16 0V${y + r.alto}z" fill="${r.color}" class="contorno"/>`;
+    }
+    return `<rect x="32" y="${y}" width="96" height="${r.alto + 1}" rx="2" fill="${r.color}" class="contorno"/>`;
+  }).join('');
+
+  // Pan de arriba: tajado (cuadrado) o de especias (redondo, con puntitos verdes de hierbas)
+  const panArriba = pan === 'tajado'
+    ? `<rect x="34" y="${y - 14}" width="92" height="14" rx="4" fill="#e9c98f" class="contorno"/>`
+    : `<path d="M34 ${y}c0-26 92-26 92 0z" fill="#d9a35b" class="contorno"/>
+       <circle cx="62" cy="${y - 10}" r="1.8" fill="#5f8a3a"/><circle cx="80" cy="${y - 15}" r="1.8" fill="#5f8a3a"/><circle cx="98" cy="${y - 9}" r="1.8" fill="#5f8a3a"/>`;
+
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <rect x="34" y="94" width="92" height="14" rx="${pan === 'tajado' ? 4 : 7}" fill="${pan === 'tajado' ? '#e9c98f' : '#d9a35b'}" class="contorno"/>
+      ${capas}
+      ${panArriba}
+    </g>
+  </svg>`;
+}
+
+// Croissant (Luna serrana): media luna con jamón serrano, tomate cherry y albahaca
+function dibujoCroissant() {
+  const masa = 'fill="#d99a4e" class="contorno"';
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <path d="M52 100c14-8 42-8 56 0" stroke="#d98b8b" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="38" cy="96" rx="9" ry="12" transform="rotate(-55 38 96)" ${masa}/>
+      <ellipse cx="122" cy="96" rx="9" ry="12" transform="rotate(55 122 96)" ${masa}/>
+      <ellipse cx="56" cy="84" rx="13" ry="17" transform="rotate(-35 56 84)" ${masa}/>
+      <ellipse cx="104" cy="84" rx="13" ry="17" transform="rotate(35 104 84)" ${masa}/>
+      <ellipse cx="80" cy="78" rx="17" ry="22" ${masa}/>
+      <path d="M72 64c4 6 4 20 0 28M88 64c-4 6-4 20 0 28" stroke="#a8662b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <circle cx="122" cy="108" r="6" fill="#d9472f" class="contorno"/>
+      <path d="M32 110c4-8 14-8 16-2-6 4-12 4-16 2z" fill="#5f8a3a" class="contorno"/>
+    </g>
+  </svg>`;
+}
+
+// Tapa: tostada vista desde arriba con lo que lleva encima
+function dibujoTapa(encima) {
+  const arriba = {
+    // Artesanal: dip de pimentón, pepperoni y finas hierbas
+    artesanal: `
+      <path d="M52 86c4-10 20-12 30-8s24 2 28 8-8 12-26 12-34-4-32-12z" fill="#d0602f"/>
+      <circle cx="66" cy="84" r="7" fill="#a8283c" class="contorno"/><circle cx="88" cy="90" r="7" fill="#a8283c" class="contorno"/><circle cx="104" cy="82" r="6" fill="#a8283c" class="contorno"/>
+      <circle cx="78" cy="80" r="1.6" fill="#5f8a3a"/><circle cx="96" cy="94" r="1.6" fill="#5f8a3a"/><circle cx="58" cy="94" r="1.6" fill="#5f8a3a"/>`,
+    // Ibérica: mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel
+    iberica: `
+      <path d="M48 90c6-8 18-10 26-6" stroke="#a8283c" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M70 92c8-8 26-10 40-2" stroke="#d98b8b" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M86 78a10 6 0 0 1 18 0z M60 80a9 5 0 0 1 16 0z" fill="#e8e3a0" class="contorno"/>
+      <circle cx="98" cy="96" r="4" fill="#fbf3dc" class="contorno"/>
+      <path d="M50 80c14 6 40-8 62 4" stroke="#e7b13a" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+  };
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <rect x="32" y="68" width="96" height="40" rx="16" fill="#d9a35b" class="contorno"/>
+      <rect x="38" y="73" width="84" height="30" rx="12" fill="#f1d39a"/>
+      ${arriba[encima] || ''}
     </g>
   </svg>`;
 }
@@ -252,7 +375,10 @@ function dibujar(producto) {
   if (producto.recipiente === 'vaso') return dibujoVaso(producto.capas);
   if (producto.recipiente === 'dulce') return dibujoDulce(producto.color);
   if (producto.recipiente === 'bolsa') return dibujoBolsa();
-  return dibujoSalado();
+  if (producto.recipiente === 'sandwich') return dibujoSandwich(producto.relleno, producto.pan);
+  if (producto.recipiente === 'croissant') return dibujoCroissant();
+  if (producto.recipiente === 'tapa') return dibujoTapa(producto.encima);
+  return dibujoWaffle(producto.encima); // 'waffle' y cualquier otro
 }
 
 /* =========================================================
