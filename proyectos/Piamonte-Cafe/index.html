@@ -35,12 +35,13 @@
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
 
-    <!-- Datos para Google (negocio local). CONFIRMAR teléfono y horario con el dueño -->
+    <!-- Datos para Google (negocio local). CONFIRMAR horario con el dueño -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "CafeOrCoffeeShop",
         "name": "Piamonte Café",
+        "telephone": "+573026402521",
         "description": "Cafetería de una familia caficultora. Café 100% colombiano arábigo de nuestra finca en Dopo, Yotoco.",
         "address": {
             "@type": "PostalAddress",
@@ -133,7 +134,7 @@
              Los productos y precios están en js/main.js (lista MENU). Ahí los cambias -->
         <section class="seccion menu" id="menu">
             <h2>¿Qué vas a pedir?</h2>
-            <p class="menu-ayuda">Toca una bebida para ver cómo se arma.</p>
+            <p class="menu-ayuda">Toca un producto para ver su precio y cómo se arma.</p>
 
             <!-- Botones de categorías: se deslizan con el dedo hacia los lados -->
             <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
@@ -150,6 +151,17 @@
 
             <!-- Lista de productos de la categoría elegida -->
             <div class="productos" id="productos"></div>
+
+            <!-- Adiciones: se pueden sumar a cualquier bebida -->
+            <p class="menu-nota">
+                <strong>Adiciones:</strong> esencias $2.000 · licor, vodka o gin $4.000 · Amaretto $4.000 · Baileys $3.000
+            </p>
+
+            <!-- Domicilios: lleva directo al WhatsApp con un mensaje listo -->
+            <div class="domicilio">
+                <p><strong>¿No puedes venir?</strong> Te lo llevamos. Hacemos domicilios.</p>
+                <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener">Pide por WhatsApp</a>
+            </div>
 
             <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
         </section>
@@ -173,7 +185,7 @@
                 </li>
                 <li>
                     <h3>Café para llevar</h3>
-                    <p>El café de nuestra finca para tu casa, y bonos de regalo para cualquier ocasión.</p> <!-- CONFIRMAR presentaciones y precios -->
+                    <p>El café de nuestra finca, molido o en grano, en bolsas de 250 g y 500 g. También tenemos bonos de regalo.</p>
                 </li>
             </ul>
             <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero información sobre sus experiencias" target="_blank" rel="noopener">Pregunta por WhatsApp</a>
@@ -197,8 +209,8 @@
                         <dd>Por confirmar</dd> <!-- CONFIRMAR horario. Ej: Lunes a sábado · 2 a 9 p. m. -->
                     </div>
                     <div>
-                        <dt>Escríbenos</dt>
-                        <dd><a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener">WhatsApp →</a></dd>
+                        <dt>Escríbenos y domicilios</dt>
+                        <dd><a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener">WhatsApp 302 640 2521 →</a></dd>
                         <dd><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">Instagram @piamonte.cafe →</a></dd>
                     </div>
                 </dl>

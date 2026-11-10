@@ -449,6 +449,29 @@ h2 {
 .producto:active { transform: scale(0.97); }
 .producto[aria-pressed="true"] { border-color: var(--cafe); }
 
+/* Nota de adiciones debajo de la lista */
+.menu-nota {
+    margin: 1.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--cafe-suave);
+}
+.menu-nota strong { color: var(--cafe); }
+
+/* Bloque "Hacemos domicilios" */
+.domicilio {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: var(--cafe);
+    color: var(--crema);
+}
+.domicilio p { margin: 0; font-size: 1.05rem; }
+.domicilio strong { display: block; font-family: var(--letra-titulo); font-size: 1.35rem; margin-bottom: 0.25rem; }
+.domicilio .boton { background: var(--crema); color: var(--cafe); margin-top: 1.1rem; }
+@media (hover: hover) and (pointer: fine) {
+    .domicilio .boton:hover { background: var(--caramelo-claro); }
+}
+
 /* ===== DIBUJOS (taza, vaso, platos) ===== */
 .dibujo { width: 100%; height: auto; display: block; overflow: visible; }
 .dibujo .ceramica { fill: none; stroke: var(--cafe); stroke-width: 4; }

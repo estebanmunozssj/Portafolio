@@ -1,49 +1,122 @@
 'use strict'; // Modo estricto: el navegador avisa de errores que de otro modo pasarían callados
 
-const NUMERO = ''; // 57 + número de Piamonte, sin + ni espacios (ej: '573001234567'). CONFIRMAR con tu amigo
+const NUMERO = '573026402521'; // WhatsApp de domicilios de Piamonte: 57 (Colombia) + 302 640 2521, sin + ni espacios
 
 /* =========================================================
-   MENÚ: aquí cambias productos y precios
-   - precio: número sin puntos (ej: 6500). Si es null se ve "Precio pronto"
-   - recipiente: 'taza' (caliente), 'vaso' (frío), 'dulce' o 'salado'
+   MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
+   - precio: número sin puntos (ej: 6500 → se ve $6.500). Si es null se ve "Precio pronto"
+   - detalle: tamaño o ingredientes. Se muestra en la tarjeta grande
+   - recipiente: 'taza' (caliente), 'vaso' (frío), 'dulce', 'salado' o 'bolsa' (café para llevar)
    - capas: de abajo hacia arriba. [ingrediente, cuánto llena] (1 = llena todo)
-   CONFIRMAR todos los precios y las recetas con tu amigo
+   OJO: las capas son aproximadas. Se ajustan cuando tengamos el recetario
    ========================================================= */
+
+// Capas que se repiten en varias bebidas (así no las escribimos muchas veces)
+const CAPUCHINO = [['espresso', 0.3], ['leche', 0.35], ['espuma', 0.25]];
+const MOCCACCINO = [['chocolate', 0.2], ['espresso', 0.25], ['leche', 0.3], ['espuma', 0.15]];
+const AMERICANO = [['espresso', 0.3], ['agua', 0.55]];
+const CHAI = [['te', 0.5], ['leche', 0.3], ['espuma', 0.1]];
 
 const MENU = [
   {
-    categoria: 'Café',
+    categoria: 'Calientes',
     productos: [
-      { nombre: 'Expreso', precio: null, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
-      { nombre: 'Americano', precio: null, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['agua', 0.55]] },
-      { nombre: 'Capuchino', precio: null, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['leche', 0.35], ['espuma', 0.25]] },
-      { nombre: 'Mocca', precio: null, detalle: 'Taza mediana', recipiente: 'taza', capas: [['chocolate', 0.2], ['espresso', 0.25], ['leche', 0.3], ['espuma', 0.15]] },
-      { nombre: 'Té chai', precio: null, detalle: 'Té especiado', recipiente: 'taza', capas: [['te', 0.5], ['leche', 0.3], ['espuma', 0.1]] },
+      { nombre: 'Espresso', precio: 4000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
+      { nombre: 'Espresso con licor', precio: 9000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.35], ['licor', 0.15]] },
+      { nombre: 'Espresso doble licor', precio: 16000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.35], ['licor', 0.3]] },
+      { nombre: 'Americano', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
+      { nombre: 'Americano grande', precio: 7000, detalle: 'Taza grande', recipiente: 'taza', capas: AMERICANO },
+      { nombre: 'Café campesino', precio: 8000, detalle: 'Receta de la casa', recipiente: 'taza', capas: [['casa', 0.85]] },
+      { nombre: 'Capuchino', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: CAPUCHINO },
+      { nombre: 'Capuchino grande', precio: 13000, detalle: 'Taza grande', recipiente: 'taza', capas: CAPUCHINO },
+      { nombre: 'Capuchino con leche de almendras', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['almendra', 0.35], ['espuma', 0.25]] },
+      { nombre: 'Capuchino con licor', precio: 14000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.25], ['licor', 0.1], ['leche', 0.3], ['espuma', 0.25]] },
+      { nombre: 'Capuchino con chantilly', precio: 10000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['leche', 0.35], ['chantilly', 0.25]] },
+      { nombre: 'Capuchino con esencias', precio: 10000, detalle: 'Con la esencia que prefieras', recipiente: 'taza', capas: CAPUCHINO },
+      { nombre: 'Flat white', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.35], ['leche', 0.5], ['espuma', 0.05]] },
+      { nombre: 'Latte', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.25], ['leche', 0.55], ['espuma', 0.1]] },
+      { nombre: 'Moccaccino', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: MOCCACCINO },
+      { nombre: 'Moccaccino grande', precio: 14000, detalle: 'Taza grande', recipiente: 'taza', capas: MOCCACCINO },
+      { nombre: 'Drips café Piamonte', precio: 5000, detalle: 'Café filtrado de la casa', recipiente: 'taza', capas: [['filtrado', 0.8]] },
+      { nombre: 'Chocolate', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['chocolate', 0.85]] },
+      { nombre: 'Milo caliente', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['milo', 0.85]] },
+      { nombre: 'Té chai', precio: 9500, detalle: 'Té especiado con leche', recipiente: 'taza', capas: CHAI },
+      { nombre: 'Aromática', precio: 4000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['aromatica', 0.8]] },
+      { nombre: 'Aromática de frutas', precio: 6000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['frutas', 0.8]] },
     ],
   },
   {
     categoria: 'Fríos',
     productos: [
-      { nombre: 'Limonada de café', precio: null, detalle: 'Vaso con hielo', recipiente: 'vaso', capas: [['limonada', 0.5], ['espresso', 0.3]] },
-      { nombre: 'Lemonade Brew', precio: null, detalle: 'Cold brew afrutado', recipiente: 'vaso', capas: [['coldbrew', 0.45], ['limonada', 0.35]] },
-      { nombre: 'Soda de tamarindo', precio: null, detalle: 'Soda artesanal', recipiente: 'vaso', capas: [['tamarindo', 0.4], ['soda', 0.4]] },
+      { nombre: 'Granizado de café', precio: 13000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizado', 0.75]] },
+      { nombre: 'Granizado de mocca', precio: 14000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['chocolate', 0.15], ['granizado', 0.6]] },
+      { nombre: 'Malteada de café', precio: 15000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['malteada', 0.8]] },
+      { nombre: 'Malteada de Baileys', precio: 17000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['baileys', 0.8]] },
+      { nombre: 'Malteada de chocolate', precio: 15000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['chocolate', 0.8]] },
+      { nombre: 'Latte frío', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['leche', 0.55], ['espresso', 0.25]] },
+      { nombre: 'Ice americano', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['aguafria', 0.5], ['espresso', 0.3]] },
+      { nombre: 'Espresso tonic', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['tonica', 0.5], ['espresso', 0.3]] },
+      { nombre: 'Limonada de café', precio: 11000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['limonada', 0.5], ['espresso', 0.3]] },
+      { nombre: 'Tres notas café', precio: 12000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Passion coffee', precio: 13000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Affogato', precio: 13000, detalle: 'Helado con espresso', recipiente: 'taza', capas: [['helado', 0.5], ['espresso', 0.25]] },
+      { nombre: 'Té chai frío', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: CHAI },
+      { nombre: 'Milo frío', precio: 8000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['milo', 0.8]] },
+      { nombre: 'Chocolate frío', precio: 8000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['chocolate', 0.8]] },
+      { nombre: 'Soda de frutos rojos', precio: 13000, detalle: 'Soda artesanal', recipiente: 'vaso', capas: [['frutosrojos', 0.35], ['soda', 0.45]] },
+      { nombre: 'Soda de frutos amarillos', precio: 13000, detalle: 'Soda artesanal', recipiente: 'vaso', capas: [['frutosamarillos', 0.35], ['soda', 0.45]] },
+      { nombre: 'Soda de tamarindo', precio: 11000, detalle: 'Soda artesanal', recipiente: 'vaso', capas: [['tamarindo', 0.4], ['soda', 0.4]] },
+      { nombre: 'Soda de gulupa', precio: 11000, detalle: 'Soda artesanal', recipiente: 'vaso', capas: [['gulupa', 0.35], ['soda', 0.45]] },
+      { nombre: 'Jugo natural en agua', precio: 6000, detalle: 'Fruta del día', recipiente: 'vaso', capas: [['jugo', 0.8]] },
+      { nombre: 'Jugo natural en leche', precio: 8000, detalle: 'Fruta del día', recipiente: 'vaso', capas: [['jugoleche', 0.8]] },
     ],
   },
   {
-    categoria: 'Dulces',
+    categoria: 'Cócteles',
     productos: [
-      { nombre: 'Torta red velvet', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#9e2b2f' },
-      { nombre: 'Torta de chocolate', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
-      { nombre: 'Cheesecake de limón', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#e9d77a' },
-      { nombre: 'Mousse de café', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#a8774f' },
-      { nombre: 'Torta de almojábana', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
+      { nombre: 'Limonada envenenada', precio: 16000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Tres notas café vodka', precio: 18000, detalle: 'Con vodka', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Mojito café', precio: 17000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Orgasmo', precio: 19000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Passion fruit', precio: 16000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Sprite cold brew', precio: 17000, detalle: 'Con licor', recipiente: 'vaso', capas: [['soda', 0.45], ['coldbrew', 0.35]] },
     ],
   },
   {
-    categoria: 'Salado',
+    categoria: 'Comida',
     productos: [
-      { nombre: 'Waffle de pollo', precio: null, detalle: 'Plato', recipiente: 'salado' },
-      { nombre: 'Sándwich italiano', precio: null, detalle: 'Plato', recipiente: 'salado' },
+      { nombre: 'Waffle de pandebono + topping', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'salado' },
+      { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'salado' },
+      { nombre: 'Waffle de pollo', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'salado' },
+      { nombre: 'Waffle hawaiano', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'salado' },
+      { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'salado' },
+      { nombre: 'Sándwich italiano', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'salado' },
+      { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'salado' },
+      { nombre: 'Sándwich de atún', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'salado' },
+      { nombre: 'Luna serrana', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'salado' },
+      { nombre: 'Tapa artesanal', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'salado' },
+      { nombre: 'Tapa ibérica', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'salado' },
+    ],
+  },
+  {
+    categoria: 'Repostería',
+    productos: [
+      { nombre: 'Torta vasca', precio: 14000, detalle: 'Porción', recipiente: 'dulce', color: '#d9a85b' },
+      { nombre: 'Torta de chocolate', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
+      { nombre: 'Torta de almojábana', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
+      { nombre: 'Torta de zanahoria', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
+      { nombre: 'Torta de banano', precio: 6000, detalle: 'Porción', recipiente: 'dulce', color: '#c9934f' },
+      { nombre: 'Postre del día', precio: 9000, detalle: 'Pregunta cuál hay hoy', recipiente: 'dulce', color: '#a8774f' },
+    ],
+  },
+  {
+    categoria: 'Café de la finca',
+    productos: [
+      { nombre: 'Método V-60', precio: 14000, detalle: 'Café filtrado · 2 tazas', recipiente: 'taza', capas: [['filtrado', 0.8]] },
+      { nombre: 'Café molido 250 g', precio: 25000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 250 g', precio: 25000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café molido 500 g', precio: 50000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 500 g', precio: 50000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
     ],
   },
 ];
@@ -52,14 +125,33 @@ const MENU = [
 const INGREDIENTES = {
   espresso: { nombre: 'Espresso', color: '#2b170e' },
   agua: { nombre: 'Agua caliente', color: '#8a5634' },
+  aguafria: { nombre: 'Agua', color: '#9a6a45' },
+  filtrado: { nombre: 'Café filtrado', color: '#5e3219' },
   leche: { nombre: 'Leche', color: '#e8d7bd' },
+  almendra: { nombre: 'Leche de almendras', color: '#efe0c4' },
   espuma: { nombre: 'Espuma', color: '#fbf6ee' },
+  chantilly: { nombre: 'Chantilly', color: '#fffdf7' },
+  licor: { nombre: 'Licor', color: '#7a3b1f' },
   chocolate: { nombre: 'Chocolate', color: '#5a2c18' },
+  milo: { nombre: 'Milo', color: '#6e4128' },
   te: { nombre: 'Té especiado', color: '#b9773f' },
+  aromatica: { nombre: 'Aromática', color: '#c99a4e' },
+  frutas: { nombre: 'Frutas', color: '#c7643a' },
+  granizado: { nombre: 'Granizado de café', color: '#a87a58' },
+  malteada: { nombre: 'Malteada de café', color: '#c49a74' },
+  baileys: { nombre: 'Malteada de Baileys', color: '#d4b48e' },
+  helado: { nombre: 'Helado de vainilla', color: '#f7edd8' },
+  tonica: { nombre: 'Agua tónica', color: '#ece7d2' },
   limonada: { nombre: 'Limonada', color: '#ecd977' },
   coldbrew: { nombre: 'Cold brew', color: '#4a2a17' },
   tamarindo: { nombre: 'Tamarindo', color: '#8b4a22' },
+  frutosrojos: { nombre: 'Frutos rojos', color: '#a8283c' },
+  frutosamarillos: { nombre: 'Frutos amarillos', color: '#e7b13a' },
+  gulupa: { nombre: 'Gulupa', color: '#6e2f5a' },
   soda: { nombre: 'Soda', color: '#f2e2c4' },
+  jugo: { nombre: 'Jugo de fruta', color: '#e8973a' },
+  jugoleche: { nombre: 'Jugo en leche', color: '#efc28f' },
+  casa: { nombre: 'Receta de la casa', color: '#9c5a2e' }, // Para bebidas cuya receta aún no tenemos
 };
 
 /* =========================================================
@@ -131,10 +223,24 @@ function dibujoSalado() {
   </svg>`;
 }
 
+function dibujoBolsa() {
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <g class="liquido">
+      <path d="M50 30H110L116 126H44Z" fill="#c9a27a" class="contorno"/>
+      <path d="M50 30L56 16H104L110 30" fill="#b58b62" class="contorno"/>
+      <rect x="60" y="62" width="40" height="36" rx="6" fill="#f6efe4" class="contorno"/>
+      <ellipse cx="80" cy="80" rx="8" ry="12" transform="rotate(25 80 80)" fill="#3b2418"/>
+      <path d="M78 70c5 5-3 13 3 20" stroke="#f6efe4" stroke-width="2" fill="none"/>
+    </g>
+  </svg>`;
+}
+
 function dibujar(producto) {
   if (producto.recipiente === 'taza') return dibujoTaza(producto.capas);
   if (producto.recipiente === 'vaso') return dibujoVaso(producto.capas);
   if (producto.recipiente === 'dulce') return dibujoDulce(producto.color);
+  if (producto.recipiente === 'bolsa') return dibujoBolsa();
   return dibujoSalado();
 }
 
@@ -226,6 +332,11 @@ function dibujar(producto) {
     const inicial = grupo.productos.findIndex((p) => p.nombre === 'Capuchino');
     const i = inicial >= 0 ? inicial : 0;
     mostrarProducto(grupo.productos[i], cajaProductos.children[i]);
+
+    // Cada categoría tiene distinta cantidad de productos, así que la página cambia de alto.
+    // Le pedimos a GSAP (js/scroll.js) que vuelva a medir dónde empieza cada efecto de scroll.
+    // Si no lo hacemos, secciones como "Visítanos" se pueden quedar sin aparecer
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
 
   // Crea los botones de categorías
