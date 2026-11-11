@@ -13,7 +13,6 @@
 
 /* Superficies del navegador con los colores del sitio */
 ::selection { background: var(--acento); color: var(--fondo); }
-input, textarea { caret-color: var(--acento); }
 
 /* Foco visible al navegar con teclado */
 :focus-visible {
@@ -169,7 +168,7 @@ main section h2 {
 }
 
 /* Al presionar, el botón se encoge apenas: confirma el toque */
-.btn:active, button:active { transform: scale(0.97); }
+.btn:active { transform: scale(0.97); }
 
 .btn-borde {
   background: transparent;
@@ -354,61 +353,6 @@ main section h2 {
     margin-bottom: 0; 
 }
 
-form { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 1.25rem; 
-}
-
-form div { 
-    display: flex; 
-    flex-direction: column; 
-    gap: .5rem; 
-}
-
-label { 
-    font-weight: 500; 
-}
-
-input:focus-visible, textarea:focus-visible {
-  outline: none;
-  border-color: var(--acento);
-  box-shadow: 0 0 0 3px rgb(198 242 78 / .25);
-}
-
-input, textarea {
-  background: var(--superficie);
-  border: 1px solid var(--borde-fuerte);
-  border-radius: .75rem;
-  padding: .85rem 1rem;
-  min-height: 44px;
-  color: var(--texto);
-  font: inherit;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
-}
-
-textarea { 
-  resize: vertical; 
-}
-
-button {
-  align-self: flex-start;
-  min-height: 44px;
-  padding: .85rem 2rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--acento);
-  color: var(--fondo);
-  font: inherit;
-  font-weight: 500;
-  cursor: pointer;
-  transition: transform 160ms var(--ease-out), filter 150ms ease, border-color 150ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  button:hover { filter: brightness(1.08); }
-}
-
 /* 6. Pie de página */
 footer {
   border-top: 1px solid var(--borde);
@@ -473,11 +417,6 @@ footer ul {
 
 #contacto h2 + p a { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
 
-/* Ayuda y estado del formulario */
-form small { color: var(--texto-suave); font-size: .9rem; }
-.estado-form { margin: 0; color: var(--texto-suave); }
-.estado-form:empty { display: none; }
-
 /* Servicios: la oferta a la izquierda, lo que incluye a la derecha */
 #servicios {
   display: grid;
@@ -513,16 +452,6 @@ form small { color: var(--texto-suave); font-size: .9rem; }
   #servicios { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 
-/* WhatsApp es la acción principal en Contacto; el formulario queda como alternativa */
-form button {
-  background: transparent;
-  color: var(--texto);
-  border: 1.5px solid var(--borde-fuerte);
-}
-@media (hover: hover) and (pointer: fine) {
-  form button:hover { filter: none; border-color: var(--acento); }
-}
-
 .whatsapp-flotante {
   position: fixed;
   right: 1.25rem;
@@ -553,12 +482,12 @@ form button {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  .btn, button { transition: filter 150ms ease, border-color 150ms ease; }
+  .btn { transition: filter 150ms ease, border-color 150ms ease; }
   .proyectos article { transition: border-color 200ms ease; }
   .proyectos article img,
   .whatsapp-flotante { transition: none; }
 
-  .btn:active, button:active,
+  .btn:active,
   .proyectos article:hover,
   .proyectos article:active,
   .proyectos article:hover img,
