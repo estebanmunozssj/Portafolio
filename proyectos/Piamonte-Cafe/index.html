@@ -45,7 +45,8 @@
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
 
-    <!-- Datos para Google (negocio local). CONFIRMAR horario con el dueño -->
+    <!-- Datos para Google (negocio local): nombre, teléfono, dirección y horario.
+         Con esto Google puede mostrar "Abierto" o "Cerrado" cuando alguien busca el café -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -60,6 +61,12 @@
             "addressRegion": "Valle del Cauca",
             "addressCountry": "CO"
         },
+        "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "16:00",
+            "closes": "22:00"
+        }],
         "sameAs": ["https://www.instagram.com/piamonte.cafe/"]
     }
     </script>
@@ -72,7 +79,6 @@
          Arriba de todo es oscuro (sobre la portada) y al bajar se vuelve crema (lo hace js/main.js) -->
     <header class="encabezado" id="encabezado">
         <a href="#inicio" class="logo" aria-label="Piamonte Café, ir al inicio">
-            <!-- TODO: cambiar por el logo real cuando lo mande tu amigo -->
             <span class="logo-nombre">Piamonte</span>
             <span class="logo-cafe">café</span>
         </a>
@@ -88,8 +94,7 @@
     <section class="portada" id="inicio" aria-label="Portada">
         <!-- Bloque central: logo + frase. Al hacer scroll se mueve como una sola pieza (efecto parallax en js/scroll.js) -->
         <div class="portada-centro">
-        <!-- Logo animado: se arma por partes (círculo, granos, nombre, "café"). Los tiempos están en css/estilos.css
-             TODO: cuando llegue el logo real, ajustar formas y colores -->
+        <!-- Logo animado: se arma por partes (disco, anillo, granos, nombre y "café"). Los tiempos están en css/estilos.css -->
         <h1 class="portada-logo">
             <span class="solo-lectores">Piamonte café</span> <!-- Lo leen Google y los lectores de pantalla -->
             <!-- Copia del logo real de Piamonte (portada de su menú): disco crema, anillo como marca de taza,
@@ -138,12 +143,12 @@
         <!-- ===== HISTORIA (corta) ===== -->
         <section class="seccion historia" id="historia">
             <h2>Una familia caficultora.</h2>
-            <p>Nuestro café viene de nuestra finca <strong>Piamonte, en Dopo (Yotoco)</strong>. Lo sembramos, lo cosechamos y te lo servimos con nuestras propias manos.</p>
+            <p>Nuestro café viene de nuestra finca <strong>Piamonte, en Dopo (Yotoco)</strong>. Lo sembramos, lo cosechamos, lo tostamos y te lo servimos con nuestras propias manos.</p>
 
             <ol class="pasos">
                 <li><span>1</span>Siembra</li>
                 <li><span>2</span>Cosecha</li>
-                <li><span>3</span>Tostión</li> <!-- CONFIRMAR: ¿ellos mismos tuestan el café? -->
+                <li><span>3</span>Tostión</li>
                 <li><span>4</span>Tu taza</li>
             </ol>
 
@@ -299,8 +304,11 @@
                         <dd><a href="https://www.instagram.com/piamonte.cafe/reel/DNQslu0NVS-/" target="_blank" rel="noopener">Video: cómo llegar →</a></dd>
                     </div>
                     <div>
+                        <!-- PRONTO abrirán también en las mañanas. Cuando pase, actualizar el horario aquí
+                             Y en "openingHoursSpecification" (datos para Google, en el <head>) -->
                         <dt>Horario</dt>
-                        <dd>Por confirmar</dd> <!-- CONFIRMAR horario. Ej: Lunes a sábado · 2 a 9 p. m. -->
+                        <dd>Miércoles a domingo · 4 a 10 p. m.</dd>
+                        <dd class="dato-suave">Lunes y martes cerrado</dd>
                     </div>
                     <div>
                         <dt>Escríbenos y domicilios</dt>
@@ -315,8 +323,7 @@
                 <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
                 <a href="#inicio">Volver arriba</a>
 
-                <!-- Aviso de privacidad (Ley 1581 de 2012). Se despliega al tocarlo.
-                     CONFIRMAR con el dueño: nombre del responsable y el WhatsApp para estos temas -->
+                <!-- Aviso de privacidad (Ley 1581 de 2012). Se despliega al tocarlo -->
                 <details class="privacidad">
                     <summary>Aviso de privacidad</summary>
                     <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
