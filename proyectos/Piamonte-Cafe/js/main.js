@@ -1,6 +1,6 @@
 'use strict'; // Modo estricto: el navegador avisa de errores que de otro modo pasarían callados
 
-const NUMERO = '573026402521'; // WhatsApp de domicilios de Piamonte: 57 (Colombia) + 302 640 2521, sin + ni espacios
+const NUMERO = '573168798017'; // WhatsApp de domicilios de Piamonte: 57 (Colombia) + 316 879 8017, sin + ni espacios
 
 /* =========================================================
    MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
