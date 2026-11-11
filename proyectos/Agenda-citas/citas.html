@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda del consultorio | Sonrisa Yotoco</title>
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#13294B">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header class="barra">
+        <a class="logo" href="index.html">Sonrisa Yotoco</a>
+        <span class="barra-nota">Agenda del consultorio</span>
+    </header>
+
+    <main class="agenda">
+
+        <section class="flujo" aria-labelledby="titulo-dia">
+            <h1 id="titulo-dia">Citas del día</h1>
+            <p class="intro" id="resumen-dia" aria-live="polite" tabindex="-1"></p>
+
+            <!-- Días para revisar -->
+            <div class="dias" id="lista-dias" role="radiogroup" aria-label="Elige el día">
+                <!-- JavaScript dibuja aquí los días -->
+            </div>
+
+            <!-- La ficha del día: qué horas están ocupadas -->
+            <div class="ficha" id="ficha-dia"></div>
+            <ul class="leyenda">
+                <li><span class="mini registro">8:00</span>Libre</li>
+                <li><span class="mini ocupada">8:30</span>Ocupada (toca para ver el paciente)</li>
+            </ul>
+
+            <!-- Lista de citas -->
+            <h2 class="titulo-lista">Pacientes</h2>
+            <ol class="lista-citas" id="lista-citas">
+                <!-- JavaScript dibuja aquí las citas -->
+            </ol>
+        </section>
+
+        <aside class="consultorio" aria-labelledby="titulo-ayuda">
+            <h2 id="titulo-ayuda">Cómo funciona</h2>
+            <p>Aquí ve el consultorio las citas que los pacientes reservan desde la página principal.</p>
+            <p>Las citas marcadas como <strong>ejemplo</strong> son inventadas para mostrar la agenda llena.</p>
+            <p class="nota">En esta versión de práctica las citas se guardan solo en este navegador.</p>
+            <a class="enlace" href="index.html">Ir a la página de reservas</a>
+        </aside>
+    </main>
+
+    <footer class="pie">
+        <p>Sonrisa Yotoco es un consultorio ficticio: proyecto de práctica de Esteban Muñoz.</p>
+    </footer>
+
+    <script src="js/datos.js"></script>
+    <script src="js/agenda.js"></script>
+    <script src="js/citas.js"></script>
+</body>
+</html>

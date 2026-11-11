@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonrisa Yotoco | Agenda tu cita</title>
+    <meta name="description" content="Consultorio odontológico en Yotoco. Reserva tu cita en línea en menos de un minuto.">
+    <meta name="theme-color" content="#13294B">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <!-- Encabezado: nombre del consultorio -->
+    <header class="barra">
+        <a class="logo" href="index.html">Sonrisa Yotoco</a>
+        <span class="barra-nota">Odontología</span>
+    </header>
+
+    <main class="agenda">
+
+        <!-- Columna principal: la reserva paso a paso -->
+        <section class="flujo" aria-labelledby="titulo-agenda">
+            <h1 id="titulo-agenda">Agenda tu cita</h1>
+            <p class="intro">Elige el servicio, el día y la hora. Sin llamadas ni esperas.</p>
+
+            <!-- Barra de progreso: 4 pasos -->
+            <div class="progreso" aria-hidden="true">
+                <i></i><i></i><i></i><i></i>
+            </div>
+            <p class="paso-n" id="paso-n" aria-live="polite">Paso 1 de 4</p>
+
+            <noscript>
+                <p class="aviso">Para ver las horas libres necesitas activar JavaScript en tu navegador.</p>
+            </noscript>
+
+            <form id="formulario-cita" novalidate>
+
+                <!-- Paso 1: servicio -->
+                <fieldset class="paso" data-paso="1">
+                    <legend><h2 tabindex="-1">¿Qué necesitas?</h2></legend>
+                    <div class="servicios" id="lista-servicios">
+                        <!-- JavaScript dibuja aquí los servicios (ver js/datos.js) -->
+                    </div>
+                    <p class="error" id="error-1" hidden>Elige un servicio para seguir.</p>
+                    <div class="acciones">
+                        <button type="button" class="boton" data-ir="2">Seguir</button>
+                    </div>
+                </fieldset>
+
+                <!-- Paso 2: día -->
+                <fieldset class="paso" data-paso="2" hidden>
+                    <legend><h2 tabindex="-1">¿Qué día te queda bien?</h2></legend>
+                    <p class="elegido" id="resumen-2"></p>
+                    <div class="dias" id="lista-dias">
+                        <!-- JavaScript dibuja aquí los próximos días hábiles -->
+                    </div>
+                    <p class="nota">Los domingos no atendemos. Los sábados, solo en la mañana.</p>
+                    <p class="error" id="error-2" hidden>Elige un día para seguir.</p>
+                    <div class="acciones">
+                        <button type="button" class="boton-texto" data-ir="1">Atrás</button>
+                        <button type="button" class="boton" data-ir="3">Seguir</button>
+                    </div>
+                </fieldset>
+
+                <!-- Paso 3: hora (la ficha con mañana y tarde) -->
+                <fieldset class="paso" data-paso="3" hidden>
+                    <legend><h2 tabindex="-1">¿A qué hora?</h2></legend>
+                    <p class="elegido" id="resumen-3"></p>
+                    <div class="ficha" id="ficha-horas">
+                        <!-- JavaScript dibuja aquí las horas del día elegido -->
+                    </div>
+                    <!-- Leyenda con celdas de verdad: se entiende sin depender del color -->
+                    <ul class="leyenda">
+                        <li><span class="mini">8:00</span>Libre</li>
+                        <li><span class="mini ocupada">8:30</span>Ocupada</li>
+                        <li><span class="mini no-alcanza">9:30</span>No alcanza el tiempo</li>
+                        <li><span class="mini tuya">9:00</span>Tu hora</li>
+                    </ul>
+                    <p class="error" id="error-3" hidden>Elige una hora para seguir.</p>
+                    <div class="acciones">
+                        <button type="button" class="boton-texto" data-ir="2">Atrás</button>
+                        <button type="button" class="boton" data-ir="4">Seguir</button>
+                    </div>
+                </fieldset>
+
+                <!-- Paso 4: datos del paciente -->
+                <fieldset class="paso" data-paso="4" hidden>
+                    <legend><h2 tabindex="-1">Tus datos</h2></legend>
+                    <p class="elegido" id="resumen-4"></p>
+
+                    <div class="campo">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" autocomplete="name" required minlength="3" aria-describedby="error-nombre">
+                        <p class="error" id="error-nombre" hidden>Escribe tu nombre (mínimo 3 letras).</p>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefono">Celular (WhatsApp)</label>
+                        <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="numeric" required placeholder="300 123 4567" aria-describedby="ayuda-telefono error-telefono">
+                        <p class="ayuda" id="ayuda-telefono">10 números, empieza por 3.</p>
+                        <p class="error" id="error-telefono" hidden>Revisa el número: deben ser 10 números y empezar por 3.</p>
+                    </div>
+
+                    <p class="error" id="error-4" hidden></p>
+                    <div class="acciones">
+                        <button type="button" class="boton-texto" data-ir="3">Atrás</button>
+                        <button type="submit" class="boton">Reservar cita</button>
+                    </div>
+                </fieldset>
+            </form>
+
+            <!-- Confirmación: oculta hasta que se reserve -->
+            <section class="confirmacion" id="confirmacion" hidden aria-labelledby="titulo-confirmacion">
+                <h2 id="titulo-confirmacion" tabindex="-1">¡Cita reservada!</h2>
+                <dl class="resumen-cita" id="resumen-cita">
+                    <!-- JavaScript escribe aquí el resumen -->
+                </dl>
+                <p class="intro">Envíate la confirmación por WhatsApp para tenerla a mano.</p>
+                <div class="acciones columna">
+                    <a class="boton" id="enviar-whatsapp" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+                    <button type="button" class="boton-texto" id="otra-cita">Agendar otra cita</button>
+                </div>
+            </section>
+        </section>
+
+        <!-- Columna lateral: datos del consultorio -->
+        <aside class="consultorio" aria-labelledby="titulo-consultorio">
+            <h2 id="titulo-consultorio">El consultorio</h2>
+            <dl>
+                <dt>Dirección</dt>
+                <dd>Calle 5 # 4-20, Yotoco, Valle del Cauca</dd>
+                <dt>Lunes a viernes</dt>
+                <dd>8:00&nbsp;a.&nbsp;m. a 12:00&nbsp;m.</dd>
+                <dd>2:00 a 6:00&nbsp;p.&nbsp;m.</dd>
+                <dt>Sábados</dt>
+                <dd>8:00&nbsp;a.&nbsp;m. a 12:00&nbsp;m.</dd>
+            </dl>
+            <a class="enlace" href="citas.html">Ver la agenda del consultorio</a>
+        </aside>
+    </main>
+
+    <!-- Pie: aviso de proyecto de práctica -->
+    <footer class="pie">
+        <p>Sonrisa Yotoco es un consultorio ficticio: proyecto de práctica de Esteban Muñoz.</p>
+    </footer>
+
+    <script src="js/datos.js"></script>
+    <script src="js/agenda.js"></script>
+    <script src="js/reserva.js"></script>
+</body>
+</html>
