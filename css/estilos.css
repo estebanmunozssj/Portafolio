@@ -426,6 +426,12 @@ footer ul {
 }
 .servicios-intro p { color: var(--texto-suave); max-width: 34ch; margin: 0 0 1rem; }
 .servicios-intro .btn { margin-top: .75rem; }
+
+/* Precios "desde" en Servicios */
+.precios-desde { margin: .5rem 0 1.25rem; display: grid; gap: .75rem; }
+.precios-desde li { display: flex; flex-direction: column; color: var(--texto-suave); }
+.precios-desde strong { font-size: 1.75rem; font-weight: 600; line-height: 1.15; color: var(--acento); font-variant-numeric: tabular-nums; }
+.precios-desde small { font-size: 1rem; font-weight: 400; color: var(--texto-suave); }
 .servicios-listas h3 { font-size: 1.25rem; margin: 0 0 1rem; }
 .servicios-listas h3 + ul { margin-bottom: 2.5rem; }
 .servicios-listas ul:last-child { margin-bottom: 0; }
