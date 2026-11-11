@@ -22,7 +22,7 @@
     /* ----- 1. Títulos, textos y listas aparecen al llegar a ellos ----- */
     // Ojo: no animamos los botones con clase .boton porque ya tienen su propio efecto al tocarlos
     const aparecen = gsap.utils.toArray(
-      '.seccion h2, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .lista-experiencias li, .visitanos h2, .datos > div'
+      '.seccion h2, .cita-granos, .cita p, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .lista-experiencias li, .visitanos h2, .datos > div'
     );
 
     gsap.set(aparecen, { autoAlpha: 0, y: 28 }); // Empiezan invisibles y un poco más abajo

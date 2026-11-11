@@ -17,7 +17,9 @@
 
     --letra-titulo: 'Fraunces', Georgia, serif;
     --letra-texto: 'Nunito Sans', system-ui, sans-serif;
-    --letra-logo: 'Parisienne', cursive; /* Como la del logo. Solo para el nombre */
+    --letra-logo: 'Dancing Script', cursive; /* Cursiva gruesa, parecida a la del logo real. Solo para el nombre */
+    --tinta: #2b211c;        /* Casi negro cálido: granos y nombre del logo */
+    --oxido: #8a4a2b;        /* Color óxido del anillo y de "café" en el logo */
 
     --margen: 1.25rem;  /* Espacio a los lados en celular */
     --ancho: 40rem;     /* Ancho máximo del contenido (640px) */
@@ -159,7 +161,7 @@ h2 {
     gap: 0.35rem;
     text-decoration: none;
 }
-.logo-nombre { font-family: var(--letra-logo); font-weight: 400; font-synthesis: none; font-size: 1.75rem; line-height: 1; }
+.logo-nombre { font-family: var(--letra-logo); font-weight: 700; font-synthesis: none; font-size: 1.6rem; line-height: 1; }
 .logo-cafe { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; }
 
 .nav-enlaces {
@@ -223,17 +225,26 @@ h2 {
     white-space: nowrap;
 }
 
-/* Piezas del logo (su aspecto final) */
-.logo-circulo { fill: none; stroke: var(--caramelo-claro); stroke-width: 2; }
-.grano ellipse { fill: var(--caramelo); }
-.grano path { fill: none; stroke: var(--cafe); stroke-width: 2.5; stroke-linecap: round; }
-/* Parisienne solo existe en grosor normal (400). Si le pedimos negrita, el navegador la "inventa"
-   dibujando la letra dos veces un poco corrida: se ve doble. Por eso: peso 400 y sin negrita falsa */
-.logo-nombre-svg { font-family: var(--letra-logo); font-weight: 400; font-synthesis: none; font-size: 66px; fill: var(--crema); }
-.logo-cafe-svg { font-family: var(--letra-texto); font-size: 15px; font-weight: 700; letter-spacing: 0.5em; fill: var(--crema); }
+/* Piezas del logo (su aspecto final), con los colores del logo real */
+.logo-fondo { fill: var(--crema); }
+.logo-circulo { fill: none; stroke: var(--oxido); stroke-width: 2.2; }
+.grano ellipse { fill: var(--tinta); }
+.grano path { fill: none; stroke: var(--crema); stroke-width: 3; stroke-linecap: round; }
+.letra-o { fill: transparent; stroke: none; } /* La "o" no se ve (ni su relleno ni su borde): en su lugar va el grano .grano-o */
+.grano-o ellipse { fill: var(--tinta); }
+.grano-o path { fill: none; stroke: var(--crema); stroke-width: 2; stroke-linecap: round; }
+/* Dancing Script sí trae negrita (700), así que no hay "negrita falsa". font-synthesis: none lo asegura */
+.logo-nombre-svg {
+    font-family: var(--letra-logo); font-weight: 700; font-synthesis: none; font-size: 62px; fill: var(--tinta);
+    /* Borde del mismo color: engrosa el trazo como si fuera de pincel, sin "negrita falsa".
+       paint-order: stroke → pinta el borde primero y el relleno encima, así la letra no se deforma */
+    stroke: var(--tinta); stroke-width: 1.6; stroke-linejoin: round; paint-order: stroke;
+}
+/* "café" en el logo real es una letra derecha, gruesa y redondeada: Kalam se le parece */
+.logo-cafe-svg { font-family: 'Kalam', cursive; font-weight: 700; font-synthesis: none; font-size: 40px; fill: var(--oxido); }
 
 /* ===== ANIMACIÓN DE ENTRADA DEL LOGO =====
-   Orden: círculo → granos → se escribe "Piamonte" → "CAFÉ" → frase → botón
+   Orden: disco → anillo → 3 granos → se escribe "Piamonte" (con su "o" de grano) → "café" → frase → botón
    js/main.js le pone la clase "lista" a la portada cuando cargan las letras, y ahí arranca todo */
 
 /* Mientras cargan las letras, escondemos la portada para que no "salte" */
@@ -242,11 +253,18 @@ h2 {
 .js .portada:not(.lista) .portada-frase,
 .js .portada:not(.lista) .portada-boton { opacity: 0; }
 
+.lista .logo-fondo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: aparecer-disco 600ms var(--ease-out) both;
+}
+
 .lista .logo-circulo {
     transform-box: fill-box;
     transform-origin: center;
-    animation: trazar-circulo 1.1s var(--ease-in-out) both;
+    animation: trazar-circulo 1.1s var(--ease-in-out) 0.2s both;
 }
+
 
 .lista .grano {
     transform-box: fill-box;
@@ -254,7 +272,8 @@ h2 {
     animation: caer-grano 600ms var(--ease-out) both; /* Cae rápido y frena suave al final */
 }
 .lista .grano-1 { animation-delay: 0.55s; }
-.lista .grano-2 { animation-delay: 0.65s; } /* 100 ms después del primero */
+.lista .grano-2 { animation-delay: 0.65s; } /* 100 ms después del anterior */
+.lista .grano-3 { animation-delay: 0.75s; }
 
 .lista .logo-pluma { /* El rectángulo se estira y va descubriendo el nombre */
     transform-box: fill-box;
@@ -267,9 +286,15 @@ h2 {
 .lista .portada-lugar { animation: aparecer 500ms var(--ease-out) 2.08s both; }
 .lista .portada-boton { animation: aparecer 500ms var(--ease-out) 2.16s both; }
 
+/* Como los trazos tienen pathLength="1", "1" es el largo completo: de 1 (oculto) a 0 (dibujado) */
 @keyframes trazar-circulo {
-    from { stroke-dasharray: 868; stroke-dashoffset: 868; transform: rotate(-90deg); } /* 868 = largo del círculo (2 × π × 138) */
-    to { stroke-dasharray: 868; stroke-dashoffset: 0; transform: rotate(-90deg); }
+    from { stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); }
+    to { stroke-dasharray: 1; stroke-dashoffset: 0; transform: rotate(-90deg); }
+}
+
+@keyframes aparecer-disco {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes caer-grano {
@@ -344,6 +369,27 @@ h2 {
     border: 2px solid var(--caramelo);
     color: var(--caramelo-oscuro); /* Más oscuro para que el número se lea bien */
     font-family: var(--letra-titulo);
+}
+
+/* ===== FRASE (franja café) ===== */
+.cita {
+    background: var(--cafe);
+    color: var(--crema);
+    text-align: center;
+    padding: 4rem var(--margen);
+}
+.cita-granos { width: 3.5rem; height: auto; margin-bottom: 1rem; }
+.cita-granos ellipse { fill: var(--caramelo); }
+.cita-granos path { fill: none; stroke: var(--cafe); stroke-width: 2.5; stroke-linecap: round; }
+.cita blockquote { margin: 0 auto; max-width: 28rem; }
+.cita p {
+    margin: 0;
+    font-family: var(--letra-logo);
+    font-weight: 700;
+    font-synthesis: none;
+    font-size: clamp(2.1rem, 9vw, 3.2rem);
+    line-height: 1.15;
+    text-wrap: balance; /* Reparte las palabras en líneas parejas */
 }
 
 /* ===== MENÚ ===== */

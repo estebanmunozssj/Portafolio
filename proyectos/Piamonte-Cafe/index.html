@@ -39,7 +39,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Parisienne&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&family=Kalam:wght@700&display=swap">
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
@@ -91,25 +91,36 @@
              TODO: cuando llegue el logo real, ajustar formas y colores -->
         <h1 class="portada-logo">
             <span class="solo-lectores">Piamonte café</span> <!-- Lo leen Google y los lectores de pantalla -->
+            <!-- Copia del logo real de Piamonte (portada de su menú): disco crema, anillo como marca de taza,
+                 3 granos, "Piamonte" en cursiva (con la "o" convertida en grano) y "café" en color óxido -->
             <svg viewBox="0 0 300 300" aria-hidden="true">
                 <defs>
                     <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
                     <clipPath id="escribir"><rect class="logo-pluma" x="0" y="0" width="300" height="300"/></clipPath>
                 </defs>
-                <circle class="logo-circulo" cx="150" cy="150" r="138"/>
+                <circle class="logo-fondo" cx="150" cy="150" r="146"/>
+                <!-- pathLength="1": le decimos al navegador que el largo del trazo es 1. Así es fácil animarlo de 0 a 1 -->
+                <circle class="logo-circulo" cx="150" cy="150" r="126" pathLength="1"/>
                 <g class="logo-granos">
                     <!-- El <g> de afuera se anima; el de adentro guarda la posición e inclinación de cada grano -->
-                    <g class="grano grano-1"><g transform="translate(138 82) rotate(-25)">
-                        <ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/>
+                    <g class="grano grano-1"><g transform="translate(150 57) rotate(20)">
+                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
                     </g></g>
-                    <g class="grano grano-2"><g transform="translate(163 76) rotate(20)">
-                        <ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/>
+                    <g class="grano grano-2"><g transform="translate(127 88) rotate(-60)">
+                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
+                    </g></g>
+                    <g class="grano grano-3"><g transform="translate(161 93) rotate(-28)">
+                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
                     </g></g>
                 </g>
                 <g clip-path="url(#escribir)">
-                    <text class="logo-nombre-svg" x="150" y="172" text-anchor="middle">Piamonte</text>
+                    <!-- La "o" queda invisible pero guarda su espacio; encima va un grano, como en el logo real -->
+                    <text class="logo-nombre-svg" x="148" y="168" text-anchor="middle">Piam<tspan class="letra-o">o</tspan>nte</text>
+                    <g class="grano-o" transform="translate(172 152) rotate(12)">
+                        <ellipse rx="10" ry="14"/><path d="M-1.5 -12c6 6-5 14 1.5 24"/>
+                    </g>
                 </g>
-                <text class="logo-cafe-svg" x="150" y="212" text-anchor="middle">CAFÉ</text>
+                <text class="logo-cafe-svg" x="150" y="216" text-anchor="middle">café</text>
             </svg>
         </h1>
         <p class="portada-frase">De la finca, directo a tu mesa.</p>
@@ -138,6 +149,18 @@
             <!-- Foto de la finca (sacada del Instagram de Piamonte). width/height evitan que la página "salte" al cargar -->
             <img class="foto-historia" src="img/finca.jpg" width="1100" height="641" loading="lazy" decoding="async"
                  alt="Camino de piedra que sube a la casa de la finca Piamonte, entre potreros verdes, en Dopo (Yotoco)">
+        </section>
+
+        <!-- ===== FRASE =====
+             Frase de la pizarra de Piamonte (sale en su menú). Franja café de lado a lado -->
+        <section class="cita" aria-label="Frase de Piamonte">
+            <svg class="cita-granos" viewBox="0 0 60 40" aria-hidden="true">
+                <g transform="translate(22 20) rotate(-25)"><ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/></g>
+                <g transform="translate(40 18) rotate(20)"><ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/></g>
+            </svg>
+            <blockquote>
+                <p>Dicen que un café es un abrazo atrapado en una taza.</p>
+            </blockquote>
         </section>
 
         <!-- ===== MENÚ =====
