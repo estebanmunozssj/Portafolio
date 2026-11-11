@@ -685,6 +685,19 @@ h2 {
 }
 .pie p { margin: 0; opacity: 0.8; }
 
+/* Aviso de privacidad: ocupa todo el ancho y se despliega al tocar "Aviso de privacidad" */
+.privacidad { flex-basis: 100%; margin-top: 0.75rem; }
+.privacidad summary {
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    min-height: 44px; /* Fácil de tocar con el dedo */
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+.privacidad p { max-width: 60ch; margin-top: 0.6rem; line-height: 1.55; }
+
 /* ===== PANTALLAS GRANDES (tablet y computador) ===== */
 @media (min-width: 769px) {
     :root { --margen: 2.5rem; }

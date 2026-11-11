@@ -3,15 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--GOOGLE ANALITIC-->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-97SQJ39PMK"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-97SQJ39PMK');
-    </script>
+    <!-- SEGURIDAD: lista de sitios desde donde la página puede cargar cosas (Content Security Policy).
+         Si alguien lograra meter un script de otro sitio, el navegador lo bloquea.
+         - script-src: scripts propios, GSAP (cdnjs) y el script corto de este HTML que agrega la clase "js" (por su huella sha256).
+           OJO: si cambias el texto de ese script, hay que recalcular su huella o el navegador lo bloquea.
+         - style-src: estilos propios y Google Fonts ('unsafe-inline' porque el menú pinta colores con style="...").
+         - font-src: las letras de Google Fonts. Imágenes y conexiones: solo del propio sitio.
+         Si algún día se agrega algo de otro sitio (por ejemplo la plataforma de tarjetas), hay que sumarlo aquí. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <!-- Al hacer clic en un enlace externo, solo se comparte el dominio, no la dirección completa -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Piamonte Café | Café de finca en Yotoco, Valle del Cauca</title> <!-- Título de la pestaña y de Google -->
     <meta name="description" content="Cafetería de una familia caficultora en Yotoco. Café 100% colombiano arábigo de nuestra finca en Dopo, postres, bebidas y experiencias alrededor del café.">
@@ -311,16 +312,31 @@
 
             <footer class="pie">
                 <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
-                <p>Hecho por Esteban Muñoz</p>
+                <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
                 <a href="#inicio">Volver arriba</a>
+
+                <!-- Aviso de privacidad (Ley 1581 de 2012). Se despliega al tocarlo.
+                     CONFIRMAR con el dueño: nombre del responsable y el WhatsApp para estos temas -->
+                <details class="privacidad">
+                    <summary>Aviso de privacidad</summary>
+                    <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
+                    <p>Si nos escribes por WhatsApp, esa conversación la maneja WhatsApp (Meta) con sus propias reglas de privacidad.</p>
+                    <p>Responsable: Piamonte Café, Calle 6 # 3-116, Yotoco, Valle del Cauca. Según la Ley 1581 de 2012 puedes conocer, actualizar o pedir que borremos tus datos escribiéndonos al WhatsApp 316 879 8017.</p>
+                </details>
             </footer>
         </section>
 
     </main>
 
-    <!-- GSAP: librería de animaciones. ScrollTrigger: su plugin para animar al hacer scroll -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP: librería de animaciones. ScrollTrigger: su plugin para animar al hacer scroll.
+         integrity = "huella" del archivo: si alguien lo cambia en el servidor, el navegador NO lo ejecuta.
+         crossorigin="anonymous" es necesario para que el navegador pueda revisar esa huella -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+            integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+            integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/main.js"></script>
     <script src="js/scroll.js"></script> <!-- Efectos de scroll (usa GSAP) -->
 
