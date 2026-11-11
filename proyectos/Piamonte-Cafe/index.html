@@ -3,20 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- SEGURIDAD: lista de sitios desde donde la página puede cargar cosas (Content Security Policy).
-         Si alguien lograra meter un script de otro sitio, el navegador lo bloquea.
-         - script-src: scripts propios, GSAP (cdnjs) y el script corto de este HTML que agrega la clase "js" (por su huella sha256).
-           OJO: si cambias el texto de ese script, hay que recalcular su huella o el navegador lo bloquea.
-         - style-src: estilos propios y Google Fonts ('unsafe-inline' porque el menú pinta colores con style="...").
-         - font-src: las letras de Google Fonts. Imágenes y conexiones: solo del propio sitio.
-         Si algún día se agrega algo de otro sitio (por ejemplo la plataforma de tarjetas), hay que sumarlo aquí. -->
+    <!-- SEGURIDAD (CSP): sitios desde donde la página puede cargar cosas; lo demás se bloquea.
+         OJO: el script que agrega la clase "js" está permitido por su huella sha256. Si cambias su texto, recalcula la huella.
+         Si se agrega algo de otro sitio (ej. la plataforma de tarjetas), hay que sumarlo aquí. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-    <!-- Al hacer clic en un enlace externo, solo se comparte el dominio, no la dirección completa -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Piamonte Café | Café de finca en Yotoco, Valle del Cauca</title> <!-- Título de la pestaña y de Google -->
+    <title>Piamonte Café | Café de finca en Yotoco, Valle del Cauca</title>
     <meta name="description" content="Cafetería de una familia caficultora en Yotoco. Café 100% colombiano arábigo de nuestra finca en Dopo, postres, bebidas y experiencias alrededor del café.">
-    <meta name="theme-color" content="#3b2418"> <!-- Color de la barra del navegador en celular -->
+    <meta name="theme-color" content="#3b2418">
 
     <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
     <meta property="og:type" content="website">
@@ -24,18 +19,16 @@
     <meta property="og:title" content="Piamonte Café | De la finca, directo a tu mesa">
     <meta property="og:description" content="Café de nuestra finca en Dopo, Yotoco. Mira el menú y ven a vivir la experiencia.">
     <meta property="og:locale" content="es_CO">
-    <!-- Dirección de la página e imagen de la tarjeta (1200 x 630, el tamaño que usan WhatsApp y Facebook).
-         Deben ser direcciones completas (con https://). Si Piamonte compra su propio dominio, cámbialas aquí -->
+    <!-- Direcciones completas (con https://). Si Piamonte compra su dominio, cámbialas aquí -->
     <meta property="og:url" content="https://estebandev.online/proyectos/Piamonte-Cafe/">
     <meta property="og:image" content="https://estebandev.online/proyectos/Piamonte-Cafe/img/compartir.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Logo de Piamonte Café sobre la foto de su finca en Yotoco: De la finca, directo a tu mesa">
-    <!-- Lo mismo para X (Twitter): tarjeta con imagen grande -->
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://estebandev.online/proyectos/Piamonte-Cafe/">
 
-    <!-- Iconito de la pestaña: un grano de café, sin necesitar un archivo aparte -->
+    <!-- Ícono de la pestaña (grano de café) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233b2418'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' transform='rotate(30 16 16)' fill='%23f5ede1'/%3E%3Cpath d='M12.5 8.5c5 4 1 11 7 15' stroke='%233b2418' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,8 +38,7 @@
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
 
-    <!-- Datos para Google (negocio local): nombre, teléfono, dirección y horario.
-         Con esto Google puede mostrar "Abierto" o "Cerrado" cuando alguien busca el café -->
+    <!-- Datos para Google: con el horario, Google puede mostrar "Abierto" o "Cerrado" -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -75,8 +67,7 @@
 <body>
     <a class="saltar-link" href="#contenido">Saltar al contenido</a>
 
-    <!-- ===== ENCABEZADO FIJO =====
-         Arriba de todo es oscuro (sobre la portada) y al bajar se vuelve crema (lo hace js/main.js) -->
+    <!-- ===== ENCABEZADO FIJO (al bajar se vuelve crema: js/main.js) ===== -->
     <header class="encabezado" id="encabezado">
         <a href="#inicio" class="logo" aria-label="Piamonte Café, ir al inicio">
             <span class="logo-nombre">Piamonte</span>
@@ -92,20 +83,18 @@
 
     <!-- ===== PORTADA ===== -->
     <section class="portada" id="inicio" aria-label="Portada">
-        <!-- Bloque central: logo + frase. Al hacer scroll se mueve como una sola pieza (efecto parallax en js/scroll.js) -->
+        <!-- Logo + frase: se mueven juntos al hacer scroll (parallax) -->
         <div class="portada-centro">
-        <!-- Logo animado: se arma por partes (disco, anillo, granos, nombre y "café"). Los tiempos están en css/estilos.css -->
         <h1 class="portada-logo">
-            <span class="solo-lectores">Piamonte café</span> <!-- Lo leen Google y los lectores de pantalla -->
-            <!-- Copia del logo real de Piamonte (portada de su menú): disco crema, anillo como marca de taza,
-                 3 granos, "Piamonte" en cursiva (con la "o" convertida en grano) y "café" en color óxido -->
+            <span class="solo-lectores">Piamonte café</span>
+            <!-- Logo de Piamonte en SVG (copiado del de su menú). Animación en css/estilos.css -->
             <svg viewBox="0 0 300 300" aria-hidden="true">
                 <defs>
                     <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
                     <clipPath id="escribir"><rect class="logo-pluma" x="0" y="0" width="300" height="300"/></clipPath>
                 </defs>
                 <circle class="logo-fondo" cx="150" cy="150" r="146"/>
-                <!-- pathLength="1": le decimos al navegador que el largo del trazo es 1. Así es fácil animarlo de 0 a 1 -->
+                <!-- pathLength="1": el largo del trazo vale 1, así se anima fácil de 0 a 1 -->
                 <circle class="logo-circulo" cx="150" cy="150" r="126" pathLength="1"/>
                 <g class="logo-granos">
                     <!-- El <g> de afuera se anima; el de adentro guarda la posición e inclinación de cada grano -->
@@ -120,7 +109,7 @@
                     </g></g>
                 </g>
                 <g clip-path="url(#escribir)">
-                    <!-- La "o" queda invisible pero guarda su espacio; encima va un grano, como en el logo real -->
+                    <!-- La "o" queda invisible (guarda su espacio) y encima va un grano -->
                     <text class="logo-nombre-svg" x="148" y="168" text-anchor="middle">Piam<tspan class="letra-o">o</tspan>nte</text>
                     <g class="grano-o" transform="translate(172 152) rotate(12)">
                         <ellipse rx="10" ry="14"/><path d="M-1.5 -12c6 6-5 14 1.5 24"/>
@@ -152,13 +141,12 @@
                 <li><span>4</span>Tu taza</li>
             </ol>
 
-            <!-- Foto de la finca (sacada del Instagram de Piamonte). width/height evitan que la página "salte" al cargar -->
+            <!-- width/height evitan que la página "salte" mientras carga la foto -->
             <img class="foto-historia" src="img/finca.jpg" width="1100" height="641" loading="lazy" decoding="async"
                  alt="Camino de piedra que sube a la casa de la finca Piamonte, entre potreros verdes, en Dopo (Yotoco)">
         </section>
 
-        <!-- ===== FRASE =====
-             Frase de la pizarra de Piamonte (sale en su menú). Franja café de lado a lado -->
+        <!-- ===== FRASE (de la pizarra de Piamonte) ===== -->
         <section class="cita" aria-label="Frase de Piamonte">
             <svg class="cita-granos" viewBox="0 0 60 40" aria-hidden="true">
                 <g transform="translate(22 20) rotate(-25)"><ellipse rx="10" ry="15"/><path d="M-2 -13c6 7-4 15 2 26"/></g>
@@ -169,16 +157,13 @@
             </blockquote>
         </section>
 
-        <!-- ===== MENÚ =====
-             Los productos y precios están en js/main.js (lista MENU). Ahí los cambias -->
+        <!-- ===== MENÚ (productos y precios: lista MENU en js/main.js) ===== -->
         <section class="seccion menu" id="menu">
             <h2>¿Qué vas a pedir?</h2>
             <p class="menu-ayuda">Toca un producto para ver su precio y cómo se arma.</p>
 
-            <!-- Botones de categorías: se deslizan con el dedo hacia los lados -->
             <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
 
-            <!-- Tarjeta grande con el dibujo de la bebida elegida -->
             <div class="destacado" id="destacado" aria-live="polite">
                 <div class="destacado-dibujo" id="destacado-dibujo"></div>
                 <div class="destacado-texto">
@@ -188,15 +173,12 @@
                 </div>
             </div>
 
-            <!-- Lista de productos de la categoría elegida -->
             <div class="productos" id="productos"></div>
 
-            <!-- Adiciones: se pueden sumar a cualquier bebida -->
             <p class="menu-nota">
                 <strong>Adiciones:</strong> esencias $2.000 · licor, vodka o gin $4.000 · Amaretto $4.000 · Baileys $3.000
             </p>
 
-            <!-- Domicilios: lleva directo al WhatsApp con un mensaje listo -->
             <div class="domicilio">
                 <p><strong>¿No puedes venir?</strong> Te lo llevamos. Hacemos domicilios.</p>
                 <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener">Pide por WhatsApp</a>
@@ -205,9 +187,7 @@
             <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
         </section>
 
-        <!-- ===== GALERÍA =====
-             Fotos del Instagram de Piamonte. En celular es una fila que se desliza con el dedo.
-             Para agregar una foto: copia un <li> completo y cambia src, alt y el texto -->
+        <!-- ===== GALERÍA (para agregar una foto: copia un <li> y cambia src, alt y el texto) ===== -->
         <section class="seccion galeria" id="galeria">
             <h2>Así se ve Piamonte.</h2>
             <p class="galeria-intro">Desliza para ver más →</p>
@@ -304,8 +284,7 @@
                         <dd><a href="https://www.instagram.com/piamonte.cafe/reel/DNQslu0NVS-/" target="_blank" rel="noopener">Video: cómo llegar →</a></dd>
                     </div>
                     <div>
-                        <!-- PRONTO abrirán también en las mañanas. Cuando pase, actualizar el horario aquí
-                             Y en "openingHoursSpecification" (datos para Google, en el <head>) -->
+                        <!-- Pronto abrirán en las mañanas: actualizar aquí Y en "openingHoursSpecification" (<head>) -->
                         <dt>Horario</dt>
                         <dd>Miércoles a domingo · 4 a 10 p. m.</dd>
                         <dd class="dato-suave">Lunes y martes cerrado</dd>
@@ -323,7 +302,7 @@
                 <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
                 <a href="#inicio">Volver arriba</a>
 
-                <!-- Aviso de privacidad (Ley 1581 de 2012). Se despliega al tocarlo -->
+                <!-- Aviso de privacidad (Ley 1581 de 2012) -->
                 <details class="privacidad">
                     <summary>Aviso de privacidad</summary>
                     <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
@@ -335,9 +314,8 @@
 
     </main>
 
-    <!-- GSAP: librería de animaciones. ScrollTrigger: su plugin para animar al hacer scroll.
-         integrity = "huella" del archivo: si alguien lo cambia en el servidor, el navegador NO lo ejecuta.
-         crossorigin="anonymous" es necesario para que el navegador pueda revisar esa huella -->
+    <!-- GSAP + ScrollTrigger. integrity: si el archivo cambia en el servidor, el navegador no lo ejecuta
+         (crossorigin="anonymous" es necesario para revisar esa huella) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
             integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -345,7 +323,7 @@
             integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/main.js"></script>
-    <script src="js/scroll.js"></script> <!-- Efectos de scroll (usa GSAP) -->
+    <script src="js/scroll.js"></script>
 
 </body>
 

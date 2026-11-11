@@ -6,28 +6,28 @@
 /* ===== COLORES Y LETRAS (cámbialos aquí y cambia toda la página) ===== */
 :root {
     --cafe: #3b2418;         /* Café oscuro: portada, textos y botones */
-    --cafe-suave: #74533f;   /* Textos secundarios */
-    --crema: #f6efe4;        /* Fondo principal */
-    --crema-oscura: #ece0cd; /* Tarjetas y fondos suaves */
-    --verde: #3f5a33;        /* Verde montaña: sección Visítanos */
-    --caramelo: #c08a4e;     /* Acentos */
+    --cafe-suave: #74533f;
+    --crema: #f6efe4;
+    --crema-oscura: #ece0cd;
+    --verde: #3f5a33; /* Sección Visítanos */
+    --caramelo: #c08a4e;
     --caramelo-claro: #e6bd85;
-    --caramelo-oscuro: #8a5a2b; /* Caramelo para texto sobre fondo crema (se lee bien) */
-    --dorado-suave: #f0d3a6;   /* Para textos pequeños sobre el verde */
+    --caramelo-oscuro: #8a5a2b; /* Caramelo legible sobre crema */
+    --dorado-suave: #f0d3a6; /* Textos pequeños sobre el verde */
 
     --letra-titulo: 'Fraunces', Georgia, serif;
     --letra-texto: 'Nunito Sans', system-ui, sans-serif;
-    --letra-logo: 'Dancing Script', cursive; /* Cursiva gruesa, parecida a la del logo real. Solo para el nombre */
+    --letra-logo: 'Dancing Script', cursive; /* Solo para el logo */
     --tinta: #2b211c;        /* Casi negro cálido: granos y nombre del logo */
     --oxido: #8a4a2b;        /* Color óxido del anillo y de "café" en el logo */
 
-    --margen: 1.25rem;  /* Espacio a los lados en celular */
+    --margen: 1.25rem;
     --ancho: 40rem;     /* Ancho máximo del contenido (640px) */
     --alto-encabezado: 4rem;
 
     /* Curvas de movimiento (las de CSS como 'ease' son muy flojas) */
-    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);     /* Arranca rápido y frena suave: para lo que entra */
-    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* Para lo que se mueve dentro de la pantalla */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* Para lo que entra */
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* Para lo que se mueve en pantalla */
 }
 
 /* ===== BASE ===== */
@@ -67,7 +67,7 @@ button { font: inherit; color: inherit; }
 }
 .saltar-link:focus { left: 1rem; top: 1rem; }
 
-/* Contorno visible solo al navegar con teclado. Oscuro sobre fondo claro, claro sobre fondo oscuro */
+/* Foco visible solo con teclado: oscuro sobre claro, claro sobre oscuro */
 :focus-visible {
     outline: 3px solid var(--cafe);
     outline-offset: 3px;
@@ -76,10 +76,8 @@ button { font: inherit; color: inherit; }
 .encabezado:not(.solido) :focus-visible,
 .visitanos :focus-visible { outline-color: var(--caramelo-claro); }
 
-/* Color al seleccionar texto con el dedo o el mouse */
 ::selection { background: var(--caramelo-claro); color: var(--cafe); }
 
-/* Barra de desplazamiento con los colores de la página (computador) */
 html { scrollbar-color: var(--cafe-suave) var(--crema); }
 
 /* ===== PIEZAS QUE SE REPITEN ===== */
@@ -111,10 +109,10 @@ h2 {
     text-decoration: none;
     transition: transform 160ms var(--ease-out), background-color 200ms ease;
 }
-.boton:active { transform: scale(0.97); } /* Se "hunde" un poco al tocarlo: el usuario siente que la página respondió */
+.boton:active { transform: scale(0.97); }
 
-/* Efectos al pasar el mouse: solo en computador (en celular se quedarían "pegados" después de tocar) */
-@media (hover: hover) and (pointer: fine) { /* Solo con mouse, no con el dedo */
+/* Hover solo con mouse (en celular se quedaría "pegado" después de tocar) */
+@media (hover: hover) and (pointer: fine) {
     .boton:hover { background: var(--verde); }
     .categorias button:hover { background: var(--crema-oscura); }
     .categorias button[aria-pressed="true"]:hover { background: var(--cafe); }
@@ -123,11 +121,10 @@ h2 {
     .datos a:hover { color: var(--dorado-suave); }
 }
 
-/* Foto de la finca en la historia */
 .foto-historia {
     display: block;
     width: 100%;
-    height: auto; /* Mantiene la proporción de la foto */
+    height: auto;
     margin-top: 2rem;
     border-radius: 1.25rem;
     background: var(--crema-oscura); /* Color de fondo mientras carga */
@@ -149,7 +146,7 @@ h2 {
     background: var(--cafe);
     transition: background-color 250ms ease, color 250ms ease;
 }
-.encabezado.solido { /* Al bajar de la portada */
+.encabezado.solido {
     background: var(--crema);
     color: var(--cafe);
     border-bottom: 1px solid var(--crema-oscura);
@@ -174,7 +171,7 @@ h2 {
 .nav-enlaces a {
     display: flex;
     align-items: center;
-    min-height: 44px; /* Tamaño mínimo cómodo para el dedo */
+    min-height: 44px;
     text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
@@ -194,7 +191,7 @@ h2 {
     background: var(--cafe);
     color: var(--crema);
 }
-.portada-lugar { /* "Café 100% colombiano · Yotoco, Valle" debajo de la frase */
+.portada-lugar {
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -210,7 +207,7 @@ h2 {
 }
 
 .portada-logo {
-    width: min(80vw, 22rem); /* Casi todo el ancho en celular, sin pasar de 352px */
+    width: min(80vw, 22rem);
     margin: 1.25rem 0 1.5rem;
 }
 .portada-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -225,12 +222,12 @@ h2 {
     white-space: nowrap;
 }
 
-/* Piezas del logo (su aspecto final), con los colores del logo real */
+/* Piezas del logo (aspecto final) */
 .logo-fondo { fill: var(--crema); }
 .logo-circulo { fill: none; stroke: var(--oxido); stroke-width: 2.2; }
 .grano ellipse { fill: var(--tinta); }
 .grano path { fill: none; stroke: var(--crema); stroke-width: 3; stroke-linecap: round; }
-.letra-o { fill: transparent; stroke: none; } /* La "o" no se ve (ni su relleno ni su borde): en su lugar va el grano .grano-o */
+.letra-o { fill: transparent; stroke: none; } /* La "o" se esconde: en su lugar va .grano-o */
 .grano-o ellipse { fill: var(--tinta); }
 .grano-o path { fill: none; stroke: var(--crema); stroke-width: 2; stroke-linecap: round; }
 /* Dancing Script sí trae negrita (700), así que no hay "negrita falsa". font-synthesis: none lo asegura */
@@ -269,10 +266,10 @@ h2 {
 .lista .grano {
     transform-box: fill-box;
     transform-origin: center bottom;
-    animation: caer-grano 600ms var(--ease-out) both; /* Cae rápido y frena suave al final */
+    animation: caer-grano 600ms var(--ease-out) both;
 }
 .lista .grano-1 { animation-delay: 0.55s; }
-.lista .grano-2 { animation-delay: 0.65s; } /* 100 ms después del anterior */
+.lista .grano-2 { animation-delay: 0.65s; }
 .lista .grano-3 { animation-delay: 0.75s; }
 
 .lista .logo-pluma { /* El rectángulo se estira y va descubriendo el nombre */
@@ -313,7 +310,7 @@ h2 {
 }
 
 @keyframes aparecer {
-    from { opacity: 0; transform: translateY(8px); filter: blur(3px); } /* Un poco de desenfoque hace la entrada más suave */
+    from { opacity: 0; transform: translateY(8px); filter: blur(3px); }
     to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
@@ -325,7 +322,7 @@ h2 {
     font-size: 1.25rem;
     max-width: 22ch;
     margin-bottom: 0.6rem;
-    text-wrap: balance; /* Reparte las palabras para que no quede una sola en la última línea */
+    text-wrap: balance;
 }
 .portada-boton {
     margin-top: auto; /* Lo empuja al fondo de la pantalla */
@@ -340,7 +337,7 @@ h2 {
     text-transform: uppercase;
     text-decoration: none;
 }
-.portada-boton svg { animation: rebote 1.6s var(--ease-in-out) 2.8s 3; } /* Rebota 3 veces después de que aparece, y se queda quieta */
+.portada-boton svg { animation: rebote 1.6s var(--ease-in-out) 2.8s 3; } /* Rebota 3 veces y se queda quieta */
 
 @keyframes rebote {
     0%, 100% { transform: translateY(0); }
@@ -367,7 +364,7 @@ h2 {
     margin: 0 auto 0.4rem;
     border-radius: 50%;
     border: 2px solid var(--caramelo);
-    color: var(--caramelo-oscuro); /* Más oscuro para que el número se lea bien */
+    color: var(--caramelo-oscuro);
     font-family: var(--letra-titulo);
 }
 
@@ -389,7 +386,7 @@ h2 {
     font-synthesis: none;
     font-size: clamp(2.1rem, 9vw, 3.2rem);
     line-height: 1.15;
-    text-wrap: balance; /* Reparte las palabras en líneas parejas */
+    text-wrap: balance;
 }
 
 /* ===== MENÚ ===== */
@@ -402,15 +399,15 @@ h2 {
     overflow-x: auto;
     scroll-snap-type: x proximity;
     scroll-padding-inline: var(--margen);
-    scrollbar-width: none; /* Oculta la barra en Firefox */
+    scrollbar-width: none; /* Firefox */
     margin: 1.5rem calc(var(--margen) * -1) 1.25rem; /* Llega hasta el borde de la pantalla */
     padding: 0.25rem var(--margen);
 }
-.categorias::-webkit-scrollbar { display: none; } /* Oculta la barra en Chrome y Safari */
+.categorias::-webkit-scrollbar { display: none; } /* Chrome y Safari */
 .categorias button {
     flex: none;
     scroll-snap-align: start;
-    min-height: 44px; /* Tamaño mínimo cómodo para el dedo */
+    min-height: 44px;
     padding: 0 1.2rem;
     border-radius: 999px;
     border: 2px solid var(--cafe);
@@ -425,7 +422,6 @@ h2 {
     color: var(--crema);
 }
 
-/* Tarjeta grande con el dibujo */
 .destacado {
     display: grid;
     grid-template-columns: 7.5rem 1fr;
@@ -469,7 +465,6 @@ h2 {
     border: 1px solid var(--cafe);
 }
 
-/* Lista de productos en 2 columnas */
 .productos {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -491,11 +486,11 @@ h2 {
     cursor: pointer;
     transition: border-color 200ms ease, transform 160ms var(--ease-out);
 }
-.producto strong { color: var(--verde); font-size: 0.9rem; font-variant-numeric: tabular-nums; } /* Números del mismo ancho: los precios quedan alineados */
+.producto strong { color: var(--verde); font-size: 0.9rem; font-variant-numeric: tabular-nums; } /* Números del mismo ancho: precios alineados */
 .producto:active { transform: scale(0.97); }
 .producto[aria-pressed="true"] { border-color: var(--cafe); }
 
-/* Subtítulos dentro de la lista (Café negro, Con leche...). Ocupan todo el ancho */
+/* Subtítulos de la lista (Café negro, Con leche...) */
 .subgrupo {
     grid-column: 1 / -1;
     margin: 0.9rem 0 0;
@@ -507,7 +502,6 @@ h2 {
 }
 .subgrupo:first-child { margin-top: 0; }
 
-/* Nota de adiciones debajo de la lista */
 .menu-nota {
     margin: 1.25rem 0 0;
     font-size: 0.9rem;
@@ -515,7 +509,6 @@ h2 {
 }
 .menu-nota strong { color: var(--cafe); }
 
-/* Bloque "Hacemos domicilios" */
 .domicilio {
     margin-top: 2rem;
     padding: 1.5rem;
@@ -543,7 +536,6 @@ h2 {
 .dibujo .contorno { stroke: var(--cafe); stroke-width: 3; stroke-linejoin: round; fill-opacity: 1; }
 .dibujo path.contorno:not([fill]) { fill: none; }
 
-/* Vapor que sube de la taza */
 .dibujo .vapor path {
     fill: none;
     stroke: var(--caramelo);
@@ -564,7 +556,7 @@ h2 {
 .dibujo .liquido {
     transform-box: fill-box;
     transform-origin: bottom;
-    animation: llenar 450ms var(--ease-out); /* Corto: la persona puede tocar muchas bebidas seguidas */
+    animation: llenar 450ms var(--ease-out); /* Corto: se tocan muchas bebidas seguidas */
 }
 
 @keyframes llenar {
@@ -575,7 +567,7 @@ h2 {
 /* ===== GALERÍA ===== */
 .galeria-intro { color: var(--cafe-suave); }
 
-/* Fila de fotos que se desliza con el dedo (igual que las categorías del menú) */
+/* Fila que se desliza con el dedo */
 .galeria-fila {
     list-style: none;
     display: flex;
@@ -583,7 +575,7 @@ h2 {
     overflow-x: auto;
     scroll-snap-type: x mandatory; /* Cada foto se "acomoda" al soltar el dedo */
     scrollbar-width: none;
-    margin: 1.5rem calc(var(--margen) * -1) 0; /* Llega hasta el borde de la pantalla */
+    margin: 1.5rem calc(var(--margen) * -1) 0;
     padding: 0 var(--margen) 0.5rem;
     scroll-padding-inline: var(--margen);
 }
@@ -602,7 +594,7 @@ h2 {
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 1.25rem;
-    background: var(--crema-oscura); /* Color mientras carga */
+    background: var(--crema-oscura);
 }
 .galeria-fila figcaption {
     margin-top: 0.6rem;
@@ -610,10 +602,10 @@ h2 {
     font-size: 0.95rem;
 }
 
-/* En computador no se desliza con el dedo: mostramos todas en cuadrícula (4 arriba, 3 centradas abajo) */
+/* En computador: cuadrícula en vez de fila deslizable */
 @media (min-width: 769px) {
-    .seccion.galeria { width: min(100% - var(--margen) * 2, 64rem); } /* Un poco más ancha que las otras secciones */
-    .galeria-intro { display: none; } /* "Desliza para ver más" no aplica con mouse */
+    .seccion.galeria { width: min(100% - var(--margen) * 2, 64rem); }
+    .galeria-intro { display: none; }
     .galeria-fila {
         flex-wrap: wrap;
         justify-content: center;
@@ -685,13 +677,13 @@ h2 {
 }
 .pie p { margin: 0; opacity: 0.8; }
 
-/* Aviso de privacidad: ocupa todo el ancho y se despliega al tocar "Aviso de privacidad" */
+/* Aviso de privacidad (se despliega al tocarlo) */
 .privacidad { flex-basis: 100%; margin-top: 0.75rem; }
 .privacidad summary {
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
-    min-height: 44px; /* Fácil de tocar con el dedo */
+    min-height: 44px;
     display: flex;
     align-items: center;
     width: fit-content;
@@ -707,11 +699,10 @@ h2 {
     .nav-enlaces { gap: 2rem; }
 }
 
-/* Si la persona pidió menos movimiento en su sistema, quitamos animaciones */
-/* Menos movimiento NO es cero: quitamos lo que se desplaza o crece, pero dejamos fundidos suaves que ayudan a entender */
+/* Menos movimiento NO es cero: se quita lo que se desplaza, quedan los fundidos */
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    *, *::before, *::after { animation: none !important; } /* Las transiciones cortas de color y opacidad se quedan */
+    *, *::before, *::after { animation: none !important; } /* Las transiciones cortas se quedan */
     .lista .portada-logo,
     .lista .portada-frase,
     .lista .portada-lugar,

@@ -1,6 +1,6 @@
-'use strict'; // Modo estricto: el navegador avisa de errores que de otro modo pasarían callados
+'use strict';
 
-const NUMERO = '573168798017'; // WhatsApp de domicilios de Piamonte: 57 (Colombia) + 316 879 8017, sin + ni espacios
+const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + número, sin + ni espacios
 
 /* =========================================================
    MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
@@ -29,7 +29,6 @@ const MENU = [
   {
     categoria: 'Calientes',
     bebidas: true, // La tarjeta con la taza se queda pegada arriba mientras bajas
-    // tipo: el subgrupo donde aparece el producto (los productos del mismo tipo van seguidos)
     productos: [
       { tipo: 'Café negro', nombre: 'Espresso', precio: 4000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
       { tipo: 'Café negro', nombre: 'Americano', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
@@ -181,13 +180,13 @@ const INGREDIENTES = {
    DIBUJOS (SVG): taza, vaso y platos al estilo Piamonte
    ========================================================= */
 
-// Dibuja las capas de líquido de abajo hacia arriba dentro de un espacio
+// Dibuja las capas de abajo hacia arriba
 function dibujarCapas(capas, abajo, alto) {
-  let y = abajo; // Empezamos desde el fondo
+  let y = abajo;
   return capas
     .map(([ingrediente, cuanto]) => {
-      const h = alto * cuanto; // Alto de esta capa
-      y -= h; // Subimos
+      const h = alto * cuanto;
+      y -= h;
       return `<rect x="0" y="${y}" width="160" height="${h + 0.5}" fill="${INGREDIENTES[ingrediente].color}"/>`;
     })
     .join('');
@@ -196,7 +195,6 @@ function dibujarCapas(capas, abajo, alto) {
 // Cuánto llenan todas las capas juntas (para saber dónde poner lo que va encima)
 const totalCapas = (capas = []) => capas.reduce((suma, [, cuanto]) => suma + cuanto, 0);
 
-// Salsa de chocolate en zigzag encima de la bebida (granizados y malteadas)
 function salsaChocolate(y, desde, hasta) {
   let d = `M${desde} ${y}`;
   for (let x = desde + 8; x <= hasta; x += 8) d += `L${x} ${y + ((x - desde) / 8 % 2 ? 5 : 0)}`;
@@ -242,14 +240,13 @@ function dibujoTaza(capas, p = {}) {
   </svg>`;
 }
 
-// Cubos de hielo del vaso
 const HIELO_VASO = `
       <rect x="58" y="44" width="18" height="18" rx="3" transform="rotate(-12 67 53)" class="hielo"/>
       <rect x="80" y="54" width="17" height="17" rx="3" transform="rotate(10 88 62)" class="hielo"/>
       <rect x="64" y="70" width="16" height="16" rx="3" transform="rotate(6 72 78)" class="hielo"/>`;
 
 function dibujoVaso(capas, p = {}) {
-  const arriba = 124 - 108 * totalCapas(capas); // Altura donde termina la bebida
+  const arriba = 124 - 108 * totalCapas(capas);
   return `
   <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
     <defs><clipPath id="dentro-vaso"><path d="M49 16H111L104 124H56Z"/></clipPath></defs>
@@ -266,7 +263,6 @@ function dibujoVaso(capas, p = {}) {
   </svg>`;
 }
 
-// Copa de malteada: copa ancha arriba, tallo y base
 function dibujoCopa(capas, p = {}) {
   const arriba = 78 - 60 * totalCapas(capas);
   return `
@@ -285,7 +281,7 @@ function dibujoCopa(capas, p = {}) {
   </svg>`;
 }
 
-// Copa balón de las sodas: redonda, con hielo, borde de Tajín y adorno
+// Copa balón de las sodas
 function dibujoBalon(capas, p = {}) {
   return `
   <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
@@ -323,26 +319,21 @@ const PLATO = '<ellipse cx="80" cy="112" rx="66" ry="14" class="plato"/>';
 // Waffle visto de frente. "encima" cambia lo que lleva arriba
 function dibujoWaffle(encima) {
   const arriba = {
-    // Pandebono + topping: chorrito de arequipe y puntos de queso crema
     dulce: `
       <path d="M68 70c-2-8 6-12 12-10 8-4 16 4 12 10z" fill="#fbf3dc" class="contorno"/>
       <path d="M42 80l12-8 12 8 12-8 12 8 12-8 12 8 6-4" stroke="#7a3b1f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-    // Jamón y queso: lechuga, jamón rosado y queso que se derrite
     jamonqueso: `
       <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
       <ellipse cx="80" cy="64" rx="38" ry="8" fill="#e8a0a0" class="contorno"/>
       <path d="M50 60h60v6c-6 0-6 8-12 8s-4-8-10-8-6 10-12 10-4-10-10-10-6 6-16 4z" fill="#f2cf63" class="contorno"/>`,
-    // Pollo: lechuga, filete dorado con marcas de parrilla y tomate
     pollo: `
       <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
       <path d="M46 64c0-10 14-14 26-12 10-6 30-4 38 4 6 6 2 12-8 12H54c-6 0-8-2-8-4z" fill="#c8874a" class="contorno"/>
       <path d="M62 56l6 10M76 54l6 12M90 55l6 11" stroke="#8a5328" stroke-width="2.5" stroke-linecap="round"/>
       <circle cx="46" cy="64" r="7" fill="#d9472f" class="contorno"/><circle cx="114" cy="64" r="7" fill="#d9472f" class="contorno"/>`,
-    // Hawaiano: jamón y trozos de piña
     hawaiano: `
       <ellipse cx="80" cy="66" rx="40" ry="8" fill="#e8a0a0" class="contorno"/>
       <path d="M52 62l8-12 8 12z M72 60l8-12 8 12z M92 62l8-12 8 12z" fill="#f2c94c" class="contorno"/>`,
-    // Con helado: 2 bolas de vainilla y salsa de chocolate
     helado: `
       <circle cx="70" cy="60" r="15" fill="#f7edd8" class="contorno"/>
       <circle cx="90" cy="52" r="15" fill="#f7edd8" class="contorno"/>
@@ -374,7 +365,7 @@ const RELLENOS = {
 
 // Sándwich visto de lado: pan, capas de relleno (de abajo hacia arriba) y pan de arriba
 function dibujoSandwich(relleno = [], pan = 'especias') {
-  let y = 94; // Arriba del pan de abajo
+  let y = 94;
   const capas = relleno.map((nombre) => {
     const r = RELLENOS[nombre];
     y -= r.alto;
@@ -384,7 +375,6 @@ function dibujoSandwich(relleno = [], pan = 'especias') {
     return `<rect x="32" y="${y}" width="96" height="${r.alto + 1}" rx="2" fill="${r.color}" class="contorno"/>`;
   }).join('');
 
-  // Pan de arriba: tajado (cuadrado) o de especias (redondo, con puntitos verdes de hierbas)
   const panArriba = pan === 'tajado'
     ? `<rect x="34" y="${y - 14}" width="92" height="14" rx="4" fill="#e9c98f" class="contorno"/>`
     : `<path d="M34 ${y}c0-26 92-26 92 0z" fill="#d9a35b" class="contorno"/>
@@ -421,15 +411,12 @@ function dibujoCroissant() {
   </svg>`;
 }
 
-// Tapa: tostada vista desde arriba con lo que lleva encima
 function dibujoTapa(encima) {
   const arriba = {
-    // Artesanal: dip de pimentón, pepperoni y finas hierbas
     artesanal: `
       <path d="M52 86c4-10 20-12 30-8s24 2 28 8-8 12-26 12-34-4-32-12z" fill="#d0602f"/>
       <circle cx="66" cy="84" r="7" fill="#a8283c" class="contorno"/><circle cx="88" cy="90" r="7" fill="#a8283c" class="contorno"/><circle cx="104" cy="82" r="6" fill="#a8283c" class="contorno"/>
       <circle cx="78" cy="80" r="1.6" fill="#5f8a3a"/><circle cx="96" cy="94" r="1.6" fill="#5f8a3a"/><circle cx="58" cy="94" r="1.6" fill="#5f8a3a"/>`,
-    // Ibérica: mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel
     iberica: `
       <path d="M48 90c6-8 18-10 26-6" stroke="#a8283c" stroke-width="7" fill="none" stroke-linecap="round"/>
       <path d="M70 92c8-8 26-10 40-2" stroke="#d98b8b" stroke-width="8" fill="none" stroke-linecap="round"/>
@@ -502,18 +489,16 @@ function dibujar(producto) {
   const nombre = document.getElementById('destacado-nombre');
   const precio = document.getElementById('destacado-precio');
   const capas = document.getElementById('destacado-capas');
-  if (!cajaCategorias || !cajaProductos) return; // Si falta algo, no hace nada
+  if (!cajaCategorias || !cajaProductos) return;
 
   const textoPrecio = (p) => (p ? '$' + p.toLocaleString('es-CO') : 'Precio pronto'); // 6500 → $6.500
 
-  // ¿La persona pidió menos movimiento en su celular? Entonces solo fundidos, sin desplazamientos
   const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
   const textoDestacado = document.querySelector('.destacado-texto');
 
   function mostrarProducto(producto, boton) {
     dibujo.innerHTML = dibujar(producto); // Al cambiar el dibujo, la animación de llenado se repite
 
-    // El texto aparece con un fundido corto y un poco de desenfoque, para que no "salte" de golpe
     if (textoDestacado && textoDestacado.animate) {
       textoDestacado.animate(
         menosMovimiento.matches
@@ -544,12 +529,11 @@ function dibujar(producto) {
     // La tarjeta grande solo se queda pegada arriba en las categorías de bebidas
     document.getElementById('destacado').classList.toggle('fijo', Boolean(grupo.bebidas));
 
-    cajaProductos.innerHTML = ''; // Borra los productos de la categoría anterior
+    cajaProductos.innerHTML = '';
     const botones = []; // Guardamos los botones aparte (en la caja también hay subtítulos)
     let tipoAnterior = '';
 
     grupo.productos.forEach((producto, i) => {
-      // Si el producto empieza un subgrupo nuevo, ponemos su subtítulo antes
       if (producto.tipo && producto.tipo !== tipoAnterior) {
         const subtitulo = document.createElement('h4');
         subtitulo.className = 'subgrupo';
@@ -564,19 +548,17 @@ function dibujar(producto) {
       boton.innerHTML = `<span>${producto.nombre}</span><strong>${textoPrecio(producto.precio)}</strong>`;
       boton.addEventListener('click', () => {
         mostrarProducto(producto, boton);
-        // Si la tarjeta no está pegada arriba (comida, repostería...), la traemos a la vista
-        // para que la persona vea los ingredientes del producto que tocó
+        // Sin tarjeta pegada (comida, repostería), la traemos a la vista para que se vean los ingredientes
         if (!grupo.bebidas) {
           document.getElementById('destacado').scrollIntoView({
             behavior: menosMovimiento.matches ? 'auto' : 'smooth',
-            block: 'nearest', // Solo se mueve si hace falta
+            block: 'nearest',
           });
         }
       });
       cajaProductos.appendChild(boton);
       botones.push(boton);
 
-      // Entran uno tras otro (40 ms entre cada uno). Se pueden tocar desde el primer momento
       if (boton.animate && !menosMovimiento.matches) {
         boton.animate(
           [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }],
@@ -590,25 +572,23 @@ function dibujar(producto) {
     const i = inicial >= 0 ? inicial : 0;
     mostrarProducto(grupo.productos[i], botones[i]);
 
-    // Cada categoría tiene distinta cantidad de productos, así que la página cambia de alto.
-    // Le pedimos a GSAP (js/scroll.js) que vuelva a medir dónde empieza cada efecto de scroll.
-    // Si no lo hacemos, secciones como "Visítanos" se pueden quedar sin aparecer
+    // La página cambia de alto según la categoría: GSAP debe volver a medir sus efectos,
+    // si no, secciones como "Visítanos" se pueden quedar sin aparecer
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
 
-  // Crea los botones de categorías
   MENU.forEach((grupo, i) => {
     const boton = document.createElement('button');
     boton.type = 'button';
     boton.textContent = grupo.categoria;
     boton.addEventListener('click', () => {
       mostrarCategoria(i);
-      boton.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); // Centra el botón si estaba cortado
+      boton.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
     });
     cajaCategorias.appendChild(boton);
   });
 
-  mostrarCategoria(0); // Empieza en "Café"
+  mostrarCategoria(0);
 })();
 
 /* =========================================================
@@ -623,13 +603,12 @@ function dibujar(producto) {
   const enlaces = document.querySelectorAll('.nav-enlaces a');
   const secciones = ['historia', 'menu', 'experiencias', 'visitanos']
     .map((id) => document.getElementById(id))
-    .filter(Boolean); // Quita las que no existan
+    .filter(Boolean);
 
   function revisar() {
-    const y = window.scrollY; // Cuánto ha bajado la persona
+    const y = window.scrollY;
 
-    // Cuando la portada sale de la pantalla, el encabezado se vuelve crema
-    // ">=" y "- 1": si llegas justo al borde (por ejemplo con el menú), también cuenta
+    // Encabezado crema al salir de la portada (">= ... - 1" cuenta también el borde exacto)
     encabezado.classList.toggle('solido', y >= portada.offsetHeight - encabezado.offsetHeight - 1);
 
     // La sección actual es la última cuyo inicio ya pasó la mitad de la pantalla
@@ -637,7 +616,6 @@ function dibujar(producto) {
     let actual = '';
     secciones.forEach((s) => { if (s.offsetTop <= mitad) actual = s.id; });
 
-    // Subraya "Menú" o "Visítanos" si estás en esa sección
     enlaces.forEach((a) => a.classList.toggle('activo', a.dataset.seccion === actual));
   }
 
@@ -651,7 +629,7 @@ function dibujar(producto) {
 
 (() => {
   document.querySelectorAll('.js-whatsapp').forEach((enlace) => {
-    if (!NUMERO) { // Mientras no tengamos el número, el botón lleva al Instagram
+    if (!NUMERO) { // Sin número, el botón lleva al Instagram
       enlace.href = 'https://www.instagram.com/piamonte.cafe/';
       return;
     }
@@ -664,5 +642,5 @@ function dibujar(producto) {
 
 (() => {
   const anio = document.getElementById('anio');
-  if (anio) anio.textContent = new Date().getFullYear(); // Se actualiza solo cada año
+  if (anio) anio.textContent = new Date().getFullYear();
 })();
