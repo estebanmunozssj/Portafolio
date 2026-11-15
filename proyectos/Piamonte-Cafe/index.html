@@ -87,15 +87,12 @@
         <div class="portada-centro">
         <h1 class="portada-logo">
             <span class="solo-lectores">Piamonte café</span>
-            <!-- Logo de Piamonte en SVG (copiado del de su menú). Animación en css/estilos.css -->
-            <svg viewBox="0 0 300 300" aria-hidden="true">
+            <!-- Logo de Piamonte en SVG: 3 granos, "Piamonte" y "café" (sin círculos, como pidió el dueño). Animación en css/estilos.css -->
+            <svg viewBox="36 30 228 200" aria-hidden="true">
                 <defs>
                     <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
                     <clipPath id="escribir"><rect class="logo-pluma" x="0" y="0" width="300" height="300"/></clipPath>
                 </defs>
-                <circle class="logo-fondo" cx="150" cy="150" r="146"/>
-                <!-- pathLength="1": el largo del trazo vale 1, así se anima fácil de 0 a 1 -->
-                <circle class="logo-circulo" cx="150" cy="150" r="126" pathLength="1"/>
                 <g class="logo-granos">
                     <!-- El <g> de afuera se anima; el de adentro guarda la posición e inclinación de cada grano -->
                     <g class="grano grano-1"><g transform="translate(150 57) rotate(20)">
@@ -165,6 +162,7 @@
             <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
 
             <div class="destacado" id="destacado" aria-live="polite">
+                <img class="destacado-foto" id="destacado-foto" alt="" width="800" height="800" decoding="async" hidden>
                 <div class="destacado-dibujo" id="destacado-dibujo"></div>
                 <div class="destacado-texto">
                     <h3 id="destacado-nombre">Capuchino</h3>

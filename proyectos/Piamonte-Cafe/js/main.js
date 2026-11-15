@@ -15,6 +15,7 @@ const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + númer
    - Recipientes de bebidas: 'taza', 'vaso', 'copa' (malteadas) o 'balon' (copa balón, sodas)
    - capas: de abajo hacia arriba. [ingrediente, cuánto llena] (1 = llena todo)
    - tipo (opcional): subgrupo con título dentro de la categoría (ej: 'Con leche')
+   - foto (opcional): foto real del producto (ej: 'img/latte.jpg'). Se ve arriba del dibujo
    - bebidas: true en la categoría → la tarjeta de la taza se queda pegada arriba al bajar
    OJO: las capas son aproximadas. Se ajustan cuando tengamos el recetario
    ========================================================= */
@@ -36,13 +37,13 @@ const MENU = [
       { tipo: 'Café negro', nombre: 'Café campesino', precio: 8000, detalle: 'Receta de la casa', recipiente: 'taza', capas: [['casa', 0.85]] },
       { tipo: 'Café negro', nombre: 'Drips café Piamonte', precio: 5000, detalle: 'Café filtrado de la casa', recipiente: 'taza', capas: [['filtrado', 0.8]] },
 
-      { tipo: 'Con leche', nombre: 'Capuchino', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: CAPUCHINO, galletas: true },
+      { tipo: 'Con leche', nombre: 'Capuchino', foto: 'img/capuchino.jpg', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: CAPUCHINO, galletas: true },
       { tipo: 'Con leche', nombre: 'Capuchino grande', precio: 13000, detalle: 'Taza grande', recipiente: 'taza', capas: CAPUCHINO, galletas: true },
       { tipo: 'Con leche', nombre: 'Capuchino con leche de almendras', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['almendra', 0.35], ['espuma', 0.25]], galletas: true },
       { tipo: 'Con leche', nombre: 'Capuchino con chantilly', precio: 10000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['leche', 0.3], ['chantilly', 0.3]], galletas: true },
       { tipo: 'Con leche', nombre: 'Capuchino con esencias', precio: 10000, detalle: 'Con la esencia que prefieras', recipiente: 'taza', capas: [['espressoesencia', 0.3], ['leche', 0.35], ['espuma', 0.25]], galletas: true },
       { tipo: 'Con leche', nombre: 'Flat white', precio: 8000, detalle: 'Taza pequeña · espresso doble', recipiente: 'taza', capas: [['espresso', 0.45], ['leche', 0.4], ['espuma', 0.1]], galletas: true },
-      { tipo: 'Con leche', nombre: 'Latte', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.25], ['leche', 0.55], ['espuma', 0.1]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Latte', foto: 'img/latte.jpg', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.25], ['leche', 0.55], ['espuma', 0.1]], galletas: true },
       { tipo: 'Con leche', nombre: 'Moccaccino', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: MOCCACCINO, galletas: true },
       { tipo: 'Con leche', nombre: 'Moccaccino grande', precio: 14000, detalle: 'Taza grande', recipiente: 'taza', capas: MOCCACCINO, galletas: true },
 
@@ -103,10 +104,10 @@ const MENU = [
     productos: [
       { nombre: 'Waffle de pandebono + topping', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'waffle', encima: 'dulce' },
       { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'waffle', encima: 'jamonqueso' },
-      { nombre: 'Waffle de pollo', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'waffle', encima: 'pollo' },
+      { nombre: 'Waffle de pollo', foto: 'img/waffles.jpg', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'waffle', encima: 'pollo' },
       { nombre: 'Waffle hawaiano', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'waffle', encima: 'hawaiano' },
       { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'waffle', encima: 'helado' },
-      { nombre: 'Sándwich italiano', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'sandwich', relleno: ['rugula', 'tomate', 'serrano', 'pepperoni', 'mozzarella'] },
+      { nombre: 'Sándwich italiano', foto: 'img/sandwich.jpg', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'sandwich', relleno: ['rugula', 'tomate', 'serrano', 'pepperoni', 'mozzarella'] },
       { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'sandwich', relleno: ['lechuga', 'tomate', 'carne', 'mozzarella'] },
       { nombre: 'Sándwich de atún', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'sandwich', pan: 'tajado', relleno: ['lechuga', 'tomate', 'atun', 'mozzarella'] },
       { nombre: 'Luna serrana', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'croissant' },
@@ -118,7 +119,7 @@ const MENU = [
     categoria: 'Repostería',
     productos: [
       { nombre: 'Torta vasca', precio: 14000, detalle: 'Porción', recipiente: 'dulce', color: '#d9a85b' },
-      { nombre: 'Torta de chocolate', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
+      { nombre: 'Torta de chocolate', foto: 'img/torta.jpg', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
       { nombre: 'Torta de almojábana', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
       { nombre: 'Torta de zanahoria', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
       { nombre: 'Torta de banano', precio: 6000, detalle: 'Porción', recipiente: 'dulce', color: '#c9934f' },
@@ -486,6 +487,7 @@ function dibujar(producto) {
   const cajaCategorias = document.getElementById('categorias');
   const cajaProductos = document.getElementById('productos');
   const dibujo = document.getElementById('destacado-dibujo');
+  const foto = document.getElementById('destacado-foto');
   const nombre = document.getElementById('destacado-nombre');
   const precio = document.getElementById('destacado-precio');
   const capas = document.getElementById('destacado-capas');
@@ -498,6 +500,13 @@ function dibujar(producto) {
 
   function mostrarProducto(producto, boton) {
     dibujo.innerHTML = dibujar(producto); // Al cambiar el dibujo, la animación de llenado se repite
+
+    // Si el producto tiene foto, se ve arriba del dibujo; si no, se esconde
+    foto.hidden = !producto.foto;
+    if (producto.foto) {
+      foto.src = producto.foto;
+      foto.alt = `Foto de ${producto.nombre} en Piamonte Café`;
+    }
 
     if (textoDestacado && textoDestacado.animate) {
       textoDestacado.animate(
