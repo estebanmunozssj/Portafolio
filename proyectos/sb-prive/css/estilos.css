@@ -251,11 +251,19 @@ body {
 }
 
 .armario, .repisa:nth-of-type(1) {
-  --y: 38%;
+  --y: 34.4%;
 }
 
 .armario, .repisa:nth-of-type(2) {
-  --y: 74%;
+  --y: 90%;
+}
+
+.armario, .repisa:nth-of-type(3) {
+  --y: 53%;
+}
+
+.armario, .repisa:nth-of-type(4) {
+  --y: 70%;
 }
 
 .repisa__frascos {
@@ -276,13 +284,15 @@ body {
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) opacity 0.25s, filter 0.25;
 }
 
+
 .frasco img {
   display: block;
-  height: 22cqw;
+  height: 20cqw;
   width: auto;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.55));
 }
 
-.frasco.activo {
+.frasco-activo {
   transform: scale(1.08);
   opacity: 1;
   filter: drop-shadow(0 0 10px rgba(230, 207, 152, 0.6));
@@ -343,6 +353,936 @@ body {
   color: var(--crema);
   text-decoration: none;
 }
+
+/*PROMESAS*/
+#promesas {
+  padding: 48px 16px;
+  background: #F4EEDF;
+  color: #0E2A1C;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.promesas__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.promesas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.promesa {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promesas__nombre {
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7A5D26;
+}
+
+.promesa__texto {
+  color: #2E3B33;
+}
+
+/*  TIPOS  */
+#tipos {
+  padding: 52px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tipos__titulo {
+  margin-bottom: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.tipos__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tipo {
+  min-height: 76px;
+  padding: 0 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #071810;
+  color: #F4EEDF;
+  text-decoration: none;
+}
+
+.tipo__nombre {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.tipo__desde {
+  font-size: 14px;
+  color: #C8A45C;
+}
+
+.tipos__texto {
+  margin: 22px 0 10px;
+  color: #E6CF98;
+}
+
+/*KIT DE DESCUBRIMIENTO*/
+#kit {
+  padding: 0 16px 52px;
+}
+
+.kit {
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #C8A45C;
+  color: #0E2A1C;
+}
+
+.kit__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.02;
+}
+
+.kit__cajas {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.kit__caja {
+  width: 70px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0E2A1C;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: #C8A45C;
+}
+
+.kit__precio {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.kit__nota,
+.kit__extra {
+  font-size: 14px;
+}
+
+.kit__extra {
+  text-align: center;
+}
+
+/* LOS MÁS PEDIDOS */
+#mas-pedidos {
+  padding: 52px 0 52px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: #F4EEDF;
+  color: #0E2A1C;
+}
+
+.pedidos__cabecera {
+  padding-right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pedidos__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.pedidos__controles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pedidos__contador {
+  min-width: 44px;
+  text-align: center;
+  font-size: 14px;
+  color: #4A5A4F;
+}
+
+.boton-flecha {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #0E2A1C;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*Carrusel */
+/* La ventana se desliza con el dedo y cada tarjeta se acomoda sola */
+.pedidos__ventana {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.pedidos__ventana::-webkit-scrollbar {
+  display: none;
+}
+
+.pedidos__pista {
+  display: flex;
+  gap: 12px;
+  padding-right: 16px;
+}
+
+/* Tarjeta de producto */
+.producto {
+  flex: 0 0 262px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  background: #FBF8F1;
+}
+
+.producto__vitrina {
+  position: relative;
+  height: 250px;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: #0E2A1C;
+}
+
+.producto__sello {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 3px 10px;
+  background: #E6CF98;
+  color: #0E2A1C;
+  font-size: 12px;
+}
+
+/* Frasco decorativo hecho con cajas de color */
+.frasco-mini {
+  --color-tapa: #C8A45C;
+  --color-cuerpo: #2E5A44;
+  --color-etiqueta: #F4EEDF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.frasco-mini .frasco__tapa,
+.frasco-mini .frasco__cuerpo,
+.frasco-mini .frasco__etiqueta {
+  display: block;
+}
+
+.frasco-mini .frasco__tapa {
+  width: 18px;
+  height: 22px;
+  background: var(--color-tapa);
+}
+
+.frasco-mini .frasco__cuerpo {
+  width: 70px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cuerpo);
+}
+
+.frasco-mini .frasco__etiqueta {
+  width: 60%;
+  height: 24%;
+  background: var(--color-etiqueta);
+}
+
+.frasco-mini--ancho .frasco__tapa   { width: 26px; height: 16px; }
+.frasco-mini--ancho .frasco__cuerpo { width: 96px; height: 84px; }
+
+.producto__info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.producto__datos {
+  font-size: 13px;
+  color: #4A5A4F;
+}
+
+.producto__nombre {
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: 0.12em;
+}
+
+/* Salida, corazón y fondo */
+.producto__notas {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 2px 8px;
+  font-size: 14px;
+}
+
+.producto__notas dt {
+  color: #7A5D26;
+}
+
+/* Barras de duración */
+.producto__medidas {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.medida {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.medida:nth-of-type(2) {
+  margin-top: 4px;
+}
+
+.barra {
+  height: 4px;
+  background: #E9E2D0;
+}
+
+.barra__relleno {
+  display: block;
+  height: 4px;
+  background: #C8A45C;
+}
+
+.producto__precio {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.producto__aviso {
+  font-size: 14px;
+  color: #2E3B33;
+}
+
+.producto .boton-oscuro {
+  margin-top: 8px;
+  height: 46px;
+  font-size: 15px;
+}
+
+/* El botón de abajo va sobre crema, así que lo oscurecemos */
+#mas-pedidos > .boton-borde {
+  margin-right: 16px;
+  border-color: #0E2A1C;
+  color: #0E2A1C;
+}
+
+/* LLEGA COMO UN REGALO*/
+#regalos {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Patrón: el logo se repite como fondo, con su propia transparencia */
+.regalos__patron {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  background: #0E2A1C;
+}
+
+.regalos__patron::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  background-image: url("../img/logo-icono.webp"); /* cambia por tu archivo */
+  background-size: 26px auto;
+  background-repeat: space;
+  opacity: 0.28;
+}
+
+.regalos__contenido {
+  padding: 36px 16px 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.regalos__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.ritual {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ritual__paso {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.ritual__paso dt {
+  min-width: 92px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: #C8A45C;
+}
+
+.ritual__paso dd {
+  color: #E6CF98;
+}
+
+.regalos__nota {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #B9B29C;
+}
+
+/*YA LES LLEGÓ*/
+#ya-les-llego {
+  padding: 52px 0 52px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #071810;
+}
+
+.capturas__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.capturas__texto {
+  margin-right: 16px;
+  color: #E6CF98;
+}
+
+/* Se desliza con el dedo y cada captura se acomoda sola */
+.capturas__lista {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.capturas__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.captura {
+  flex: 0 0 210px;
+  height: 360px;
+  scroll-snap-align: start;
+  background: #0E2A1C;
+  border: 1px solid #2A4234;
+}
+
+.captura img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.capturas__guia {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.punto {
+  width: 8px;
+  height: 4px;
+  background: #3E5A47;
+}
+
+.punto.activo {
+  width: 22px;
+  background: #C8A45C;
+}
+
+.capturas__ayuda {
+  margin-left: 6px;
+  font-size: 13px;
+  color: #B9B29C;
+}
+
+/*ASÍ PIDES*/
+#como-pedir {
+  padding: 52px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  background: #F4EEDF;
+  color: #0E2A1C;
+}
+
+.pasos__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.pasos__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.paso {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paso__verbo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 52px;
+  line-height: 0.95;
+}
+
+.paso__texto {
+  color: #2E3B33;
+}
+
+/*PREGUNTAS*/
+#preguntas {
+  padding: 52px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #071810;
+}
+
+.preguntas__titulo {
+  margin-bottom: 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.preguntas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pregunta {
+  color: #E6CF98;
+}
+
+/* La pregunta y la respuesta van en el mismo párrafo visual */
+.pregunta dt,
+.pregunta dd {
+  display: inline;
+  margin: 0;
+}
+
+.pregunta dt {
+  font-weight: 500;
+  color: #F4EEDF;
+}
+
+.pregunta dt::after {
+  content: " ";
+}
+
+.preguntas__texto {
+  margin-top: 6px;
+  color: #E6CF98;
+}
+
+/* ¿NO SABES CUÁL ELEGIR?*/
+#ayuda {
+  display: flex;
+  flex-direction: column;
+}
+
+.ayuda__imagen {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0E2A1C;
+}
+
+.ayuda__imagen img {
+  width: 210px;
+  height: auto;
+}
+
+.ayuda__contenido {
+  padding: 34px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #C8A45C;
+  color: #0E2A1C;
+}
+
+.ayuda__titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.02;
+}
+
+.ayuda__contenido .boton-oscuro {
+  height: 56px;
+}
+
+/* ========== PIE DE PÁGINA ========== */
+.pie {
+  padding: 40px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  overflow: hidden; /* recorta el nombre gigante por abajo */
+  background: #071810;
+}
+
+.pie__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  font-size: 15px;
+}
+
+.pie__nav a {
+  color: #E6CF98;
+}
+
+.pie__legal {
+  font-size: 13px;
+  color: #B9B29C;
+}
+
+.pie__marca {
+  margin: 8px 0 -10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 0.8;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: #C8A45C;
+}
+
+/* Celular: el menú de PC no se ve */
+.menu {
+  display: none;
+}
+
+/* Scroll suave y que el título no quede tapado por el header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+
+@media (min-width: 1024px) {
+
+  /* Header a todo el ancho */
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 5vw;
+  }
+
+  /* Hero en dos columnas */
+  .inicio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 64px;
+    align-content: center;
+    align-items: start;
+    max-width: 1400px;
+    min-height: calc(100vh - 120px);
+    margin: 0 auto;
+    padding: 48px 5vw;
+    text-align: left;
+  }
+
+  /* Columna izquierda */
+  .inicio > h1,
+  .inicio > p:not(.inicio__ayuda):not(.inicio__confianza),
+  .inicio > .aromas {
+    grid-column: 1;
+    max-width: 540px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .inicio > h1 {
+    font-size: clamp(2.6rem, 4vw, 4.2rem);
+    line-height: 1.05;
+  }
+
+  /* Columna derecha: la vitrina ocupa todas las filas */
+  .inicio > .vitrina {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .vitrina__fondo {
+    width: 100%;
+    height: auto;
+    max-height: 78vh;
+    object-fit: contain;
+  }
+
+  /* Textos de apoyo debajo, a la izquierda */
+  .inicio__ayuda,
+  .inicio__confianza {
+    grid-column: 1;
+    max-width: 540px;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* Los hijos de .vitrina pasan a ser parte del grid del hero */
+  .inicio > .vitrina {
+    display: contents;
+  }
+
+  .inicio {
+    grid-template-rows: auto auto auto auto auto 1fr;
+    align-items: start;
+  }
+
+  /* Derecha: el armario ocupa todas las filas y cabe en pantalla */
+  .armario {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: min(100%, calc((100vh - 140px) * 687 / 1024));
+    margin: 0 auto;
+  }
+  .vitrina__fondo {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Izquierda: la tarjeta va debajo de los aromas */
+  .tarjeta {
+    grid-column: 1;
+    max-width: 540px;
+    margin: 32px 0 16px;
+  }
+
+  /* Textos de apoyo alineados a la izquierda */
+  .inicio__ayuda,
+  .inicio__confianza {
+    text-align: left;
+    margin: 0 0 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* Menos hueco entre aromas y tarjeta */
+  .tarjeta {
+    margin: 20px 0 16px;
+    padding: 24px 28px;
+    background: rgba(14, 42, 28, 0.72);
+    border: 1px solid #C8A45C;
+    backdrop-filter: blur(6px);
+    color: #F3EBD8;
+  }
+  .tarjeta__datos {
+    color: #C8A45C;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .tarjeta__nombre {
+    color: #fff;
+    font-size: 1.8rem;
+  }
+  .tarjeta__notas {
+    color: #E8D9B0;
+  }
+  .tarjeta__precio {
+    color: #C8A45C;
+    font-size: 1.4rem;
+  }
+  .tarjeta__decant {
+    color: #F3EBD8;
+    opacity: 0.85;
+  }
+
+  /* Botón dorado, como el "Ver catálogo" de la referencia */
+  .tarjeta .boton-whatsapp {
+    background: #C8A45C;
+    color: #0E2A1C;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .tarjeta .boton-whatsapp:hover {
+    background: #E0BE78;
+    transform: translateY(-2px);
+  }
+
+  /* Marco dorado y sombra para la vitrina */
+  .armario {
+    border: 1px solid rgba(200, 164, 92, 0.6);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Línea dorada fina bajo el encabezado */
+  .encabezado {
+    border-bottom: 1px solid rgba(200, 164, 92, 0.35);
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* Header fijo arriba al hacer scroll */
+  .encabezado {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(14, 42, 28, 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .menu {
+    display: flex;
+    gap: 36px;
+  }
+  .menu a {
+    position: relative;
+    padding: 6px 0;
+    color: #F3EBD8;
+    font-family: "Jost", sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  /* Línea dorada que crece al pasar el mouse */
+  .menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: #C8A45C;
+    transition: width 0.25s;
+  }
+  .menu a:hover {
+    color: #C8A45C;
+  }
+  .menu a:hover::after {
+    width: 100%;
+  }
+
+  /* La hamburguesa solo se usa en celular */
+  .boton-icono[aria-label="Abrir menu"] {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+
+  /* La vitrina rompe el margen de la página y ocupa todo el ancho */
+  .vitrina {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Se amplía todo el armario (imagen + frascos juntos) y lo que sobra se recorta */
+  .armario {
+    width: 100%;
+    margin: 11vw 0;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    transform: scale(1.16);
+    transform-origin: center;
+  }
+
+  .vitrina__fondo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* La tarjeta vuelve a tener su margen normal */
+  .tarjeta {
+    margin: 16px 20px 0;
+  }
+}
+
+
+
+
 
 
 
