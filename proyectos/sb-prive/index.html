@@ -1,0 +1,462 @@
+    <!DOCTYPE html>
+    <html lang="es-CO">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>S. B. Prive | Perfumes originales en Colombia</title>
+        <meta name="description" content="Perfumew originales arabes, de diseñador y de nicho, y decant para probar antes de comprar. Pide por whatsApp.">
+        <!--color de la barra de navegacion-->
+        <meta name="theme-color" content="#0E2A1C">
+        <!--letras, Cinzel, Cormorant Garamond, Jost-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+        <link rel="stylesheet" href="css/estilos.css">
+        <script src="js/main.js" defer></script>
+
+    </head>
+
+    <body>
+        <!-- Franja de arriba: despacho el mismo día -->
+        <p class="franja">Si nos escribes antes de las [HORA], sale hoy</p>
+
+        <header class="encabezado">
+            <a href="#inicio" class="logo">S. B. Privé</a>
+            <div class="encabezado__botones">
+                <!--lupa-->
+                <button class="boton-icono" type="button" aria-label="Buscar perfume">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-4-4"></path>
+                    </svg>
+                </button>
+            <!-- Menú -->
+                <button class="boton-icono" type="button" aria-label="Abrir menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <section id="inicio" class="inicio">
+                <!-- 1. Inicio: título, selector de aroma y vitrina -->
+                <h1>Perfumes Originales, Pedidos por WhatsApp</h1>
+                <p>Árabes, de diseñador y de nicho, y decants para descubrirlos en tu piel antes de llevar el frasco.</p>
+
+                <!-- Selector de aroma (en el paso 6 le damos vida con JavaScript) -->
+                <fieldset class="aromas">
+                    <legend class="aromas__pregunta">¿Cómo quieres oler hoy?</legend>
+                    <div class="aromas__opciones">
+                        <button class="aroma activo" type="button" aria-pressed="true">Dulce</button>
+                        <button class="aroma" type="button" aria-pressed="false">Fresco</button>
+                        <button class="aroma" type="button" aria-pressed="false">Amaderado</button>
+                        <button class="aroma" type="button" aria-pressed="false">Intenso</button>
+                    </div>
+                </fieldset>
+
+                <!-- Vitrina: el armario se queda quieto, los frascos cambian -->
+                <div class="vitrina">
+                    <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024">
+                    <!-- PENDIENTE: si llega una imagen limpia para computador, cambiar el <img> de arriba por esto:
+                        <picture>
+                        <source media="(min-width: 1024px)" srcset="img/repisa-pc.webp">
+                        <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024">
+                        </picture>
+                        -->
+
+                    <div class="repisa">
+                        <div class="repisa__frascos">
+                            <button class="frasco frasco--alto activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                            <button class="frasco frasco--ancho" type="button" aria-label="[PERFUME 2]" aria-pressed="false">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                            <button class="frasco frasco--bajo" type="button" aria-label="[PERFUME 3]" aria-pressed="false">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                        </div>
+                        <div class="repisa__tabla"></div>
+                    </div>
+
+                    <div class="repisa">
+                        <div class="repisa__frascos">
+                            <button class="frasco frasco--bajo" type="button" aria-label="[PERFUME 4]" aria-pressed="false">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                            <button class="frasco frasco--alto" type="button" aria-label="[PERFUME 5]" aria-pressed="false">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                            <button class="frasco frasco--ancho" type="button" aria-label="[PERFUME 6]" aria-pressed="false">
+                                <span class="frasco__tapa"></span>
+                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
+                            </button>
+                        </div>
+                        <div class="repisa__tabla"></div>
+                    </div>
+
+                <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->
+                    <div class="tarjeta" aria-live="polite">
+                        <p class="tarjeta__datos">[MARCA] · 100 ml · [FAMILIA]</p>
+                        <h2 class="tarjeta__nombre">[NOMBRE DEL PERFUME]</h2>
+                        <p class="tarjeta__notas">[Notas: vainilla, ámbar, oud]</p>
+                        <div class="tarjeta__precios">
+                            <span class="tarjeta__precio">[PRECIO]</span>
+                            <span class="tarjeta__decant">Decant [ML]: [PRECIO]</span>
+                        </div>
+                        <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]">Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <p class="inicio__ayuda">Toca un frasco para ver qué es y cuánto cuesta.</p>
+                <p class="inicio__confianza">Te respondemos en minutos. Pagas solo cuando confirmes.</p>
+            </section>
+
+            <section id="promesas">
+                <!-- 2. Lo que te prometemos: las tres dudas de quien compra perfume en línea -->
+                <h2 class="promesas__titulo">Lo que te prometemos</h2>
+                    <ul class="promesas__lista">
+                        <li class="promesa">
+                            <h3 class="promesa__nombre">Originales</h3>
+                            <p class="promesa__texto">Cada frasco con [CÓMO LO DEMUESTRAN: factura, código, sello].</p>
+                        </li>
+                        <li class="promesa">
+                            <h3 class="promesa__nombre">A toda Colombia</h3>
+                            <p class="promesa__texto">Sin costo desde [MONTO]. Llega en [DÍAS] días.</p>
+                        </li>
+                        <li class="promesa">
+                            <h3 class="promesa__nombre">Pagas como prefieras</h3>
+                            <p class="promesa__texto">[NEQUI, PSE, TARJETA, CONTRAENTREGA].</p>
+                        </li>
+                    </ul>
+            </section>
+
+            <section id="tipos">
+                <!-- 3. Elige por tipo -->
+                 <h2 class="tipos__titulo">Elige por tipo</h2>
+                 <ul class="tipos__lista">
+                    <li>
+                        <a class="tipo" href="#mas-pedidos">
+                            <span class="tipo__nombre">Arabes</span>
+                            <span class="tipo__desde">Desde $[PRECIO]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tipo" href="#mas-pedidos">
+                            <span class="tipo__nombre">De diseñador</span>
+                            <span class="tipo__desde">Desde $[PRECIO]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tipo" href="#mas-pedidos">
+                            <span class="tipo__nombre">De nicho</span>
+                            <span class="tipo__desde">Desde $[PRECIO]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tipo" href="#kit">
+                            <span class="tipo__nombre">Decants</span>
+                            <span class="tipo__desde">Desde $[PRECIO]</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="tipos__texto">Ya sabes cual quieres? Escribenos el nombre y te lo apartamos.</p>
+                <a class="boton-borde" href="https://wa.me/57[numero]">Apartar mi perfume</a>
+            </section>
+
+            <section id="kit">
+                <!-- 4. Kit de descubrimiento -->
+                 <div class="kit">
+                    <h2 class="kit__titulo">Tres decants, una semana para decidir</h2>
+                    <p class="kit__texto">Elige tres perfumes en decants de [ML]. llevalos unos dias y quedate con el frasco del que te enamores.</p>
+                <!-- los cuadros decorativos-->
+                 <ol class="kit__cajas" aria-hidden="true">
+                    <li class="kit__caja">I</li>
+                    <li class="kit__caja">II</li>
+                    <li class="kit__caja">III</li>
+                 </ol>
+
+                 <p class="kit__precio">Kit de descubrimiento. [Precio]</p>
+                 <p class="kit__nota">Y si luego llevas el frasco te descontamos el kit. [confirmar]</p>
+                 <a class="boton-oscuro" href="https://wa.me/57[numero]">Armar mi kit</a>
+                 <p class="kit__extra">Prefieres dos frascos? Te los enviamos sin costo.</p>
+                 </div>
+            </section>
+
+            <section id="mas-pedidos">
+                <!-- 5. Los más pedidos -->
+                 <div class="pedidos__cabecera">
+                    <h2 class="pedidos__titulo">Los más pedidos</h2>
+                    <div class="pedidos__controles">
+                        <!--el js cambia el 1 y el total-->
+                        <span class="pedidos__contador" aria-live="polite"> 1 de 2</span>
+                        <button class="boton-flecha" type="button" aria-label="Perfume anterior">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
+                                <path d="M15 5l-7 7 7 7"></path>
+                            </svg>
+                        </button>
+
+                        <button class="boton-flecha" type="button" aria-label="Perfume siguiente">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
+                                <path d="M9 5l77-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>  
+                 </div>
+
+                 <!--la ventana oculta lo que le sale la pista es la que se desplaza-->
+                 <div class="pedidos__ventana">
+                    <div class="pedidos__pista">
+                        <article class="producto">
+                            <div class="producto__vitrina">
+                                <span class="producto__sello">Mas pedido</span>
+                                <span class="frasco-mini frasco-mini--alto" aria-hidden="true">
+                                    <span class="frasco__tapa"></span>
+                                    <span class="frasco__cuerpo">
+                                        <span class="frasco__etiqueta"></span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="producto__info">
+                                <p class="producto__datos">[MARCA] 100 ml</p>
+                                <h3 class="producto__nombre">[NOMBRE DEL PERFUME]</h3>
+                                <dl class="producto__notas">
+                                    <dt>Salida</dt>
+                                    <dd>[Nota]</dd>
+                                    <dt>Corazón</dt>
+                                    <dd>[Nota]</dd>
+                                    <dt>Fondo</dt>
+                                    <dd>[Nota]</dd>
+                                </dl>
+
+                                <div class="producto__medidas">
+                                    <div class="medida">
+                                        <span>Dura</span>
+                                        <span>[HORAS] h</span>
+                                    </div>
+                                    <div class="barra" aria-hidden="true">
+                                        <span class="barra__relleno" style="width: 70%"></span>
+                                    </div>
+                                    <div class="medida">
+                                        <span>Se siente</span>
+                                        <span>[CERCA / A UNN BRAZO]</span>
+                                    </div>
+                                    <div class="barra" aria-hidden="true">
+                                        <span class="barra__relleno" style="width: 50%"></span>
+                                    </div>
+                                </div>
+                                <p class="producto__precio">[PRECIO]</p>
+                                <p class="producto__aviso">Pocas piezas tambien en decant</p>
+                                <a class="boton-oscuro" href="https://wa.me/57[NUMERO]">Pedir este</a>
+                            </div>
+                        </article>
+
+                        <article class="producto">
+                            <div class="producto__vitrina">
+                                <span class="producto__sello">Mas pedido</span>
+                                <span class="frasco-mini frasco-mini--ancho" aria-hidden="true">
+                                    <span class="frasco__tapa"></span>
+                                    <span class="frasco__cuerpo">
+                                        <span class="frasco__etiqueta"></span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="producto__info">
+                                <p class="producto__datos">[MARCA] 100 ml</p>
+                                <h3 class="producto__nombre">[NOMBRE DEL PERFUME]</h3>
+                                <dl class="producto__notas">
+                                    <dt>Salida</dt>
+                                    <dd>[Nota]</dd>
+                                    <dt>Corazón</dt>
+                                    <dd>[Nota]</dd>
+                                    <dt>Fondo</dt>
+                                    <dd>[Nota]</dd>
+                                </dl>
+
+                                <div class="producto__medidas">
+                                    <div class="medida">
+                                        <span>Dura</span>
+                                        <span>[HORAS] h</span>
+                                    </div>
+                                    <div class="barra" aria-hidden="true">
+                                        <span class="barra__relleno" style="width: 85%"></span>
+                                    </div>
+                                    <div class="medida">
+                                        <span>Se siente</span>
+                                        <span>[CERCA / A UNN BRAZO]</span>
+                                    </div>
+                                    <div class="barra" aria-hidden="true">
+                                        <span class="barra__relleno" style="width: 65%"></span>
+                                    </div>
+                                </div>
+
+                                <p class="producto__precio">[PRECIO]</p>
+                                <p class="producto__aviso">Pocas piezas tambien en decant</p>
+                                <a class="boton-oscuro" href="https://wa.me/57[NUMERO]">Pedir este</a>
+                            </div>
+                        </article>
+                    </div>
+                 </div>
+
+                 <a class="boton-borde" href="https://wa.me/57[NUMERO]">Ver todos el catalogo</a>
+            </section>
+
+            <section id="regalos">
+                <!-- 6. Llega como un regalo -->
+                 <!--un solo div el css repite el logo como fondo-->
+                 <div class="regalos__patron" aria-hidden="true"></div>
+                <div class="regalos__contenido">
+                    <h2 class="regalos__titulo">Llega como un regalo, aunque sea para ti</h2>
+
+                    <dl class="ritual">
+                        <div class="ritual__paso">
+                            <dt>[QUE]</dt>
+                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                        </div>
+                        <div class="ritual__paso">
+                            <dt>[QUE]</dt>
+                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                        </div>
+                        <div class="ritual__paso">
+                            <dt>[QUE]</dt>
+                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                        </div>
+                         <div class="ritual__paso">
+                            <dt>[QUE]</dt>
+                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                        </div>
+                    </dl>
+                    <p class="regalos__nota">Y si quieres, te ayudamos a armar un kit de regalo con varios perfumes.</p>
+                </div>
+            </section>
+
+            <section id="ya-les-llego">
+                <!-- 7. Ya les llegó (oculta hasta tener capturas reales) -->
+                 <h2 class="capturas__titulo">Ya les llegó</h2>
+                 <p class="capturas__texto">Lo que nos escriben quienes ya recibieron su perfume.</p>
+                 <!--cada captura se acomoda sola al soltar el dedo eso lo hace el css-->
+                 <ul class="capturas__lista">
+                    <li class="captura">
+                        <img src="img/captura-1.webp" alt="[TEXTO DE LA CAPTURA]" width="210" height="360" loading="lazy">
+                    </li>
+                    <li class="captura">
+                        <img src="img/captura-2.webp" alt="[TEXTO DE LA CAPTURA]" width="300" height="300" loading="lazy">
+                    </li>
+                    <li class="captura">
+                        <img src="img/captura-3.webp" alt="[TEXTO DE LA CAPTURA]" width="300" height="300" loading="lazy">
+                    </li>
+                </ul>
+                <!--puntos de pocicion, el js marca el activo-->
+                <div class="capturas__guia" aria-hidden="true">
+                    <span class="punto activo"></span>
+                    <span class="punto"></span>
+                    <span class="punto"></span>
+                    <span class="punto"></span>
+                    <span class="capturas__ayuda">Desliza para ver más</span>
+                </div>
+            </section>
+
+            <section id="como-pedir">
+                <!-- 8. Así pides -->
+                 <h2 class="pasos__titulo">Así pides</h2>
+                 <ol class="pasos__lista">
+                    <li class="paso">
+                        <p class="paso__verbo">Elige</p> 
+                        <p class="paso__texto">Toca un frasco en la vitrina o mira los mas pedidos</p>   
+                    </li>
+                    <li class="paso">
+                        <p class="paso__verbo">Escribe</p>
+                        <p class="paso__texto">mandame el nombre del perfume que deseas</p>
+                    </li>
+                    <li class="paso">
+                        <p class="paso__verbo">Paga</p>
+                        <p class="paso__texto">Te respondemos en minutos con disponibilidad y formas de pago. [CONFIRMAR]</p>
+                    </li>
+                    <li class="paso">
+                        <p class="paso__verbo">Recibe</p>
+                        <p class="paso__texto">En [DÍAS] días, en tu casa o donde quieras. [CONFIRMAR]</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section id="preguntas">
+                <!-- 9. Preguntas -->
+                 <h2 class="preguntas__titulo">Preguntas</h2>
+                 <dl class="preguntas__lista">
+                    <div class="pregunta">
+                        <dt>¿Los perfumes son originales?</dt>
+                        <dd class="pregunta__respuesta">Si. Cada frasco con [COMO LO DEMUESTRAN: factura, codigo, sello].</dd>
+                    </div>
+                    <div class="pregunta">
+                        <dt>¿Que es un decant?</dt>
+                        <dd>Es una porcion del perfume original en un recipiente más pequeño. para probar antes de comprar el original.</dd>
+                    </div>
+                    <div class="pregunta">
+                        <dt>¿Cuanto demora en llegar?</dt>
+                        <dd>llega en [DÍAS] días hábiles.</dd>
+                    </div>
+                    <div class="pregunta">
+                        <dt>¿Cuanto cuesta el envío?</dt>
+                        <dd>es gratis desde [MONTO] por debajon de ese valor cuesta [Valor]</dd>
+                    </div>
+                    <div class="pregunta">
+                        <dt>¿Que formas de pago hay?</dt>
+                        <dd>[NEQUI, PSE, TARJETA, CONTRAENTREGA].</dd>
+                    </div>
+                    <div class="pregunta">
+                        <dt>Cuanto dura el perfume en la piel?</dt>
+                        <dd>depende de cada uno. En cada perfumes te mostramos cuanto dura y que tan lejos se siente</dd>
+                    </div>
+                </dl>
+                <p class="preguntas__texto">Si tienes otra pregunta, escribenos por WhatsApp y te respondemos en minutos.</p>
+                <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]">Preguntar por WhatsApp</a>
+            </section>
+            <section id="ayuda">
+                <!-- 10. ¿No sabes cuál elegir? -->
+                 <div class="ayuda__imagen">
+                    <img src="img/ayuda.webp" alt="S. B. Prive, Alta perfumeria" width="210" height="auto" loading="lazy">
+                 </div>
+                 <div class="ayuda__contenido">
+                    <h2 class="ayuda__titulo">¿No sabes cuál elegir?</h2>
+                    <p class="ayuda__texto">Escríbenos y te ayudamos a escoger el perfume que más se acerque a lo que buscas.</p>
+                    <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]">Ayuda por WhatsApp</a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="pie">
+            <!-- Enlaces y nombre de la marca -->
+                <nav class="pie__nav" aria-label="Navegación del pie de página">
+                    <a href="#mas-pedidos">Catalogo</a>
+                    <a href="#preguntas">Envios</a>
+                    <a href="#preguntas">Cambios</a>
+                    <a href="#[url de imstagram]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="#[url de tiktok]" target="_blank" rel="noopener noreferrer">Tik Tok</a>
+                </nav>
+                <p class="pie__legal">&copy; 2026 S. B. Prive. Alta Perfumeria [Ciudad].</p>
+                <!--nombre gigante cortado-->
+                <p class="pie__marca" aria-hidden="true">S. B. Prive</p>
+        </footer>
+
+        <!--barra fija de navegacion whastapp solo celular-->
+        <a class="barra-whatsapp" href="https://wa.me/57[NUMERO]">Pedir por WhatsApp</a>
+
+        
+    </body>
+    </html>
+
+
+
+
+
+
+

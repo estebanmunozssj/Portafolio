@@ -1,0 +1,16 @@
+:root {
+  --verde: #0E2A1C;        /* fondo principal */
+  --verde-oscuro: #071810; /* franja, vitrina */
+  --crema: #F4EEDF;        /* texto claro, secciones claras */
+  --dorado: #C8A45C;       /* íconos, bordes, enlaces */
+  --dorado-claro: #E6CF98; /* textos destacados */
+  --linea: #2A4234;        /* bordes suaves */
+}
+
+body {
+  margin: 0;
+  background: var(--verde);
+  color: var(--crema);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+}
