@@ -59,60 +59,54 @@
 
                 <!-- Vitrina: el armario se queda quieto, los frascos cambian -->
                 <div class="vitrina">
-                    <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024">
-                    <!-- PENDIENTE: si llega una imagen limpia para computador, cambiar el <img> de arriba por esto:
-                        <picture>
-                        <source media="(min-width: 1024px)" srcset="img/repisa-pc.webp">
+                    <div class="armario">
                         <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024">
-                        </picture>
-                        -->
+                            <!-- PENDIENTE: si llega una imagen limpia para computador, cambiar el <img> de arriba por esto:
+                            <picture>
+                            <source media="(min-width: 1024px)" srcset="img/repisa-pc.webp">
+                            <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024">
+                            </picture>
+                            -->
 
-                    <div class="repisa">
-                        <div class="repisa__frascos">
-                            <button class="frasco frasco--alto activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
-                            <button class="frasco frasco--ancho" type="button" aria-label="[PERFUME 2]" aria-pressed="false">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
-                            <button class="frasco frasco--bajo" type="button" aria-label="[PERFUME 3]" aria-pressed="false">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
+                        <div class="repisa">
+                            <div class="repisa__frascos">
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-1.webp" alt="" width="120" height="240">
+                                </button>
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-2.webp" alt="" width="120" height="240">
+                                </button>
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-3.webp" alt="" width="120" height="240">
+                                </button>
+                            </div>
                         </div>
-                        <div class="repisa__tabla"></div>
-                    </div>
 
-                    <div class="repisa">
-                        <div class="repisa__frascos">
-                            <button class="frasco frasco--bajo" type="button" aria-label="[PERFUME 4]" aria-pressed="false">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
-                            <button class="frasco frasco--alto" type="button" aria-label="[PERFUME 5]" aria-pressed="false">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
-                            <button class="frasco frasco--ancho" type="button" aria-label="[PERFUME 6]" aria-pressed="false">
-                                <span class="frasco__tapa"></span>
-                                <span class="frasco__cuerpo"><span class="frasco__etiqueta"></span></span>
-                            </button>
+                        <div class="repisa">
+                            <div class="repisa__frascos">
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-4.webp" alt="" width="120" height="240">
+                                </button>
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-5.webp" alt="" width="120" height="240">
+                                </button>
+                                <button class="frasco-activo" type="button" aria-label="[PERFUME 1]" aria-pressed="true">
+                                    <img src="img/perfume-6.webp" alt="" width="120" height="240">
+                                </button>
+                            </div>
                         </div>
-                        <div class="repisa__tabla"></div>
-                    </div>
+                     </div>
 
-                <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->
+                    <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->
                     <div class="tarjeta" aria-live="polite">
                         <p class="tarjeta__datos">[MARCA] · 100 ml · [FAMILIA]</p>
                         <h2 class="tarjeta__nombre">[NOMBRE DEL PERFUME]</h2>
                         <p class="tarjeta__notas">[Notas: vainilla, ámbar, oud]</p>
-                        <div class="tarjeta__precios">
-                            <span class="tarjeta__precio">[PRECIO]</span>
-                            <span class="tarjeta__decant">Decant [ML]: [PRECIO]</span>
-                        </div>
-                        <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]">Pedir por WhatsApp</a>
+                            <div class="tarjeta__precios">
+                                <span class="tarjeta__precio">[PRECIO]</span>
+                                <span class="tarjeta__decant">Decant [ML]: [PRECIO]</span>
+                            </div>
+                            <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]">Pedir por WhatsApp</a>
                     </div>
                 </div>
 
