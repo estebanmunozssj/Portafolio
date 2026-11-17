@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="css/estilos.css">
         <!-- Primero la lista de perfumes y después el código que la usa (defer respeta este orden) -->
         <script src="js/perfumes.js" defer></script>
+        <script src="js/comun.js" defer></script>
         <script src="js/main.js" defer></script>
         <!-- Ícono de la pestaña y del celular (cuando guardan la página en la pantalla de inicio) -->
         <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
@@ -92,11 +93,10 @@
             </a>
             <!-- Menú: en PC siempre visible; en celular lo abre el botón de las dos rayas (id="menu") -->
             <nav class="menu" id="menu" aria-label="Navegación principal">
-                <a href="#tipos">Árabes</a>
-                <a href="#tipos">De diseñador</a>
-                <a href="#tipos">De nicho</a>
-                <!-- Mientras catalogo.html no exista, "Catálogo" lleva a la vitrina. Cuando exista: href="catalogo.html" -->
-                <a href="#inicio">Catálogo</a>
+                <a href="catalogo.html?tipo=arabes">Árabes</a>
+                <a href="catalogo.html?tipo=disenador">De diseñador</a>
+                <a href="catalogo.html?tipo=nicho">De nicho</a>
+                <a href="catalogo.html">Catálogo</a>
                 <a href="#kit">Decants</a>
                 <a href="#promesas">Por qué elegirnos</a>
             </nav>
@@ -247,21 +247,20 @@
                  <h2 class="tipos__titulo">Elige por tipo</h2>
                  <ul class="tipos__lista">
                     <li>
-                        <!-- Mientras catalogo.html no exista, cada fila abre WhatsApp pidiendo ese tipo.
-                             Cuando exista: href="catalogo.html?tipo=arabes" (y igual en las otras). data-tipo lo usa main.js para el precio -->
-                        <a class="tipo" data-tipo="arabes" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20%C3%A1rabes.">
+                        <!-- Cada fila abre el catálogo con ese tipo ya filtrado. data-tipo lo usa main.js para el precio "Desde" -->
+                        <a class="tipo" data-tipo="arabes" href="catalogo.html?tipo=arabes">
                             <span class="tipo__nombre">Árabes</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
                     </li>
                     <li>
-                        <a class="tipo" data-tipo="disenador" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20de%20dise%C3%B1ador.">
+                        <a class="tipo" data-tipo="disenador" href="catalogo.html?tipo=disenador">
                             <span class="tipo__nombre">De diseñador</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
                     </li>
                     <li>
-                        <a class="tipo" data-tipo="nicho" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20de%20nicho.">
+                        <a class="tipo" data-tipo="nicho" href="catalogo.html?tipo=nicho">
                             <span class="tipo__nombre">De nicho</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
@@ -325,8 +324,7 @@
                     </div>
                  </div>
 
-                 <!-- Mientras catalogo.html no exista, el catálogo se pide por WhatsApp. Cuando exista: href="catalogo.html" y texto "Ver todo el catálogo" -->
-                 <a class="boton-borde" href="https://wa.me/573158599499?text=Hola%2C%20%C2%BFme%20env%C3%ADan%20el%20cat%C3%A1logo%20completo%3F">Pedir el catálogo completo</a>
+                 <a class="boton-borde" href="catalogo.html">Ver todo el catálogo</a>
             </section>
 
             <section id="regalos">
@@ -464,7 +462,7 @@
         <footer class="pie">
             <!-- Enlaces y nombre de la marca -->
                 <nav class="pie__nav" aria-label="Navegación del pie de página">
-                    <a href="#inicio">Catálogo</a>
+                    <a href="catalogo.html">Catálogo</a>
                     <a href="#envios">Envíos</a>
                     <a href="#cambios">Cambios</a>
                     <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>

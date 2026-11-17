@@ -2042,3 +2042,592 @@ select {
   line-clamp: none;
   overflow: visible;
 }
+
+/* =========================================================
+   CATÁLOGO · PARTE 1: título, buscador y filtros
+   (catalogo.html). Usa los mismos colores y letras del inicio
+   ========================================================= */
+
+/* Encabezado: el número de perfumes en "Mi lista", como una bolita sobre la bolsa */
+.boton-lista {
+  position: relative;
+}
+.boton-lista__cuenta {
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dorado);
+  color: var(--verde);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* El enlace de la página en la que estás queda en dorado */
+.menu a[aria-current="page"],
+.pie__nav a[aria-current="page"] {
+  color: var(--dorado);
+}
+
+/* Todo el catálogo va en una columna centrada, igual de ancha que el inicio en celular */
+.catalogo {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+}
+
+/* Título y frase: los mismos tamaños que el título del inicio */
+.catalogo__cabecera h1 {
+  font-family: var(--fuentes-titulos);
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1.02;
+  color: var(--crema);
+}
+.catalogo__cabecera p {
+  margin-top: 12px;
+  font-size: 17px;
+  color: var(--dorado-claro);
+}
+
+/* ---------- Buscador ---------- */
+.filtros {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filtros__buscar {
+  font-size: 14px;
+  color: var(--gris);
+}
+
+/* Campo de búsqueda: 16 px de letra para que el iPhone no haga zoom al tocarlo */
+.filtros__campo {
+  width: 100%;
+  height: 52px;
+  margin-top: -6px; /* se pega a su etiqueta */
+  padding: 0 16px;
+  border: 1px solid var(--dorado);
+  border-radius: 0;
+  background: var(--verde-oscuro);
+  color: var(--crema);
+  font: inherit;
+  font-size: 16px;
+}
+.filtros__campo::placeholder {
+  color: var(--gris);
+}
+.filtros__campo:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
+/* ---------- Filtros plegables ---------- */
+.filtros__mas {
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+}
+
+/* "Filtros" se ve como una fila que se toca, con un + que gira a × al abrir */
+.filtros__mas summary {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--fuentes-mayusculas);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  cursor: pointer;
+  list-style: none; /* quita el triángulo del navegador */
+}
+.filtros__mas summary::-webkit-details-marker {
+  display: none;
+}
+.filtros__mas summary::after {
+  content: '+';
+  font-family: var(--fuentes-cuerpo);
+  font-size: 24px;
+  font-weight: 300;
+  transition: transform 0.2s ease-out;
+}
+.filtros__mas[open] summary::after {
+  transform: rotate(45deg);
+}
+
+/* Cada grupo (Tipo, Para, Tamaño, Precio) */
+.filtro {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filtro legend {
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+/* Las opciones se ven como los botones de aroma del inicio.
+   El círculo del radio se esconde a la vista, pero sigue ahí para el teclado y el lector de pantalla */
+.filtro label {
+  position: relative; /* el radio escondido se queda dentro de su opción */
+  min-height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--dorado);
+  color: var(--crema);
+  font-size: 15px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.filtro input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+/* Opción elegida: fondo dorado, como el aroma activo */
+.filtro label:has(input:checked) {
+  background: var(--dorado);
+  color: var(--verde);
+}
+/* Con teclado, la opción enfocada se marca */
+.filtro label:has(input:focus-visible) {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
+/* ---------- Ordenar, aplicar y quitar ---------- */
+.filtros__ordenar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--gris);
+}
+.filtros__ordenar select {
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--linea);
+  border-radius: 0;
+  background: var(--verde-oscuro);
+  color: var(--crema);
+  font: inherit;
+  font-size: 16px;
+}
+
+.filtros__aplicar {
+  width: 100%;
+  border: 0;
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+}
+
+.filtros__quitar {
+  align-self: center;
+  padding: 10px;
+  font-size: 14px;
+  color: var(--dorado-claro);
+}
+
+/* Al tocar: se aprietan un poco, como el resto de botones del sitio */
+.filtro label:active,
+.filtros__aplicar:active {
+  transform: scale(0.97);
+}
+
+/* Al pasar el mouse (solo computador): el borde se aclara */
+@media (hover: hover) and (pointer: fine) {
+  .filtro label:hover {
+    border-color: var(--dorado-claro);
+  }
+}
+
+/* Computador: más ancho, título más grande y el buscador junto a "Ordenar" */
+@media (min-width: 1024px) {
+  .catalogo {
+    max-width: 1200px;
+    padding: 56px 40px 80px;
+  }
+  .catalogo__cabecera h1 {
+    font-size: clamp(3rem, 4.4vw, 4.6rem);
+  }
+  .filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 24px;
+    align-items: end;
+  }
+  .filtros__buscar,
+  .filtros__campo,
+  .filtros__mas {
+    grid-column: 1 / -1;
+  }
+  .filtros__mas {
+    grid-row: 3;
+  }
+  .filtros__ordenar {
+    grid-column: 2;
+    grid-row: 4;
+  }
+  .filtros__aplicar {
+    grid-column: 1;
+    grid-row: 4;
+    width: auto;
+    justify-self: start;
+    padding: 0 40px;
+  }
+  .filtros__quitar {
+    grid-column: 1 / -1;
+    justify-self: start;
+    padding-left: 0;
+  }
+  /* En computador los grupos de filtros van uno al lado del otro */
+  /* Los 4 grupos de filtros (Tipo, Para, Tamaño, Precio) en 4 columnas */
+  .filtros__grupos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start; /* cada grupo con su propio alto: los botones no se estiran */
+    padding-bottom: 6px;
+  }
+}
+
+/* =========================================================
+   CATÁLOGO · PARTE 2: tarjetas, contador, sin resultados y Mi lista
+   Las tarjetas copian a las de "Los más pedidos" del inicio:
+   foto sobre verde y datos sobre crema
+   ========================================================= */
+
+/* "12 perfumes" */
+.catalogo__cuenta {
+  margin: 28px 0 14px;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+/* Celular: 2 tarjetas por fila, que es como se mira un catálogo en el teléfono */
+.catalogo__lista {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* La tarjeta ocupa todo el alto de su fila, y los botones quedan siempre abajo */
+.catalogo__lista > li {
+  display: flex;
+}
+.perfume {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--crema-clara);
+  color: var(--verde);
+}
+
+/* Foto, marca, nombre y aroma son un solo enlace a la página del perfume */
+.perfume__enlace {
+  color: inherit;
+  text-decoration: none;
+}
+
+.perfume__foto {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--verde-oscuro); /* más oscuro que la página, para que la tarjeta se distinga */
+}
+.perfume__foto img {
+  width: auto;
+  height: 78%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
+}
+.perfume__sello {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  background: var(--dorado-claro);
+  color: var(--verde);
+  font-size: 12px;
+}
+
+.perfume__datos,
+.perfume__nombre,
+.perfume__aroma {
+  padding: 0 12px;
+}
+.perfume__datos {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+/* El nombre siempre reserva 2 líneas, para que todas las tarjetas de una fila midan igual */
+.perfume__nombre {
+  margin-top: 4px;
+  min-height: 2.6em;
+  font-family: var(--fuentes-mayusculas);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  overflow-wrap: anywhere; /* nombres largos sin espacios no se salen de la tarjeta */
+}
+.perfume__aroma {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--texto-medio);
+}
+
+.perfume__precio,
+.perfume__decant,
+.perfume__aviso {
+  padding: 0 12px;
+}
+.perfume__precio {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.perfume__decant {
+  font-size: 13px;
+  color: var(--texto-medio);
+}
+.perfume__aviso {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8A5A1E; /* dorado oscuro: se lee bien sobre crema */
+}
+
+/* Botones uno encima del otro: en una tarjeta angosta no caben lado a lado */
+.perfume__botones {
+  margin-top: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.perfume__botones .boton-borde,
+.perfume__botones .boton-oscuro {
+  height: 44px;
+  font-size: 14px;
+}
+/* Como los demás botones secundarios del sitio: relleno, sin borde.
+   Crema un poco más oscura que la tarjeta, para que no compita con "Pedir por WhatsApp" */
+.perfume__agregar {
+  width: 100%;
+  border: 0;
+  background: var(--crema);
+  color: var(--verde);
+}
+/* Ya está en la lista: el JavaScript le pone aria-pressed="true" y cambia el texto */
+.perfume__agregar[aria-pressed="true"] {
+  background: var(--verde);
+  color: var(--crema);
+}
+
+.perfume__botones .boton-borde:active,
+.perfume__botones .boton-oscuro:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Sin resultados ---------- */
+.catalogo__vacio {
+  margin-top: 28px;
+  padding: 32px 20px;
+  border: 1px solid var(--linea);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+.catalogo__vacio h2 {
+  font-family: var(--fuentes-titulos);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.catalogo__vacio p {
+  color: var(--dorado-claro);
+}
+.catalogo__vacio .boton-whatsapp {
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+}
+
+/* Sin JavaScript */
+.catalogo__sin-js {
+  margin: 28px 0 4px;
+  color: var(--dorado-claro);
+}
+
+/* ---------- Mi lista ---------- */
+/* Por ahora es una sección al final de la página (el ícono de la bolsa baja hasta aquí) */
+.mi-lista {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 16px 48px;
+  border-top: 1px solid var(--linea);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mi-lista h2 {
+  font-family: var(--fuentes-titulos);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+.mi-lista__vacia {
+  color: var(--gris);
+}
+
+/* Cada perfume de la lista (el JavaScript crea estas filas con estas clases):
+   nombre y tamaño a la izquierda; cantidad y "Quitar" a la derecha */
+.mi-lista__fila {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--linea);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 6px;
+  align-items: center;
+}
+.mi-lista__nombre {
+  font-family: var(--fuentes-mayusculas);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  overflow-wrap: anywhere;
+}
+.mi-lista__detalle {
+  grid-column: 1;
+  font-size: 13px;
+  color: var(--gris);
+}
+
+/* − 1 + : botones de 44 px para el dedo */
+.mi-lista__cantidad {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--dorado);
+}
+.mi-lista__cantidad button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--dorado);
+  font-size: 20px;
+  touch-action: manipulation;
+}
+.mi-lista__cantidad output {
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums; /* el número no baila al cambiar */
+}
+.mi-lista__quitar {
+  grid-column: 1;
+  justify-self: start;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--dorado-claro);
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.mi-lista__total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 500;
+}
+.mi-lista__enviar {
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+}
+
+/* Tablet: 3 tarjetas por fila */
+@media (min-width: 640px) {
+  .catalogo__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Computador: 4 por fila, letras un poco más grandes y Mi lista más ancha */
+@media (min-width: 1024px) {
+  .catalogo__lista {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .perfume__datos,
+  .perfume__nombre,
+  .perfume__aroma,
+  .perfume__precio,
+  .perfume__decant,
+  .perfume__aviso {
+    padding: 0 16px;
+  }
+  .perfume__nombre {
+    font-size: 15px;
+  }
+  .perfume__precio {
+    font-size: 18px;
+  }
+  .perfume__botones {
+    padding: 16px;
+  }
+  /* Mi lista no necesita todo el ancho: una columna cómoda de leer */
+  .mi-lista {
+    max-width: 720px;
+    padding: 56px 40px 80px;
+  }
+  /* Sin resultados: el botón con un ancho normal, no de lado a lado */
+  .catalogo__vacio {
+    align-items: center;
+  }
+  .catalogo__vacio .boton-whatsapp {
+    width: min(100%, 360px);
+  }
+}
+
+/* Mouse: la foto se acerca un poco y el botón de borde se rellena */
+@media (hover: hover) and (pointer: fine) {
+  .perfume__foto img {
+    transition: transform 0.3s ease-out;
+  }
+  .perfume__enlace:hover .perfume__foto img {
+    transform: scale(1.04);
+  }
+  .perfume__agregar:hover {
+    background: var(--verde);
+    color: var(--crema);
+  }
+}

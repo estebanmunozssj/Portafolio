@@ -1,0 +1,225 @@
+    <!DOCTYPE html>
+    <html lang="es-CO">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Título y descripción: lo que muestra Google en los resultados -->
+        <title>Catálogo de perfumes originales | S. B. Privé</title>
+        <meta name="description" content="Todos los perfumes de S. B. Privé: árabes, de diseñador y de nicho, en frasco y en decant. Busca por nombre o marca y pide por WhatsApp.">
+        <link rel="canonical" href="https://estebandev.online/proyectos/sb-prive/catalogo.html">
+
+        <!-- Vista previa al compartir el enlace -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="S. B. Privé">
+        <meta property="og:title" content="Catálogo | S. B. Privé">
+        <meta property="og:description" content="Árabes, de diseñador y de nicho, en frasco y en decant. Pide por WhatsApp.">
+        <meta property="og:locale" content="es_CO">
+        <meta property="og:url" content="https://estebandev.online/proyectos/sb-prive/catalogo.html">
+        <meta property="og:image" content="https://estebandev.online/proyectos/sb-prive/img/compartir.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Logo de S. B. Privé, alta perfumería, en dorado sobre verde">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="theme-color" content="#071810">
+
+        <!-- Las mismas letras y el mismo CSS del inicio -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+        <link rel="stylesheet" href="css/estilos.css">
+
+        <!-- Primero la lista de perfumes, después lo compartido y al final lo de esta página.
+             OJO: aquí NO va main.js, porque busca la vitrina del inicio y esta página no la tiene -->
+        <script src="js/perfumes.js" defer></script>
+        <script src="js/comun.js" defer></script>
+        <script src="js/catalogo.js" defer></script>
+
+        <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
+        <link rel="apple-touch-icon" href="img/logo/icono-180.png">
+    </head>
+
+    <body>
+        <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
+
+        <!-- Encabezado: igual al del inicio, pero los enlaces llevan de vuelta a index.html -->
+        <header class="encabezado">
+            <a href="index.html" class="logo">
+                <img src="img/logo/logo-horizontal-dorado.png" alt="S. B. Privé, ir al inicio" width="776" height="240">
+            </a>
+            <nav class="menu" id="menu" aria-label="Navegación principal">
+                <a href="catalogo.html?tipo=arabes">Árabes</a>
+                <a href="catalogo.html?tipo=disenador">De diseñador</a>
+                <a href="catalogo.html?tipo=nicho">De nicho</a>
+                <!-- aria-current dice "estás aquí" a los lectores de pantalla y el CSS lo puede marcar -->
+                <a href="catalogo.html" aria-current="page">Catálogo</a>
+                <a href="index.html#kit">Decants</a>
+                <a href="index.html#promesas">Por qué elegirnos</a>
+            </nav>
+
+            <div class="encabezado__botones">
+                <!-- Lupa: en esta página baja directo al buscador -->
+                <a class="boton-icono" href="#buscar" aria-label="Buscar perfume">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-4-4"></path>
+                    </svg>
+                </a>
+                <!-- Mi lista: la bolsa con el número de perfumes agregados. El JavaScript cambia el número y el aria-label -->
+                <a class="boton-icono boton-lista" href="#mi-lista" aria-label="Mi lista: 0 perfumes">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 8h12l-1 12H7L6 8z"></path>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                    </svg>
+                    <span class="boton-lista__cuenta" aria-hidden="true">0</span>
+                </a>
+                <button class="boton-icono boton-menu" type="button" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="catalogo">
+            <!-- 1. Título -->
+            <section class="catalogo__cabecera">
+                <h1>Catálogo</h1>
+                <p>Árabes, de diseñador y de nicho. Todos en frasco, y muchos en decant para probarlos primero.</p>
+            </section>
+
+            <!-- 2. Buscador y filtros.
+                 Es un formulario normal (method="get"): sin JavaScript también funciona, y los enlaces
+                 del inicio (catalogo.html?tipo=arabes) llegan con el filtro ya puesto.
+                 Con JavaScript, la lista se filtra al instante sin recargar la página -->
+            <form class="filtros" action="catalogo.html" method="get" role="search" aria-label="Buscar y filtrar perfumes">
+                <label class="filtros__buscar" for="buscar">Buscar por nombre o marca</label>
+                <input class="filtros__campo" id="buscar" type="search" name="q" placeholder="Ej: Afnan, Supremacy" autocomplete="off" enterkeyhint="search">
+
+                <!-- En celular los filtros van plegados para no tapar los perfumes; se abren tocando "Filtros" -->
+                <details class="filtros__mas">
+                    <summary>Filtros</summary>
+                    <!-- Caja de los 4 grupos: en computador los pone en 4 columnas -->
+                    <div class="filtros__grupos">
+
+                    <fieldset class="filtro">
+                        <legend>Tipo</legend>
+                        <label><input type="radio" name="tipo" value="" checked> Todos</label>
+                        <label><input type="radio" name="tipo" value="arabes"> Árabes</label>
+                        <label><input type="radio" name="tipo" value="disenador"> De diseñador</label>
+                        <label><input type="radio" name="tipo" value="nicho"> De nicho</label>
+                    </fieldset>
+
+                    <!-- OJO: para este filtro, cada perfume de js/perfumes.js necesita el dato "genero" (falta del cliente) -->
+                    <fieldset class="filtro">
+                        <legend>Para</legend>
+                        <label><input type="radio" name="genero" value="" checked> Todos</label>
+                        <label><input type="radio" name="genero" value="hombre"> Hombre</label>
+                        <label><input type="radio" name="genero" value="mujer"> Mujer</label>
+                        <label><input type="radio" name="genero" value="unisex"> Unisex</label>
+                    </fieldset>
+
+                    <fieldset class="filtro">
+                        <legend>Tamaño</legend>
+                        <label><input type="radio" name="tamano" value="" checked> Todos</label>
+                        <label><input type="radio" name="tamano" value="frasco"> Frasco</label>
+                        <label><input type="radio" name="tamano" value="decant"> Decant</label>
+                    </fieldset>
+
+                    <!-- OJO: los rangos se ajustan cuando el cliente dé los precios reales -->
+                    <fieldset class="filtro">
+                        <legend>Precio</legend>
+                        <label><input type="radio" name="precio" value="" checked> Todos</label>
+                        <label><input type="radio" name="precio" value="bajo"> Hasta $[PRECIO]</label>
+                        <label><input type="radio" name="precio" value="medio"> De $[PRECIO] a $[PRECIO]</label>
+                        <label><input type="radio" name="precio" value="alto"> Más de $[PRECIO]</label>
+                    </fieldset>
+                    </div>
+                </details>
+
+                <label class="filtros__ordenar">
+                    Ordenar por
+                    <select name="orden">
+                        <option value="mas-pedidos">Más pedidos</option>
+                        <option value="menor-precio">Menor precio</option>
+                        <option value="mayor-precio">Mayor precio</option>
+                    </select>
+                </label>
+
+                <!-- Con JavaScript este botón se esconde, porque la lista cambia sola -->
+                <button class="boton-oscuro filtros__aplicar" type="submit">Ver perfumes</button>
+                <a class="filtros__quitar" href="catalogo.html">Quitar filtros</a>
+            </form>
+
+            <!-- 3. Resultados. aria-live hace que el lector de pantalla diga "8 perfumes" cuando cambia -->
+            <p class="catalogo__cuenta" aria-live="polite"></p>
+
+            <!-- Aquí js/catalogo.js pone una tarjeta por perfume, usando la plantilla de abajo -->
+            <ul class="catalogo__lista"></ul>
+
+            <!-- Plantilla de una tarjeta: el navegador no la muestra; el JavaScript la copia y la llena -->
+            <template id="plantilla-perfume">
+                <li>
+                    <article class="perfume">
+                        <a class="perfume__enlace" href="perfume.html?id=[ID]">
+                            <div class="perfume__foto">
+                                <span class="perfume__sello">Más pedido</span>
+                                <img src="" alt="" width="240" height="288" loading="lazy">
+                            </div>
+                            <p class="perfume__datos">[MARCA] · [TIPO]</p>
+                            <h2 class="perfume__nombre">[NOMBRE DEL PERFUME]</h2>
+                            <p class="perfume__aroma">[AROMA] · [INTENSIDAD]</p>
+                        </a>
+                        <p class="perfume__precio">[PRECIO]</p>
+                        <p class="perfume__decant">Decant [ML] ml: [PRECIO]</p>
+                        <p class="perfume__aviso">Pocas piezas</p>
+                        <div class="perfume__botones">
+                            <button class="boton-borde perfume__agregar" type="button">Agregar a mi lista</button>
+                            <a class="boton-oscuro" href="https://wa.me/573158599499">Pedir por WhatsApp</a>
+                        </div>
+                    </article>
+                </li>
+            </template>
+
+            <!-- 4. Sin resultados: en vez de una página vacía, una salida -->
+            <div class="catalogo__vacio" hidden>
+                <h2>No encontramos ese perfume</h2>
+                <p>Puede que lo tengamos y aún no esté en la página. Escríbenos el nombre y te decimos.</p>
+                <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20%C2%BFtienen%20este%20perfume%3F%20">Preguntar por WhatsApp</a>
+                <a class="filtros__quitar" href="catalogo.html">Quitar filtros</a>
+            </div>
+
+            <!-- Si el JavaScript no carga, al menos una salida por WhatsApp -->
+            <noscript>
+                <p class="catalogo__sin-js">Para ver el catálogo, activa JavaScript o pídelo por WhatsApp.</p>
+                <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20%C2%BFme%20env%C3%ADan%20el%20cat%C3%A1logo%20completo%3F">Pedir el catálogo por WhatsApp</a>
+            </noscript>
+        </main>
+
+        <!-- 5. Mi lista: los perfumes que la persona agrega, para pedirlos todos en un solo mensaje.
+             Se guarda en el navegador (localStorage) para que no se pierda al cambiar de página -->
+        <aside class="mi-lista" id="mi-lista" aria-labelledby="mi-lista-titulo">
+            <h2 id="mi-lista-titulo">Mi lista</h2>
+            <p class="mi-lista__vacia">Todavía no agregas perfumes. Toca "Agregar a mi lista" en los que te gusten.</p>
+            <!-- Cada fila: nombre, tamaño, cantidad y botón para quitar (los pone el JavaScript) -->
+            <ul class="mi-lista__perfumes"></ul>
+            <p class="mi-lista__total"></p>
+            <a class="boton-whatsapp mi-lista__enviar" href="https://wa.me/573158599499" hidden>Enviar mi lista por WhatsApp</a>
+        </aside>
+
+        <footer class="pie">
+            <nav class="pie__nav" aria-label="Navegación del pie de página">
+                <a href="catalogo.html" aria-current="page">Catálogo</a>
+                <a href="index.html#envios">Envíos</a>
+                <a href="index.html#cambios">Cambios</a>
+                <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
+            </nav>
+            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+            <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
+        </footer>
+
+        <!-- Barra fija de WhatsApp, solo celular. Con JavaScript, si hay perfumes en la lista, envía la lista -->
+        <a class="barra-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20pedir%20un%20perfume">Pedir por WhatsApp</a>
+    </body>
+    </html>
