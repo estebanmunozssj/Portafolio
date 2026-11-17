@@ -7,7 +7,7 @@
    ========================================================= */
 
 // Número de WhatsApp del cliente: 57 (Colombia) + número, sin + ni espacios
-const WHATSAPP = '57[NUMERO]';
+const WHATSAPP = '573158599499';
 
 // Convierte 350000 en "$350.000" (sin el espacio que pone el navegador después del $).
 // Si un perfume no tiene precio en la lista, el cliente ve "Precio por WhatsApp", nunca "[PRECIO]"
@@ -109,9 +109,20 @@ function elegirAroma(aroma) {
 }
 
 /* ---------- 4. Escuchar los toques ---------- */
+// La barra fija de abajo empieza con un mensaje general ("quiero pedir un perfume").
+// Cuando la persona elige un aroma o un frasco, la barra pide ese perfume,
+// así el cliente no tiene que preguntarle "¿cuál?". Al cargar no se cambia: nadie ha elegido nada todavía
+const barraWhatsApp = document.querySelector('.barra-whatsapp');
+function barraConPerfume(perfume) {
+  if (barraWhatsApp && perfume) {
+    barraWhatsApp.href = enlacePedido(perfume);
+  }
+}
+
 botonesAroma.forEach(function (boton) {
   boton.addEventListener('click', function () {
     elegirAroma(boton.textContent.trim());
+    barraConPerfume(buscarPerfume(document.querySelector('.frasco.activo')?.dataset.id));
   });
 });
 
@@ -120,6 +131,7 @@ botonesFrasco.forEach(function (boton) {
     const perfume = buscarPerfume(boton.dataset.id);
     if (perfume) {
       mostrarPerfume(perfume);
+      barraConPerfume(perfume);
     }
   });
 });
@@ -136,11 +148,12 @@ tarjeta.notas.addEventListener('click', function () {
 document.addEventListener('click', function (evento) {
   const enlace = evento.target.closest('a[href^="https://wa.me/"]');
   if (!enlace || enlace.dataset.abriendo) return;
-  const textoOriginal = enlace.textContent;
+  // Se guardan las piezas de adentro (no solo el texto): las filas de "Elige por tipo" tienen dos partes
+  const contenidoOriginal = Array.from(enlace.childNodes);
   enlace.dataset.abriendo = 'si';
   enlace.textContent = 'Abriendo WhatsApp…';
   setTimeout(function () {
-    enlace.textContent = textoOriginal;
+    enlace.replaceChildren.apply(enlace, contenidoOriginal);
     delete enlace.dataset.abriendo;
   }, 1600);
 });
@@ -271,19 +284,19 @@ function precioMinimo(precios) {
   return conPrecio.length ? Math.min.apply(null, conPrecio) : null;
 }
 
-// Lo que dice el enlace (catalogo.html?tipo=arabes) → el tipo como está escrito en perfumes.js
+// El data-tipo de cada fila (data-tipo="arabes") → el tipo como está escrito en perfumes.js
 const TIPOS = { arabes: 'Árabes', disenador: 'Diseñador', nicho: 'Nicho' };
 
 document.querySelectorAll('.tipo').forEach(function (fila) {
   const desde = fila.querySelector('.tipo__desde');
   if (!desde) return;
-  const href = fila.getAttribute('href') || '';
   let precios;
-  if (href === '#kit') {
+  if (fila.getAttribute('href') === '#kit') {
     // La fila de Decants: el decant más barato
     precios = PERFUMES.filter(function (p) { return p.decant; }).map(function (p) { return p.decant.precio; });
   } else {
-    const tipo = TIPOS[new URL(href, location.href).searchParams.get('tipo')];
+    // Cada fila dice su tipo en data-tipo="arabes" (así no depende de a dónde lleve el enlace)
+    const tipo = TIPOS[fila.dataset.tipo];
     if (!tipo) return; // fila nueva que no está en TIPOS: se deja el texto del HTML
     precios = PERFUMES.filter(function (p) { return p.tipo === tipo; }).map(function (p) { return p.precio; });
   }

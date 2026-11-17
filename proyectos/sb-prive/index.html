@@ -37,10 +37,8 @@
         <link rel="apple-touch-icon" href="img/logo/icono-180.png">
 
         <!-- Datos para Google (JSON-LD): quién es la tienda y cuál es su sitio.
-             Solo lleva datos reales. Cuando el cliente los dé, agregar dentro de "OnlineStore":
-             "telephone": "+57XXXXXXXXXX",
+             Solo lleva datos reales. Cuando el cliente las dé, agregar dentro de "OnlineStore":
              "sameAs": ["https://www.instagram.com/...", "https://www.tiktok.com/@..."],
-             y en "contactPoint" el mismo "telephone".
              Si cambia el dominio, cambiar todas las direcciones https://estebandev.online/... -->
         <script type="application/ld+json">
         {
@@ -50,6 +48,7 @@
                     "@type": "OnlineStore",
                     "@id": "https://estebandev.online/proyectos/sb-prive/#tienda",
                     "name": "S. B. Privé",
+                    "telephone": "+573158599499",
                     "alternateName": "S. B. Privé Alta Perfumería",
                     "url": "https://estebandev.online/proyectos/sb-prive/",
                     "logo": "https://estebandev.online/proyectos/sb-prive/img/logo/icono-512.png",
@@ -63,6 +62,7 @@
                     "contactPoint": {
                         "@type": "ContactPoint",
                         "contactType": "customer service",
+                        "telephone": "+573158599499",
                         "availableLanguage": "es"
                     }
                 },
@@ -84,7 +84,7 @@
 
     <body>
         <!-- Franja de arriba: despacho el mismo día -->
-        <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy antes de las [HORA]</p>
+        <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
 
         <header class="encabezado">
             <a href="#inicio" class="logo">
@@ -95,7 +95,8 @@
                 <a href="#tipos">Árabes</a>
                 <a href="#tipos">De diseñador</a>
                 <a href="#tipos">De nicho</a>
-                <a href="catalogo.html">Catálogo</a>
+                <!-- Mientras catalogo.html no exista, "Catálogo" lleva a la vitrina. Cuando exista: href="catalogo.html" -->
+                <a href="#inicio">Catálogo</a>
                 <a href="#kit">Decants</a>
                 <a href="#promesas">Por qué elegirnos</a>
             </nav>
@@ -121,7 +122,7 @@
         <main>
             <section id="inicio" class="inicio">
                 <!-- 1. Inicio: título, selector de aroma y vitrina -->
-                <h1>Perfumes Originales, Pedidos por WhatsApp</h1>
+                <h1>Perfumes originales, pedidos por WhatsApp</h1>
                 <!-- El precio de entrada más bajo baja la barrera para la primera compra -->
                 <p>Árabes, de diseñador y de nicho. Decants desde $[PRECIO] para probarlos antes del frasco.</p>
 
@@ -214,12 +215,12 @@
                                 <span class="tarjeta__decant">Decant [ML]: [PRECIO]</span>
                             </div>
                             <!-- El JavaScript cambiará este mensaje por el nombre y el tamaño del perfume elegido -->
-                            <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]?text=Hola%2C%20quiero%20pedir%20este%20perfume%3A%20">Pedir por WhatsApp</a>
+                            <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20pedir%20este%20perfume%3A%20">Pedir por WhatsApp</a>
                     </div>
                 </div>
 
                 <p class="inicio__ayuda">Toca un frasco para ver qué es y cuánto cuesta.</p>
-                <p class="inicio__confianza">Te respondemos en minutos. Pagas solo cuando confirmes.</p>
+                <p class="inicio__confianza">Te respondemos en minutos, de [HORA] a [HORA]. Pagas solo cuando confirmes.</p>
             </section>
 
             <section id="promesas">
@@ -232,7 +233,7 @@
                         </li>
                         <li class="promesa">
                             <h3 class="promesa__nombre">A toda Colombia</h3>
-                            <p class="promesa__texto">Sin costo desde [MONTO]. Llega en [DÍAS] días.</p>
+                            <p class="promesa__texto">Sin costo desde $[MONTO]. Llega en [DÍAS] días.</p>
                         </li>
                         <li class="promesa">
                             <h3 class="promesa__nombre">Pagas como prefieras</h3>
@@ -246,19 +247,21 @@
                  <h2 class="tipos__titulo">Elige por tipo</h2>
                  <ul class="tipos__lista">
                     <li>
-                        <a class="tipo" href="catalogo.html?tipo=arabes">
-                            <span class="tipo__nombre">Arabes</span>
+                        <!-- Mientras catalogo.html no exista, cada fila abre WhatsApp pidiendo ese tipo.
+                             Cuando exista: href="catalogo.html?tipo=arabes" (y igual en las otras). data-tipo lo usa main.js para el precio -->
+                        <a class="tipo" data-tipo="arabes" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20%C3%A1rabes.">
+                            <span class="tipo__nombre">Árabes</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
                     </li>
                     <li>
-                        <a class="tipo" href="catalogo.html?tipo=disenador">
+                        <a class="tipo" data-tipo="disenador" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20de%20dise%C3%B1ador.">
                             <span class="tipo__nombre">De diseñador</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
                     </li>
                     <li>
-                        <a class="tipo" href="catalogo.html?tipo=nicho">
+                        <a class="tipo" data-tipo="nicho" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20ver%20los%20perfumes%20de%20nicho.">
                             <span class="tipo__nombre">De nicho</span>
                             <span class="tipo__desde">Precio por WhatsApp</span>
                         </a>
@@ -271,15 +274,15 @@
                     </li>
                 </ul>
 
-                <p class="tipos__texto">Ya sabes cual quieres? Escribenos el nombre y te lo apartamos.</p>
-                <a class="boton-borde" href="https://wa.me/57[NUMERO]?text=Hola%2C%20quiero%20apartar%20este%20perfume%3A%20">Apartar mi perfume</a>
+                <p class="tipos__texto">¿Ya sabes cuál quieres? Escríbenos el nombre y te lo apartamos.</p>
+                <a class="boton-borde" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20apartar%20este%20perfume%3A%20">Apartar mi perfume</a>
             </section>
 
             <section id="kit">
                 <!-- 4. Kit de descubrimiento -->
                  <div class="kit">
                     <h2 class="kit__titulo">Tres decants, una semana para decidir</h2>
-                    <p class="kit__texto">Elige tres perfumes en decants de [ML]. llevalos unos dias y quedate con el frasco del que te enamores.</p>
+                    <p class="kit__texto">Elige tres perfumes en decants de [ML]. Llévalos unos días y quédate con el frasco del que te enamores.</p>
                 <!-- los cuadros decorativos-->
                  <ol class="kit__cajas" aria-hidden="true">
                     <li class="kit__caja">I</li>
@@ -287,10 +290,10 @@
                     <li class="kit__caja">III</li>
                  </ol>
 
-                 <p class="kit__precio">Kit de descubrimiento. [Precio]</p>
-                 <p class="kit__nota">Y si luego llevas el frasco te descontamos el kit. [confirmar]</p>
-                 <a class="boton-oscuro" href="https://wa.me/57[NUMERO]?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants">Armar mi kit</a>
-                 <p class="kit__extra">Prefieres dos frascos? Te los enviamos sin costo.</p>
+                 <p class="kit__precio">Kit de descubrimiento: [PRECIO]</p>
+                 <p class="kit__nota">Si luego llevas el frasco, te descontamos el kit. [CONFIRMAR]</p>
+                 <a class="boton-oscuro" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants">Armar mi kit</a>
+                 <p class="kit__extra">¿Prefieres dos frascos? Te los enviamos sin costo. [CONFIRMAR]</p>
                  </div>
             </section>
 
@@ -322,7 +325,8 @@
                     </div>
                  </div>
 
-                 <a class="boton-borde" href="catalogo.html">Ver todo el catálogo</a>
+                 <!-- Mientras catalogo.html no exista, el catálogo se pide por WhatsApp. Cuando exista: href="catalogo.html" y texto "Ver todo el catálogo" -->
+                 <a class="boton-borde" href="https://wa.me/573158599499?text=Hola%2C%20%C2%BFme%20env%C3%ADan%20el%20cat%C3%A1logo%20completo%3F">Pedir el catálogo completo</a>
             </section>
 
             <section id="regalos">
@@ -387,11 +391,11 @@
                  <ol class="pasos__lista">
                     <li class="paso">
                         <p class="paso__verbo">Elige</p> 
-                        <p class="paso__texto">Toca un frasco en la vitrina o mira los mas pedidos</p>   
+                        <p class="paso__texto">Toca un frasco en la vitrina o mira los más pedidos.</p>   
                     </li>
                     <li class="paso">
                         <p class="paso__verbo">Escribe</p>
-                        <p class="paso__texto">mandame el nombre del perfume que deseas</p>
+                        <p class="paso__texto">Mándanos el nombre del perfume que quieres.</p>
                     </li>
                     <li class="paso">
                         <p class="paso__verbo">Paga</p>
@@ -410,31 +414,39 @@
                  <dl class="preguntas__lista">
                     <div class="pregunta">
                         <dt>¿Los perfumes son originales?</dt>
-                        <dd class="pregunta__respuesta">Si. Cada frasco con [COMO LO DEMUESTRAN: factura, codigo, sello].</dd>
+                        <dd class="pregunta__respuesta">Sí. Cada frasco viene con [CÓMO LO DEMUESTRAN: factura, código, sello].</dd>
                     </div>
                     <div class="pregunta">
-                        <dt>¿Que es un decant?</dt>
-                        <dd>Es una porcion del perfume original en un recipiente más pequeño. para probar antes de comprar el original.</dd>
+                        <dt>¿Cómo sé que no es una réplica?</dt>
+                        <dd>[CÓMO LO DEMUESTRAN: factura de compra, código de lote que se puede verificar, sello]. Antes de pagar te enviamos fotos del frasco que te va a llegar. [CONFIRMAR]</dd>
                     </div>
                     <div class="pregunta">
-                        <dt>¿Cuanto demora en llegar?</dt>
-                        <dd>llega en [DÍAS] días hábiles.</dd>
+                        <dt>¿Qué es un decant?</dt>
+                        <dd>Es una porción del perfume original en un frasco pequeño, para probarlo antes de comprar el frasco completo.</dd>
                     </div>
                     <div class="pregunta">
-                        <dt>¿Cuanto cuesta el envío?</dt>
-                        <dd>es gratis desde [MONTO] por debajon de ese valor cuesta [Valor]</dd>
+                        <dt>¿Cuánto demora en llegar?</dt>
+                        <dd>Llega en [DÍAS] días hábiles.</dd>
+                    </div>
+                    <div class="pregunta" id="envios">
+                        <dt>¿Cuánto cuesta el envío?</dt>
+                        <dd>Es gratis desde $[MONTO]. Por debajo de ese valor cuesta $[VALOR].</dd>
                     </div>
                     <div class="pregunta">
-                        <dt>¿Que formas de pago hay?</dt>
+                        <dt>¿Qué formas de pago hay?</dt>
                         <dd>[NEQUI, PSE, TARJETA, CONTRAENTREGA].</dd>
                     </div>
+                    <div class="pregunta" id="cambios">
+                        <dt>¿Y si llega dañado o no me gusta?</dt>
+                        <dd>Si llega dañado, te lo cambiamos sin costo. [POLÍTICA DE CAMBIOS: qué cubre y en cuántos días avisar]</dd>
+                    </div>
                     <div class="pregunta">
-                        <dt>Cuanto dura el perfume en la piel?</dt>
-                        <dd>depende de cada uno. En cada perfumes te mostramos cuanto dura y que tan lejos se siente</dd>
+                        <dt>¿Cuánto dura el perfume en la piel?</dt>
+                        <dd>Depende de la piel de cada persona. En cada perfume te mostramos cuánto dura y qué tan lejos se siente.</dd>
                     </div>
                 </dl>
-                <p class="preguntas__texto">Si tienes otra pregunta, escribenos por WhatsApp y te respondemos en minutos.</p>
-                <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Preguntar por WhatsApp</a>
+                <p class="preguntas__texto">Si tienes otra pregunta, escríbenos por WhatsApp y te respondemos en minutos, de [HORA] a [HORA].</p>
+                <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Preguntar por WhatsApp</a>
             </section>
             <section id="ayuda">
                 <!-- 10. ¿No sabes cuál elegir? -->
@@ -444,7 +456,7 @@
                  <div class="ayuda__contenido">
                     <h2 class="ayuda__titulo">¿No sabes cuál elegir?</h2>
                     <p class="ayuda__texto">Escríbenos y te ayudamos a escoger el perfume que más se acerque a lo que buscas.</p>
-                    <a class="boton-whatsapp" href="https://wa.me/57[NUMERO]?text=Hola%2C%20no%20s%C3%A9%20cu%C3%A1l%20perfume%20elegir.%20%C2%BFMe%20ayudan%3F">Ayuda por WhatsApp</a>
+                    <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20no%20s%C3%A9%20cu%C3%A1l%20perfume%20elegir.%20%C2%BFMe%20ayudan%3F">Ayuda por WhatsApp</a>
                 </div>
             </section>
         </main>
@@ -452,19 +464,19 @@
         <footer class="pie">
             <!-- Enlaces y nombre de la marca -->
                 <nav class="pie__nav" aria-label="Navegación del pie de página">
-                    <a href="catalogo.html">Catalogo</a>
-                    <a href="#preguntas">Envios</a>
-                    <a href="#preguntas">Cambios</a>
-                    <a href="#[url de imstagram]" target="_blank" rel="noopener noreferrer">Instagram</a>
-                    <a href="#[url de tiktok]" target="_blank" rel="noopener noreferrer">Tik Tok</a>
+                    <a href="#inicio">Catálogo</a>
+                    <a href="#envios">Envíos</a>
+                    <a href="#cambios">Cambios</a>
+                    <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
                 </nav>
-                <p class="pie__legal">&copy; 2026 S. B. Prive. Alta Perfumeria [Ciudad].</p>
+                <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
                 <!--nombre gigante cortado-->
-                <p class="pie__marca" aria-hidden="true">S. B. Prive</p>
+                <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
         </footer>
 
         <!--barra fija de navegacion whastapp solo celular-->
-        <a class="barra-whatsapp" href="https://wa.me/57[NUMERO]?text=Hola%2C%20quiero%20pedir%20un%20perfume">Pedir por WhatsApp</a>
+        <a class="barra-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20pedir%20un%20perfume">Pedir por WhatsApp</a>
 
         
     </body>

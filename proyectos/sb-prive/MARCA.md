@@ -138,4 +138,4 @@ Cada perfume lleva: `id`, nombre, marca, tipo, género, familia olfativa (dulce,
 
 ## 10. Datos que faltan del cliente
 
-Ciudad · lista de perfumes con precios y tamaños · género de cada perfume · tamaños que vende de cada uno · regla para los decants (¿mínimo de unidades?) · días hábiles de entrega por ciudad · ml y precio de los decants · envío sin costo desde cuánto · medios de pago · hora de corte para despachar el mismo día · fotos de los frascos sin fondo · archivos del logo · número de WhatsApp · cómo demuestran que son originales · política de cambios · redes sociales.
+Ciudad · lista de perfumes con precios y tamaños · género de cada perfume · tamaños que vende de cada uno · regla para los decants (¿mínimo de unidades?) · días hábiles de entrega por ciudad · ml y precio de los decants · envío sin costo desde cuánto · medios de pago · hora de corte para despachar el mismo día · fotos de los frascos sin fondo · cómo demuestran que son originales · política de cambios · horario en que responde WhatsApp · redes sociales.
