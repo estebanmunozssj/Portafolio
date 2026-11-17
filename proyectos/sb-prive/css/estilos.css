@@ -1945,3 +1945,100 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== DECISIONES DE BREAK-UI ===== */
+
+/* Notas de la tarjeta: máximo 3 líneas; si son más largas terminan en "…" */
+.tarjeta__notas {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Foto real del perfume en las tarjetas de "Los más pedidos" */
+.producto__foto {
+  display: block;
+  width: auto;
+  height: 170px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
+}
+
+/* Vitrina corta: con 6 perfumes o menos, en computador también se ve solo el arco y la primera repisa */
+@media (min-width: 1024px) {
+  .armario--corto {
+    aspect-ratio: 687 / 614;
+    overflow: hidden;
+    width: min(100%, calc((100svh - 140px) * 687 / 614));
+  }
+  .armario--corto .repisa:nth-of-type(1) {
+    --y: 57.3%;
+  }
+  .armario--corto .repisa:nth-of-type(2) {
+    --y: 88.3%;
+  }
+  .armario--corto .repisa:nth-of-type(3),
+  .armario--corto .repisa:nth-of-type(4) {
+    display: none;
+  }
+}
+
+/* ===== TARJETAS IGUALES Y SIN CORRIMIENTO LATERAL ===== */
+
+/* "Los más pedidos": todas las tarjetas iguales aunque un nombre sea más largo.
+   El nombre siempre reserva 2 líneas y el botón "Pedir este" queda pegado abajo */
+.producto__info {
+  flex: 1;
+}
+.producto__nombre {
+  line-height: 1.3;
+  min-height: 2.6em; /* 2 líneas × 1,3 */
+}
+.producto .boton-oscuro {
+  margin-top: auto;
+}
+.producto__aviso {
+  margin-bottom: 8px; /* espacio mínimo antes del botón */
+}
+
+/* Vitrina de borde a borde en celular y tablet, SIN 100vw.
+   100vw incluye la barra de scroll del navegador: la página quedaba ~15 px más ancha,
+   se podía mover de lado y se veía un borde.
+   Ahora el inicio ocupa todo el ancho con un margen interno, y la vitrina se sale
+   de ese margen con un margen negativo exactamente igual: nunca sobra nada */
+@media (max-width: 1023px) {
+  .inicio {
+    /* 264 = la mitad de 528, el ancho del texto. Va en vw (no en %) porque el padding y el margen
+       negativo deben medir exactamente lo mismo, y el % se calcularía distinto en cada caja */
+    --margen-inicio: max(16px, calc(50vw - 264px));
+    max-width: none;
+    padding-left: var(--margen-inicio);
+    padding-right: var(--margen-inicio);
+  }
+  .inicio > .vitrina {
+    width: auto;
+    margin-left: calc(-1 * var(--margen-inicio));
+    margin-right: calc(-1 * var(--margen-inicio));
+  }
+}
+
+/* En computador la foto del armario no se limita a 78vh: si se achicaba, los frascos
+   (que van en % del armario) quedaban unos píxeles fuera de las repisas pintadas */
+@media (min-width: 1024px) {
+  .armario .vitrina__fondo {
+    max-height: none;
+  }
+}
+
+/* Notas cortadas: se pueden tocar para leerlas completas */
+.tarjeta__notas {
+  cursor: pointer;
+}
+.tarjeta__notas--completas {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+  overflow: visible;
+}
