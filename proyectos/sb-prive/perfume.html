@@ -37,6 +37,8 @@
     </head>
 
     <body>
+        <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
+        <a class="saltar" href="#contenido">Saltar al contenido</a>
         <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
 
         <!-- Encabezado: igual al del catálogo -->
@@ -76,7 +78,7 @@
             </div>
         </header>
 
-        <main class="ficha">
+        <main class="ficha" id="contenido">
             <!-- Migas: dónde estás y cómo volver -->
             <nav class="migas" aria-label="Estás en">
                 <ol>
@@ -105,6 +107,8 @@
                 <p class="ficha__marca">[MARCA]</p>
                 <h1 class="ficha__nombre" id="nombre-perfume">[NOMBRE DEL PERFUME]</h1>
                 <p class="ficha__datos">[TIPO] · [FAMILIA] · [AROMA]</p>
+                <!-- El precio se ve apenas se entra, sin tener que bajar hasta los tamaños -->
+                <p class="ficha__precio">[PRECIO] <span class="ficha__precio-decant">· Decant desde [PRECIO]</span></p>
                 <p class="ficha__aviso">Pocas piezas</p>
 
                 <!-- Tamaños: cada opción con su precio. El JavaScript esconde los que el perfume no tiene -->

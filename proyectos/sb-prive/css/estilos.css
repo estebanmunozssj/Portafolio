@@ -3041,3 +3041,127 @@ select {
     width: min(100%, 320px);
   }
 }
+
+/* =========================================================
+   ARREGLOS DE UX (revisión con ui-ux-pro-max)
+   ========================================================= */
+
+/* 1. Aviso corto abajo: "Agregado a tu lista · Ver mi lista" / "Quitado · Deshacer".
+      En celular va encima de la barra de WhatsApp; en computador, abajo a la derecha */
+.aviso {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom) + 12px);
+  z-index: 60;
+  min-height: 52px;
+  padding: 6px 6px 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--crema);
+  color: var(--verde);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-size: 15px;
+}
+.aviso__accion {
+  min-height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--verde);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+@media (min-width: 1024px) {
+  .aviso {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    width: 380px;
+  }
+}
+
+/* Texto que solo lee el lector de pantalla (no se ve, pero sigue en la página) */
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 2. "Saltar al contenido": escondido hasta que alguien llega con Tab */
+.saltar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 12px 16px;
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+  transform: translateY(-200%);
+}
+.saltar:focus {
+  transform: none;
+}
+
+/* 3. Página del perfume: precio debajo del nombre, y foto más baja en celular
+      para que nombre y precio se vean apenas se entra */
+.ficha__precio {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.ficha__precio-decant {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--dorado-claro);
+}
+@media (max-width: 1023px) {
+  .ficha__foto {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* 4. Áreas de toque de al menos 44 px, sin cambiar cómo se ven
+      (el relleno agranda la zona que se toca, no el texto) */
+.logo {
+  padding: 2px 0;
+}
+.pie__nav a {
+  display: inline-block;
+  padding: 11px 0;
+}
+.pie__nav {
+  row-gap: 0; /* el relleno de los enlaces ya los separa */
+}
+.migas a {
+  display: inline-block;
+  padding: 12px 0;
+}
+.migas ol {
+  align-items: center;
+}
+.mi-lista__quitar {
+  min-height: 44px;
+  padding: 0 10px 0 0;
+}
+.filtros__quitar {
+  padding: 13px 10px;
+}
+.guia__kit {
+  padding: 12px 0;
+}
+
+/* 5. El borde de las opciones de tamaño se distingue del fondo (antes casi no se veía) */
+.tamano {
+  border-color: rgba(200, 164, 92, 0.5); /* el mismo dorado de la marca, a media fuerza */
+}

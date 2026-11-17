@@ -286,11 +286,17 @@ if (ventana && tarjetasProducto.length && flechas.length === 2) {
     flechaSiguiente.disabled = ventana.scrollLeft + ventana.clientWidth >= ventana.scrollWidth - 2;
   }
 
+  // Quien pidió "reducir movimiento" en su teléfono ve el salto directo, sin deslizamiento
+  const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function comoMoverse() {
+    return sinMovimiento.matches ? 'auto' : 'smooth';
+  }
+
   flechaAnterior.addEventListener('click', function () {
-    ventana.scrollBy({ left: -paso(), behavior: 'smooth' });
+    ventana.scrollBy({ left: -paso(), behavior: comoMoverse() });
   });
   flechaSiguiente.addEventListener('click', function () {
-    ventana.scrollBy({ left: paso(), behavior: 'smooth' });
+    ventana.scrollBy({ left: paso(), behavior: comoMoverse() });
   });
   ventana.addEventListener('scroll', actualizarCarrusel, { passive: true });
   window.addEventListener('resize', actualizarCarrusel);

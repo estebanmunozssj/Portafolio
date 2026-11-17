@@ -90,6 +90,14 @@ function llenarFicha(p) {
   document.querySelector('.ficha__datos').textContent = [p.tipo, p.familia, p.aroma].filter(Boolean).join(' · ');
   if (!p.pocasPiezas) document.querySelector('.ficha__aviso').remove();
 
+  // Precio debajo del nombre: el del frasco y, si hay, el decant más barato
+  const precioArriba = document.querySelector('.ficha__precio');
+  const decants = [p.decant, p.decant5].filter(Boolean).map(function (d) { return d.precio; }).filter(function (n) { return n != null; });
+  precioArriba.replaceChildren(precioTexto(p.precio));
+  if (decants.length) {
+    precioArriba.append(crear('span', 'ficha__precio-decant', ' · Decant desde ' + precioTexto(Math.min.apply(null, decants))));
+  }
+
   /* ---------- Tamaños: cada opción con su precio; las que el perfume no tiene se quitan ---------- */
   document.querySelectorAll('.tamano').forEach(function (opcion) {
     const radio = opcion.querySelector('input');
@@ -148,9 +156,10 @@ function llenarFicha(p) {
   botonAgregar.addEventListener('click', function () {
     const tamano = tamanoElegido();
     if (estaEnLista(p.id, tamano)) {
-      quitarDeLista(p.id, tamano);
+      quitarConAviso(p.id, tamano);
     } else {
       agregarALista(p.id, tamano, cantidad);
+      avisar('Agregado a tu lista', accionVerLista());
     }
   });
 

@@ -84,6 +84,8 @@
     </head>
 
     <body>
+        <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
+        <a class="saltar" href="#contenido">Saltar al contenido</a>
         <!-- Franja de arriba: despacho el mismo día -->
         <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
 
@@ -102,13 +104,21 @@
             </nav>
 
             <div class="encabezado__botones">
-                <!--lupa-->
-                <button class="boton-icono" type="button" aria-label="Buscar perfume">
+                <!-- Lupa: lleva al buscador del catálogo -->
+                <a class="boton-icono" href="catalogo.html#buscar" aria-label="Buscar perfume">
                     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
                         <circle cx="11" cy="11" r="7"></circle>
                         <path d="M20 20l-4-4"></path>
                     </svg>
-                </button>
+                </a>
+                <!-- Mi lista: la bolsa con el número de perfumes agregados (la lista vive en el catálogo) -->
+                <a class="boton-icono boton-lista" href="catalogo.html#mi-lista" aria-label="Mi lista: 0 perfumes">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 8h12l-1 12H7L6 8z"></path>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                    </svg>
+                    <span class="boton-lista__cuenta" aria-hidden="true">0</span>
+                </a>
             <!-- Menú -->
                 <!-- aria-expanded dice si el menú está abierto; el JavaScript lo cambia a "true" -->
                 <button class="boton-icono boton-menu" type="button" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
@@ -119,7 +129,7 @@
             </div>
         </header>
 
-        <main>
+        <main id="contenido">
             <section id="inicio" class="inicio">
                 <!-- 1. Inicio: título, selector de aroma y vitrina -->
                 <h1>Perfumes originales, pedidos por WhatsApp</h1>

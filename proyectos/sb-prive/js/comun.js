@@ -44,13 +44,60 @@ function crear(etiqueta, clase, texto) {
 // Cómo se escribe cada tipo en los enlaces (?tipo=arabes) → cómo está escrito en perfumes.js
 const TIPOS = { arabes: 'Árabes', disenador: 'Diseñador', nicho: 'Nicho' };
 
+/* ---------- Avisos ---------- */
+// Texto escondido a la vista que el lector de pantalla lee en voz alta cuando cambia
+const anuncio = crear('p', 'solo-lector');
+anuncio.setAttribute('aria-live', 'polite');
+document.body.append(anuncio);
+function anunciar(texto) {
+  anuncio.textContent = '';
+  setTimeout(function () { anuncio.textContent = texto; }, 50); // vaciar y volver a poner: así lo lee aunque se repita
+}
+
+// Aviso corto abajo de la pantalla: "Agregado a tu lista · Ver mi lista" o "Quitado · Deshacer".
+// accion: { texto: 'Ver mi lista', href: '...' } o { texto: 'Deshacer', alTocar: funcion }
+const cajaAviso = crear('div', 'aviso');
+cajaAviso.setAttribute('role', 'status');
+cajaAviso.hidden = true;
+document.body.append(cajaAviso);
+let relojAviso;
+function avisar(texto, accion) {
+  cajaAviso.replaceChildren(crear('span', 'aviso__texto', texto));
+  if (accion) {
+    const boton = crear(accion.href ? 'a' : 'button', 'aviso__accion', accion.texto);
+    if (accion.href) {
+      boton.href = accion.href;
+    } else {
+      boton.type = 'button';
+    }
+    boton.addEventListener('click', function () {
+      cajaAviso.hidden = true;
+      if (accion.alTocar) accion.alTocar();
+    });
+    cajaAviso.append(boton);
+  }
+  cajaAviso.hidden = false;
+  clearTimeout(relojAviso);
+  relojAviso = setTimeout(function () { cajaAviso.hidden = true; }, 5000); // se va solo a los 5 segundos
+}
+
+// "Ver mi lista": en el catálogo baja a la lista; en las demás páginas lleva al catálogo
+function accionVerLista() {
+  return { texto: 'Ver mi lista', href: document.getElementById('mi-lista') ? '#mi-lista' : 'catalogo.html#mi-lista' };
+}
+
 /* ---------- Respuesta al tocar cualquier botón de WhatsApp ---------- */
 // Por un momento dice "Abriendo WhatsApp…", para que la persona sepa que funcionó.
 // Se escucha en toda la página (no enlace por enlace) para que también sirva
 // en los botones que se crean después con JavaScript (tarjetas, Mi lista)
 document.addEventListener('click', function (evento) {
   const enlace = evento.target.closest('a[href^="https://wa.me/"]');
-  if (!enlace || enlace.dataset.abriendo) return;
+  if (!enlace) return;
+  // WhatsApp se abre en otra pestaña: en el computador la tienda (con sus filtros y su lista) sigue abierta
+  enlace.target = '_blank';
+  enlace.rel = 'noopener';
+  if (enlace.dataset.abriendo) return;
+  anunciar('Abriendo WhatsApp');
   // Se guardan las piezas de adentro (no solo el texto): algunos enlaces tienen dos partes
   const contenidoOriginal = Array.from(enlace.childNodes);
   enlace.dataset.abriendo = 'si';
@@ -181,10 +228,31 @@ function agregarALista(id, tamano, cantidad) {
   guardarLista();
 }
 
-// Sin tamaño se quitan todos los tamaños de ese perfume
+// Sin tamaño se quitan todos los tamaños de ese perfume.
+// Devuelve lo que quitó (con su posición), para poder deshacerlo
 function quitarDeLista(id, tamano) {
-  miLista = miLista.filter(function (item) { return !(item.id === id && (!tamano || item.tamano === tamano)); });
+  const quitados = [];
+  miLista = miLista.filter(function (item, posicion) {
+    const sale = item.id === id && (!tamano || item.tamano === tamano);
+    if (sale) quitados.push({ item: item, posicion: posicion });
+    return !sale;
+  });
   guardarLista();
+  return quitados;
+}
+
+// "Deshacer": vuelve a poner lo quitado en el mismo lugar
+function devolverALista(quitados) {
+  quitados.forEach(function (q) {
+    miLista.splice(Math.min(q.posicion, miLista.length), 0, q.item);
+  });
+  guardarLista();
+}
+
+// Quitar y ofrecer deshacer con el aviso de abajo
+function quitarConAviso(id, tamano) {
+  const quitados = quitarDeLista(id, tamano);
+  avisar('Quitado de tu lista', { texto: 'Deshacer', alTocar: function () { devolverALista(quitados); } });
 }
 
 function cambiarCantidad(item, cambio) {
@@ -248,10 +316,11 @@ document.addEventListener('click', function (evento) {
   if (!boton) return;
   const id = boton.dataset.id;
   if (estaEnLista(id)) {
-    quitarDeLista(id);
+    quitarConAviso(id);
   } else {
     const tamano = typeof tamanoAlAgregar === 'function' ? tamanoAlAgregar(id) : 'frasco';
     agregarALista(id, tamano, 1);
+    avisar('Agregado a tu lista', accionVerLista());
   }
 });
 

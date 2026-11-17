@@ -150,7 +150,8 @@ function mostrarCatalogo() {
     if (valor && !(clave === 'orden' && valor === 'mas-pedidos')) nuevos.set(clave, valor);
   });
   const texto = nuevos.toString();
-  history.replaceState(null, '', texto ? '?' + texto : location.pathname);
+  // location.hash (#mi-lista, #buscar) se conserva: sin él, la bolsa y la lupa no llevarían a su lugar
+  history.replaceState(null, '', (texto ? '?' + texto : location.pathname) + location.hash);
 }
 
 // Cada letra que escribe y cada opción que toca actualiza la lista al instante
@@ -211,7 +212,7 @@ function pintarLista() {
     const quitar = crear('button', 'mi-lista__quitar', 'Quitar');
     quitar.type = 'button';
     quitar.setAttribute('aria-label', 'Quitar ' + p.nombre + ' (' + tamanoTexto(item) + ') de mi lista');
-    quitar.addEventListener('click', function () { quitarDeLista(item.id, item.tamano); });
+    quitar.addEventListener('click', function () { quitarConAviso(item.id, item.tamano); });
     fila.append(quitar);
 
     filasLista.append(fila);
@@ -243,6 +244,20 @@ function pintarLista() {
 // Cada vez que la lista cambia (aquí o en otra pestaña), se vuelve a pintar
 alCambiarLista(pintarLista);
 
+/* ---------- Llegar a un lugar de la página: catalogo.html#buscar (lupa) o #mi-lista (bolsa) ---------- */
+// El navegador salta al # antes de que estén las tarjetas, y después las tarjetas empujan todo hacia abajo.
+// Por eso, ya con las tarjetas puestas, se vuelve a ir al lugar. En #buscar además queda listo para escribir
+function irAlLugar() {
+  if (location.hash === '#buscar') {
+    campoBuscar.focus();
+    return;
+  }
+  const lugar = location.hash && document.getElementById(location.hash.slice(1));
+  if (lugar) lugar.scrollIntoView({ behavior: 'instant' }); // al llegar, salto directo (el deslizamiento se cortaba mientras carga)
+}
+window.addEventListener('hashchange', irAlLugar);
+
 /* ---------- Al cargar ---------- */
 mostrarCatalogo();
 pintarLista();
+irAlLugar();
