@@ -10,9 +10,9 @@
   --texto-suave: #4A5A4F;
   --texto-medio: #2E3B33;
 
-  --fuentes-titulos: `Cormorant Garamond`, `Cormorant`, serif;
-  --fuentes-mayusculas: `Cinzel`, serif;
-  --fuentes-cuerpo: `jost`, sans-serif;
+  --fuentes-titulos: 'Cormorant Garamond', 'Cormorant', serif;
+  --fuentes-mayusculas: 'Cinzel', serif;
+  --fuentes-cuerpo: 'Jost', sans-serif;
 
   --alto-barra: 64px;
 }
@@ -85,9 +85,16 @@ button {
   font-family: var(--fuentes-titulos);
   font-size: 26px;
   font-weight: 600;
-  letter-spacing: 0. 04em;
+  letter-spacing: 0.04em;
   color: var(--dorado);
   text-decoration: none;
+}
+
+/* El logo es una imagen: le damos alto fijo y el ancho se ajusta solo */
+.logo img {
+  display: block;
+  height: 40px;
+  width: auto;
 }
 
 .encabezado__botones {
@@ -142,13 +149,14 @@ button {
   text-decoration: none;
 }
 
+/* En computador no hay barra fija, así que tampoco hace falta el espacio de abajo */
 @media (min-width: 1024px) {
   .barra-whatsapp {
     display: none;
   }
-}
-body {
-  padding-bottom: 0;
+  body {
+    padding-bottom: 0;
+  }
 }
 
 /*INICIO*/
@@ -217,7 +225,7 @@ body {
   background: transparent;
   color: var(--crema);
   font-size: 15px;
-  transition: background 0.2s, color 0.2;
+  transition: background 0.2s, color 0.2s;
 }
 
 .aroma.activo {
@@ -281,7 +289,7 @@ body {
   transform-origin: 50% 100%;
   transform: scale(0.94);
   opacity: 0.65;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) opacity 0.25s, filter 0.25;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s, filter 0.25s;
 }
 
 
@@ -292,7 +300,8 @@ body {
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.55));
 }
 
-.frasco-activo {
+/* El frasco elegido: en el HTML lleva las clases "frasco activo" */
+.frasco.activo {
   transform: scale(1.08);
   opacity: 1;
   filter: drop-shadow(0 0 10px rgba(230, 207, 152, 0.6));
@@ -327,14 +336,14 @@ body {
   line-height: 1.35;
 }
 
-.tarjetas__precios {
+.tarjeta__precios {
   margin-top: 4px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
-.tarjetas__precios {
+.tarjeta__precio {
   font-size: 20px;
   font-weight: 500;
 }
@@ -383,7 +392,7 @@ body {
   gap: 4px;
 }
 
-.promesas__nombre {
+.promesa__nombre {
   font-family: 'Cinzel', serif;
   font-weight: 500;
   font-size: 14px;
@@ -736,8 +745,9 @@ body {
   content: "";
   position: absolute;
   inset: 18px;
-  background-image: url("../img/logo-icono.webp"); /* cambia por tu archivo */
-  background-size: 26px auto;
+  /* Cada baldosa trae el monograma centrado con aire alrededor, así no se tocan */
+  background-image: url("../img/logo/patron-monograma.png");
+  background-size: 60px 60px;
   background-repeat: space;
   opacity: 0.28;
 }
@@ -1240,8 +1250,8 @@ html {
     width: 100%;
   }
 
-  /* La hamburguesa solo se usa en celular */
-  .boton-icono[aria-label="Abrir menu"] {
+  /* La hamburguesa solo se usa en celular (se busca por su clase, no por el texto del aria-label) */
+  .boton-menu {
     display: none;
   }
 }
@@ -1289,3 +1299,348 @@ html {
 
 
  
+
+/* ===== COMPUTADOR: SECCIONES (parte 3) ===== */
+@media (min-width: 1024px) {
+
+  /* Mismo margen a los lados en todas las secciones: el fondo llega al borde,
+     pero el contenido se queda en una columna central de máximo 1280 px */
+  #promesas,
+  #tipos,
+  #kit,
+  #mas-pedidos,
+  #regalos,
+  #como-pedir,
+  #preguntas,
+  #ayuda {
+    padding-left: max(5vw, calc((100% - 1280px) / 2));
+    padding-right: max(5vw, calc((100% - 1280px) / 2));
+  }
+
+  /* Lo que te prometemos: el título a la izquierda y las tres promesas en fila */
+  #promesas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 48px;
+    align-items: start;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .promesas__titulo {
+    font-size: 40px;
+    line-height: 1.05;
+  }
+  .promesas__lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 48px;
+  }
+
+  /* Elige por tipo: título, texto y botón a la izquierda; la lista grande a la derecha */
+  #tipos {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    /* Las dos primeras filas miden lo que su contenido; la última toma el resto,
+       así el título, el texto y el botón quedan juntos arriba */
+    grid-template-rows: auto auto 1fr;
+    column-gap: 56px;
+    row-gap: 20px;
+    align-content: start;
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+  .tipos__titulo {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 48px;
+    line-height: 1;
+  }
+  .tipos__lista {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+  .tipos__texto {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  #tipos > .boton-borde {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    padding: 0 28px;
+  }
+  .tipo {
+    min-height: 112px;
+    padding: 0 32px;
+  }
+  .tipo__nombre {
+    font-size: 48px;
+  }
+}
+
+/* ===== COMPUTADOR: KIT, MÁS PEDIDOS Y REGALO (parte 4) ===== */
+@media (min-width: 1024px) {
+
+  /* Kit: el texto a la izquierda y los tres decants grandes a la derecha */
+  #kit {
+    padding-top: 0;
+    padding-bottom: 120px;
+  }
+  .kit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 64px;
+    row-gap: 16px;
+    align-items: center;
+    padding: 72px 64px;
+  }
+  .kit > * {
+    grid-column: 1;
+  }
+  .kit__titulo {
+    font-size: 52px;
+    line-height: 1;
+  }
+  .kit__cajas {
+    grid-column: 2;
+    grid-row: 1 / span 7;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .kit__caja {
+    width: 120px;
+    height: 210px;
+    font-size: 18px;
+  }
+  .kit__caja:nth-child(2) {
+    height: 250px;
+  }
+  .kit .boton-oscuro {
+    justify-self: start;
+    padding: 0 32px;
+  }
+  .kit__extra {
+    text-align: left;
+  }
+
+  /* Más pedidos: en computador caben todos en fila, sin carrusel ni flechas */
+  #mas-pedidos {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    gap: 36px;
+  }
+  .pedidos__titulo {
+    font-size: 48px;
+  }
+  .pedidos__controles {
+    display: none;
+  }
+  .pedidos__ventana {
+    overflow: visible;
+  }
+  .pedidos__pista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    padding-right: 0;
+  }
+  #mas-pedidos > .boton-borde {
+    align-self: flex-start;
+    padding: 0 32px;
+  }
+
+  /* Regalo: el patrón de monogramas a la izquierda y el texto a la derecha */
+  /* Esta sección va de borde a borde (sin el margen central), como un cuadro partido en dos */
+  #regalos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .regalos__patron {
+    height: auto;
+    min-height: 480px;
+  }
+  .regalos__contenido {
+    justify-content: center;
+    padding: 72px 64px;
+    background: #071810;
+  }
+  .regalos__titulo {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+
+/* ===== COMPUTADOR: ASÍ PIDES, PREGUNTAS, AYUDA Y PIE (parte 5) ===== */
+@media (min-width: 1024px) {
+
+  /* Así pides: los cuatro pasos en fila, de izquierda a derecha */
+  #como-pedir {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    gap: 44px;
+  }
+  .pasos__titulo {
+    font-size: 48px;
+  }
+  .pasos__lista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px;
+  }
+  .paso__verbo {
+    font-size: 72px;
+  }
+
+  /* Preguntas: título, texto y botón a la izquierda; las preguntas en dos columnas a la derecha */
+  #preguntas {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 56px;
+    row-gap: 18px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+  .preguntas__titulo {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 48px;
+  }
+  .preguntas__texto {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
+  }
+  #preguntas > .boton-whatsapp {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    justify-self: start;
+    padding: 0 28px;
+  }
+  /* columns reparte las preguntas en dos columnas, como un texto de revista */
+  .preguntas__lista {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    display: block;
+    columns: 2;
+    column-gap: 56px;
+  }
+  .pregunta {
+    margin-bottom: 22px;
+    break-inside: avoid;
+  }
+
+  /* ¿No sabes cuál elegir?: el logo a la izquierda y el texto a la derecha, de borde a borde */
+  #ayuda {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .ayuda__imagen {
+    height: auto;
+    min-height: 520px;
+  }
+  .ayuda__imagen img {
+    width: 300px;
+  }
+  .ayuda__contenido {
+    justify-content: center;
+    padding: 72px 64px;
+  }
+  .ayuda__titulo {
+    font-size: 56px;
+    line-height: 1;
+  }
+  .ayuda__contenido .boton-whatsapp,
+  .ayuda__contenido .boton-oscuro {
+    align-self: flex-start;
+    padding: 0 32px;
+  }
+
+  /* Pie: nombre a la izquierda, enlaces al centro y datos legales a la derecha, en una sola fila */
+  .pie {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: 48px max(5vw, calc((100% - 1280px) / 2));
+  }
+  .pie__marca {
+    order: -1;
+    margin: 0;
+    line-height: 1;
+  }
+  .pie__nav {
+    gap: 28px;
+  }
+}
+
+/* ===== CELULAR: PRIMERA PANTALLA QUE VENDE ===== */
+/* Objetivo: que sin bajar ya se vean los perfumes de la vitrina */
+@media (max-width: 1023px) {
+
+  /* La franja lleva dos datos; en pantallas muy angostas pasa a dos líneas sin cortarse */
+  .franja {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 12px;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* Menos espacio entre las piezas del inicio */
+  .inicio {
+    padding-top: 24px;
+    gap: 18px;
+  }
+
+  /* Título en dos líneas, no en tres: se achica un poco en celulares muy angostos */
+  .inicio h1 {
+    font-size: clamp(28px, 9vw, 34px);
+    line-height: 1.05;
+  }
+
+  .inicio > p:first-of-type {
+    font-size: 16px;
+  }
+
+  /* Pregunta y aromas en una sola fila, para que la vitrina suba */
+  .aromas__pregunta {
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+  .aromas__opciones {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .aroma {
+    flex: 1 1 auto;
+    height: 44px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  /* La vitrina agrandada se recorta menos por arriba y por abajo */
+  .armario {
+    margin: 6vw 0;
+  }
+}
+
+/* ===== VITRINA: FRASCOS DE OTRO AROMA ===== */
+/* Cuando eliges un aroma, los frascos de los demás aromas se apagan un poco */
+.frasco.apagado {
+  opacity: 0.28;
+  transform: scale(0.9);
+}
+
+/* Al pasar el mouse por un frasco apagado, se asoma para invitar a tocarlo */
+@media (hover: hover) {
+  .frasco.apagado:hover {
+    opacity: 0.6;
+  }
+}
