@@ -258,20 +258,21 @@ button {
   transform: translateY(-100%);
 }
 
-.armario, .repisa:nth-of-type(1) {
-  --y: 34.4%;
+/* Altura de cada repisa en la foto, de arriba abajo (% del alto de la foto) */
+.repisa:nth-of-type(1) {
+  --y: 34.4%; /* la del arco */
 }
 
-.armario, .repisa:nth-of-type(2) {
-  --y: 90%;
-}
-
-.armario, .repisa:nth-of-type(3) {
+.repisa:nth-of-type(2) {
   --y: 53%;
 }
 
-.armario, .repisa:nth-of-type(4) {
+.repisa:nth-of-type(3) {
   --y: 70%;
+}
+
+.repisa:nth-of-type(4) {
+  --y: 90%; /* el piso */
 }
 
 .repisa__frascos {
@@ -297,6 +298,7 @@ button {
   display: block;
   height: 20cqw;
   width: auto;
+  /* Sombra bajo el frasco: lo "apoya" en la repisa de la foto para que no parezca flotando. taste-skill-ignore */
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.55));
 }
 
@@ -1063,7 +1065,7 @@ html {
     align-content: center;
     align-items: start;
     max-width: 1400px;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100svh - 120px);
     margin: 0 auto;
     padding: 48px 5vw;
     text-align: left;
@@ -1123,7 +1125,7 @@ html {
   .armario {
     grid-column: 2;
     grid-row: 1 / -1;
-    width: min(100%, calc((100vh - 140px) * 687 / 1024));
+    width: min(100%, calc((100svh - 140px) * 687 / 1024));
     margin: 0 auto;
   }
   .vitrina__fondo {
@@ -1188,9 +1190,11 @@ html {
     text-transform: uppercase;
     transition: background 0.2s, transform 0.2s;
   }
+  @media (hover: hover) and (pointer: fine) {
   .tarjeta .boton-whatsapp:hover {
-    background: #E0BE78;
-    transform: translateY(-2px);
+      background: #E0BE78;
+      transform: translateY(-2px);
+    }
   }
 
   /* Marco dorado y sombra para la vitrina */
@@ -1243,11 +1247,15 @@ html {
     background: #C8A45C;
     transition: width 0.25s;
   }
+  @media (hover: hover) and (pointer: fine) {
   .menu a:hover {
-    color: #C8A45C;
+      color: #C8A45C;
+    }
   }
+  @media (hover: hover) and (pointer: fine) {
   .menu a:hover::after {
-    width: 100%;
+      width: 100%;
+    }
   }
 
   /* La hamburguesa solo se usa en celular (se busca por su clase, no por el texto del aria-label) */
@@ -1682,4 +1690,258 @@ html {
 .boton-flecha:disabled {
   opacity: 0.35;
   cursor: default;
+}
+
+/* ===== CELULAR: VITRINA CORTA (6 perfumes) Y TARJETA COMPACTA ===== */
+/* En celular la foto completa (4 niveles) ocupaba toda la pantalla y la tarjeta quedaba debajo.
+   Aquí solo se ve la parte de arriba de la foto: el arco y la primera repisa, con 6 perfumes.
+   Así la vitrina y la tarjeta caben juntas en la pantalla. */
+@media (max-width: 1023px) {
+
+  /* Se muestra el 60 % de arriba de la foto (687 de ancho × 614 de alto) y el resto se recorta */
+  .armario {
+    aspect-ratio: 687 / 614;
+    overflow: hidden;
+  }
+
+  /* Como el recuadro ahora es más bajo, las repisas se recalculan: 34,4 % ÷ 0,6 y 53 % ÷ 0,6 */
+  .repisa:nth-of-type(1) {
+    --y: 57.3%;
+  }
+  .repisa:nth-of-type(2) {
+    --y: 88.3%;
+  }
+
+  /* Las dos repisas de abajo no se ven en celular */
+  .repisa:nth-of-type(3),
+  .repisa:nth-of-type(4) {
+    display: none;
+  }
+
+  /* Tarjeta más compacta: todo se lee de un vistazo */
+  .tarjeta {
+    padding: 16px 18px 18px;
+  }
+  .tarjeta__nombre {
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+  }
+  .tarjeta__notas {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+}
+
+/* =========================================================
+   ANTI-IA (revisión con la skill design-taste-frontend)
+   Lo que más delata una página hecha con IA, quitado sin tocar la marca:
+   etiquetas pequeñas en mayúsculas espaciadas, cajas con borde de 1 px,
+   vidrio (blur), sombras y líneas finas. En su lugar: tamaño, tono y espacio.
+   ========================================================= */
+
+/* 1. Sin etiquetas pequeñas en mayúsculas.
+      Cinzel en mayúsculas queda solo para nombres de perfumes, como pide el manual. */
+.promesa__nombre {
+  font-family: var(--fuentes-titulos);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--verde);
+}
+
+/* 2. Botones secundarios rellenos, no con borde de 1 px */
+.boton-borde {
+  border: 0;
+  background: var(--verde-oscuro);
+  color: var(--dorado-claro);
+}
+#mas-pedidos > .boton-borde {
+  background: var(--verde);
+  color: var(--crema);
+}
+
+/* 3. Etiqueta "Más pedido" legible (13 px, el mínimo para leer) */
+.producto__sello {
+  font-size: 13px;
+}
+
+/* 4. Encabezado sin línea fina: se separa por el tono (verde noche) */
+.encabezado {
+  border-bottom: 0;
+  background: var(--verde-oscuro);
+}
+
+/* 5. Menú del celular: los enlaces se separan con espacio, no con líneas */
+@media (max-width: 1023px) {
+  .menu.abierto {
+    border-bottom: 0;
+    gap: 2px;
+  }
+  .menu.abierto a {
+    border-bottom: 0;
+  }
+}
+
+/* 6. El frasco elegido crece, pero sin brillo alrededor */
+.frasco.activo {
+  filter: none;
+}
+
+@media (min-width: 1024px) {
+
+  /* 7. Título que manda en la primera pantalla: más grande y en dos líneas.
+        La columna del texto se ensancha (7 de 12) porque la vitrina no necesita tanto ancho */
+  .inicio {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .inicio > h1 {
+    max-width: 700px;
+    font-size: clamp(3rem, 4.4vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* 8. Menú en tamaño normal, sin mayúsculas espaciadas */
+  .menu a {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* 9. Encabezado fijo sin vidrio: color sólido */
+  .encabezado {
+    border-bottom: 0;
+    background: var(--verde-oscuro);
+    backdrop-filter: none;
+  }
+
+  /* 10. Tarjeta del perfume: panel marfil sólido, sin vidrio ni borde dorado */
+  .tarjeta {
+    border: 0;
+    backdrop-filter: none;
+    background: var(--crema);
+    color: var(--verde);
+  }
+  .tarjeta__datos {
+    color: var(--texto-suave);
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 14px;
+  }
+  .tarjeta__nombre {
+    color: var(--verde);
+  }
+  .tarjeta__notas {
+    color: var(--texto-medio);
+  }
+  .tarjeta__precio {
+    color: var(--verde);
+  }
+  .tarjeta__decant {
+    color: var(--texto-medio);
+    opacity: 1;
+  }
+  .tarjeta .boton-whatsapp {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 16px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+  .tarjeta .boton-whatsapp:hover {
+      transform: none;
+    }
+  }
+
+  /* 11. Vitrina sin marco de 1 px ni sombra: la foto ya trae su marco dorado */
+  .armario {
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+/* Los números I, II, III del kit sin espaciado de etiqueta */
+.kit__caja {
+  letter-spacing: 0;
+}
+
+/* =========================================================
+   CELULAR NATIVO (revisión con la skill mobile-native)
+   Lo que hace que en el celular se sienta como app y no como página web
+   ========================================================= */
+
+/* Sin el destello gris/azul al tocar, y sin que el iPhone agrande el texto al girarlo */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* En el celular girado (horizontal), el contenido no se mete debajo de la cámara */
+body {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* El toque responde al instante (sin esperar a ver si es doble toque) */
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* Mantener el dedo sobre un botón no selecciona su texto ni abre el menú de copiar */
+button,
+.boton-whatsapp,
+.barra-whatsapp,
+.boton-oscuro,
+.boton-borde,
+.tipo,
+.menu a {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Respuesta al apoyar el dedo: el botón se hunde un poquito, como en una app */
+.boton-whatsapp,
+.barra-whatsapp,
+.boton-oscuro,
+.boton-borde,
+.aroma,
+.boton-flecha,
+.tipo {
+  transition: transform 120ms ease-out, background-color 120ms ease-out;
+}
+.boton-whatsapp:active,
+.barra-whatsapp:active,
+.boton-oscuro:active,
+.boton-borde:active,
+.aroma:active,
+.boton-flecha:active:not(:disabled),
+.tipo:active {
+  transform: scale(0.97);
+}
+
+/* Al llegar al final del carrusel, el deslizamiento no arrastra la página de lado */
+.pedidos__ventana,
+.capturas__lista {
+  overscroll-behavior-x: contain;
+}
+
+/* Campos de texto (buscador y formularios futuros) en 16 px: el iPhone no hace zoom al tocarlos */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Quien prefiere menos movimiento no ve los botones hundirse ni los frascos crecer */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

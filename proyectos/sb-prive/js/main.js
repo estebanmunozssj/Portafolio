@@ -9,10 +9,11 @@
 // Número de WhatsApp del cliente: 57 (Colombia) + número, sin + ni espacios
 const WHATSAPP = '57[NUMERO]';
 
-// Convierte 350000 en "$350.000". Si no hay precio todavía, muestra "[PRECIO]"
+// Convierte 350000 en "$350.000" (sin el espacio que pone el navegador después del $).
+// Si un perfume no tiene precio en la lista, el cliente ve "Precio por WhatsApp", nunca "[PRECIO]"
 const formatoPesos = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 function precioTexto(numero) {
-  return numero == null ? '[PRECIO]' : formatoPesos.format(numero);
+  return numero == null ? 'Precio por WhatsApp' : formatoPesos.format(numero).replace(/\s/g, '');
 }
 
 // Arma el enlace de WhatsApp con el mensaje ya escrito
@@ -43,6 +44,11 @@ botonesFrasco.forEach(function (boton, i) {
   boton.dataset.id = perfume.id;
   boton.setAttribute('aria-label', perfume.nombre + ', ' + perfume.marca);
   const foto = boton.querySelector('img');
+  // Si la foto no existe (nombre mal escrito, archivo sin subir), el frasco se esconde
+  // en vez de mostrar el ícono de imagen rota
+  foto.addEventListener('error', function () {
+    boton.hidden = true;
+  });
   foto.src = perfume.imagen;
 });
 
@@ -84,7 +90,11 @@ function elegirAroma(aroma) {
     boton.classList.toggle('apagado', !!perfume && perfume.aroma !== aroma);
   });
 
-  const primero = PERFUMES.find(function (p) { return p.aroma === aroma; });
+  // El primero de ese aroma que se vea en la vitrina (si su foto falló, se salta)
+  const primero = PERFUMES.find(function (p) {
+    const boton = document.querySelector('.frasco[data-id="' + p.id + '"]');
+    return p.aroma === aroma && boton && !boton.hidden;
+  }) || PERFUMES.find(function (p) { return p.aroma === aroma; });
   if (primero) {
     mostrarPerfume(primero);
   }
@@ -121,9 +131,22 @@ document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function (enlace)
   });
 });
 
-/* ---------- Al cargar: empieza con el aroma que está marcado en el HTML ---------- */
-const aromaInicial = document.querySelector('.aroma.activo');
-elegirAroma(aromaInicial ? aromaInicial.textContent.trim() : 'Dulce');
+/* ---------- Aromas sin perfumes ---------- */
+// Si en la lista no hay ningún perfume de un aroma (por ejemplo, ninguno "Fresco"),
+// su botón se esconde: así nadie toca un aroma y ve un perfume de otro tipo
+botonesAroma.forEach(function (boton) {
+  const aroma = boton.textContent.trim();
+  const hayPerfumes = PERFUMES.some(function (p) { return p.aroma === aroma; });
+  boton.hidden = !hayPerfumes;
+});
+
+/* ---------- Al cargar: empieza con el aroma marcado en el HTML (o el primero que tenga perfumes) ---------- */
+const aromaMarcado = document.querySelector('.aroma.activo:not([hidden])');
+const primerAromaVisible = document.querySelector('.aroma:not([hidden])');
+const aromaInicial = aromaMarcado || primerAromaVisible;
+if (aromaInicial) {
+  elegirAroma(aromaInicial.textContent.trim());
+}
 
 /* =========================================================
    Parte 2: menú del celular y carrusel de "Los más pedidos"
