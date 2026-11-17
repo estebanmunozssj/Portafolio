@@ -124,3 +124,79 @@ document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function (enlace)
 /* ---------- Al cargar: empieza con el aroma que está marcado en el HTML ---------- */
 const aromaInicial = document.querySelector('.aroma.activo');
 elegirAroma(aromaInicial ? aromaInicial.textContent.trim() : 'Dulce');
+
+/* =========================================================
+   Parte 2: menú del celular y carrusel de "Los más pedidos"
+   ========================================================= */
+
+/* ---------- 6. Abrir y cerrar el menú del celular ---------- */
+const botonMenu = document.querySelector('.boton-menu');
+const menu = document.getElementById('menu');
+const iconoMenu = botonMenu.querySelector('path');
+const RAYAS = 'M4 8h16M4 16h16';
+const EQUIS = 'M6 6l12 12M18 6L6 18';
+
+function ponerMenu(abierto) {
+  menu.classList.toggle('abierto', abierto);
+  botonMenu.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+  botonMenu.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+  iconoMenu.setAttribute('d', abierto ? EQUIS : RAYAS);
+}
+
+botonMenu.addEventListener('click', function () {
+  ponerMenu(!menu.classList.contains('abierto'));
+});
+
+// Se cierra al elegir una sección, al tocar fuera del menú o con la tecla Esc
+menu.querySelectorAll('a').forEach(function (enlace) {
+  enlace.addEventListener('click', function () { ponerMenu(false); });
+});
+document.addEventListener('click', function (evento) {
+  if (menu.classList.contains('abierto') && !menu.contains(evento.target) && !botonMenu.contains(evento.target)) {
+    ponerMenu(false);
+  }
+});
+document.addEventListener('keydown', function (evento) {
+  if (evento.key === 'Escape' && menu.classList.contains('abierto')) {
+    ponerMenu(false);
+    botonMenu.focus();
+  }
+});
+
+/* ---------- 7. Carrusel de "Los más pedidos" ---------- */
+// La ventana se desliza con el dedo; las flechas la mueven una tarjeta a la vez
+// y el contador dice en cuál vas ("1 de 6")
+const ventana = document.querySelector('.pedidos__ventana');
+const tarjetasProducto = ventana ? ventana.querySelectorAll('.producto') : [];
+const contador = document.querySelector('.pedidos__contador');
+const flechas = document.querySelectorAll('.boton-flecha');
+
+if (ventana && tarjetasProducto.length && flechas.length === 2) {
+  const flechaAnterior = flechas[0];
+  const flechaSiguiente = flechas[1];
+
+  // Cuánto se mueve con cada flecha: el ancho de una tarjeta más el espacio entre ellas
+  function paso() {
+    const pista = ventana.querySelector('.pedidos__pista');
+    const espacio = parseFloat(getComputedStyle(pista).columnGap) || 0;
+    return tarjetasProducto[0].offsetWidth + espacio;
+  }
+
+  function actualizarCarrusel() {
+    const total = tarjetasProducto.length;
+    const actual = Math.min(total, Math.round(ventana.scrollLeft / paso()) + 1);
+    contador.textContent = actual + ' de ' + total;
+    flechaAnterior.disabled = ventana.scrollLeft <= 2;
+    flechaSiguiente.disabled = ventana.scrollLeft + ventana.clientWidth >= ventana.scrollWidth - 2;
+  }
+
+  flechaAnterior.addEventListener('click', function () {
+    ventana.scrollBy({ left: -paso(), behavior: 'smooth' });
+  });
+  flechaSiguiente.addEventListener('click', function () {
+    ventana.scrollBy({ left: paso(), behavior: 'smooth' });
+  });
+  ventana.addEventListener('scroll', actualizarCarrusel, { passive: true });
+  window.addEventListener('resize', actualizarCarrusel);
+  actualizarCarrusel();
+}

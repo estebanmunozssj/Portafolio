@@ -1644,3 +1644,42 @@ html {
     opacity: 0.6;
   }
 }
+
+/* ===== CELULAR: MENÚ DESPLEGABLE ===== */
+/* El JavaScript le pone la clase "abierto" al menú cuando tocan las dos rayas */
+@media (max-width: 1023px) {
+  .encabezado {
+    position: relative;
+    z-index: 60;
+  }
+  .menu.abierto {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 20px;
+    background: var(--verde-oscuro);
+    border-bottom: 1px solid var(--linea);
+  }
+  .menu.abierto a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--linea);
+    color: var(--crema);
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .menu.abierto a:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* ===== CARRUSEL: FLECHAS EN LAS PUNTAS ===== */
+/* Cuando no hay más perfumes hacia ese lado, la flecha se apaga */
+.boton-flecha:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
