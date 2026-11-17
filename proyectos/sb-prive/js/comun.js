@@ -379,3 +379,66 @@ function tarjetaPerfume(p) {
 
 /* ---------- Al cargar cualquier página: el número de la bolsa ---------- */
 pintarBolsa();
+
+/* =========================================================
+   Movimiento: la franja de arriba que alterna mensajes y el botón "Pausar movimiento"
+   ========================================================= */
+const CLAVE_MOVIMIENTO = 'sbprive-sin-movimiento';
+const pideMenosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+// ¿La persona pausó el movimiento antes? (se recuerda entre páginas)
+function leerPausa() {
+  try {
+    return localStorage.getItem(CLAVE_MOVIMIENTO) === 'si';
+  } catch (error) {
+    return false;
+  }
+}
+
+// La clase .sin-movimiento en <html> apaga el frasco que respira (CSS) y la franja (abajo)
+function ponerPausa(pausado) {
+  document.documentElement.classList.toggle('sin-movimiento', pausado);
+  const boton = document.querySelector('.franja__pausa');
+  if (boton) {
+    boton.setAttribute('aria-pressed', pausado ? 'true' : 'false');
+    boton.setAttribute('aria-label', pausado ? 'Reanudar movimiento' : 'Pausar movimiento');
+    // Ⅱ cuando se mueve, ▶ cuando está pausado
+    boton.querySelector('svg').innerHTML = pausado
+      ? '<path d="M4 2l8 5-8 5z"></path>'
+      : '<rect x="3" y="2" width="3" height="10"></rect><rect x="8" y="2" width="3" height="10"></rect>';
+  }
+  try {
+    localStorage.setItem(CLAVE_MOVIMIENTO, pausado ? 'si' : 'no');
+  } catch (error) {
+    // sin almacenamiento: la pausa dura solo en esta página
+  }
+}
+ponerPausa(leerPausa());
+
+const botonPausa = document.querySelector('.franja__pausa');
+if (botonPausa) {
+  botonPausa.addEventListener('click', function () {
+    ponerPausa(!document.documentElement.classList.contains('sin-movimiento'));
+  });
+}
+
+// Franja: cada 5 segundos pasa al siguiente mensaje, con un fundido (el CSS hace el fundido).
+// Se detiene si: la persona pidió menos movimiento, tocó "Pausar", o tiene el mouse o el foco encima
+const mensajesFranja = document.querySelectorAll('.franja__mensaje');
+if (mensajesFranja.length > 1) {
+  let actual = 0;
+  let encima = false;
+  const franja = document.querySelector('.franja');
+  franja.addEventListener('mouseenter', function () { encima = true; });
+  franja.addEventListener('mouseleave', function () { encima = false; });
+  franja.addEventListener('focusin', function () { encima = true; });
+  franja.addEventListener('focusout', function () { encima = false; });
+
+  setInterval(function () {
+    const quieto = pideMenosMovimiento.matches || document.documentElement.classList.contains('sin-movimiento') || encima;
+    if (quieto || document.hidden) return;
+    mensajesFranja[actual].classList.remove('activo');
+    actual = (actual + 1) % mensajesFranja.length;
+    mensajesFranja[actual].classList.add('activo');
+  }, 5000);
+}

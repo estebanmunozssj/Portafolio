@@ -3165,3 +3165,107 @@ select {
 .tamano {
   border-color: rgba(200, 164, 92, 0.5); /* el mismo dorado de la marca, a media fuerza */
 }
+
+/* =========================================================
+   ANIMACIONES (ideas adaptadas de la revisión de axonperfumes.com)
+   Todas se apagan si la persona pidió "reducir movimiento" en su teléfono,
+   o si tocó "Pausar movimiento" en la franja de arriba (clase .sin-movimiento en <html>)
+   ========================================================= */
+
+/* 1. Transición suave entre páginas: al ir del inicio al catálogo o a un perfume,
+      la página se funde en vez de saltar. Funciona en Chrome, Edge y Safari recientes;
+      los demás navegadores simplemente cambian de página como siempre */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.35s;
+  }
+}
+
+/* 2. Tarjetas que se levantan un poco al pasar el mouse (solo computador) */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .perfume,
+  .producto {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+  .perfume:hover,
+  .producto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* 3. Franja de arriba: varios mensajes en el mismo lugar que se alternan con un fundido.
+      Sin JavaScript se ve solo el primero */
+.franja {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-right: 44px;  /* espacio para el botón de pausa */
+  padding-left: 44px;
+}
+.franja__mensaje {
+  grid-area: 1 / 1; /* todos los mensajes en la misma celda, uno encima del otro */
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.franja__mensaje.activo {
+  opacity: 1;
+}
+
+/* Botón de pausa: a la derecha de la franja. Pausa la franja y el frasco que respira */
+.franja__pausa {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 36px;
+  height: 36px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--dorado-claro);
+}
+/* Si el teléfono ya pide menos movimiento, no hay nada que pausar */
+@media (prefers-reduced-motion: reduce) {
+  .franja__pausa {
+    display: none;
+  }
+}
+
+/* 4. El frasco elegido en la vitrina "respira": sube y baja 4 px, muy despacio */
+@keyframes respirar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .frasco.activo img {
+    animation: respirar 4.5s ease-in-out infinite;
+  }
+  .sin-movimiento .frasco.activo img {
+    animation: none;
+  }
+}
+
+/* 5. "Elige por tipo": la línea dorada de arriba de cada fila (GSAP la dibuja al aparecer;
+      sin GSAP se ve completa). --trazo va de 0 (sin línea) a 1 (línea completa) */
+.tipo {
+  position: relative;
+}
+.tipo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--dorado);
+  transform: scaleX(var(--trazo, 1));
+  transform-origin: left;
+}

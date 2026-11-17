@@ -42,7 +42,20 @@
     <body>
         <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
         <a class="saltar" href="#contenido">Saltar al contenido</a>
-        <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
+        <!-- Franja de arriba: los mensajes se alternan solos (js/comun.js). Sin JavaScript se ve el primero.
+             El botón pausa la franja y el frasco que respira (para quien prefiere que nada se mueva) -->
+        <p class="franja">
+            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</span>
+            <span class="franja__mensaje">Solo perfumes originales</span>
+            <span class="franja__mensaje">Decants para probarlos antes del frasco</span>
+            <span class="franja__mensaje">Te respondemos en minutos por WhatsApp</span>
+            <button class="franja__pausa" type="button" aria-pressed="false" aria-label="Pausar movimiento">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="2" width="3" height="10"></rect>
+                    <rect x="8" y="2" width="3" height="10"></rect>
+                </svg>
+            </button>
+        </p>
 
         <!-- Encabezado: igual al del inicio, pero los enlaces llevan de vuelta a index.html -->
         <header class="encabezado">
