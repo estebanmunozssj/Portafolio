@@ -151,8 +151,7 @@ revisarVitrinaCorta();
    Así un precio se cambia en un solo lugar (js/perfumes.js)
    ========================================================= */
 
-// Qué tan fuerte se siente → largo de la barra (de 0 a 100)
-const BARRA_INTENSIDAD = { 'Cerca de la piel': 30, 'Media': 55, 'Fuerte': 75, 'Muy fuerte': 95 };
+// BARRA_INTENSIDAD (qué tan fuerte se siente → largo de la barra) está en js/comun.js
 
 /* ---------- 8. "Los más pedidos": una tarjeta por cada perfume con masPedido: true ---------- */
 const pistaPedidos = document.querySelector('.pedidos__pista');

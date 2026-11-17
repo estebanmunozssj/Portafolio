@@ -9,10 +9,6 @@
 
 /* ---------- Ajustes que se cambian con los datos del cliente ---------- */
 
-// Mientras perfume.html no exista, la foto y el nombre de cada tarjeta NO son enlace
-// (así nadie cae en una página de error). Cuando exista, cambiar a true.
-const HAY_PAGINA_PERFUME = false;
-
 // Rangos del filtro "Precio" (en pesos, sin puntos). Con alguno en null, el filtro de precio no se muestra.
 // Ejemplo: bajo: { desde: 0, hasta: 200000 }, medio: { desde: 200000, hasta: 400000 }, alto: { desde: 400000, hasta: Infinity }
 const RANGOS_PRECIO = {
@@ -27,7 +23,6 @@ const campoBuscar = document.getElementById('buscar');
 const detallesFiltros = document.querySelector('.filtros__mas');
 const resumenFiltros = detallesFiltros.querySelector('summary');
 const lista = document.querySelector('.catalogo__lista');
-const plantilla = document.getElementById('plantilla-perfume');
 const cuenta = document.querySelector('.catalogo__cuenta');
 const vacio = document.querySelector('.catalogo__vacio');
 const vacioWhatsApp = vacio.querySelector('.boton-whatsapp');
@@ -121,47 +116,7 @@ function elegidos() {
   return resultado;
 }
 
-/* ---------- Una tarjeta, copiada de la plantilla del HTML ---------- */
-function tarjetaPerfume(p) {
-  const copia = plantilla.content.cloneNode(true);
-  const enlace = copia.querySelector('.perfume__enlace');
-
-  if (HAY_PAGINA_PERFUME) {
-    enlace.href = 'perfume.html?id=' + encodeURIComponent(p.id);
-  } else {
-    enlace.removeAttribute('href'); // sin href deja de ser un enlace: no lleva a ninguna parte
-  }
-
-  const foto = copia.querySelector('.perfume__foto img');
-  foto.alt = p.nombre + ' de ' + p.marca;
-  foto.addEventListener('error', function () { foto.remove(); }); // mejor fondo vacío que un ícono roto
-  foto.src = p.imagen;
-  if (!p.masPedido) copia.querySelector('.perfume__sello').remove();
-
-  copia.querySelector('.perfume__datos').textContent = [p.marca, p.tipo].filter(Boolean).join(' · ');
-  copia.querySelector('.perfume__nombre').textContent = p.nombre;
-  const aroma = [p.aroma, p.intensidad].filter(Boolean).join(' · ');
-  if (aroma) {
-    copia.querySelector('.perfume__aroma').textContent = aroma;
-  } else {
-    copia.querySelector('.perfume__aroma').remove();
-  }
-
-  copia.querySelector('.perfume__precio').textContent = precioTexto(p.precio);
-  if (p.decant) {
-    copia.querySelector('.perfume__decant').textContent = 'Decant ' + p.decant.ml + ' ml: ' + precioTexto(p.decant.precio);
-  } else {
-    copia.querySelector('.perfume__decant').remove();
-  }
-  if (!p.pocasPiezas) copia.querySelector('.perfume__aviso').remove();
-
-  const agregar = copia.querySelector('.perfume__agregar');
-  agregar.dataset.id = p.id;
-  marcarBotonAgregar(agregar);
-
-  copia.querySelector('.perfume__botones .boton-oscuro').href = enlacePedido(p);
-  return copia;
-}
+// La tarjeta de cada perfume (tarjetaPerfume) está en js/comun.js: la usa también la página de cada perfume
 
 /* ---------- Pintar la lista ---------- */
 function mostrarCatalogo() {
@@ -208,87 +163,25 @@ formulario.addEventListener('submit', function (evento) {
 
 /* =========================================================
    Parte 2: Mi lista
-   Se guarda en el navegador (localStorage) para que no se pierda al recargar.
-   Cada elemento: { id, tamano: 'frasco' o 'decant', cantidad }
+   Guardar, agregar, quitar y armar el mensaje está en js/comun.js
+   (así funciona igual en el catálogo y en la página de cada perfume).
+   Aquí solo se pinta la sección "Mi lista" y la barra de abajo
    ========================================================= */
 
-const CLAVE_LISTA = 'sbprive-mi-lista';
 const panelLista = document.getElementById('mi-lista');
 const filasLista = panelLista.querySelector('.mi-lista__perfumes');
 const listaVacia = panelLista.querySelector('.mi-lista__vacia');
 const totalLista = panelLista.querySelector('.mi-lista__total');
 const enviarLista = panelLista.querySelector('.mi-lista__enviar');
-const botonBolsa = document.querySelector('.boton-lista');
-const numeroBolsa = document.querySelector('.boton-lista__cuenta');
 const barraWhatsApp = document.querySelector('.barra-whatsapp');
 const barraOriginal = { href: barraWhatsApp.href, texto: barraWhatsApp.textContent };
 
-// Leer y guardar. Con try porque en modo incógnito o con el almacenamiento bloqueado puede fallar:
-// en ese caso la lista funciona igual, solo que no se guarda al recargar
-function leerLista() {
-  try {
-    const guardada = JSON.parse(localStorage.getItem(CLAVE_LISTA)) || [];
-    // Solo los perfumes que siguen existiendo en perfumes.js
-    return guardada.filter(function (item) { return buscarPerfume(item.id); });
-  } catch (error) {
-    return [];
-  }
-}
-let miLista = leerLista();
-
-function guardarLista() {
-  try {
-    localStorage.setItem(CLAVE_LISTA, JSON.stringify(miLista));
-  } catch (error) {
-    // sin almacenamiento: se queda solo en esta visita
-  }
-  pintarLista();
+// Al agregar desde una tarjeta: si está filtrando por decant y el perfume tiene decant, se agrega el decant.
+// comun.js busca esta función cuando tocan "Agregar a mi lista"
+function tamanoAlAgregar(id) {
+  return new FormData(formulario).get('tamano') === 'decant' && buscarPerfume(id).decant ? 'decant' : 'frasco';
 }
 
-function estaEnLista(id) {
-  return miLista.some(function (item) { return item.id === id; });
-}
-
-// El botón de la tarjeta dice si el perfume ya está en la lista
-function marcarBotonAgregar(boton) {
-  const dentro = estaEnLista(boton.dataset.id);
-  boton.setAttribute('aria-pressed', dentro ? 'true' : 'false');
-  boton.textContent = dentro ? 'En mi lista ✓' : 'Agregar a mi lista';
-}
-
-// Precio de un elemento según su tamaño
-function precioDe(item) {
-  const p = buscarPerfume(item.id);
-  return item.tamano === 'decant' ? (p.decant ? p.decant.precio : null) : p.precio;
-}
-function tamanoTexto(item) {
-  const p = buscarPerfume(item.id);
-  return item.tamano === 'decant' && p.decant ? 'Decant ' + p.decant.ml + ' ml' : 'Frasco 100 ml';
-}
-
-// El mensaje de WhatsApp con toda la lista
-function mensajeLista() {
-  const lineas = miLista.map(function (item) {
-    const p = buscarPerfume(item.id);
-    return '• ' + item.cantidad + ' × ' + p.nombre + ' de ' + p.marca + ' (' + tamanoTexto(item).toLowerCase() + ')';
-  });
-  const total = totalDeLista();
-  return 'Hola, quiero pedir estos perfumes:\n' + lineas.join('\n') +
-    (total != null ? '\nTotal: ' + precioTexto(total) : '');
-}
-
-// Total solo si todos tienen precio; si falta alguno, se confirma por WhatsApp
-function totalDeLista() {
-  let suma = 0;
-  for (const item of miLista) {
-    const precio = precioDe(item);
-    if (precio == null) return null;
-    suma += precio * item.cantidad;
-  }
-  return suma;
-}
-
-/* ---------- Pintar Mi lista, la bolsa del encabezado y la barra de abajo ---------- */
 function pintarLista() {
   filasLista.replaceChildren();
 
@@ -296,9 +189,7 @@ function pintarLista() {
     const p = buscarPerfume(item.id);
     const fila = crear('li', 'mi-lista__fila');
     fila.append(crear('span', 'mi-lista__nombre', p.nombre));
-
-    const precio = precioDe(item);
-    fila.append(crear('span', 'mi-lista__detalle', tamanoTexto(item) + ' · ' + precioTexto(precio)));
+    fila.append(crear('span', 'mi-lista__detalle', tamanoTexto(item) + ' · ' + precioTexto(precioDe(item))));
 
     // − 1 +
     const cantidad = crear('div', 'mi-lista__cantidad');
@@ -311,6 +202,7 @@ function pintarLista() {
     const mas = crear('button', null, '+');
     mas.type = 'button';
     mas.setAttribute('aria-label', 'Uno más de ' + p.nombre);
+    mas.disabled = item.cantidad >= 10;
     menos.addEventListener('click', function () { cambiarCantidad(item, -1); });
     mas.addEventListener('click', function () { cambiarCantidad(item, 1); });
     cantidad.append(menos, numero, mas);
@@ -318,16 +210,14 @@ function pintarLista() {
 
     const quitar = crear('button', 'mi-lista__quitar', 'Quitar');
     quitar.type = 'button';
-    quitar.setAttribute('aria-label', 'Quitar ' + p.nombre + ' de mi lista');
-    quitar.addEventListener('click', function () { quitarDeLista(item.id); });
+    quitar.setAttribute('aria-label', 'Quitar ' + p.nombre + ' (' + tamanoTexto(item) + ') de mi lista');
+    quitar.addEventListener('click', function () { quitarDeLista(item.id, item.tamano); });
     fila.append(quitar);
 
     filasLista.append(fila);
   });
 
-  const unidades = miLista.reduce(function (suma, item) { return suma + item.cantidad; }, 0);
   const hayAlgo = miLista.length > 0;
-
   listaVacia.hidden = hayAlgo;
   enviarLista.hidden = !hayAlgo;
   totalLista.hidden = !hayAlgo;
@@ -340,50 +230,18 @@ function pintarLista() {
     enviarLista.href = enlaceWhatsApp(mensajeLista());
   }
 
-  // La bolsa del encabezado: el número y lo que dice el lector de pantalla
-  numeroBolsa.textContent = unidades;
-  botonBolsa.setAttribute('aria-label', 'Mi lista: ' + (unidades === 1 ? '1 perfume' : unidades + ' perfumes'));
-
   // La barra fija de abajo: con perfumes en la lista, los envía todos
   if (hayAlgo) {
     barraWhatsApp.href = enlaceWhatsApp(mensajeLista());
-    barraWhatsApp.textContent = 'Enviar mi lista (' + unidades + ')';
+    barraWhatsApp.textContent = 'Enviar mi lista (' + unidadesLista() + ')';
   } else {
     barraWhatsApp.href = barraOriginal.href;
     barraWhatsApp.textContent = barraOriginal.texto;
   }
-
-  // Los botones "Agregar a mi lista" de las tarjetas que se ven
-  lista.querySelectorAll('.perfume__agregar').forEach(marcarBotonAgregar);
 }
 
-function agregarALista(id) {
-  // Si está filtrando por decant y el perfume tiene decant, se agrega el decant; si no, el frasco
-  const tamano = new FormData(formulario).get('tamano') === 'decant' && buscarPerfume(id).decant ? 'decant' : 'frasco';
-  miLista.push({ id: id, tamano: tamano, cantidad: 1 });
-  guardarLista();
-}
-
-function quitarDeLista(id) {
-  miLista = miLista.filter(function (item) { return item.id !== id; });
-  guardarLista();
-}
-
-function cambiarCantidad(item, cambio) {
-  item.cantidad = Math.max(1, Math.min(10, item.cantidad + cambio));
-  guardarLista();
-}
-
-// Un solo oyente para todos los botones "Agregar a mi lista" (las tarjetas se crean y se borran al filtrar)
-lista.addEventListener('click', function (evento) {
-  const boton = evento.target.closest('.perfume__agregar');
-  if (!boton) return;
-  if (estaEnLista(boton.dataset.id)) {
-    quitarDeLista(boton.dataset.id);
-  } else {
-    agregarALista(boton.dataset.id);
-  }
-});
+// Cada vez que la lista cambia (aquí o en otra pestaña), se vuelve a pintar
+alCambiarLista(pintarLista);
 
 /* ---------- Al cargar ---------- */
 mostrarCatalogo();

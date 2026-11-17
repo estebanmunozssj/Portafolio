@@ -22,6 +22,13 @@
    - pocasPiezas: true solo si de verdad quedan pocas unidades.
    - imagen: foto del frasco sin fondo, en img/perfumes/.
 
+   Opcionales (si no están, esa parte de la página del perfume no se muestra):
+   - descripcion: dos o tres frases sobre cómo huele y para quién es. Si falta, se usa "notas".
+   - momentos: ['Noche', 'Oficina', 'Clima frío']
+   - fotos: ['img/perfumes/x-1.webp', 'img/perfumes/x-2.webp'] (más de una foto; la primera es la principal)
+   - decant5: { ml: 5, precio: 25000 } si también lo vende en 5 ml.
+   - genero: 'hombre', 'mujer' o 'unisex' (para el filtro "Para" del catálogo).
+
    La vitrina muestra hasta 12 perfumes, en el orden de esta lista.
    OJO: los de abajo son de prueba. Se reemplazan con los datos reales del cliente.
    ========================================================= */

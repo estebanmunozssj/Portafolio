@@ -2631,3 +2631,413 @@ select {
     color: var(--crema);
   }
 }
+
+/* =========================================================
+   PÁGINA DE UN PERFUME (perfume.html)
+   Celular: todo en una columna. Computador: fotos a la izquierda
+   (se quedan quietas al bajar) y la compra a la derecha
+   ========================================================= */
+
+.ficha {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+/* ---------- Migas: Inicio › Catálogo › Árabes › Nombre ---------- */
+.migas ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  font-size: 13px;
+  color: var(--gris);
+}
+.migas li + li::before {
+  content: '›';
+  margin: 0 8px;
+  color: var(--linea);
+}
+.migas a {
+  color: var(--gris);
+  text-decoration: none;
+}
+.migas [aria-current="page"] {
+  color: var(--crema);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Fotos ---------- */
+.ficha__galeria {
+  margin-top: 16px;
+}
+.ficha__foto {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--verde-oscuro);
+}
+.ficha__foto img {
+  width: auto;
+  height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
+}
+/* El mismo sello de las tarjetas */
+.ficha__sello {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 3px 10px;
+  background: var(--dorado-claro);
+  color: var(--verde);
+  font-size: 13px;
+}
+
+/* Miniaturas: botones cuadrados; la foto que se ve tiene borde dorado */
+.ficha__miniaturas {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+.ficha__miniaturas button {
+  width: 64px;
+  height: 64px;
+  padding: 6px;
+  border: 1px solid transparent;
+  background: var(--verde-oscuro);
+}
+.ficha__miniaturas button[aria-current="true"] {
+  border-color: var(--dorado);
+}
+.ficha__miniaturas img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------- Comprar ---------- */
+.ficha__compra {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ficha__marca {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--dorado-claro);
+}
+/* El nombre en Cinzel, como en la tarjeta de la vitrina y en el catálogo */
+.ficha__nombre {
+  font-family: var(--fuentes-mayusculas);
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+}
+.ficha__datos {
+  font-size: 14px;
+  color: var(--gris);
+}
+.ficha__aviso {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dorado-claro);
+}
+
+/* Tamaños: cada opción es una fila que se toca, con el nombre a la izquierda y el precio a la derecha */
+.ficha__tamanos {
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ficha__tamanos legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 14px;
+  color: var(--gris);
+}
+.tamano {
+  position: relative;
+  min-height: 56px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--linea);
+  background: var(--verde-oscuro);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* El círculo del radio se esconde a la vista, como en los filtros del catálogo */
+.tamano input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.tamano__precio {
+  font-weight: 500;
+  white-space: nowrap; /* el precio nunca se parte en dos líneas */
+}
+/* Elegido: borde dorado y nombre en dorado */
+.tamano:has(input:checked) {
+  border-color: var(--dorado);
+}
+.tamano:has(input:checked) .tamano__nombre {
+  color: var(--dorado);
+}
+.tamano:has(input:focus-visible) {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
+/* Cantidad: el texto a la izquierda y el − 1 + a la derecha */
+.ficha__cantidad {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--gris);
+}
+.ficha__cantidad output {
+  color: var(--crema);
+}
+
+.ficha__total {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linea);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Botones: WhatsApp es el principal (dorado); "Agregar a mi lista" el secundario */
+.ficha__botones {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ficha__pedir {
+  margin-top: 0;
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+}
+.ficha__agregar {
+  width: 100%;
+  height: 52px;
+}
+.ficha__agregar[aria-pressed="true"] {
+  background: var(--crema);
+  color: var(--verde);
+}
+.ficha__pedir:active,
+.ficha__agregar:active,
+.tamano:active {
+  transform: scale(0.98);
+}
+
+.ficha__entrega {
+  margin-top: 6px;
+  font-size: 14px;
+}
+.ficha__confianza {
+  font-size: 14px;
+  color: var(--dorado-claro);
+}
+
+/* ---------- Secciones de abajo: mismo título para todas ---------- */
+.ficha__aroma,
+.ficha__momentos,
+.ficha__guia,
+.ficha__relacionados {
+  margin-top: 48px;
+}
+.ficha__aroma h2,
+.ficha__momentos h2,
+.ficha__guia h2,
+.ficha__relacionados h2 {
+  margin-bottom: 16px;
+  font-family: var(--fuentes-titulos);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+/* Cómo huele */
+.ficha__descripcion {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.ficha__piramide {
+  margin-top: 20px;
+}
+.ficha__piramide div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--linea);
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+}
+.ficha__piramide dt {
+  color: var(--dorado);
+}
+/* Las barras de "Los más pedidos", con el fondo de la barra oscuro porque aquí van sobre verde */
+.ficha__medidas {
+  margin-top: 20px;
+}
+.ficha__medidas .medida {
+  font-size: 14px;
+}
+.ficha__medidas .barra {
+  background: var(--linea);
+}
+
+/* Cuándo usarlo: como etiquetas */
+.ficha__momentos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ficha__momentos li {
+  padding: 8px 14px;
+  border: 1px solid var(--linea);
+  font-size: 15px;
+}
+
+/* ¿Frasco o decant? Dos cajas */
+.guia {
+  display: grid;
+  gap: 12px;
+}
+.guia__opcion {
+  padding: 20px;
+  background: var(--verde-oscuro);
+}
+.guia__opcion h3 {
+  margin-bottom: 8px;
+  font-family: var(--fuentes-mayusculas);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+.guia__opcion p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.guia__kit {
+  margin-top: 16px;
+  display: inline-block;
+  padding: 6px 0;
+  color: var(--dorado-claro);
+}
+
+/* Perfume que no existe: igual que "sin resultados" del catálogo */
+.ficha__no-existe {
+  padding: 40px 20px;
+  border: 1px solid var(--linea);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+.ficha__no-existe h1 {
+  font-family: var(--fuentes-titulos);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.ficha__no-existe p {
+  color: var(--dorado-claro);
+}
+.ficha__no-existe .boton-oscuro {
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+}
+.ficha__no-existe .boton-whatsapp {
+  margin-top: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .migas a:hover {
+    color: var(--dorado-claro);
+  }
+  .tamano:hover {
+    border-color: var(--dorado-claro);
+  }
+}
+
+/* Tablet: las dos cajas de la guía lado a lado */
+@media (min-width: 640px) {
+  .guia {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Computador: fotos a la izquierda, compra a la derecha; lo demás debajo a lo ancho */
+@media (min-width: 1024px) {
+  .ficha {
+    max-width: 1200px;
+    padding: 24px 40px 80px;
+  }
+  /* Fotos a la izquierda y compra a la derecha */
+  .ficha__principal {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: start;
+  }
+  .ficha__galeria {
+    margin-top: 0;
+    position: sticky; /* al bajar por la compra, la foto se queda a la vista (solo dentro de esta caja) */
+    top: 24px;
+  }
+  .ficha__compra {
+    margin-top: 0;
+  }
+  .ficha__nombre {
+    font-size: 32px;
+  }
+  /* El texto de "Cómo huele" no se estira de lado a lado: se lee mejor en una columna */
+  .ficha__aroma {
+    max-width: 720px;
+  }
+  .ficha__aroma h2,
+  .ficha__momentos h2,
+  .ficha__guia h2,
+  .ficha__relacionados h2 {
+    font-size: 40px;
+  }
+  .ficha__aroma,
+  .ficha__momentos,
+  .ficha__guia,
+  .ficha__relacionados {
+    margin-top: 72px;
+  }
+  .ficha__no-existe {
+    max-width: 640px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  .ficha__no-existe a {
+    width: min(100%, 320px);
+  }
+}

@@ -1,0 +1,274 @@
+    <!DOCTYPE html>
+    <html lang="es-CO">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Una sola página sirve para todos los perfumes: perfume.html?id=dulce-1, perfume.html?id=fresco-1...
+             El JavaScript cambia el título y la descripción con los datos del perfume de la dirección -->
+        <title>Perfume original | S. B. Privé</title>
+        <meta name="description" content="Perfume original árabe, de diseñador o de nicho, en frasco y en decant. Pide por WhatsApp.">
+
+        <meta property="og:type" content="product">
+        <meta property="og:site_name" content="S. B. Privé">
+        <meta property="og:title" content="S. B. Privé | Perfumes originales">
+        <meta property="og:description" content="En frasco y en decant para probarlo primero. Pide por WhatsApp.">
+        <meta property="og:locale" content="es_CO">
+        <meta property="og:image" content="https://estebandev.online/proyectos/sb-prive/img/compartir.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Logo de S. B. Privé, alta perfumería, en dorado sobre verde">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="theme-color" content="#071810">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+        <link rel="stylesheet" href="css/estilos.css">
+
+        <!-- Primero la lista de perfumes, después lo compartido y al final lo de esta página.
+             El archivo de esta página se llama ficha.js (no perfume.js) para no confundirlo con perfumes.js -->
+        <script src="js/perfumes.js" defer></script>
+        <script src="js/comun.js" defer></script>
+        <script src="js/ficha.js" defer></script>
+
+        <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
+        <link rel="apple-touch-icon" href="img/logo/icono-180.png">
+    </head>
+
+    <body>
+        <p class="franja">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</p>
+
+        <!-- Encabezado: igual al del catálogo -->
+        <header class="encabezado">
+            <a href="index.html" class="logo">
+                <img src="img/logo/logo-horizontal-dorado.png" alt="S. B. Privé, ir al inicio" width="776" height="240">
+            </a>
+            <nav class="menu" id="menu" aria-label="Navegación principal">
+                <a href="catalogo.html?tipo=arabes">Árabes</a>
+                <a href="catalogo.html?tipo=disenador">De diseñador</a>
+                <a href="catalogo.html?tipo=nicho">De nicho</a>
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#kit">Decants</a>
+                <a href="index.html#promesas">Por qué elegirnos</a>
+            </nav>
+
+            <div class="encabezado__botones">
+                <a class="boton-icono" href="catalogo.html#buscar" aria-label="Buscar perfume">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-4-4"></path>
+                    </svg>
+                </a>
+                <!-- Mi lista vive en el catálogo: la bolsa lleva allá -->
+                <a class="boton-icono boton-lista" href="catalogo.html#mi-lista" aria-label="Mi lista: 0 perfumes">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 8h12l-1 12H7L6 8z"></path>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                    </svg>
+                    <span class="boton-lista__cuenta" aria-hidden="true">0</span>
+                </a>
+                <button class="boton-icono boton-menu" type="button" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="ficha">
+            <!-- Migas: dónde estás y cómo volver -->
+            <nav class="migas" aria-label="Estás en">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a class="migas__tipo" href="catalogo.html?tipo=[TIPO]">[TIPO]</a></li>
+                    <li aria-current="page">[NOMBRE DEL PERFUME]</li>
+                </ol>
+            </nav>
+
+            <!-- Fotos y compra juntas: en computador van lado a lado, y la foto se queda quieta
+                 solo mientras se baja por esta caja (no por toda la página) -->
+            <div class="ficha__principal">
+            <!-- 1. Fotos: una grande y, debajo, miniaturas para cambiarla (si el perfume tiene más de una) -->
+            <section class="ficha__galeria" aria-label="Fotos del perfume">
+                <div class="ficha__foto">
+                    <span class="ficha__sello">Más pedido</span>
+                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="[NOMBRE DEL PERFUME] de [MARCA]" width="240" height="288" fetchpriority="high">
+                </div>
+                <!-- Cada miniatura es un botón; el JavaScript las crea según cuántas fotos tenga el perfume -->
+                <ul class="ficha__miniaturas"></ul>
+            </section>
+
+            <!-- 2. Comprar: nombre, tamaño, cantidad y botones -->
+            <section class="ficha__compra" aria-labelledby="nombre-perfume">
+                <p class="ficha__marca">[MARCA]</p>
+                <h1 class="ficha__nombre" id="nombre-perfume">[NOMBRE DEL PERFUME]</h1>
+                <p class="ficha__datos">[TIPO] · [FAMILIA] · [AROMA]</p>
+                <p class="ficha__aviso">Pocas piezas</p>
+
+                <!-- Tamaños: cada opción con su precio. El JavaScript esconde los que el perfume no tiene -->
+                <fieldset class="ficha__tamanos">
+                    <legend>Tamaño</legend>
+                    <label class="tamano">
+                        <input type="radio" name="tamano" value="frasco" checked>
+                        <span class="tamano__nombre">Frasco 100 ml</span>
+                        <span class="tamano__precio">[PRECIO]</span>
+                    </label>
+                    <label class="tamano">
+                        <input type="radio" name="tamano" value="decant">
+                        <span class="tamano__nombre">Decant [ML] ml</span>
+                        <span class="tamano__precio">[PRECIO]</span>
+                    </label>
+                    <!-- OJO: el decant de 5 ml todavía no está en perfumes.js. Si el cliente no lo vende, se borra esta opción -->
+                    <label class="tamano">
+                        <input type="radio" name="tamano" value="decant-5">
+                        <span class="tamano__nombre">Decant 5 ml</span>
+                        <span class="tamano__precio">[PRECIO]</span>
+                    </label>
+                </fieldset>
+
+                <!-- Cantidad: − 1 + (el mismo control de "Mi lista") -->
+                <div class="ficha__cantidad">
+                    <span id="etiqueta-cantidad">Cantidad</span>
+                    <div class="mi-lista__cantidad" role="group" aria-labelledby="etiqueta-cantidad">
+                        <button type="button" aria-label="Uno menos">−</button>
+                        <output aria-live="polite">1</output>
+                        <button type="button" aria-label="Uno más">+</button>
+                    </div>
+                </div>
+
+                <!-- Total según tamaño y cantidad -->
+                <p class="ficha__total">
+                    <span>Total</span>
+                    <span class="ficha__total-precio">[PRECIO]</span>
+                </p>
+
+                <div class="ficha__botones">
+                    <a class="boton-whatsapp ficha__pedir" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20pedir%20este%20perfume%3A%20">Pedir por WhatsApp</a>
+                    <button class="boton-borde ficha__agregar" type="button" aria-pressed="false">Agregar a mi lista</button>
+                </div>
+
+                <!-- Cuándo llega: el JavaScript calcula las fechas con los días de entrega (falta del cliente) -->
+                <p class="ficha__entrega">Llega entre el [FECHA] y el [FECHA] si pides hoy antes de las [HORA].</p>
+                <p class="ficha__confianza">Te respondemos en minutos, de [HORA] a [HORA]. Pagas solo cuando confirmes.</p>
+            </section>
+            </div>
+
+            <!-- 3. Cómo huele: descripción, pirámide, duración e intensidad -->
+            <section class="ficha__aroma" aria-labelledby="titulo-aroma">
+                <h2 id="titulo-aroma">Cómo huele</h2>
+                <!-- OJO: la descripción y los momentos todavía no están en perfumes.js (falta del cliente).
+                     Si un perfume no tiene descripción, se muestra su frase corta de "notas" -->
+                <p class="ficha__descripcion">[DESCRIPCIÓN: dos o tres frases sobre cómo huele y para quién es]</p>
+
+                <dl class="ficha__piramide">
+                    <div>
+                        <dt>Salida</dt>
+                        <dd>[NOTAS DE SALIDA]</dd>
+                    </div>
+                    <div>
+                        <dt>Corazón</dt>
+                        <dd>[NOTAS DE CORAZÓN]</dd>
+                    </div>
+                    <div>
+                        <dt>Fondo</dt>
+                        <dd>[NOTAS DE FONDO]</dd>
+                    </div>
+                </dl>
+
+                <!-- Las mismas barras de "Los más pedidos" del inicio -->
+                <div class="producto__medidas ficha__medidas">
+                    <div class="medida"><span>Dura</span><span>[HORAS] h</span></div>
+                    <div class="barra" aria-hidden="true"><span class="barra__relleno" style="width:70%"></span></div>
+                    <div class="medida"><span>Se siente</span><span>[INTENSIDAD]</span></div>
+                    <div class="barra" aria-hidden="true"><span class="barra__relleno" style="width:75%"></span></div>
+                </div>
+            </section>
+
+            <!-- 4. Cuándo usarlo -->
+            <section class="ficha__momentos" aria-labelledby="titulo-momentos">
+                <h2 id="titulo-momentos">Cuándo usarlo</h2>
+                <ul>
+                    <li>[MOMENTO: noche]</li>
+                    <li>[MOMENTO: oficina]</li>
+                    <li>[MOMENTO: clima frío]</li>
+                </ul>
+            </section>
+
+            <!-- 5. ¿Frasco o decant? Ayuda a elegir tamaño sin tener que preguntar -->
+            <section class="ficha__guia" aria-labelledby="titulo-guia">
+                <h2 id="titulo-guia">¿Frasco o decant?</h2>
+                <div class="guia">
+                    <div class="guia__opcion">
+                        <h3>Decant</h3>
+                        <p>Si nunca lo has olido. Lo llevas unos días, ves cómo se comporta en tu piel y decides sin gastar en el frasco completo.</p>
+                    </div>
+                    <div class="guia__opcion">
+                        <h3>Frasco</h3>
+                        <p>Si ya lo conoces y sabes que es para ti. Sale más barato por mililitro y te dura meses.</p>
+                    </div>
+                </div>
+                <a class="guia__kit" href="index.html#kit">¿Dudas entre varios? Arma un kit de tres decants</a>
+            </section>
+
+            <!-- 6. También te puede gustar: perfumes del mismo aroma, con las mismas tarjetas del catálogo -->
+            <section class="ficha__relacionados" aria-labelledby="titulo-relacionados">
+                <h2 id="titulo-relacionados">También te puede gustar</h2>
+                <ul class="catalogo__lista"></ul>
+            </section>
+
+            <!-- Plantilla de tarjeta: la misma del catálogo (si se cambia allá, cambiarla aquí también) -->
+            <template id="plantilla-perfume">
+                <li>
+                    <article class="perfume">
+                        <a class="perfume__enlace" href="perfume.html?id=[ID]">
+                            <div class="perfume__foto">
+                                <span class="perfume__sello">Más pedido</span>
+                                <img src="" alt="" width="240" height="288" loading="lazy">
+                            </div>
+                            <p class="perfume__datos">[MARCA] · [TIPO]</p>
+                            <h3 class="perfume__nombre">[NOMBRE DEL PERFUME]</h3>
+                            <p class="perfume__aroma">[AROMA] · [INTENSIDAD]</p>
+                        </a>
+                        <p class="perfume__precio">[PRECIO]</p>
+                        <p class="perfume__decant">Decant [ML] ml: [PRECIO]</p>
+                        <p class="perfume__aviso">Pocas piezas</p>
+                        <div class="perfume__botones">
+                            <button class="boton-borde perfume__agregar" type="button">Agregar a mi lista</button>
+                            <a class="boton-oscuro" href="https://wa.me/573158599499">Pedir por WhatsApp</a>
+                        </div>
+                    </article>
+                </li>
+            </template>
+
+            <!-- Si la dirección trae un id que no existe (perfume.html?id=algo-mal-escrito) -->
+            <div class="ficha__no-existe" hidden>
+                <h1>No encontramos este perfume</h1>
+                <p>Puede que el enlace esté mal escrito o que ya no lo tengamos. Mira el catálogo o pregúntanos por WhatsApp.</p>
+                <a class="boton-oscuro" href="catalogo.html">Ver el catálogo</a>
+                <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20busco%20un%20perfume%3A%20">Preguntar por WhatsApp</a>
+            </div>
+
+            <noscript>
+                <p class="catalogo__sin-js">Para ver este perfume, activa JavaScript o pregúntanos por WhatsApp.</p>
+                <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20busco%20un%20perfume%3A%20">Preguntar por WhatsApp</a>
+            </noscript>
+        </main>
+
+        <footer class="pie">
+            <nav class="pie__nav" aria-label="Navegación del pie de página">
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#envios">Envíos</a>
+                <a href="index.html#cambios">Cambios</a>
+                <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
+            </nav>
+            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+            <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
+        </footer>
+
+        <!-- Barra fija de WhatsApp, solo celular: pide este perfume con el tamaño y la cantidad elegidos -->
+        <a class="barra-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20pedir%20un%20perfume">Pedir por WhatsApp</a>
+    </body>
+    </html>
