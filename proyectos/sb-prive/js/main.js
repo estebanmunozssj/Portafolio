@@ -86,6 +86,9 @@ function mostrarPerfume(perfume) {
 // Los frascos de ese aroma se quedan encendidos y los demás se apagan un poco.
 // La tarjeta muestra el primer perfume de ese aroma.
 function elegirAroma(aroma) {
+  // La vitrina cambia de luz según el aroma (el CSS lee data-aroma: ámbar, verde frío, madera, rojo)
+  document.querySelector('.armario').dataset.aroma = aroma;
+
   botonesAroma.forEach(function (boton) {
     const elegido = boton.textContent.trim() === aroma;
     boton.classList.toggle('activo', elegido);
@@ -157,6 +160,52 @@ const primerAromaVisible = document.querySelector('.aroma:not([hidden])');
 const aromaInicial = aromaMarcado || primerAromaVisible;
 if (aromaInicial) {
   elegirAroma(aromaInicial.textContent.trim());
+}
+
+/* ---------- Deslizar en el celular: cambia de aroma ---------- */
+// Pasar el dedo de lado sobre la vitrina pasa al aroma siguiente (o al anterior), como tocar su botón.
+// Solo con el dedo (no con mouse). Si el gesto es más vertical que horizontal, es scroll y no se toca nada
+const armarioVitrina = document.querySelector('.armario');
+let dedo = null;
+let seDeslizo = false;
+
+armarioVitrina.addEventListener('pointerdown', function (evento) {
+  seDeslizo = false; // un toque nuevo nunca se ignora
+  if (evento.pointerType !== 'touch') return;
+  dedo = { x: evento.clientX, y: evento.clientY };
+});
+armarioVitrina.addEventListener('pointercancel', function () { dedo = null; });
+armarioVitrina.addEventListener('pointerup', function (evento) {
+  if (!dedo) return;
+  const dx = evento.clientX - dedo.x;
+  const dy = evento.clientY - dedo.y;
+  dedo = null;
+  if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return; // muy corto, o era scroll
+  seDeslizo = true;
+  // Ese "toque" de rebote llega enseguida o no llega; en medio segundo se olvida,
+  // para no tragarse el siguiente toque de verdad
+  setTimeout(function () { seDeslizo = false; }, 500);
+  cambiarAroma(dx < 0 ? 1 : -1); // a la izquierda: el siguiente; a la derecha: el anterior
+});
+// Si el dedo terminó sobre un frasco, el navegador también lo "toca": ese toque se ignora
+armarioVitrina.addEventListener('click', function (evento) {
+  if (!seDeslizo) return;
+  seDeslizo = false;
+  evento.preventDefault();
+  evento.stopPropagation();
+}, true);
+
+function cambiarAroma(paso) {
+  const visibles = Array.prototype.filter.call(botonesAroma, function (b) { return !b.hidden; });
+  if (visibles.length < 2) return;
+  const actual = visibles.findIndex(function (b) { return b.classList.contains('activo'); });
+  visibles[(actual + paso + visibles.length) % visibles.length].click();
+}
+
+// En pantallas táctiles, el texto de ayuda cuenta que se puede deslizar
+if (window.matchMedia('(pointer: coarse)').matches) {
+  const ayuda = document.querySelector('.inicio__ayuda');
+  if (ayuda) ayuda.textContent = 'Toca un frasco o desliza para cambiar de aroma.';
 }
 
 /* =========================================================
@@ -240,6 +289,71 @@ if (pistaPedidos && masPedidos.length) {
 
     tarjetaProducto.append(vitrinaProducto, info);
     pistaPedidos.append(tarjetaProducto);
+  });
+}
+
+/* ---------- "Ya les llegó": las capturas de los clientes (js/capturas.js) ---------- */
+// Con capturas en la lista, la sección aparece; sin capturas, sigue escondida
+const seccionCapturas = document.getElementById('ya-les-llego');
+const listaCapturas = typeof CAPTURAS !== 'undefined' ? CAPTURAS.filter(function (c) { return c && c.imagen; }) : [];
+
+if (seccionCapturas && listaCapturas.length) {
+  const carrusel = seccionCapturas.querySelector('.capturas__lista');
+  const puntos = seccionCapturas.querySelector('.capturas__puntos');
+  const visor = document.querySelector('.visor');
+  const fotoVisor = visor.querySelector('.visor__foto');
+
+  listaCapturas.forEach(function (c) {
+    const item = crear('li', 'captura');
+
+    // La foto es un botón: al tocarla se ve en grande
+    const abrir = crear('button', 'captura__abrir');
+    abrir.type = 'button';
+    abrir.setAttribute('aria-label', 'Ver en grande' + (c.texto ? ': ' + c.texto : ''));
+    const foto = crear('img');
+    foto.src = c.imagen;
+    foto.alt = '';
+    foto.width = 210;
+    foto.height = 360;
+    foto.loading = 'lazy';
+    foto.addEventListener('error', function () { item.remove(); }); // si la foto no existe, esa captura no se muestra
+    abrir.append(foto);
+    abrir.addEventListener('click', function () {
+      fotoVisor.src = c.imagen;
+      fotoVisor.alt = c.texto || 'Captura de un cliente';
+      visor.showModal();
+    });
+    item.append(abrir);
+
+    if (c.texto) item.append(crear('p', 'captura__texto', '“' + c.texto + '”'));
+    const perfume = c.perfume ? buscarPerfume(c.perfume) : null;
+    if (perfume) {
+      const enlace = crear('a', 'captura__perfume', perfume.nombre);
+      enlace.href = 'perfume.html?id=' + encodeURIComponent(perfume.id);
+      item.append(enlace);
+    }
+
+    carrusel.append(item);
+    puntos.append(crear('span', 'punto'));
+  });
+
+  seccionCapturas.hidden = false;
+
+  // Puntos: marcan qué captura se está viendo al deslizar (en celular)
+  function marcarPunto() {
+    const primera = carrusel.querySelector('.captura');
+    if (!primera) return;
+    const paso = primera.offsetWidth + (parseFloat(getComputedStyle(carrusel).columnGap) || 0);
+    const actual = Math.round(carrusel.scrollLeft / paso);
+    puntos.querySelectorAll('.punto').forEach(function (p, i) { p.classList.toggle('activo', i === actual); });
+  }
+  carrusel.addEventListener('scroll', marcarPunto, { passive: true });
+  marcarPunto();
+
+  // El visor se cierra con la X, con Esc (eso ya lo hace <dialog>) o tocando fuera de la foto
+  visor.querySelector('.visor__cerrar').addEventListener('click', function () { visor.close(); });
+  visor.addEventListener('click', function (evento) {
+    if (evento.target === visor) visor.close();
   });
 }
 

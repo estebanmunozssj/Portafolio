@@ -44,6 +44,7 @@
         <link rel="stylesheet" href="css/estilos.css">
         <!-- Primero la lista de perfumes y después el código que la usa (defer respeta este orden) -->
         <script src="js/perfumes.js" defer></script>
+        <script src="js/capturas.js" defer></script>
         <script src="js/comun.js" defer></script>
         <script src="js/main.js" defer></script>
         <!-- GSAP (la misma versión de Piamonte) solo para la animación de "Elige por tipo".
@@ -128,7 +129,7 @@
         <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
         <a class="saltar" href="#contenido">Saltar al contenido</a>
         <!-- Franja de arriba: los mensajes se alternan solos (js/comun.js). Sin JavaScript se ve el primero.
-             El botón pausa la franja y el frasco que respira (para quien prefiere que nada se mueva) -->
+             El botón pausa la franja y las partículas de la vitrina (para quien prefiere que nada se mueva) -->
         <p class="franja">
             <!-- Mensajes cortos (máximo unas 34 letras): así cada uno cabe en una línea en el celular -->
             <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
@@ -209,8 +210,10 @@
                     <div class="armario">
                         <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024" fetchpriority="high">
                         <!-- La luz de la vitrina: cambia de color según el aroma elegido (ámbar, verde frío, madera, rojo).
-                             Va entre la foto y los frascos: tiñe el mármol y la luz, no los frascos -->
-                        <div class="armario__luz" aria-hidden="true"></div>
+                             Va entre la foto y los frascos: tiñe el mármol y la luz, no los frascos.
+                             OJO: es <span> y no <div> a propósito: las repisas se ubican con .repisa:nth-of-type(),
+                             que cuenta los <div>; si esto fuera un <div>, las repisas se correrían de lugar -->
+                        <span class="armario__luz" aria-hidden="true"></span>
                             <!-- PENDIENTE: si llega una imagen limpia para computador, cambiar el <img> de arriba por esto:
                             <picture>
                             <source media="(min-width: 1024px)" srcset="img/repisa-pc.webp">
@@ -398,32 +401,31 @@
                 </div>
             </section>
 
-            <!-- hidden: escondida hasta tener capturas reales. Para mostrarla, borra la palabra hidden -->
+            <!-- 7. Ya les llegó: las capturas que mandan los clientes.
+                 Las capturas se agregan en js/capturas.js; el JavaScript las pone aquí y muestra la sección.
+                 hidden: mientras no haya capturas (o sin JavaScript), la sección no se ve -->
             <section id="ya-les-llego" hidden>
-                <!-- 7. Ya les llegó (oculta hasta tener capturas reales) -->
                  <h2 class="capturas__titulo">Ya les llegó</h2>
                  <p class="capturas__texto">Lo que nos escriben quienes ya recibieron su perfume.</p>
-                 <!--cada captura se acomoda sola al soltar el dedo eso lo hace el css-->
-                 <ul class="capturas__lista">
-                    <li class="captura">
-                        <img src="img/captura-1.webp" alt="[TEXTO DE LA CAPTURA]" width="210" height="360" loading="lazy">
-                    </li>
-                    <li class="captura">
-                        <img src="img/captura-2.webp" alt="[TEXTO DE LA CAPTURA]" width="300" height="300" loading="lazy">
-                    </li>
-                    <li class="captura">
-                        <img src="img/captura-3.webp" alt="[TEXTO DE LA CAPTURA]" width="300" height="300" loading="lazy">
-                    </li>
-                </ul>
-                <!--puntos de pocicion, el js marca el activo-->
-                <div class="capturas__guia" aria-hidden="true">
-                    <span class="punto activo"></span>
-                    <span class="punto"></span>
-                    <span class="punto"></span>
-                    <span class="punto"></span>
+                 <!-- Cada captura: la foto (se toca para verla en grande), una frase y el perfume. Las crea main.js -->
+                 <ul class="capturas__lista"></ul>
+                 <!-- Puntos de posición (solo en celular, donde se desliza): main.js crea uno por captura -->
+                 <div class="capturas__guia" aria-hidden="true">
+                    <span class="capturas__puntos"></span>
                     <span class="capturas__ayuda">Desliza para ver más</span>
-                </div>
+                 </div>
             </section>
+
+            <!-- Visor: la captura en grande. <dialog> ya trae lo necesario: se cierra con Esc
+                 y el resto de la página queda inactivo mientras está abierto -->
+            <dialog class="visor" aria-label="Captura en grande">
+                <img class="visor__foto" src="" alt="">
+                <button class="visor__cerrar" type="button" aria-label="Cerrar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18"></path>
+                    </svg>
+                </button>
+            </dialog>
 
             <section id="como-pedir">
                 <!-- 8. Así pides -->

@@ -1240,10 +1240,12 @@ html {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 0;
+    width: 100%;
     height: 1px;
     background: #C8A45C;
-    transition: width 0.25s;
+    transform: scaleX(0);      /* crece con escala, no con ancho: más fluido */
+    transform-origin: left;
+    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
   }
   @media (hover: hover) and (pointer: fine) {
   .menu a:hover {
@@ -1252,7 +1254,7 @@ html {
   }
   @media (hover: hover) and (pointer: fine) {
   .menu a:hover::after {
-      width: 100%;
+      transform: scaleX(1);
     }
   }
 
@@ -1916,12 +1918,13 @@ select {
   font-size: 16px;
 }
 
-/* Quien prefiere menos movimiento no ve los botones hundirse ni los frascos crecer */
+/* Quien prefiere menos movimiento: nada se desplaza, crece ni se hunde (esos cambios son instantáneos),
+   pero los fundidos y los cambios de color se mantienen, porque ayudan a entender qué cambió */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
+    transition-property: opacity, color, background-color, border-color, --luz !important;
     scroll-behavior: auto !important;
   }
 }
@@ -3172,13 +3175,17 @@ select {
   grid-area: 1 / 1; /* todos los mensajes en la misma celda, uno encima del otro */
   text-align: center;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  filter: blur(2px); /* el que se va se desenfoca un poco: así el cambio no se ve "encimado" */
+  transition: opacity 0.3s ease, filter 0.3s ease;
 }
+/* El nuevo espera 0,3 s a que el anterior termine de irse: nunca se ven los dos a la vez */
 .franja__mensaje.activo {
   opacity: 1;
+  filter: none;
+  transition-delay: 0.3s;
 }
 
-/* Botón de pausa: a la derecha de la franja. Pausa la franja y el frasco que respira */
+/* Botón de pausa: a la derecha de la franja. Pausa la franja y las partículas de la vitrina */
 .franja__pausa {
   position: absolute;
   top: 50%;
@@ -3200,19 +3207,8 @@ select {
   }
 }
 
-/* 4. El frasco elegido en la vitrina "respira": sube y baja 4 px, muy despacio */
-@keyframes respirar {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .frasco.activo img {
-    animation: respirar 4.5s ease-in-out infinite;
-  }
-  .sin-movimiento .frasco.activo img {
-    animation: none;
-  }
-}
+/* 4. (El frasco elegido ya no "respira": el humo de fragancia cumple esa función, y los dos
+      juntos sobre el mismo frasco eran demasiado movimiento para una marca discreta) */
 
 /* 5. "Elige por tipo": la línea dorada de arriba de cada fila (GSAP la dibuja al aparecer;
       sin GSAP se ve completa). --trazo va de 0 (sin línea) a 1 (línea completa) */
@@ -3605,7 +3601,7 @@ select {
 
 /* ---------- Lo que pasa en la página cuando se abren las puertas (solo la primera vez) ---------- */
 /* "backwards": la animación solo se aplica antes y durante; al terminar, cada elemento vuelve a su estilo normal
-   (así el frasco elegido conserva su tamaño y su respiración) */
+   (así el frasco elegido conserva su tamaño) */
 
 /* La luz de la vitrina se enciende titilando */
 .con-entrada:not(.entrada-saltada) .vitrina__fondo {
@@ -3822,24 +3818,24 @@ select {
     right: 24px;
     bottom: 24px;
     height: 52px;
-    max-width: 52px;           /* cerrado: solo el ícono (el ancho incluye el borde y el relleno) */
-    padding: 0 0 0 50px;       /* el ícono va en los primeros 50 px; el texto queda afuera, escondido */
+    padding: 0 52px 0 22px;    /* el texto a la izquierda; el ícono en los últimos 52 px, a la derecha */
     justify-content: flex-start;
-    overflow: hidden;
     white-space: nowrap;
     border: 1px solid var(--dorado);
     border-radius: 26px;
     background: var(--verde-oscuro);
     color: var(--crema);
     font-size: 15px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-    transition: max-width 0.35s ease-out, padding 0.35s ease-out, border-color 0.2s ease-out;
+    /* Cerrado se recorta a un círculo de 52 px con el ícono. Al abrirse, el recorte se quita y la píldora
+       "sale" del círculo hacia la izquierda. Se anima el recorte (clip-path), no el ancho: más fluido */
+    clip-path: inset(0 0 0 calc(100% - 52px) round 26px);
+    transition: clip-path 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease;
   }
   /* El ícono: una burbuja de conversación en dorado */
   .barra-whatsapp::before {
     content: '';
     position: absolute;
-    left: 14px;
+    right: 14px;
     top: 50%;
     width: 22px;
     height: 22px;
@@ -3851,13 +3847,13 @@ select {
   /* Al pasar el mouse o llegar con el teclado: se abre y muestra el texto ("Pedir por WhatsApp", "Enviar mi lista (2)"…) */
   .barra-whatsapp:hover,
   .barra-whatsapp:focus-visible {
-    max-width: 340px;
-    padding-right: 22px;
+    clip-path: inset(0 0 0 0 round 26px);
     border-color: var(--dorado-claro);
   }
+  /* El recorte también cortaría un borde de foco por fuera: por eso va por dentro */
   .barra-whatsapp:focus-visible {
     outline: 2px solid var(--dorado-claro);
-    outline-offset: 3px;
+    outline-offset: -5px;
   }
   /* El aviso "Agregado a tu lista" sube para no quedar encima del botón */
   .aviso {
@@ -3888,5 +3884,225 @@ select {
     margin: 0;
     padding-left: var(--margen-inicio, 16px);
     padding-right: var(--margen-inicio, 16px);
+  }
+}
+
+/* =========================================================
+   ATMÓSFERA DE LA VITRINA
+   ========================================================= */
+
+/* 1. La luz cambia de color según el aroma elegido.
+      @property permite que el color se mezcle poco a poco (casi 1 s), como cambiar la bombilla.
+      La capa va entre la foto y los frascos: tiñe el mármol y la luz del arco, no los frascos */
+@property --luz {
+  syntax: '<color>';
+  inherits: false; /* solo la capa de luz cambia: los frascos no se recalculan durante el cambio */
+  initial-value: rgba(0, 0, 0, 0);
+}
+.armario {
+  touch-action: pan-y; /* deslizar de lado lo maneja la página; de arriba abajo sigue siendo scroll */
+}
+.armario__luz {
+  transition: --luz 0.9s ease;
+}
+.armario[data-aroma="Dulce"] .armario__luz { --luz: rgba(232, 150, 52, 0.8); }      /* ámbar */
+.armario[data-aroma="Fresco"] .armario__luz { --luz: rgba(120, 205, 200, 0.8); }    /* verde frío */
+.armario[data-aroma="Amaderado"] .armario__luz { --luz: rgba(108, 62, 28, 0.95); }  /* madera oscura */
+.armario[data-aroma="Intenso"] .armario__luz { --luz: rgba(170, 30, 48, 0.85); }    /* rojo profundo */
+
+.armario__luz {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* La luz nace arriba, en la lámpara del arco, y se abre hacia abajo */
+  background: radial-gradient(ellipse 95% 85% at 50% 15%, var(--luz), transparent 80%);
+  mix-blend-mode: overlay; /* tiñe sin tapar: el mármol y sus vetas se siguen viendo */
+}
+
+/* 2. Profundidad: cada frasco apoyado en su repisa */
+.frasco {
+  position: relative;
+}
+/* Sombra de contacto: una elipse oscura y difusa justo en la base */
+.frasco::after {
+  content: '';
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -3px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+/* Reflejo suave del frasco en la repisa, como en vidrio pulido (Chrome y Safari; en Firefox no se ve) */
+.frasco img {
+  -webkit-box-reflect: below 1px linear-gradient(transparent 78%, rgba(255, 255, 255, 0.2));
+}
+
+/* =========================================================
+   ENTRADAS QUE FALTABAN (revisión de animaciones)
+   ========================================================= */
+
+/* El aviso "Agregado a tu lista": sube 8 px y aparece (0,2 s); al irse, se va más rápido (0,15 s).
+   @starting-style da el punto de partida al aparecer; "allow-discrete" deja animar la salida
+   aunque el aviso termine escondido (hidden). En navegadores viejos simplemente aparece, como antes */
+.aviso {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease-out,
+              transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+              display 0.2s allow-discrete;
+}
+@starting-style {
+  .aviso {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.aviso[hidden] {
+  opacity: 0;
+  transform: translateY(4px);
+  transition-duration: 0.15s;
+}
+
+/* El menú del celular: baja 6 px desde el encabezado y aparece (0,2 s), así se entiende de dónde sale.
+   Al cerrar se va al instante, que es lo que espera quien ya eligió */
+@media (max-width: 1023px) {
+  .menu.abierto {
+    transition: opacity 0.2s ease-out, transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  @starting-style {
+    .menu.abierto {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+}
+
+/* =========================================================
+   "YA LES LLEGÓ": CAPTURAS DE CLIENTES
+   ========================================================= */
+
+/* Cada captura: la foto (vertical, como un celular), y debajo la frase y el perfume */
+.captura {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+}
+.captura__abrir {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--linea);
+  background: var(--verde);
+  aspect-ratio: 7 / 12;      /* proporción de una captura de celular */
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.captura__abrir img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;      /* lo de arriba del chat es lo que más se lee */
+}
+.captura__abrir:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+.captura__texto {
+  font-family: var(--fuentes-titulos);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--crema);
+}
+.captura__perfume {
+  align-self: flex-start;
+  padding: 10px 0;           /* zona de toque cómoda */
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--dorado-claro);
+}
+
+/* Puntos de posición: los crea main.js, uno por captura */
+.capturas__puntos {
+  display: flex;
+  gap: 8px;
+}
+
+/* El visor: la captura en grande sobre un fondo oscuro */
+.visor {
+  width: min(92vw, 460px);
+  max-height: 92vh;
+  padding: 0;
+  border: 1px solid var(--linea);
+  background: var(--verde-oscuro);
+  overflow: visible;
+}
+.visor::backdrop {
+  background: rgba(7, 24, 16, 0.88);
+}
+.visor__foto {
+  display: block;
+  width: 100%;
+  max-height: 92vh;
+  object-fit: contain;
+}
+.visor__cerrar {
+  position: absolute;
+  top: -52px;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--crema);
+}
+/* Al abrirse, el visor aparece con un fundido y crece un poco (0,2 s) */
+.visor[open] {
+  transition: opacity 0.2s ease-out, transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@starting-style {
+  .visor[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .captura__abrir img {
+    transition: transform 0.3s ease-out;
+  }
+  .captura__abrir:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Computador: las capturas en cuadrícula (sin deslizar), así que los puntos no hacen falta */
+@media (min-width: 1024px) {
+  #ya-les-llego {
+    padding: 80px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: transparent;
+  }
+  .capturas__titulo {
+    font-size: 40px;
+  }
+  .capturas__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 28px;
+    overflow: visible;
+  }
+  .capturas__guia {
+    display: none;
   }
 }

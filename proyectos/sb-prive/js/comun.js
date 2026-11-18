@@ -426,7 +426,7 @@ function leerPausa() {
   }
 }
 
-// La clase .sin-movimiento en <html> apaga el frasco que respira (CSS) y la franja (abajo)
+// La clase .sin-movimiento en <html> apaga las partículas de la vitrina (humo.js) y la franja (abajo)
 function ponerPausa(pausado) {
   document.documentElement.classList.toggle('sin-movimiento', pausado);
   const boton = document.querySelector('.franja__pausa');

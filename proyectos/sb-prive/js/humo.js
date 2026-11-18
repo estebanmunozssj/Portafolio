@@ -47,6 +47,8 @@
   let corriendo = false;
   let ultimaBruma = 0;
   let ultimoDestello = 0;
+  let ultimoDibujo = 0;
+  const CADA_CUADRO_MS = 33; // se dibuja ~30 veces por segundo: igual de suave para algo tan lento, y gasta la mitad
 
   /* ---------- Tamaño del lienzo = tamaño del armario ---------- */
   // offsetWidth/offsetHeight: el tamaño del armario sin la ampliación (scale) que tiene en celular,
@@ -183,6 +185,11 @@
       parar();
       return;
     }
+    if (ahora - ultimoDibujo < CADA_CUADRO_MS) {
+      requestAnimationFrame(cuadro);
+      return;
+    }
+    ultimoDibujo = ahora;
 
     const o = origen();
     if (o && brumas.length < BRUMA.maximo && ahora - ultimaBruma > BRUMA.cadaMs) {
