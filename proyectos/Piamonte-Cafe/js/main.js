@@ -52,6 +52,53 @@ const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + númer
   revisar(); // Revisa una vez al cargar (por si la página abre a mitad)
 })();
 
+/* =========================================================
+   CAFETERA DEL ENCABEZADO: aparece al bajar y se va llenando
+   según cuánto llevas de la página (vacía arriba, llena al final)
+   La crea este código para no repetir el SVG en index.html y menu.html
+   ========================================================= */
+
+(() => {
+  const logo = document.querySelector('.encabezado .logo');
+  if (!logo) return;
+
+  // Jarra de vidrio con asa, en capas: fondo de vidrio → café → contorno encima.
+  // El café es un rectángulo recortado con la forma de la jarra (clipPath)
+  // y su altura se cambia desde aquí con scaleY. viewBox 0 0 26 32: 26 de ancho por 32 de alto
+  logo.insertAdjacentHTML('beforeend', `
+    <svg class="cafetera" viewBox="0 0 26 32" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="dentro-cafetera"><path d="M5 9H18L19 27C19 29 18 30 16 30H7C5 30 4 29 4 27Z"/></clipPath>
+      </defs>
+      <path class="cafetera-fondo" d="M5 9H18L19 27C19 29 18 30 16 30H7C5 30 4 29 4 27Z"/>
+      <g clip-path="url(#dentro-cafetera)">
+        <rect class="cafetera-cafe" x="0" y="9" width="26" height="21"/>
+      </g>
+      <path class="cafetera-vidrio" d="M5 9H18L19 27C19 29 18 30 16 30H7C5 30 4 29 4 27Z"/>
+      <path class="cafetera-tapa" d="M4 9H19M7 9L8 5H16L17 9M10 5V3H14V5"/>
+      <path class="cafetera-asa" d="M18.6 13C23 13 24 15 24 18.5C24 22 23 24 19 24"/>
+    </svg>`);
+
+  const encabezado = logo.closest('.encabezado');
+  const cafe = logo.querySelector('.cafetera-cafe');
+  let pendiente = false;
+
+  function llenar() {
+    pendiente = false;
+    const total = document.documentElement.scrollHeight - window.innerHeight; // Cuánto se puede bajar en total
+    const avance = total > 0 ? Math.min(1, window.scrollY / total) : 0;      // De 0 (arriba) a 1 (al final)
+    cafe.style.transform = `scaleY(${avance})`;
+    encabezado.classList.toggle('bajando', window.scrollY > 40); // Aparece cuando ya bajaste un poco
+  }
+
+  // requestAnimationFrame: el scroll avisa muchísimas veces por segundo; así llenamos máximo una vez por cuadro
+  window.addEventListener('scroll', () => {
+    if (!pendiente) { pendiente = true; requestAnimationFrame(llenar); }
+  }, { passive: true });
+  window.addEventListener('resize', llenar);
+  llenar();
+})();
+
 /* ===== BOTONES DE WHATSAPP ===== */
 // Todos los enlaces con la clase "js-whatsapp" abren el chat con su mensaje (data-mensaje)
 

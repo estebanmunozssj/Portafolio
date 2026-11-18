@@ -3864,3 +3864,29 @@ select {
     bottom: 92px;
   }
 }
+
+/* "Así pides": más aire entre la palabra grande (Elige, Escribe, Paga, Recibe) y su texto.
+   La palabra va en cursiva grande y las letras con cola (la g de Elige, la p de Paga) se salían de su caja
+   y casi tocaban el texto: con alto de línea 1 caben, y el espacio de abajo crece */
+.paso {
+  gap: 14px;
+}
+.paso__verbo {
+  line-height: 1;
+}
+@media (min-width: 1024px) {
+  .paso {
+    gap: 20px;
+  }
+}
+
+/* Celular y tablet: la tarjeta del perfume va de borde a borde, como la vitrina (antes tenía 20 px de margen
+   a cada lado y se veía una franja verde). Su texto queda alineado con el resto del inicio:
+   usa el mismo margen interno (--margen-inicio: 16 px en celular, más en tablet) */
+@media (max-width: 1023px) {
+  .tarjeta {
+    margin: 0;
+    padding-left: var(--margen-inicio, 16px);
+    padding-right: var(--margen-inicio, 16px);
+  }
+}

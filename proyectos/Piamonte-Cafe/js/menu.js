@@ -580,8 +580,12 @@ function dibujar(producto) {
     boton.type = 'button';
     boton.textContent = grupo.categoria;
     boton.addEventListener('click', () => {
+      // ¿El inicio de la lista ya subió por detrás de la barra? (o sea, bajaste por los productos)
+      const bajaste = cajaProductos.getBoundingClientRect().top < cajaCategorias.getBoundingClientRect().bottom;
       mostrarCategoria(i);
       boton.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+      // Si bajaste, vuelve al inicio de la nueva lista (si no, quedarías en medio o debajo de ella)
+      if (bajaste) cajaProductos.scrollIntoView({ behavior: menosMovimiento.matches ? 'auto' : 'smooth' });
     });
     cajaCategorias.appendChild(boton);
   });
