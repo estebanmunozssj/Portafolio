@@ -45,10 +45,12 @@
         <!-- Franja de arriba: los mensajes se alternan solos (js/comun.js). Sin JavaScript se ve el primero.
              El botón pausa la franja y el frasco que respira (para quien prefiere que nada se mueva) -->
         <p class="franja">
-            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</span>
+            <!-- Mensajes cortos (máximo unas 34 letras): así cada uno cabe en una línea en el celular -->
+            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
+            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
             <span class="franja__mensaje">Solo perfumes originales</span>
-            <span class="franja__mensaje">Decants para probarlos antes del frasco</span>
-            <span class="franja__mensaje">Te respondemos en minutos por WhatsApp</span>
+            <span class="franja__mensaje">Decants para probar antes del frasco</span>
+            <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
             <button class="franja__pausa" type="button" aria-pressed="false" aria-label="Pausar movimiento">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
                     <rect x="3" y="2" width="3" height="10"></rect>
@@ -169,32 +171,9 @@
             <!-- 3. Resultados. aria-live hace que el lector de pantalla diga "8 perfumes" cuando cambia -->
             <p class="catalogo__cuenta" aria-live="polite"></p>
 
-            <!-- Aquí js/catalogo.js pone una tarjeta por perfume, usando la plantilla de abajo -->
+            <!-- Aquí js/catalogo.js pone una tarjeta por perfume (la tarjeta se arma en js/comun.js) -->
             <ul class="catalogo__lista"></ul>
 
-            <!-- Plantilla de una tarjeta: el navegador no la muestra; el JavaScript la copia y la llena -->
-            <template id="plantilla-perfume">
-                <li>
-                    <article class="perfume">
-                        <a class="perfume__enlace" href="perfume.html?id=[ID]">
-                            <div class="perfume__foto">
-                                <span class="perfume__sello">Más pedido</span>
-                                <img src="" alt="" width="240" height="288" loading="lazy">
-                            </div>
-                            <p class="perfume__datos">[MARCA] · [TIPO]</p>
-                            <h2 class="perfume__nombre">[NOMBRE DEL PERFUME]</h2>
-                            <p class="perfume__aroma">[AROMA] · [INTENSIDAD]</p>
-                        </a>
-                        <p class="perfume__precio">[PRECIO]</p>
-                        <p class="perfume__decant">Decant [ML] ml: [PRECIO]</p>
-                        <p class="perfume__aviso">Pocas piezas</p>
-                        <div class="perfume__botones">
-                            <button class="boton-borde perfume__agregar" type="button">Agregar a mi lista</button>
-                            <a class="boton-oscuro" href="https://wa.me/573158599499">Pedir por WhatsApp</a>
-                        </div>
-                    </article>
-                </li>
-            </template>
 
             <!-- 4. Sin resultados: en vez de una página vacía, una salida -->
             <div class="catalogo__vacio" hidden>

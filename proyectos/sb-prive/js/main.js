@@ -35,7 +35,6 @@ botonesFrasco.forEach(function (boton, i) {
   // en vez de mostrar el ícono de imagen rota
   foto.addEventListener('error', function () {
     boton.hidden = true;
-    revisarVitrinaCorta(); // al esconderse un frasco puede que ya quepan todos en la vitrina corta
   });
   foto.src = perfume.imagen;
 });
@@ -48,9 +47,9 @@ function mostrarPerfume(perfume) {
   // Si las notas son muy largas, el CSS las corta a 3 líneas. Al tocarlas se abren completas (ver sección 4)
   tarjeta.notas.classList.remove('tarjeta__notas--completas');
   tarjeta.precio.textContent = precioTexto(perfume.precio);
-  tarjeta.decant.textContent = perfume.decant
-    ? 'Decant ' + perfume.decant.ml + ' ml: ' + precioTexto(perfume.decant.precio)
-    : '';
+  // El decant de 10 ml o, si no hay, el de 5 ml (tamanoDecant y datosTamano están en js/comun.js)
+  const decant = datosTamano(perfume, tamanoDecant(perfume));
+  tarjeta.decant.textContent = decant ? decant.texto + ': ' + precioTexto(decant.precio) : '';
   tarjeta.boton.href = enlacePedido(perfume);
 
   // Marcar cuál frasco está elegido: crece y se ilumina (lo hace el CSS con .activo)
@@ -119,12 +118,14 @@ tarjeta.notas.addEventListener('click', function () {
   tarjeta.notas.classList.toggle('tarjeta__notas--completas');
 });
 
-/* ---------- Aromas sin perfumes ---------- */
-// Si en la lista no hay ningún perfume de un aroma (por ejemplo, ninguno "Fresco"),
-// su botón se esconde: así nadie toca un aroma y ve un perfume de otro tipo
+/* ---------- Aromas sin perfumes en la vitrina ---------- */
+// La vitrina muestra los primeros perfumes de la lista (uno por frasco). Si entre ellos no hay
+// ninguno de un aroma (por ejemplo, ninguno "Fresco"), su botón se esconde:
+// así nadie toca un aroma y ve todos los frascos apagados
+const enVitrina = PERFUMES.slice(0, botonesFrasco.length);
 botonesAroma.forEach(function (boton) {
   const aroma = boton.textContent.trim();
-  const hayPerfumes = PERFUMES.some(function (p) { return p.aroma === aroma; });
+  const hayPerfumes = enVitrina.some(function (p) { return p.aroma === aroma; });
   boton.hidden = !hayPerfumes;
 });
 
@@ -135,16 +136,6 @@ const aromaInicial = aromaMarcado || primerAromaVisible;
 if (aromaInicial) {
   elegirAroma(aromaInicial.textContent.trim());
 }
-
-/* ---------- Pocos perfumes: vitrina corta ---------- */
-// Con 6 frascos visibles o menos, las repisas de abajo quedarían vacías.
-// La clase "armario--corto" hace que el CSS muestre solo el arco y las dos primeras repisas, también en computador.
-// Es una función porque se vuelve a revisar cada vez que una foto falla y su frasco se esconde
-function revisarVitrinaCorta() {
-  const frascosVisibles = Array.prototype.filter.call(botonesFrasco, function (b) { return !b.hidden; }).length;
-  document.querySelector('.armario').classList.toggle('armario--corto', frascosVisibles <= 6);
-}
-revisarVitrinaCorta();
 
 /* =========================================================
    Parte 1b: secciones que salen de la lista de perfumes
@@ -217,7 +208,8 @@ if (pistaPedidos && masPedidos.length) {
     info.append(crear('p', 'producto__precio', precioTexto(p.precio)));
     const aviso = [];
     if (p.pocasPiezas) aviso.push('Pocas piezas');
-    if (p.decant) aviso.push('También en decant de ' + p.decant.ml + ' ml');
+    const decant = datosTamano(p, tamanoDecant(p));
+    if (decant) aviso.push('También en ' + decant.texto.toLowerCase().replace('decant ', 'decant de ')); // "También en decant de 10 ml"
     if (aviso.length) info.append(crear('p', 'producto__aviso', aviso.join(' · ')));
 
     const pedir = crear('a', 'boton-oscuro', 'Pedir este');
@@ -242,8 +234,12 @@ document.querySelectorAll('.tipo').forEach(function (fila) {
   if (!desde) return;
   let precios;
   if (fila.getAttribute('href') === '#kit') {
-    // La fila de Decants: el decant más barato
-    precios = PERFUMES.filter(function (p) { return p.decant; }).map(function (p) { return p.decant.precio; });
+    // La fila de Decants: el decant más barato (de 10 ml o de 5 ml)
+    precios = [];
+    PERFUMES.forEach(function (p) {
+      if (p.decant) precios.push(p.decant.precio);
+      if (p.decant5) precios.push(p.decant5.precio);
+    });
   } else {
     // Cada fila dice su tipo en data-tipo="arabes" (así no depende de a dónde lleve el enlace)
     const tipo = TIPOS[fila.dataset.tipo];

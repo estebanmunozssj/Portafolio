@@ -236,31 +236,47 @@ function llenarFicha(p) {
   if (parecidos.length) {
     const listaParecidos = seccionParecidos.querySelector('.catalogo__lista');
     parecidos.forEach(function (otro) {
-      listaParecidos.append(tarjetaPerfume(otro));
+      listaParecidos.append(tarjetaPerfume(otro, 'h3')); // h3: la sección ya tiene su h2
     });
   } else {
     seccionParecidos.remove();
   }
 }
 
-/* ---------- Fechas de entrega: días hábiles (lunes a viernes) desde hoy ---------- */
-// Si ya pasó la hora de corte, se empieza a contar desde mañana.
+/* ---------- Fechas de entrega: días hábiles (lunes a viernes) ---------- */
+// Se cuenta con la hora y la fecha de Colombia (no la del teléfono de quien mira la página).
+// 1. Día de despacho: hoy, si es día hábil y todavía no pasó la hora de corte; si no, el siguiente día hábil
+//    (un pedido del viernes en la noche o del sábado sale el lunes).
+// 2. Llega entre diasMin y diasMax días hábiles después del despacho.
 // OJO: no cuenta festivos de Colombia; por eso el mensaje dice "entre" dos fechas
 function fechasDeEntrega() {
   if (ENTREGA.diasMin == null || ENTREGA.diasMax == null || ENTREGA.horaCorte == null) return null;
-  const hoy = new Date();
-  const inicio = new Date(hoy);
-  if (hoy.getHours() >= ENTREGA.horaCorte) inicio.setDate(inicio.getDate() + 1);
 
+  // Fecha y hora de ahora en Colombia
+  const partes = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Bogota', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', hourCycle: 'h23'
+  }).formatToParts(new Date());
+  const valor = function (tipo) { return Number(partes.find(function (parte) { return parte.type === tipo; }).value); };
+  const hoy = new Date(valor('year'), valor('month') - 1, valor('day'));
+  const hora = valor('hour');
+
+  function esHabil(fecha) {
+    const dia = fecha.getDay();
+    return dia !== 0 && dia !== 6;
+  }
+  function siguienteHabil(fecha) {
+    const siguiente = new Date(fecha);
+    do {
+      siguiente.setDate(siguiente.getDate() + 1);
+    } while (!esHabil(siguiente));
+    return siguiente;
+  }
   function sumarHabiles(desde, dias) {
-    const fecha = new Date(desde);
-    let contados = 0;
-    while (contados < dias) {
-      fecha.setDate(fecha.getDate() + 1);
-      const dia = fecha.getDay();
-      if (dia !== 0 && dia !== 6) contados++;
-    }
+    let fecha = new Date(desde);
+    for (let i = 0; i < dias; i++) fecha = siguienteHabil(fecha);
     return fecha;
   }
-  return { desde: sumarHabiles(inicio, ENTREGA.diasMin), hasta: sumarHabiles(inicio, ENTREGA.diasMax) };
+
+  const despacho = (esHabil(hoy) && hora < ENTREGA.horaCorte) ? hoy : siguienteHabil(hoy);
+  return { desde: sumarHabiles(despacho, ENTREGA.diasMin), hasta: sumarHabiles(despacho, ENTREGA.diasMax) };
 }

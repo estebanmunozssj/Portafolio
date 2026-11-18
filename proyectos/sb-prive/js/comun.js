@@ -103,7 +103,11 @@ document.addEventListener('click', function (evento) {
   enlace.dataset.abriendo = 'si';
   enlace.textContent = 'Abriendo WhatsApp…';
   setTimeout(function () {
-    enlace.replaceChildren.apply(enlace, contenidoOriginal);
+    // Solo se devuelve el texto de antes si nadie lo cambió mientras tanto
+    // (por ejemplo, la barra del catálogo pasa de "Enviar mi lista (2)" a "(3)")
+    if (enlace.textContent === 'Abriendo WhatsApp…') {
+      enlace.replaceChildren.apply(enlace, contenidoOriginal);
+    }
     delete enlace.dataset.abriendo;
   }, 1600);
 });
@@ -152,9 +156,6 @@ if (botonMenu && menu) {
 // Qué tan fuerte se siente → largo de la barra (de 0 a 100)
 const BARRA_INTENSIDAD = { 'Cerca de la piel': 30, 'Media': 55, 'Fuerte': 75, 'Muy fuerte': 95 };
 
-// Las tarjetas del catálogo y de "También te puede gustar" llevan a la página de cada perfume
-const HAY_PAGINA_PERFUME = true;
-
 // Entrega (datos del cliente). Con alguno en null, la página del perfume no muestra la fecha.
 // diasMin y diasMax: días hábiles que tarda en llegar. horaCorte: hasta qué hora sale el mismo día, en 24 h (14 = 2 p. m.)
 const ENTREGA = { diasMin: null, diasMax: null, horaCorte: null };
@@ -166,6 +167,14 @@ function datosTamano(perfume, tamano) {
   if (tamano === 'frasco') return { texto: 'Frasco 100 ml', precio: perfume.precio };
   if (tamano === 'decant' && perfume.decant) return { texto: 'Decant ' + perfume.decant.ml + ' ml', precio: perfume.decant.precio };
   if (tamano === 'decant-5' && perfume.decant5) return { texto: 'Decant ' + perfume.decant5.ml + ' ml', precio: perfume.decant5.precio };
+  return null;
+}
+
+// El decant que se muestra en tarjetas y filtros: el de 10 ml si existe; si no, el de 5 ml.
+// Devuelve el nombre del tamaño ('decant' o 'decant-5'), o null si el perfume no viene en decant
+function tamanoDecant(perfume) {
+  if (perfume.decant) return 'decant';
+  if (perfume.decant5) return 'decant-5';
   return null;
 }
 
@@ -241,10 +250,17 @@ function quitarDeLista(id, tamano) {
   return quitados;
 }
 
-// "Deshacer": vuelve a poner lo quitado en el mismo lugar
+// "Deshacer": vuelve a poner lo quitado en el mismo lugar.
+// Si mientras tanto ese perfume con ese tamaño volvió a la lista (por ejemplo, desde otra pestaña),
+// se suman las cantidades en vez de quedar dos filas iguales
 function devolverALista(quitados) {
   quitados.forEach(function (q) {
-    miLista.splice(Math.min(q.posicion, miLista.length), 0, q.item);
+    const ya = miLista.find(function (item) { return item.id === q.item.id && item.tamano === q.item.tamano; });
+    if (ya) {
+      ya.cantidad = Math.min(10, ya.cantidad + q.item.cantidad);
+    } else {
+      miLista.splice(Math.min(q.posicion, miLista.length), 0, q.item);
+    }
   });
   guardarLista();
 }
@@ -293,7 +309,7 @@ function mensajeLista() {
     (total != null ? '\nTotal: ' + precioTexto(total) : '');
 }
 
-// La bolsa del encabezado: el número y lo que dice el lector de pantalla (en el inicio no hay bolsa)
+// La bolsa del encabezado: el número y lo que dice el lector de pantalla (si la página no tiene bolsa, no hace nada)
 function pintarBolsa() {
   const bolsa = document.querySelector('.boton-lista');
   if (!bolsa) return;
@@ -302,23 +318,30 @@ function pintarBolsa() {
   bolsa.setAttribute('aria-label', 'Mi lista: ' + (unidades === 1 ? '1 perfume' : unidades + ' perfumes'));
 }
 
-// El botón "Agregar a mi lista" de una tarjeta dice si el perfume ya está en la lista
+// Qué tamaño agrega una tarjeta: el frasco, salvo que la página diga otra cosa.
+// El catálogo puede decirlo con una función tamanoAlAgregar(id) (por ejemplo, el decant si se filtra por decants)
+function tamanoDeTarjeta(id) {
+  return typeof tamanoAlAgregar === 'function' ? tamanoAlAgregar(id) : 'frasco';
+}
+
+// El botón "Agregar a mi lista" de una tarjeta dice si SU tamaño ya está en la lista.
+// Así no toca lo que se agregó con otro tamaño desde la página del perfume
 function marcarBotonAgregar(boton) {
-  const dentro = estaEnLista(boton.dataset.id);
+  const dentro = estaEnLista(boton.dataset.id, tamanoDeTarjeta(boton.dataset.id));
   boton.setAttribute('aria-pressed', dentro ? 'true' : 'false');
   boton.textContent = dentro ? 'En mi lista ✓' : 'Agregar a mi lista';
 }
 
 // Un solo oyente para todos los "Agregar a mi lista" de las tarjetas (las tarjetas se crean y se borran).
-// El catálogo puede decir qué tamaño agregar con una función tamanoAlAgregar(id); si no, se agrega el frasco
+// Agrega o quita solo el tamaño de la tarjeta
 document.addEventListener('click', function (evento) {
   const boton = evento.target.closest('.perfume__agregar');
   if (!boton) return;
   const id = boton.dataset.id;
-  if (estaEnLista(id)) {
-    quitarConAviso(id);
+  const tamano = tamanoDeTarjeta(id);
+  if (estaEnLista(id, tamano)) {
+    quitarConAviso(id, tamano);
   } else {
-    const tamano = typeof tamanoAlAgregar === 'function' ? tamanoAlAgregar(id) : 'frasco';
     agregarALista(id, tamano, 1);
     avisar('Agregado a tu lista', accionVerLista());
   }
@@ -334,47 +357,55 @@ window.addEventListener('storage', function (evento) {
 
 /* =========================================================
    Tarjeta de un perfume (catálogo y "También te puede gustar")
-   Copia la plantilla <template id="plantilla-perfume"> del HTML y la llena
+   Se arma aquí, en un solo lugar (antes era una plantilla copiada en dos HTML).
+   nivelTitulo: 'h2' en el catálogo; 'h3' donde la sección ya tiene su h2
+   Devuelve el <li> listo para poner en una lista .catalogo__lista
    ========================================================= */
-function tarjetaPerfume(p) {
-  const copia = document.getElementById('plantilla-perfume').content.cloneNode(true);
-  const enlace = copia.querySelector('.perfume__enlace');
+function tarjetaPerfume(p, nivelTitulo) {
+  const item = crear('li');
+  const tarjeta = crear('article', 'perfume');
 
-  if (HAY_PAGINA_PERFUME) {
-    enlace.href = 'perfume.html?id=' + encodeURIComponent(p.id);
-  } else {
-    enlace.removeAttribute('href'); // sin href deja de ser un enlace: no lleva a ninguna parte
-  }
+  // Foto, marca, nombre y aroma: un solo enlace a la página del perfume
+  const enlace = crear('a', 'perfume__enlace');
+  enlace.href = 'perfume.html?id=' + encodeURIComponent(p.id);
 
-  const foto = copia.querySelector('.perfume__foto img');
+  const marco = crear('div', 'perfume__foto');
+  if (p.masPedido) marco.append(crear('span', 'perfume__sello', 'Más pedido'));
+  const foto = crear('img');
   foto.alt = p.nombre + ' de ' + p.marca;
+  foto.width = 240;
+  foto.height = 288;
+  foto.loading = 'lazy';
   foto.addEventListener('error', function () { foto.remove(); }); // mejor fondo vacío que un ícono roto
   foto.src = p.imagen;
-  if (!p.masPedido) copia.querySelector('.perfume__sello').remove();
+  marco.append(foto);
+  enlace.append(marco);
 
-  copia.querySelector('.perfume__datos').textContent = [p.marca, p.tipo].filter(Boolean).join(' · ');
-  copia.querySelector('.perfume__nombre').textContent = p.nombre;
+  enlace.append(crear('p', 'perfume__datos', [p.marca, p.tipo].filter(Boolean).join(' · ')));
+  enlace.append(crear(nivelTitulo || 'h2', 'perfume__nombre', p.nombre));
   const aroma = [p.aroma, p.intensidad].filter(Boolean).join(' · ');
-  if (aroma) {
-    copia.querySelector('.perfume__aroma').textContent = aroma;
-  } else {
-    copia.querySelector('.perfume__aroma').remove();
-  }
+  if (aroma) enlace.append(crear('p', 'perfume__aroma', aroma));
+  tarjeta.append(enlace);
 
-  copia.querySelector('.perfume__precio').textContent = precioTexto(p.precio);
-  if (p.decant) {
-    copia.querySelector('.perfume__decant').textContent = 'Decant ' + p.decant.ml + ' ml: ' + precioTexto(p.decant.precio);
-  } else {
-    copia.querySelector('.perfume__decant').remove();
-  }
-  if (!p.pocasPiezas) copia.querySelector('.perfume__aviso').remove();
+  // Precios y aviso
+  tarjeta.append(crear('p', 'perfume__precio', precioTexto(p.precio)));
+  const decant = datosTamano(p, tamanoDecant(p));
+  if (decant) tarjeta.append(crear('p', 'perfume__decant', decant.texto + ': ' + precioTexto(decant.precio)));
+  if (p.pocasPiezas) tarjeta.append(crear('p', 'perfume__aviso', 'Pocas piezas'));
 
-  const agregar = copia.querySelector('.perfume__agregar');
+  // Botones
+  const botones = crear('div', 'perfume__botones');
+  const agregar = crear('button', 'boton-borde perfume__agregar');
+  agregar.type = 'button';
   agregar.dataset.id = p.id;
   marcarBotonAgregar(agregar);
+  const pedir = crear('a', 'boton-oscuro', 'Pedir por WhatsApp');
+  pedir.href = enlacePedido(p);
+  botones.append(agregar, pedir);
+  tarjeta.append(botones);
 
-  copia.querySelector('.perfume__botones .boton-oscuro').href = enlacePedido(p);
-  return copia;
+  item.append(tarjeta);
+  return item;
 }
 
 /* ---------- Al cargar cualquier página: el número de la bolsa ---------- */

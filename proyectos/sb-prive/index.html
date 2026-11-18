@@ -94,10 +94,12 @@
         <!-- Franja de arriba: los mensajes se alternan solos (js/comun.js). Sin JavaScript se ve el primero.
              El botón pausa la franja y el frasco que respira (para quien prefiere que nada se mueva) -->
         <p class="franja">
-            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO] · Sale hoy si pides antes de las [HORA]</span>
+            <!-- Mensajes cortos (máximo unas 34 letras): así cada uno cabe en una línea en el celular -->
+            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
+            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
             <span class="franja__mensaje">Solo perfumes originales</span>
-            <span class="franja__mensaje">Decants para probarlos antes del frasco</span>
-            <span class="franja__mensaje">Te respondemos en minutos por WhatsApp</span>
+            <span class="franja__mensaje">Decants para probar antes del frasco</span>
+            <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
             <button class="franja__pausa" type="button" aria-pressed="false" aria-label="Pausar movimiento">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
                     <rect x="3" y="2" width="3" height="10"></rect>
@@ -164,7 +166,9 @@
                     </div>
                 </fieldset>
 
-                <!-- Vitrina: el armario se queda quieto, los frascos cambian -->
+                <!-- Vitrina: el armario se queda quieto, los frascos cambian.
+                     Se ven el arco y las dos primeras repisas (6 frascos), en celular y en computador:
+                     son los 6 primeros perfumes de js/perfumes.js -->
                 <div class="vitrina">
                     <div class="armario">
                         <img class="vitrina__fondo" src="img/repisa-cel.webp" alt="" width="687" height="1024" fetchpriority="high">
@@ -202,34 +206,6 @@
                                 </button>
                             </div>
                         </div>
-
-                        <div class="repisa">
-                            <div class="repisa__frascos">
-                                <button class="frasco" type="button" aria-label="[PERFUME 7]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                                <button class="frasco" type="button" aria-label="[PERFUME 8]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                                <button class="frasco" type="button" aria-label="[PERFUME 9]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="repisa">
-                            <div class="repisa__frascos">
-                                <button class="frasco" type="button" aria-label="[PERFUME 10]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                                <button class="frasco" type="button" aria-label="[PERFUME 11]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                                <button class="frasco" type="button" aria-label="[PERFUME 12]" aria-pressed="false">
-                                    <img src="img/perfumes/afnan-supremacy-collectors-edition.webp" alt="" width="120" height="144">
-                                </button>
-                            </div>
-                        </div>   
                      </div>
 
                     <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->

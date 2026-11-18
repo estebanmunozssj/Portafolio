@@ -239,9 +239,14 @@ button {
   background: var(--verde-oscuro);
 }
 
+/* Se ve solo la parte de arriba de la foto: el arco y las dos primeras repisas (6 frascos).
+   La foto mide 687 × 1024; el recuadro muestra 687 × 614 (el 60 % de arriba) y el resto se recorta.
+   Igual en celular y en computador, como la vitrina de referencia */
 .armario {
   position: relative;
   container-type: inline-size;
+  aspect-ratio: 687 / 614;
+  overflow: hidden;
 }
 
 .vitrina__fondo {
@@ -258,21 +263,14 @@ button {
   transform: translateY(-100%);
 }
 
-/* Altura de cada repisa en la foto, de arriba abajo (% del alto de la foto) */
+/* Altura de cada repisa (% del alto del recuadro recortado).
+   En la foto completa están al 34,4 % y al 53 %; como el recuadro es el 60 % de la foto: 34,4 ÷ 0,6 y 53 ÷ 0,6 */
 .repisa:nth-of-type(1) {
-  --y: 34.4%; /* la del arco */
+  --y: 57.3%; /* la del arco */
 }
 
 .repisa:nth-of-type(2) {
-  --y: 53%;
-}
-
-.repisa:nth-of-type(3) {
-  --y: 70%;
-}
-
-.repisa:nth-of-type(4) {
-  --y: 90%; /* el piso */
+  --y: 88.3%;
 }
 
 .repisa__frascos {
@@ -1125,7 +1123,7 @@ html {
   .armario {
     grid-column: 2;
     grid-row: 1 / -1;
-    width: min(100%, calc((100svh - 140px) * 687 / 1024));
+    width: min(100%, calc((100svh - 140px) * 687 / 614)); /* 614: el alto del recuadro recortado */
     margin: 0 auto;
   }
   .vitrina__fondo {
@@ -1698,25 +1696,7 @@ html {
    Así la vitrina y la tarjeta caben juntas en la pantalla. */
 @media (max-width: 1023px) {
 
-  /* Se muestra el 60 % de arriba de la foto (687 de ancho × 614 de alto) y el resto se recorta */
-  .armario {
-    aspect-ratio: 687 / 614;
-    overflow: hidden;
-  }
-
-  /* Como el recuadro ahora es más bajo, las repisas se recalculan: 34,4 % ÷ 0,6 y 53 % ÷ 0,6 */
-  .repisa:nth-of-type(1) {
-    --y: 57.3%;
-  }
-  .repisa:nth-of-type(2) {
-    --y: 88.3%;
-  }
-
-  /* Las dos repisas de abajo no se ven en celular */
-  .repisa:nth-of-type(3),
-  .repisa:nth-of-type(4) {
-    display: none;
-  }
+  /* (El recorte de la vitrina a dos repisas ahora vale para todas las pantallas: ver .armario arriba) */
 
   /* Tarjeta más compacta: todo se lee de un vistazo */
   .tarjeta {
@@ -1964,25 +1944,6 @@ select {
   height: 170px;
   object-fit: contain;
   filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
-}
-
-/* Vitrina corta: con 6 perfumes o menos, en computador también se ve solo el arco y la primera repisa */
-@media (min-width: 1024px) {
-  .armario--corto {
-    aspect-ratio: 687 / 614;
-    overflow: hidden;
-    width: min(100%, calc((100svh - 140px) * 687 / 614));
-  }
-  .armario--corto .repisa:nth-of-type(1) {
-    --y: 57.3%;
-  }
-  .armario--corto .repisa:nth-of-type(2) {
-    --y: 88.3%;
-  }
-  .armario--corto .repisa:nth-of-type(3),
-  .armario--corto .repisa:nth-of-type(4) {
-    display: none;
-  }
 }
 
 /* ===== TARJETAS IGUALES Y SIN CORRIMIENTO LATERAL ===== */
@@ -3268,4 +3229,99 @@ select {
   background: var(--dorado);
   transform: scaleX(var(--trazo, 1));
   transform-origin: left;
+}
+
+/* 6. "Lo que te prometemos" y "Así pides": la misma línea de "Elige por tipo" sobre cada elemento.
+      Sobre crema va en dorado oscuro (el de los nombres de las promesas): el dorado claro casi no se ve ahí */
+.promesa,
+.paso {
+  position: relative;
+  padding-top: 14px;
+}
+.promesa::before,
+.paso::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #7A5D26;
+  transform: scaleX(var(--trazo, 1));
+  transform-origin: left;
+}
+
+/* 7. Franja de arriba más limpia: siempre de una línea y 36 px de alto (antes el mensaje largo
+      ocupaba 2 líneas y dejaba la franja alta y con espacio vacío para los mensajes cortos) */
+.franja {
+  height: 36px;
+  min-height: 0;
+  padding: 0 40px; /* lo mismo a los dos lados: el texto queda centrado de verdad */
+  overflow: hidden;
+}
+.franja__mensaje {
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+/* Botón de pausa discreto: gris y más pequeño; se ilumina al pasar el mouse o con el teclado.
+   El área que se toca sigue siendo de 36 px */
+.franja__pausa {
+  right: 2px;
+  color: var(--gris);
+  opacity: 0.75;
+}
+.franja__pausa svg {
+  width: 11px;
+  height: 11px;
+}
+.franja__pausa:focus-visible {
+  opacity: 1;
+  color: var(--dorado-claro);
+  outline: 1px solid var(--dorado-claro);
+  outline-offset: -6px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .franja__pausa:hover {
+    opacity: 1;
+    color: var(--dorado-claro);
+  }
+}
+
+/* =========================================================
+   VITRINA PROTAGONISTA EN COMPUTADOR (como la referencia)
+   Ahora que la vitrina muestra solo dos repisas, se puede agrandar:
+   la columna del texto pasa a 5 de 12 y la de la vitrina a 7 de 12
+   ========================================================= */
+@media (min-width: 1024px) {
+  .inicio {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: 56px;
+    /* En pantallas grandes (1920) el inicio puede ser más ancho y el margen no crece de más:
+       así el título sigue en dos líneas y la vitrina aprovecha el espacio */
+    max-width: 1600px;
+    padding-left: min(5vw, 72px);
+    padding-right: min(5vw, 72px);
+  }
+
+  /* El título, un poco más pequeño para que siga en dos líneas en la columna más angosta */
+  .inicio > h1 {
+    max-width: none;
+    font-size: clamp(2.5rem, 3.3vw, 3.4rem);
+  }
+
+  /* La vitrina llena su columna, sin pasarse del alto de la pantalla
+     (100svh - 160px: lo que queda debajo de la franja y el encabezado) */
+  .armario {
+    width: min(100%, calc((100svh - 160px) * 687 / 614));
+    margin: 0 0 0 auto;
+  }
+}
+
+/* Computadores pequeños (1024–1279 px): con 5/7 la columna del texto queda muy angosta
+   (los aromas pasan a dos filas y la tarjeta se aprieta), así que ahí las dos columnas van iguales */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .inicio {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 40px;
+  }
 }

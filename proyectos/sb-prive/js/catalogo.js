@@ -79,7 +79,7 @@ if (ordenInicial && formulario.querySelector('option[value="' + CSS.escape(orden
 /* ---------- Buscar sin importar tildes ni mayúsculas ---------- */
 // "lattafa" encuentra "Lattafa"; "arabe" encuentra "Árabe"
 function sinTildes(texto) {
-  return String(texto || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  return String(texto || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 }
 
 /* ---------- Qué perfumes pasan los filtros ---------- */
@@ -95,7 +95,7 @@ function elegidos() {
     if (busqueda && sinTildes(p.nombre + ' ' + p.marca).indexOf(busqueda) === -1) return false;
     if (tipo && p.tipo !== tipo) return false;
     if (genero && sinTildes(p.genero) !== genero) return false;
-    if (tamano === 'decant' && !p.decant) return false;
+    if (tamano === 'decant' && !tamanoDecant(p)) return false; // decant de 10 ml o de 5 ml
     if (rango && (p.precio == null || p.precio < rango.desde || p.precio >= rango.hasta)) return false;
     return true;
   });
@@ -116,7 +116,7 @@ function elegidos() {
   return resultado;
 }
 
-// La tarjeta de cada perfume (tarjetaPerfume) está en js/comun.js: la usa también la página de cada perfume
+// La tarjeta de cada perfume (tarjetaPerfume) se arma en js/comun.js: la usa también la página de cada perfume
 
 /* ---------- Pintar la lista ---------- */
 function mostrarCatalogo() {
@@ -124,7 +124,7 @@ function mostrarCatalogo() {
 
   lista.replaceChildren();
   resultado.forEach(function (p) {
-    lista.append(tarjetaPerfume(p));
+    lista.append(tarjetaPerfume(p, 'h2'));
   });
 
   cuenta.textContent = resultado.length === 1 ? '1 perfume' : resultado.length + ' perfumes';
@@ -177,10 +177,11 @@ const enviarLista = panelLista.querySelector('.mi-lista__enviar');
 const barraWhatsApp = document.querySelector('.barra-whatsapp');
 const barraOriginal = { href: barraWhatsApp.href, texto: barraWhatsApp.textContent };
 
-// Al agregar desde una tarjeta: si está filtrando por decant y el perfume tiene decant, se agrega el decant.
-// comun.js busca esta función cuando tocan "Agregar a mi lista"
+// Qué tamaño agrega cada tarjeta: si está filtrando por decant y el perfume viene en decant, el decant
+// (el de 10 ml o, si no hay, el de 5 ml); si no, el frasco. comun.js usa esta función en las tarjetas
 function tamanoAlAgregar(id) {
-  return new FormData(formulario).get('tamano') === 'decant' && buscarPerfume(id).decant ? 'decant' : 'frasco';
+  const decant = tamanoDecant(buscarPerfume(id));
+  return new FormData(formulario).get('tamano') === 'decant' && decant ? decant : 'frasco';
 }
 
 function pintarLista() {
@@ -256,6 +257,12 @@ function irAlLugar() {
   if (lugar) lugar.scrollIntoView({ behavior: 'instant' }); // al llegar, salto directo (el deslizamiento se cortaba mientras carga)
 }
 window.addEventListener('hashchange', irAlLugar);
+
+// La lupa del encabezado aquí mismo: si la dirección ya termina en #buscar, tocarla no cambia nada
+// y no hay "hashchange"; por eso también se escucha el toque, y el buscador queda listo para escribir
+document.querySelectorAll('a[href="#buscar"]').forEach(function (lupa) {
+  lupa.addEventListener('click', function () { campoBuscar.focus(); });
+});
 
 /* ---------- Al cargar ---------- */
 mostrarCatalogo();

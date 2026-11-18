@@ -29,7 +29,9 @@
    - decant5: { ml: 5, precio: 25000 } si también lo vende en 5 ml.
    - genero: 'hombre', 'mujer' o 'unisex' (para el filtro "Para" del catálogo).
 
-   La vitrina muestra hasta 12 perfumes, en el orden de esta lista.
+   La vitrina del inicio muestra los 6 PRIMEROS perfumes de esta lista (dos repisas de 3).
+   Conviene que entre esos 6 haya al menos uno de cada aroma (Dulce, Fresco, Amaderado, Intenso):
+   si falta alguno, su botón no aparece en la vitrina. El catálogo muestra todos.
    OJO: los de abajo son de prueba. Se reemplazan con los datos reales del cliente.
    ========================================================= */
 
