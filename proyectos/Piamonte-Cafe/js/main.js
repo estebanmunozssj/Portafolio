@@ -32,7 +32,7 @@ const MENU = [
     bebidas: true, // La tarjeta con la taza se queda pegada arriba mientras bajas
     productos: [
       { tipo: 'Café negro', nombre: 'Espresso', precio: 4000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
-      { tipo: 'Café negro', nombre: 'Americano', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
+      { tipo: 'Café negro', nombre: 'Americano', foto: 'img/americano.jpg', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
       { tipo: 'Café negro', nombre: 'Americano grande', precio: 7000, detalle: 'Taza grande', recipiente: 'taza', capas: AMERICANO },
       { tipo: 'Café negro', nombre: 'Café campesino', precio: 8000, detalle: 'Receta de la casa', recipiente: 'taza', capas: [['casa', 0.85]] },
       { tipo: 'Café negro', nombre: 'Drips café Piamonte', precio: 5000, detalle: 'Café filtrado de la casa', recipiente: 'taza', capas: [['filtrado', 0.8]] },
@@ -63,14 +63,14 @@ const MENU = [
     bebidas: true,
     productos: [
       { tipo: 'Con café', nombre: 'Granizado de café', precio: 13000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizado', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
-      { tipo: 'Con café', nombre: 'Granizado de mocca', precio: 14000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizadomocca', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
+      { tipo: 'Con café', nombre: 'Granizado de mocca', foto: 'img/granizado-mocca.jpg', precio: 14000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizadomocca', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
       { tipo: 'Con café', nombre: 'Malteada de café', precio: 15000, detalle: 'En copa', recipiente: 'copa', capas: [['malteada', 0.65], ['chantilly', 0.25]], cubierta: 'chocolate' },
-      { tipo: 'Con café', nombre: 'Latte frío', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['leche', 0.55], ['espresso', 0.25]] },
+      { tipo: 'Con café', nombre: 'Latte frío', foto: 'img/latte-frio.jpg', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['leche', 0.55], ['espresso', 0.25]] },
       { tipo: 'Con café', nombre: 'Ice americano', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['aguafria', 0.5], ['espresso', 0.3]] },
       { tipo: 'Con café', nombre: 'Espresso tonic', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['tonica', 0.5], ['espresso', 0.3]] },
       { tipo: 'Con café', nombre: 'Limonada de café', precio: 11000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['coldbrew', 0.35], ['sprite', 0.45]], adorno: 'romero' },
       { tipo: 'Con café', nombre: 'Tres notas café', precio: 12000, detalle: 'Soda de maracuyá con espresso', recipiente: 'vaso', capas: [['maracuya', 0.55], ['espresso', 0.25]] },
-      { tipo: 'Con café', nombre: 'Passion coffee', precio: 13000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { tipo: 'Con café', nombre: 'Passion coffee', foto: 'img/passion-coffee.jpg', precio: 13000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
       { tipo: 'Con café', nombre: 'Affogato', precio: 13000, detalle: 'Helado con espresso', recipiente: 'taza', capas: [['helado', 0.5], ['espresso', 0.25]] },
 
       { tipo: 'Cremosos', nombre: 'Malteada de Baileys', precio: 17000, detalle: 'En copa', recipiente: 'copa', capas: [['baileys', 0.65], ['chantilly', 0.25]], cubierta: 'chocolate' },
@@ -102,17 +102,17 @@ const MENU = [
   {
     categoria: 'Comida',
     productos: [
-      { nombre: 'Waffle de pandebono + topping', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'waffle', encima: 'dulce' },
+      { nombre: 'Waffle de pandebono + topping', foto: 'img/waffle-pandebono.jpg', encuadre: 'center 15%', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'waffle', encima: 'dulce' },
       { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'waffle', encima: 'jamonqueso' },
       { nombre: 'Waffle de pollo', foto: 'img/waffles.jpg', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'waffle', encima: 'pollo' },
-      { nombre: 'Waffle hawaiano', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'waffle', encima: 'hawaiano' },
+      { nombre: 'Waffle hawaiano', foto: 'img/waffle-hawaiano.jpg', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'waffle', encima: 'hawaiano' },
       { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'waffle', encima: 'helado' },
       { nombre: 'Sándwich italiano', foto: 'img/sandwich.jpg', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'sandwich', relleno: ['rugula', 'tomate', 'serrano', 'pepperoni', 'mozzarella'] },
       { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'sandwich', relleno: ['lechuga', 'tomate', 'carne', 'mozzarella'] },
-      { nombre: 'Sándwich de atún', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'sandwich', pan: 'tajado', relleno: ['lechuga', 'tomate', 'atun', 'mozzarella'] },
-      { nombre: 'Luna serrana', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'croissant' },
-      { nombre: 'Tapa artesanal', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'tapa', encima: 'artesanal' },
-      { nombre: 'Tapa ibérica', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'tapa', encima: 'iberica' },
+      { nombre: 'Sándwich de atún', foto: 'img/sandwich-atun.jpg', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'sandwich', pan: 'tajado', relleno: ['lechuga', 'tomate', 'atun', 'mozzarella'] },
+      { nombre: 'Luna serrana', foto: 'img/luna-serrana.jpg', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'croissant' },
+      { nombre: 'Tapa artesanal', foto: 'img/tapa-artesanal.jpg', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'tapa', encima: 'artesanal' },
+      { nombre: 'Tapa ibérica', foto: 'img/tapa-iberica.jpg', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'tapa', encima: 'iberica' },
     ],
   },
   {
@@ -121,7 +121,7 @@ const MENU = [
       { nombre: 'Torta vasca', precio: 14000, detalle: 'Porción', recipiente: 'dulce', color: '#d9a85b' },
       { nombre: 'Torta de chocolate', foto: 'img/torta.jpg', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
       { nombre: 'Torta de almojábana', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
-      { nombre: 'Torta de zanahoria', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
+      { nombre: 'Torta de zanahoria', foto: 'img/torta-zanahoria.jpg', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
       { nombre: 'Torta de banano', precio: 6000, detalle: 'Porción', recipiente: 'dulce', color: '#c9934f' },
       { nombre: 'Postre del día', precio: 9000, detalle: 'Pregunta cuál hay hoy', recipiente: 'dulce', color: '#a8774f' },
     ],
@@ -130,10 +130,10 @@ const MENU = [
     categoria: 'Café de la finca',
     productos: [
       { nombre: 'Método V-60', precio: 14000, detalle: 'Café filtrado · 2 tazas', recipiente: 'taza', capas: [['filtrado', 0.8]] },
-      { nombre: 'Café molido 250 g', precio: 25000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
-      { nombre: 'Café en grano 250 g', precio: 25000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
-      { nombre: 'Café molido 500 g', precio: 50000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
-      { nombre: 'Café en grano 500 g', precio: 50000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café molido 250 g', foto: 'img/cafe-bolsa.jpg', precio: 25000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 250 g', foto: 'img/cafe-bolsa.jpg', precio: 25000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café molido 500 g', foto: 'img/cafe-bolsa.jpg', precio: 50000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 500 g', foto: 'img/cafe-bolsa.jpg', precio: 50000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
     ],
   },
 ];
@@ -506,6 +506,8 @@ function dibujar(producto) {
     if (producto.foto) {
       foto.src = producto.foto;
       foto.alt = `Foto de ${producto.nombre} en Piamonte Café`;
+      // Parte de la foto que se ve al recortarla (por defecto, el centro)
+      foto.style.objectPosition = producto.encuadre || '';
     }
 
     if (textoDestacado && textoDestacado.animate) {
