@@ -69,7 +69,7 @@ const MENU = [
       { tipo: 'Con café', nombre: 'Ice americano', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['aguafria', 0.5], ['espresso', 0.3]] },
       { tipo: 'Con café', nombre: 'Espresso tonic', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['tonica', 0.5], ['espresso', 0.3]] },
       { tipo: 'Con café', nombre: 'Limonada de café', precio: 11000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['coldbrew', 0.35], ['sprite', 0.45]], adorno: 'romero' },
-      { tipo: 'Con café', nombre: 'Tres notas café', precio: 12000, detalle: 'Soda de maracuyá con espresso', recipiente: 'vaso', capas: [['maracuya', 0.55], ['espresso', 0.25]] },
+      { tipo: 'Con café', nombre: 'Tres notas café', foto: 'img/tres-notas.jpg', encuadre: 'center 10%', precio: 12000, detalle: 'Soda de maracuyá con espresso', recipiente: 'vaso', capas: [['maracuya', 0.55], ['espresso', 0.25]] },
       { tipo: 'Con café', nombre: 'Passion coffee', foto: 'img/passion-coffee.jpg', precio: 13000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
       { tipo: 'Con café', nombre: 'Affogato', precio: 13000, detalle: 'Helado con espresso', recipiente: 'taza', capas: [['helado', 0.5], ['espresso', 0.25]] },
 
@@ -120,9 +120,13 @@ const MENU = [
     productos: [
       { nombre: 'Torta vasca', precio: 14000, detalle: 'Porción', recipiente: 'dulce', color: '#d9a85b' },
       { nombre: 'Torta de chocolate', foto: 'img/torta.jpg', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
-      { nombre: 'Torta de almojábana', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
+      { nombre: 'Torta de almojábana', foto: 'img/torta-almojabana.jpg', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
       { nombre: 'Torta de zanahoria', foto: 'img/torta-zanahoria.jpg', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
       { nombre: 'Torta de banano', precio: 6000, detalle: 'Porción', recipiente: 'dulce', color: '#c9934f' },
+      // Precio pendiente: cuando el dueño lo diga, cambiar null por el número
+      { nombre: 'Cheesecake de limón', foto: 'img/cheesecake-limon.jpg', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#f0c93a' },
+      { nombre: 'Torta de pan', foto: 'img/torta-pan.jpg', precio: null, detalle: 'Porción, con queso y bocadillo', recipiente: 'dulce', color: '#c9934f' },
+      { nombre: 'Red velvet', foto: 'img/red-velvet.jpg', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#8e1b22' },
       { nombre: 'Postre del día', precio: 9000, detalle: 'Pregunta cuál hay hoy', recipiente: 'dulce', color: '#a8774f' },
     ],
   },
@@ -654,4 +658,23 @@ function dibujar(producto) {
 (() => {
   const anio = document.getElementById('anio');
   if (anio) anio.textContent = new Date().getFullYear();
+})();
+
+/* ===== VIDEO DE LA COSECHA ===== */
+// Se reproduce solo cuando está en pantalla (ahorra datos y batería) y se pausa al salir.
+// Con "reducir movimiento" activado no se reproduce: queda la imagen de portada.
+
+(() => {
+  const video = document.querySelector('.video-finca-clip');
+  if (!video || !('IntersectionObserver' in window)) return;
+
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  new IntersectionObserver(([entrada]) => {
+    if (entrada.isIntersecting && !quieto.matches) {
+      video.play().catch(() => {}); // Si el navegador no deja reproducir, se queda la portada
+    } else {
+      video.pause();
+    }
+  }, { threshold: 0.3 }).observe(video); // 0.3 = cuando se ve al menos el 30 % del video
 })();

@@ -129,7 +129,9 @@
         <!-- ===== HISTORIA (corta) ===== -->
         <section class="seccion historia" id="historia">
             <h2>Una familia caficultora.</h2>
-            <p>Nuestro café viene de nuestra finca <strong>Piamonte, en Dopo (Yotoco)</strong>. Lo sembramos, lo cosechamos, lo tostamos y te lo servimos con nuestras propias manos.</p>
+            <!-- Texto basado en las historias de Instagram de Piamonte (contadas por el dueño) -->
+            <p>En lo profundo de Yotoco nace una pasión que se cultiva grano a grano. Nuestro café viene de nuestra finca <strong>Piamonte, en las montañas de Dopo</strong>: 8 hectáreas que trabajamos con agricultura limpia, en una tierra única por su suelo, su clima y su agua.</p>
+            <p>Lo sembramos nosotros mismos y cada grano se cosecha a mano, respetando los tiempos de la naturaleza. Luego lo tostamos y te lo servimos aquí, desde la semilla hasta tu mesa.</p>
 
             <ol class="pasos">
                 <li><span>1</span>Siembra</li>
@@ -138,9 +140,15 @@
                 <li><span>4</span>Tu taza</li>
             </ol>
 
-            <!-- width/height evitan que la página "salte" mientras carga la foto -->
-            <img class="foto-historia" src="img/finca.jpg" width="1100" height="641" loading="lazy" decoding="async"
-                 alt="Camino de piedra que sube a la casa de la finca Piamonte, entre potreros verdes, en Dopo (Yotoco)">
+            <!-- Clip de 7 s sin sonido, recortado del reel con Camino del Pacífico (sin sus logos).
+                 preload="none": no se descarga hasta que aparece en pantalla (lo maneja main.js) -->
+            <div class="video-finca">
+                <video class="video-finca-clip" src="video/finca-cosecha.mp4" poster="img/finca-cosecha.jpg"
+                       width="540" height="960" muted loop playsinline preload="none"
+                       aria-label="Manos cosechando granos rojos de café en la finca Piamonte, en las montañas de Dopo"></video>
+            </div>
+
+            <p class="historia-cierre">Queremos que cuando vengas no solo tomes café: que sientas la historia de nuestra tierra, el esfuerzo de nuestras familias y el orgullo de Yotoco.</p>
         </section>
 
         <!-- ===== FRASE (de la pizarra de Piamonte) ===== -->
@@ -272,6 +280,9 @@
         <section class="visitanos" id="visitanos">
             <div class="visitanos-contenido">
                 <h2>Te esperamos en Yotoco.</h2>
+
+                <!-- La fachada ayuda a reconocer el local al llegar -->
+                <img class="foto-fachada" src="img/fachada.jpg" alt="Fachada de Piamonte Café con su letrero iluminado y mesas de madera en la entrada" width="1000" height="1042" loading="lazy">
 
                 <dl class="datos">
                     <div>

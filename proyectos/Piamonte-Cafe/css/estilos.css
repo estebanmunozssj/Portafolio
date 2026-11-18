@@ -119,13 +119,17 @@ h2 {
     .datos a:hover { color: var(--dorado-suave); }
 }
 
-.foto-historia {
+/* Video de la cosecha: recortado a 4:5 para que no quede tan alto.
+   max-width: en celular ocupa todo el ancho; en computador se queda centrado y no crece de más */
+.video-finca { max-width: 24rem; margin: 2rem auto 0; }
+.video-finca-clip {
     display: block;
     width: 100%;
     height: auto;
-    margin-top: 2rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
     border-radius: 1.25rem;
-    background: var(--crema-oscura); /* Color de fondo mientras carga */
+    background: var(--crema-oscura);
 }
 
 /* ===== ENCABEZADO FIJO ===== */
@@ -339,6 +343,14 @@ h2 {
     border: 2px solid var(--caramelo);
     color: var(--caramelo-oscuro);
     font-family: var(--letra-titulo);
+}
+.historia-cierre {
+    margin-top: 1.75rem;
+    font-family: var(--letra-titulo); /* Fraunces no trae cursiva cargada: se destaca con tamaño, no con italic */
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--cafe-suave);
 }
 
 /* ===== FRASE (franja café) ===== */
@@ -599,8 +611,7 @@ h2 {
         padding: 0;
         gap: 1.25rem;
     }
-    .galeria-fila li { width: calc(25% - 0.95rem); max-width: none; }
-}
+    .galeria-fila li { width: calc(25% - 0.95rem); max-width: none; }}
 
 /* ===== EXPERIENCIAS ===== */
 .lista-experiencias {
@@ -628,6 +639,15 @@ h2 {
     width: min(100% - var(--margen) * 2, var(--ancho));
     margin-inline: auto;
     padding: 4rem 0 3rem;
+}
+
+.foto-fachada {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    border-radius: 1.25rem;
+    background: var(--cafe-suave); /* Color de fondo mientras carga */
 }
 
 .datos { margin: 2rem 0 0; }

@@ -62,17 +62,20 @@
         stagger: 0.25,
       }, '-=0.2'); // Empieza 0,2 s antes de que termine lo anterior
 
-    /* ----- 3. La foto de la finca se revela de abajo hacia arriba ----- */
+    /* ----- 3. El video de la finca y la foto de la fachada se revelan de abajo hacia arriba ----- */
     // inset(100% ...) = foto oculta; inset(0% ...) = foto completa
-    gsap.fromTo('.foto-historia',
-      { clipPath: 'inset(100% 0% 0% 0% round 1.25rem)' },
-      {
-        clipPath: 'inset(0% 0% 0% 0% round 1.25rem)',
-        duration: 1.1,
-        ease: 'power3.inOut',
-        scrollTrigger: { trigger: '.foto-historia', start: 'top 85%', once: true },
-      }
-    );
+    // forEach: cada foto tiene su propio trigger y se revela cuando ELLA llega a la pantalla
+    gsap.utils.toArray('.video-finca-clip, .foto-fachada').forEach((foto) => {
+      gsap.fromTo(foto,
+        { clipPath: 'inset(100% 0% 0% 0% round 1.25rem)' },
+        {
+          clipPath: 'inset(0% 0% 0% 0% round 1.25rem)',
+          duration: 1.1,
+          ease: 'power3.inOut',
+          scrollTrigger: { trigger: foto, start: 'top 85%', once: true },
+        }
+      );
+    });
 
     /* ----- 4. Parallax en la portada: el logo y la frase bajan más lento que la página ----- */
     // Se mueve el bloque completo para que el logo no se monte sobre la frase.
