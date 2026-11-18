@@ -4,6 +4,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Entrada elegante: este script corre ANTES de que se dibuje la página, para decidir si se muestra.
+             Solo la primera vez por visita, y nunca a quien pidió menos movimiento o pausó el movimiento.
+             Si falla, no pasa nada: la página se ve sin entrada -->
+        <script>
+            try {
+                if (!sessionStorage.getItem('sbprive-entrada') &&
+                    !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+                    localStorage.getItem('sbprive-sin-movimiento') !== 'si') {
+                    document.documentElement.classList.add('con-entrada');
+                    sessionStorage.setItem('sbprive-entrada', 'vista');
+                }
+            } catch (error) {}
+        </script>
         <!-- Título y descripción: lo que muestra Google en los resultados -->
         <title>Perfumes originales en [CIUDAD] | S. B. Privé</title>
         <meta name="description" content="Perfumes originales árabes, de diseñador y de nicho, y decants para probarlos antes de comprar el frasco. Envíos a toda Colombia. Pide por WhatsApp.">
@@ -38,6 +51,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
         <script src="js/animaciones.js" defer></script>
+        <!-- Humo de fragancia sutil sobre el frasco elegido en la vitrina -->
+        <script src="js/humo.js" defer></script>
         <!-- Ícono de la pestaña y del celular (cuando guardan la página en la pantalla de inicio) -->
         <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
         <link rel="apple-touch-icon" href="img/logo/icono-180.png">
@@ -89,6 +104,27 @@
     </head>
 
     <body>
+        <!-- Entrada (igual al diseño "Entrada" del lienzo de diseño): dos puertas verdes con el patrón SB,
+             un sello dorado al centro que se parte en dos al abrirse, un anillo que se dibuja y el lema.
+             Solo se ve con la clase "con-entrada" (la pone el script del <head>). Todo es CSS: se va sola
+             a los 2,1 s aunque el JavaScript falle, y se salta con un toque. aria-hidden: es decoración -->
+        <div class="entrada" aria-hidden="true">
+            <!-- Cada puerta tiene el sello completo, pero solo se ve su mitad: al abrirse, el sello se parte -->
+            <div class="entrada__puerta entrada__puerta--izquierda">
+                <span class="entrada__sello"><img src="img/logo/monograma-verde-128.webp" alt="" width="128" height="133"></span>
+            </div>
+            <div class="entrada__puerta entrada__puerta--derecha">
+                <span class="entrada__sello"><img src="img/logo/monograma-verde-128.webp" alt="" width="128" height="133"></span>
+            </div>
+            <svg class="entrada__anillo" width="150" height="150" viewBox="0 0 150 150">
+                <circle cx="75" cy="75" r="66" fill="none" stroke="#E6CF98" stroke-width="1.5" transform="rotate(-90 75 75)"></circle>
+            </svg>
+            <div class="entrada__lema">
+                <p class="entrada__marca">S. B. PRIVÉ</p>
+                <p class="entrada__frase">Perfume que se lleva<br>como un secreto</p>
+            </div>
+        </div>
+
         <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
         <a class="saltar" href="#contenido">Saltar al contenido</a>
         <!-- Franja de arriba: los mensajes se alternan solos (js/comun.js). Sin JavaScript se ve el primero.
@@ -110,7 +146,7 @@
 
         <header class="encabezado">
             <a href="#inicio" class="logo">
-                <img src="img/logo/logo-horizontal-dorado.png" alt="S. B. Privé" width="776" height="240">
+                <img src="img/logo/logo-horizontal-dorado.webp" alt="S. B. Privé" width="259" height="80">
             </a>
             <!-- Menú: en PC siempre visible; en celular lo abre el botón de las dos rayas (id="menu") -->
             <nav class="menu" id="menu" aria-label="Navegación principal">
@@ -452,7 +488,7 @@
             <section id="ayuda">
                 <!-- 10. ¿No sabes cuál elegir? -->
                  <div class="ayuda__imagen">
-                    <img src="img/logo/logo-dorado.png" alt="S. B. Privé, alta perfumería" width="858" height="660" loading="lazy">
+                    <img src="img/logo/logo-dorado.webp" alt="S. B. Privé, alta perfumería" width="600" height="462" loading="lazy">
                  </div>
                  <div class="ayuda__contenido">
                     <h2 class="ayuda__titulo">¿No sabes cuál elegir?</h2>
@@ -468,6 +504,8 @@
                     <a href="catalogo.html">Catálogo</a>
                     <a href="#envios">Envíos</a>
                     <a href="#cambios">Cambios</a>
+                    <a href="terminos.html">Términos</a>
+                    <a href="privacidad.html">Privacidad</a>
                     <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
                     <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
                 </nav>

@@ -75,7 +75,7 @@
         </a>
         <nav aria-label="Principal">
             <ul class="nav-enlaces">
-                <li><a href="#menu" data-seccion="menu">Menú</a></li>
+                <li><a href="menu.html">Menú</a></li> <!-- El menú tiene su propia página -->
                 <li><a href="#visitanos" data-seccion="visitanos">Visítanos</a></li>
             </ul>
         </nav>
@@ -118,9 +118,9 @@
         <p class="portada-frase">De la finca, directo a tu mesa.</p>
         <p class="portada-lugar">Café 100% colombiano · Yotoco, Valle</p>
         </div>
-        <a href="#menu" class="portada-boton">
+        <a href="menu.html" class="portada-boton">
             Ver menú
-            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
     </section>
 
@@ -160,37 +160,6 @@
             <blockquote>
                 <p>Dicen que un café es un abrazo atrapado en una taza.</p>
             </blockquote>
-        </section>
-
-        <!-- ===== MENÚ (productos y precios: lista MENU en js/main.js) ===== -->
-        <section class="seccion menu" id="menu">
-            <h2>¿Qué vas a pedir?</h2>
-            <p class="menu-ayuda">Toca un producto para ver su precio y cómo se arma.</p>
-
-            <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
-
-            <div class="destacado" id="destacado" aria-live="polite">
-                <img class="destacado-foto" id="destacado-foto" alt="" width="800" height="800" decoding="async" hidden>
-                <div class="destacado-dibujo" id="destacado-dibujo"></div>
-                <div class="destacado-texto">
-                    <h3 id="destacado-nombre">Capuchino</h3>
-                    <p class="destacado-precio" id="destacado-precio"></p>
-                    <ul class="destacado-capas" id="destacado-capas"></ul>
-                </div>
-            </div>
-
-            <div class="productos" id="productos"></div>
-
-            <p class="menu-nota">
-                <strong>Adiciones:</strong> esencias $2.000 · licor, vodka o gin $4.000 · Amaretto $4.000 · Baileys $3.000
-            </p>
-
-            <div class="domicilio">
-                <p><strong>¿No puedes venir?</strong> Te lo llevamos. Hacemos domicilios.</p>
-                <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener">Pide por WhatsApp</a>
-            </div>
-
-            <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
         </section>
 
         <!-- ===== GALERÍA (para agregar una foto: copia un <li> y cambia src, alt y el texto) ===== -->

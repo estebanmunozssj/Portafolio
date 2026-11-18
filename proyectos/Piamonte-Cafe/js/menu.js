@@ -1,0 +1,596 @@
+'use strict';
+
+/* Solo para menu.html: la lista de productos, los dibujos y el menú interactivo.
+   El botón de domicilios (WhatsApp) lo arma main.js, que también se carga en esta página */
+
+/* =========================================================
+   MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
+   - precio: número sin puntos (ej: 6500 → se ve $6.500). Si es null se ve "Precio pronto"
+   - detalle: tamaño o ingredientes. Se muestra en la tarjeta grande
+   - recipiente: el dibujo. 'taza' (caliente), 'vaso' (frío), 'dulce' (torta), 'bolsa' (café para llevar),
+     'waffle', 'sandwich', 'croissant' o 'tapa'
+   - encima: lo que va sobre el waffle o la tapa (ver dibujoWaffle y dibujoTapa)
+   - relleno: capas del sándwich de abajo hacia arriba (ver RELLENOS)
+   - Decoraciones de bebidas (opcionales): galletas: true (2 galletas en el plato),
+     cubierta: 'chocolate' (salsa encima), borde: 'tajin', adorno: 'romero' o 'cerezas'
+   - Recipientes de bebidas: 'taza', 'vaso', 'copa' (malteadas) o 'balon' (copa balón, sodas)
+   - capas: de abajo hacia arriba. [ingrediente, cuánto llena] (1 = llena todo)
+   - tipo (opcional): subgrupo con título dentro de la categoría (ej: 'Con leche')
+   - foto (opcional): foto real del producto (ej: 'img/latte.jpg'). Se ve arriba del dibujo
+   - bebidas: true en la categoría → la tarjeta de la taza se queda pegada arriba al bajar
+   OJO: las capas son aproximadas. Se ajustan cuando tengamos el recetario
+   ========================================================= */
+
+// Capas que se repiten en varias bebidas (así no las escribimos muchas veces)
+const CAPUCHINO = [['espresso', 0.3], ['leche', 0.35], ['espuma', 0.25]];
+const MOCCACCINO = [['mocca', 0.3], ['leche', 0.35], ['espuma', 0.2]]; // Espresso y chocolate van mezclados
+const AMERICANO = [['espresso', 0.3], ['agua', 0.55]];
+const CHAI = [['te', 0.5], ['leche', 0.3], ['espuma', 0.1]];
+
+const MENU = [
+  {
+    categoria: 'Calientes',
+    bebidas: true, // La tarjeta con la taza se queda pegada arriba mientras bajas
+    productos: [
+      { tipo: 'Café negro', nombre: 'Espresso', precio: 4000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
+      { tipo: 'Café negro', nombre: 'Americano', foto: 'img/americano.jpg', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
+      { tipo: 'Café negro', nombre: 'Americano grande', precio: 7000, detalle: 'Taza grande', recipiente: 'taza', capas: AMERICANO },
+      { tipo: 'Café negro', nombre: 'Café campesino', precio: 8000, detalle: 'Receta de la casa', recipiente: 'taza', capas: [['casa', 0.85]] },
+      { tipo: 'Café negro', nombre: 'Drips café Piamonte', precio: 5000, detalle: 'Café filtrado de la casa', recipiente: 'taza', capas: [['filtrado', 0.8]] },
+
+      { tipo: 'Con leche', nombre: 'Capuchino', foto: 'img/capuchino.jpg', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: CAPUCHINO, galletas: true },
+      { tipo: 'Con leche', nombre: 'Capuchino grande', precio: 13000, detalle: 'Taza grande', recipiente: 'taza', capas: CAPUCHINO, galletas: true },
+      { tipo: 'Con leche', nombre: 'Capuchino con leche de almendras', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['almendra', 0.35], ['espuma', 0.25]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Capuchino con chantilly', precio: 10000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.3], ['leche', 0.3], ['chantilly', 0.3]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Capuchino con esencias', precio: 10000, detalle: 'Con la esencia que prefieras', recipiente: 'taza', capas: [['espressoesencia', 0.3], ['leche', 0.35], ['espuma', 0.25]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Flat white', precio: 8000, detalle: 'Taza pequeña · espresso doble', recipiente: 'taza', capas: [['espresso', 0.45], ['leche', 0.4], ['espuma', 0.1]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Latte', foto: 'img/latte.jpg', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espresso', 0.25], ['leche', 0.55], ['espuma', 0.1]], galletas: true },
+      { tipo: 'Con leche', nombre: 'Moccaccino', precio: 9000, detalle: 'Taza mediana', recipiente: 'taza', capas: MOCCACCINO, galletas: true },
+      { tipo: 'Con leche', nombre: 'Moccaccino grande', precio: 14000, detalle: 'Taza grande', recipiente: 'taza', capas: MOCCACCINO, galletas: true },
+
+      { tipo: 'Con licor', nombre: 'Espresso con licor', precio: 9000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.35], ['licor', 0.15]] },
+      { tipo: 'Con licor', nombre: 'Espresso doble licor', precio: 16000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.35], ['licor', 0.3]] },
+      { tipo: 'Con licor', nombre: 'Capuchino con licor', precio: 14000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['espressolicor', 0.3], ['leche', 0.35], ['espuma', 0.25]], galletas: true },
+
+      { tipo: 'Sin café', nombre: 'Chocolate', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['chocolate', 0.6], ['espuma', 0.25]], galletas: true },
+      { tipo: 'Sin café', nombre: 'Milo caliente', precio: 8000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['milo', 0.6], ['espuma', 0.25]], galletas: true },
+      { tipo: 'Sin café', nombre: 'Té chai', precio: 9500, detalle: 'Té especiado con leche', recipiente: 'taza', capas: CHAI, galletas: true },
+      { tipo: 'Sin café', nombre: 'Aromática', precio: 4000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['aromatica', 0.8]] },
+      { tipo: 'Sin café', nombre: 'Aromática de frutas', precio: 6000, detalle: 'Taza mediana', recipiente: 'taza', capas: [['frutas', 0.8]] },
+    ],
+  },
+  {
+    categoria: 'Fríos',
+    bebidas: true,
+    productos: [
+      { tipo: 'Con café', nombre: 'Granizado de café', precio: 13000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizado', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
+      { tipo: 'Con café', nombre: 'Granizado de mocca', foto: 'img/granizado-mocca.jpg', precio: 14000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizadomocca', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
+      { tipo: 'Con café', nombre: 'Malteada de café', precio: 15000, detalle: 'En copa', recipiente: 'copa', capas: [['malteada', 0.65], ['chantilly', 0.25]], cubierta: 'chocolate' },
+      { tipo: 'Con café', nombre: 'Latte frío', foto: 'img/latte-frio.jpg', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['leche', 0.55], ['espresso', 0.25]] },
+      { tipo: 'Con café', nombre: 'Ice americano', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['aguafria', 0.5], ['espresso', 0.3]] },
+      { tipo: 'Con café', nombre: 'Espresso tonic', precio: 9000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['tonica', 0.5], ['espresso', 0.3]] },
+      { tipo: 'Con café', nombre: 'Limonada de café', precio: 11000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['coldbrew', 0.35], ['sprite', 0.45]], adorno: 'romero' },
+      { tipo: 'Con café', nombre: 'Tres notas café', foto: 'img/tres-notas.jpg', encuadre: 'center 10%', precio: 12000, detalle: 'Soda de maracuyá con espresso', recipiente: 'vaso', capas: [['maracuya', 0.55], ['espresso', 0.25]] },
+      { tipo: 'Con café', nombre: 'Passion coffee', foto: 'img/passion-coffee.jpg', precio: 13000, detalle: 'Receta de la casa', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { tipo: 'Con café', nombre: 'Affogato', precio: 13000, detalle: 'Helado con espresso', recipiente: 'taza', capas: [['helado', 0.5], ['espresso', 0.25]] },
+
+      { tipo: 'Cremosos', nombre: 'Malteada de Baileys', precio: 17000, detalle: 'En copa', recipiente: 'copa', capas: [['baileys', 0.65], ['chantilly', 0.25]], cubierta: 'chocolate' },
+      { tipo: 'Cremosos', nombre: 'Malteada de chocolate', precio: 15000, detalle: 'En copa', recipiente: 'copa', capas: [['chocolate', 0.65], ['chantilly', 0.25]], cubierta: 'chocolate' },
+      { tipo: 'Cremosos', nombre: 'Té chai frío', precio: 12000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['te', 0.4], ['leche', 0.4]] },
+      { tipo: 'Cremosos', nombre: 'Milo frío', precio: 8000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['milo', 0.8]] },
+      { tipo: 'Cremosos', nombre: 'Chocolate frío', precio: 8000, detalle: 'Con hielo', recipiente: 'vaso', capas: [['chocolate', 0.8]] },
+
+      { tipo: 'Sodas y jugos', nombre: 'Soda de frutos rojos', precio: 13000, detalle: 'En copa balón', recipiente: 'balon', capas: [['frutosrojos', 0.35], ['soda', 0.45]], adorno: 'cerezas' },
+      { tipo: 'Sodas y jugos', nombre: 'Soda de frutos amarillos', precio: 13000, detalle: 'En copa balón', recipiente: 'balon', capas: [['frutosamarillos', 0.35], ['soda', 0.45]], adorno: 'romero' },
+      { tipo: 'Sodas y jugos', nombre: 'Soda de tamarindo', precio: 11000, detalle: 'Copa balón con borde de Tajín', recipiente: 'balon', capas: [['tamarindo', 0.4], ['soda', 0.4]], borde: 'tajin', adorno: 'romero' },
+      { tipo: 'Sodas y jugos', nombre: 'Soda de gulupa', precio: 11000, detalle: 'Copa balón con borde de Tajín', recipiente: 'balon', capas: [['gulupa', 0.35], ['soda', 0.45]], borde: 'tajin', adorno: 'romero' },
+      { tipo: 'Sodas y jugos', nombre: 'Jugo natural en agua', precio: 6000, detalle: 'Fruta del día', recipiente: 'vaso', capas: [['jugo', 0.8]] },
+      { tipo: 'Sodas y jugos', nombre: 'Jugo natural en leche', precio: 8000, detalle: 'Fruta del día', recipiente: 'vaso', capas: [['jugoleche', 0.8]] },
+    ],
+  },
+  {
+    categoria: 'Cócteles',
+    bebidas: true,
+    productos: [
+      { nombre: 'Limonada envenenada', precio: 16000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Tres notas café vodka', precio: 18000, detalle: 'Con vodka', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Mojito café', precio: 17000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Orgasmo', precio: 19000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Passion fruit', precio: 16000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
+      { nombre: 'Sprite cold brew', precio: 17000, detalle: 'Con licor', recipiente: 'vaso', capas: [['soda', 0.45], ['coldbrew', 0.35]] },
+    ],
+  },
+  {
+    categoria: 'Comida',
+    productos: [
+      { nombre: 'Waffle de pandebono + topping', foto: 'img/waffle-pandebono.jpg', encuadre: 'center 15%', precio: 11000, detalle: 'Queso crema, chocolate, arequipe o mermelada de fresa, mora o guayaba', recipiente: 'waffle', encima: 'dulce' },
+      { nombre: 'Waffle de jamón y queso', precio: 15000, detalle: 'Tomate horneado, lechuga, jamón, queso mozzarella y salsa de la casa', recipiente: 'waffle', encima: 'jamonqueso' },
+      { nombre: 'Waffle de pollo', foto: 'img/waffles.jpg', precio: 20000, detalle: 'Filete de pollo gratinado, tomate horneado, lechuga y salsa de la casa', recipiente: 'waffle', encima: 'pollo' },
+      { nombre: 'Waffle hawaiano', foto: 'img/waffle-hawaiano.jpg', precio: 16000, detalle: 'Kétchup, piña calada, tomate horneado, jamón y queso doble crema', recipiente: 'waffle', encima: 'hawaiano' },
+      { nombre: 'Waffle con helado', precio: 16000, detalle: 'Waffle, 2 bolas de helado de vainilla y salsa de chocolate', recipiente: 'waffle', encima: 'helado' },
+      { nombre: 'Sándwich italiano', foto: 'img/sandwich.jpg', precio: 20000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate cherry, rúgula, jamón serrano, chorizo vela y pepperoni', recipiente: 'sandwich', relleno: ['rugula', 'tomate', 'serrano', 'pepperoni', 'mozzarella'] },
+      { nombre: 'Sándwich de ropa vieja', precio: 18000, detalle: 'Pan de especias, mozzarella, salsa de la casa, tomate horneado, lechuga y carne desmechada', recipiente: 'sandwich', relleno: ['lechuga', 'tomate', 'carne', 'mozzarella'] },
+      { nombre: 'Sándwich de atún', foto: 'img/sandwich-atun.jpg', precio: 15500, detalle: 'Pan tajado, atún en lomitos cremoso, tomate, lechuga y queso mozzarella', recipiente: 'sandwich', pan: 'tajado', relleno: ['lechuga', 'tomate', 'atun', 'mozzarella'] },
+      { nombre: 'Luna serrana', foto: 'img/luna-serrana.jpg', precio: 14000, detalle: 'Croissant horneado con especias, jamón serrano, tomate cherry, albahaca, dip de pimentón y pepperoni', recipiente: 'croissant' },
+      { nombre: 'Tapa artesanal', foto: 'img/tapa-artesanal.jpg', precio: 8000, detalle: 'Tajada de pan a las finas hierbas, dip de pimentón y pepperoni', recipiente: 'tapa', encima: 'artesanal' },
+      { nombre: 'Tapa ibérica', foto: 'img/tapa-iberica.jpg', precio: 9000, detalle: 'Pan a las finas hierbas, mermelada de frutos rojos, manzana, mozzarella, jamón serrano y miel', recipiente: 'tapa', encima: 'iberica' },
+    ],
+  },
+  {
+    categoria: 'Repostería',
+    productos: [
+      { nombre: 'Torta vasca', precio: 14000, detalle: 'Porción', recipiente: 'dulce', color: '#d9a85b' },
+      { nombre: 'Torta de chocolate', foto: 'img/torta.jpg', precio: 10000, detalle: 'Porción', recipiente: 'dulce', color: '#4a2616' },
+      { nombre: 'Torta de almojábana', foto: 'img/torta-almojabana.jpg', precio: 8000, detalle: 'Porción', recipiente: 'dulce', color: '#e2b46a' },
+      { nombre: 'Torta de zanahoria', foto: 'img/torta-zanahoria.jpg', precio: 7000, detalle: 'Porción', recipiente: 'dulce', color: '#c46a2b' },
+      { nombre: 'Torta de banano', precio: 6000, detalle: 'Porción', recipiente: 'dulce', color: '#c9934f' },
+      // Precio pendiente: cuando el dueño lo diga, cambiar null por el número
+      { nombre: 'Cheesecake de limón', foto: 'img/cheesecake-limon.jpg', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#f0c93a' },
+      { nombre: 'Torta de pan', foto: 'img/torta-pan.jpg', precio: null, detalle: 'Porción, con queso y bocadillo', recipiente: 'dulce', color: '#c9934f' },
+      { nombre: 'Red velvet', foto: 'img/red-velvet.jpg', precio: null, detalle: 'Porción', recipiente: 'dulce', color: '#8e1b22' },
+      { nombre: 'Postre del día', precio: 9000, detalle: 'Pregunta cuál hay hoy', recipiente: 'dulce', color: '#a8774f' },
+    ],
+  },
+  {
+    categoria: 'Café de la finca',
+    productos: [
+      { nombre: 'Método V-60', precio: 14000, detalle: 'Café filtrado · 2 tazas', recipiente: 'taza', capas: [['filtrado', 0.8]] },
+      { nombre: 'Café molido 250 g', foto: 'img/cafe-bolsa.jpg', precio: 25000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 250 g', foto: 'img/cafe-bolsa.jpg', precio: 25000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café molido 500 g', foto: 'img/cafe-bolsa.jpg', precio: 50000, detalle: 'Para llevar a casa', recipiente: 'bolsa' },
+      { nombre: 'Café en grano 500 g', foto: 'img/cafe-bolsa.jpg', precio: 50000, detalle: 'Tostado, para llevar a casa', recipiente: 'bolsa' },
+    ],
+  },
+];
+
+// Nombre y color de cada ingrediente (para el dibujo y la leyenda)
+const INGREDIENTES = {
+  espresso: { nombre: 'Espresso', color: '#2b170e' },
+  agua: { nombre: 'Agua caliente', color: '#8a5634' },
+  aguafria: { nombre: 'Agua', color: '#9a6a45' },
+  filtrado: { nombre: 'Café filtrado', color: '#5e3219' },
+  leche: { nombre: 'Leche', color: '#e8d7bd' },
+  almendra: { nombre: 'Leche de almendras', color: '#efe0c4' },
+  espuma: { nombre: 'Espuma', color: '#fbf6ee' },
+  chantilly: { nombre: 'Chantilly', color: '#fffdf7' },
+  licor: { nombre: 'Licor', color: '#7a3b1f' },
+  espressolicor: { nombre: 'Espresso con licor', color: '#4a1f12' },
+  espressoesencia: { nombre: 'Espresso con esencia', color: '#5a2e1a' },
+  mocca: { nombre: 'Espresso con chocolate', color: '#3e1f10' },
+  chocolate: { nombre: 'Chocolate', color: '#5a2c18' },
+  milo: { nombre: 'Milo', color: '#6e4128' },
+  te: { nombre: 'Té especiado', color: '#b9773f' },
+  aromatica: { nombre: 'Aromática', color: '#c99a4e' },
+  frutas: { nombre: 'Infusión de frutos rojos', color: '#b4473a' },
+  granizado: { nombre: 'Granizado de café', color: '#a87a58' },
+  granizadomocca: { nombre: 'Granizado de mocca', color: '#7d5136' },
+  malteada: { nombre: 'Malteada de café', color: '#c49a74' },
+  baileys: { nombre: 'Malteada de Baileys', color: '#d4b48e' },
+  helado: { nombre: 'Helado de vainilla', color: '#f7edd8' },
+  tonica: { nombre: 'Agua tónica', color: '#ece7d2' },
+  limonada: { nombre: 'Limonada', color: '#ecd977' },
+  coldbrew: { nombre: 'Cold brew', color: '#4a2a17' },
+  tamarindo: { nombre: 'Tamarindo', color: '#8b4a22' },
+  frutosrojos: { nombre: 'Frutos rojos', color: '#a8283c' },
+  frutosamarillos: { nombre: 'Frutos amarillos', color: '#e7b13a' },
+  gulupa: { nombre: 'Gulupa', color: '#6e2f5a' },
+  soda: { nombre: 'Soda', color: '#f2e2c4' },
+  sprite: { nombre: 'Limón y sprite', color: '#ebe6ad' },
+  maracuya: { nombre: 'Soda de maracuyá', color: '#efb93f' },
+  jugo: { nombre: 'Jugo de fruta', color: '#e8973a' },
+  jugoleche: { nombre: 'Jugo en leche', color: '#efc28f' },
+  casa: { nombre: 'Receta de la casa', color: '#9c5a2e' }, // Para bebidas cuya receta aún no tenemos
+};
+
+/* =========================================================
+   DIBUJOS (SVG): taza, vaso y platos al estilo Piamonte
+   ========================================================= */
+
+// Dibuja las capas de abajo hacia arriba
+function dibujarCapas(capas, abajo, alto) {
+  let y = abajo;
+  return capas
+    .map(([ingrediente, cuanto]) => {
+      const h = alto * cuanto;
+      y -= h;
+      return `<rect x="0" y="${y}" width="160" height="${h + 0.5}" fill="${INGREDIENTES[ingrediente].color}"/>`;
+    })
+    .join('');
+}
+
+// Cuánto llenan todas las capas juntas (para saber dónde poner lo que va encima)
+const totalCapas = (capas = []) => capas.reduce((suma, [, cuanto]) => suma + cuanto, 0);
+
+function salsaChocolate(y, desde, hasta) {
+  let d = `M${desde} ${y}`;
+  for (let x = desde + 8; x <= hasta; x += 8) d += `L${x} ${y + ((x - desde) / 8 % 2 ? 5 : 0)}`;
+  return `<path d="${d}" stroke="#4a2616" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+
+// Adornos en el borde del vaso o la copa: romero con rodaja de limón, o cerezas en un palillo
+function adorno(tipo, izquierda, derecha, y) {
+  if (tipo === 'romero') {
+    return `
+      <circle cx="${izquierda + 4}" cy="${y}" r="9" fill="#f2d65c" class="contorno"/>
+      <path d="M${izquierda + 4} ${y - 8}V${y + 8}M${izquierda - 4} ${y}H${izquierda + 12}" stroke="#d9b13a" stroke-width="1.5"/>
+      <path d="M${derecha - 6} ${y}c4-10 10-16 18-18" stroke="#4f6b3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M${derecha} ${y - 8}l-5-3M${derecha + 4} ${y - 12}l-5-3M${derecha + 1} ${y - 6}l4 -5M${derecha + 6} ${y - 11}l4 -5" stroke="#4f6b3a" stroke-width="2" stroke-linecap="round"/>`;
+  }
+  if (tipo === 'cerezas') {
+    return `
+      <line x1="${derecha - 14}" y1="${y + 8}" x2="${derecha + 4}" y2="${y - 22}" stroke="#b58b62" stroke-width="2"/>
+      <circle cx="${derecha - 2}" cy="${y - 12}" r="5.5" fill="#a8283c" class="contorno"/>
+      <circle cx="${derecha + 4}" cy="${y - 4}" r="5.5" fill="#a8283c" class="contorno"/>`;
+  }
+  return '';
+}
+
+// Dos galletas en el plato (así sirven los capuchinos, lattes, chocolates...)
+const GALLETAS = `
+  <ellipse cx="36" cy="126" rx="11" ry="5" fill="#d9a35b" class="contorno"/>
+  <ellipse cx="122" cy="126" rx="11" ry="5" fill="#d9a35b" class="contorno"/>
+  <circle cx="33" cy="125" r="1.3" fill="#8a5328"/><circle cx="39" cy="127" r="1.3" fill="#8a5328"/>
+  <circle cx="119" cy="125" r="1.3" fill="#8a5328"/><circle cx="125" cy="127" r="1.3" fill="#8a5328"/>`;
+
+function dibujoTaza(capas, p = {}) {
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <defs><clipPath id="dentro-taza"><path d="M35 44H117V78C117 100 101 113 76 113C51 113 35 100 35 78Z"/></clipPath></defs>
+    <g class="vapor"><path d="M62 30c-6-6 6-10 0-18"/><path d="M78 32c-6-6 6-10 0-18"/><path d="M94 30c-6-6 6-10 0-18"/></g>
+    <ellipse cx="78" cy="122" rx="64" ry="10" class="plato"/>
+    <path d="M120 54c24 0 24 40-2 42" class="oreja"/>
+    <path d="M30 39H122V78C122 105 103 118 76 118C49 118 30 105 30 78Z" class="ceramica"/>
+    <g clip-path="url(#dentro-taza)"><g class="liquido">${dibujarCapas(capas, 113, 69)}</g></g>
+    <path d="M30 39H122" class="borde"/>
+    ${p.galletas ? GALLETAS : ''}
+  </svg>`;
+}
+
+const HIELO_VASO = `
+      <rect x="58" y="44" width="18" height="18" rx="3" transform="rotate(-12 67 53)" class="hielo"/>
+      <rect x="80" y="54" width="17" height="17" rx="3" transform="rotate(10 88 62)" class="hielo"/>
+      <rect x="64" y="70" width="16" height="16" rx="3" transform="rotate(6 72 78)" class="hielo"/>`;
+
+function dibujoVaso(capas, p = {}) {
+  const arriba = 124 - 108 * totalCapas(capas);
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <defs><clipPath id="dentro-vaso"><path d="M49 16H111L104 124H56Z"/></clipPath></defs>
+    <line x1="100" y1="2" x2="88" y2="112" class="pitillo"/>
+    <g clip-path="url(#dentro-vaso)">
+      <g class="liquido">
+        ${dibujarCapas(capas, 124, 108)}
+        ${p.cubierta ? salsaChocolate(arriba + 4, 52, 108) : ''}
+      </g>
+      ${p.cubierta ? '' : HIELO_VASO /* Los licuados (granizados) no muestran cubos de hielo */}
+    </g>
+    <path d="M45 12H115L107 128H53Z" class="cristal"/>
+    ${adorno(p.adorno, 45, 112, 12)}
+  </svg>`;
+}
+
+function dibujoCopa(capas, p = {}) {
+  const arriba = 78 - 60 * totalCapas(capas);
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <defs><clipPath id="dentro-copa"><path d="M48 18H112C112 58 98 76 80 76C62 76 48 58 48 18Z"/></clipPath></defs>
+    <line x1="98" y1="0" x2="86" y2="66" class="pitillo"/>
+    <g clip-path="url(#dentro-copa)">
+      <g class="liquido">
+        ${dibujarCapas(capas, 78, 60)}
+        ${p.cubierta ? salsaChocolate(arriba + 4, 50, 110) : ''}
+      </g>
+    </g>
+    <path d="M44 14H116C116 60 100 80 80 80C60 80 44 60 44 14Z" class="cristal"/>
+    <path d="M80 80V114" class="tallo"/>
+    <ellipse cx="80" cy="118" rx="24" ry="5" class="cristal"/>
+  </svg>`;
+}
+
+// Copa balón de las sodas
+function dibujoBalon(capas, p = {}) {
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <defs><clipPath id="dentro-balon"><path d="M52 26H108C128 42 126 88 80 90C34 88 32 42 52 26Z"/></clipPath></defs>
+    <g clip-path="url(#dentro-balon)">
+      <g class="liquido">${dibujarCapas(capas, 90, 64)}</g>
+      <rect x="60" y="46" width="16" height="16" rx="3" transform="rotate(-12 68 54)" class="hielo"/>
+      <rect x="82" y="52" width="15" height="15" rx="3" transform="rotate(10 89 59)" class="hielo"/>
+    </g>
+    <path d="M48 22H112C134 40 132 94 80 94C28 94 26 40 48 22Z" class="cristal"/>
+    ${p.borde === 'tajin' ? '<path d="M48 22H112" stroke="#c8452a" stroke-width="6" stroke-dasharray="3 2" stroke-linecap="round"/>' : ''}
+    <path d="M80 94V118" class="tallo"/>
+    <ellipse cx="80" cy="121" rx="22" ry="5" class="cristal"/>
+    ${adorno(p.adorno, 48, 108, 22)}
+  </svg>`;
+}
+
+function dibujoDulce(color) {
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <ellipse cx="80" cy="112" rx="66" ry="14" class="plato"/>
+    <g class="liquido">
+      <path d="M38 102L114 102L114 64L38 82Z" fill="${color}"/>
+      <path d="M38 82L114 64L114 72L38 90Z" fill="#fbf6ee"/>
+      <path d="M38 102L114 102L114 64L38 82Z" class="contorno"/>
+      <circle cx="102" cy="58" r="6" fill="#9e2b2f"/>
+    </g>
+  </svg>`;
+}
+
+/* ----- Comida: cada plato tiene su propio dibujo ----- */
+
+const PLATO = '<ellipse cx="80" cy="112" rx="66" ry="14" class="plato"/>';
+
+// Waffle visto de frente. "encima" cambia lo que lleva arriba
+function dibujoWaffle(encima) {
+  const arriba = {
+    dulce: `
+      <path d="M68 70c-2-8 6-12 12-10 8-4 16 4 12 10z" fill="#fbf3dc" class="contorno"/>
+      <path d="M42 80l12-8 12 8 12-8 12 8 12-8 12 8 6-4" stroke="#7a3b1f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    jamonqueso: `
+      <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="80" cy="64" rx="38" ry="8" fill="#e8a0a0" class="contorno"/>
+      <path d="M50 60h60v6c-6 0-6 8-12 8s-4-8-10-8-6 10-12 10-4-10-10-10-6 6-16 4z" fill="#f2cf63" class="contorno"/>`,
+    pollo: `
+      <path d="M38 72c6-6 10 2 16-3s10 3 16-2 10 3 16-2 10 3 16-2 10 3 14 0" stroke="#7fa650" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M46 64c0-10 14-14 26-12 10-6 30-4 38 4 6 6 2 12-8 12H54c-6 0-8-2-8-4z" fill="#c8874a" class="contorno"/>
+      <path d="M62 56l6 10M76 54l6 12M90 55l6 11" stroke="#8a5328" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="46" cy="64" r="7" fill="#d9472f" class="contorno"/><circle cx="114" cy="64" r="7" fill="#d9472f" class="contorno"/>`,
+    hawaiano: `
+      <ellipse cx="80" cy="66" rx="40" ry="8" fill="#e8a0a0" class="contorno"/>
+      <path d="M52 62l8-12 8 12z M72 60l8-12 8 12z M92 62l8-12 8 12z" fill="#f2c94c" class="contorno"/>`,
+    helado: `
+      <circle cx="70" cy="60" r="15" fill="#f7edd8" class="contorno"/>
+      <circle cx="90" cy="52" r="15" fill="#f7edd8" class="contorno"/>
+      <path d="M78 42c6-4 18-2 24 4-4 2-6 8-10 6s-6 4-10 2-6-6-4-12z" fill="#4a2616"/>
+      <path d="M58 56c4-4 10-4 14 0-2 4-2 10-6 10s-2-6-8-10z" fill="#4a2616"/>`,
+  };
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <rect x="36" y="72" width="88" height="34" rx="10" fill="#e2b46a" class="contorno"/>
+      <path d="M58 72V106M80 72V106M102 72V106M36 83H124M36 95H124" stroke="#b9823f" stroke-width="3"/>
+      ${arriba[encima] || ''}
+    </g>
+  </svg>`;
+}
+
+// Capas que puede llevar un sándwich: color, alto y si tiene borde ondulado (hojas)
+const RELLENOS = {
+  lechuga: { color: '#7fa650', alto: 6, onda: true },
+  rugula: { color: '#5f8a3a', alto: 6, onda: true },
+  tomate: { color: '#d9472f', alto: 6 },
+  mozzarella: { color: '#fbf3dc', alto: 5 },
+  serrano: { color: '#d98b8b', alto: 5 },
+  pepperoni: { color: '#a8283c', alto: 5 },
+  carne: { color: '#7a4325', alto: 9 },
+  atun: { color: '#d8c49a', alto: 9 },
+};
+
+// Sándwich visto de lado: pan, capas de relleno (de abajo hacia arriba) y pan de arriba
+function dibujoSandwich(relleno = [], pan = 'especias') {
+  let y = 94;
+  const capas = relleno.map((nombre) => {
+    const r = RELLENOS[nombre];
+    y -= r.alto;
+    if (r.onda) { // Hojas: el borde de arriba es ondulado y se sale un poco del pan
+      return `<path d="M28 ${y + r.alto}V${y + 2}c6-5 10 3 16-2s10 3 16-2 10 3 16-2 10 3 16-2 10 3 16-2 10 3 16 0V${y + r.alto}z" fill="${r.color}" class="contorno"/>`;
+    }
+    return `<rect x="32" y="${y}" width="96" height="${r.alto + 1}" rx="2" fill="${r.color}" class="contorno"/>`;
+  }).join('');
+
+  const panArriba = pan === 'tajado'
+    ? `<rect x="34" y="${y - 14}" width="92" height="14" rx="4" fill="#e9c98f" class="contorno"/>`
+    : `<path d="M34 ${y}c0-26 92-26 92 0z" fill="#d9a35b" class="contorno"/>
+       <circle cx="62" cy="${y - 10}" r="1.8" fill="#5f8a3a"/><circle cx="80" cy="${y - 15}" r="1.8" fill="#5f8a3a"/><circle cx="98" cy="${y - 9}" r="1.8" fill="#5f8a3a"/>`;
+
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <rect x="34" y="94" width="92" height="14" rx="${pan === 'tajado' ? 4 : 7}" fill="${pan === 'tajado' ? '#e9c98f' : '#d9a35b'}" class="contorno"/>
+      ${capas}
+      ${panArriba}
+    </g>
+  </svg>`;
+}
+
+// Croissant (Luna serrana): media luna con jamón serrano, tomate cherry y albahaca
+function dibujoCroissant() {
+  const masa = 'fill="#d99a4e" class="contorno"';
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <path d="M52 100c14-8 42-8 56 0" stroke="#d98b8b" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="38" cy="96" rx="9" ry="12" transform="rotate(-55 38 96)" ${masa}/>
+      <ellipse cx="122" cy="96" rx="9" ry="12" transform="rotate(55 122 96)" ${masa}/>
+      <ellipse cx="56" cy="84" rx="13" ry="17" transform="rotate(-35 56 84)" ${masa}/>
+      <ellipse cx="104" cy="84" rx="13" ry="17" transform="rotate(35 104 84)" ${masa}/>
+      <ellipse cx="80" cy="78" rx="17" ry="22" ${masa}/>
+      <path d="M72 64c4 6 4 20 0 28M88 64c-4 6-4 20 0 28" stroke="#a8662b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <circle cx="122" cy="108" r="6" fill="#d9472f" class="contorno"/>
+      <path d="M32 110c4-8 14-8 16-2-6 4-12 4-16 2z" fill="#5f8a3a" class="contorno"/>
+    </g>
+  </svg>`;
+}
+
+function dibujoTapa(encima) {
+  const arriba = {
+    artesanal: `
+      <path d="M52 86c4-10 20-12 30-8s24 2 28 8-8 12-26 12-34-4-32-12z" fill="#d0602f"/>
+      <circle cx="66" cy="84" r="7" fill="#a8283c" class="contorno"/><circle cx="88" cy="90" r="7" fill="#a8283c" class="contorno"/><circle cx="104" cy="82" r="6" fill="#a8283c" class="contorno"/>
+      <circle cx="78" cy="80" r="1.6" fill="#5f8a3a"/><circle cx="96" cy="94" r="1.6" fill="#5f8a3a"/><circle cx="58" cy="94" r="1.6" fill="#5f8a3a"/>`,
+    iberica: `
+      <path d="M48 90c6-8 18-10 26-6" stroke="#a8283c" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M70 92c8-8 26-10 40-2" stroke="#d98b8b" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M86 78a10 6 0 0 1 18 0z M60 80a9 5 0 0 1 16 0z" fill="#e8e3a0" class="contorno"/>
+      <circle cx="98" cy="96" r="4" fill="#fbf3dc" class="contorno"/>
+      <path d="M50 80c14 6 40-8 62 4" stroke="#e7b13a" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+  };
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    ${PLATO}
+    <g class="liquido">
+      <rect x="32" y="68" width="96" height="40" rx="16" fill="#d9a35b" class="contorno"/>
+      <rect x="38" y="73" width="84" height="30" rx="12" fill="#f1d39a"/>
+      ${arriba[encima] || ''}
+    </g>
+  </svg>`;
+}
+
+function dibujoBolsa() {
+  return `
+  <svg viewBox="0 0 160 140" class="dibujo" aria-hidden="true">
+    <g class="liquido">
+      <path d="M50 30H110L116 126H44Z" fill="#c9a27a" class="contorno"/>
+      <path d="M50 30L56 16H104L110 30" fill="#b58b62" class="contorno"/>
+      <rect x="60" y="62" width="40" height="36" rx="6" fill="#f6efe4" class="contorno"/>
+      <ellipse cx="80" cy="80" rx="8" ry="12" transform="rotate(25 80 80)" fill="#3b2418"/>
+      <path d="M78 70c5 5-3 13 3 20" stroke="#f6efe4" stroke-width="2" fill="none"/>
+    </g>
+  </svg>`;
+}
+
+function dibujar(producto) {
+  if (producto.recipiente === 'taza') return dibujoTaza(producto.capas, producto);
+  if (producto.recipiente === 'vaso') return dibujoVaso(producto.capas, producto);
+  if (producto.recipiente === 'copa') return dibujoCopa(producto.capas, producto);
+  if (producto.recipiente === 'balon') return dibujoBalon(producto.capas, producto);
+  if (producto.recipiente === 'dulce') return dibujoDulce(producto.color);
+  if (producto.recipiente === 'bolsa') return dibujoBolsa();
+  if (producto.recipiente === 'sandwich') return dibujoSandwich(producto.relleno, producto.pan);
+  if (producto.recipiente === 'croissant') return dibujoCroissant();
+  if (producto.recipiente === 'tapa') return dibujoTapa(producto.encima);
+  return dibujoWaffle(producto.encima); // 'waffle' y cualquier otro
+}
+
+/* =========================================================
+   MENÚ INTERACTIVO: cuadrícula de productos + ventana de detalle
+   ========================================================= */
+
+(() => {
+  const cajaCategorias = document.getElementById('categorias');
+  const cajaProductos = document.getElementById('productos');
+  const ventana = document.getElementById('detalle');
+  const cerrar = document.getElementById('detalle-cerrar');
+  const dibujo = document.getElementById('destacado-dibujo');
+  const foto = document.getElementById('destacado-foto');
+  const nombre = document.getElementById('destacado-nombre');
+  const precio = document.getElementById('destacado-precio');
+  const capas = document.getElementById('destacado-capas');
+  if (!cajaCategorias || !cajaProductos || !ventana) return;
+
+  const textoPrecio = (p) => (p ? '$' + p.toLocaleString('es-CO') : 'Precio pronto'); // 6500 → $6.500
+  const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Cada dibujo usa un id para su forma (ej: "dentro-taza"). Con muchos dibujos en pantalla,
+  // un id repetido puede tomar la forma de otro: le sumamos un número distinto a cada uno
+  // OJO: el mismo número para el id y para quien lo usa (url(#...)), si no la forma no recorta el líquido
+  let contador = 0;
+  const dibujoUnico = (producto) => {
+    const n = contador++;
+    return dibujar(producto).replace(/dentro-(\w+)/g, (_, forma) => `dentro-${forma}-${n}`);
+  };
+
+  // Llena la ventana con el producto y la abre
+  function abrirProducto(producto) {
+    dibujo.innerHTML = dibujoUnico(producto); // Al cambiar el dibujo, la animación de llenado se repite
+
+    // Foto grande arriba si el producto tiene; si no, se esconde
+    foto.hidden = !producto.foto;
+    if (producto.foto) {
+      foto.src = producto.foto;
+      foto.alt = `Foto de ${producto.nombre} en Piamonte Café`;
+      foto.style.objectPosition = producto.encuadre || ''; // Parte de la foto que se ve al recortarla
+    }
+
+    // Si el nombre termina en gramos (ej: "250 g"), la "g" va en minúscula aunque el título esté en mayúsculas
+    nombre.innerHTML = producto.nombre.replace(/(\d+) g$/, '$1 <span class="unidad">g</span>');
+    precio.innerHTML = `<strong>${textoPrecio(producto.precio)}</strong> · ${producto.detalle}`;
+
+    // Leyenda con los ingredientes (de arriba hacia abajo, como se ven en la taza)
+    capas.innerHTML = (producto.capas || [])
+      .slice()
+      .reverse()
+      .map(([ing]) => `<li><span style="background:${INGREDIENTES[ing].color}"></span>${INGREDIENTES[ing].nombre}</li>`)
+      .join('');
+
+    if (ventana.showModal) ventana.showModal(); // Navegadores muy viejos no tienen showModal
+    else ventana.setAttribute('open', '');
+  }
+
+  // Un cuadro de la cuadrícula: foto (con el dibujo pequeño al lado del nombre) o, si no hay foto, el dibujo
+  function crearCuadro(producto) {
+    const boton = document.createElement('button');
+    boton.type = 'button';
+    boton.className = 'producto';
+    boton.setAttribute('aria-haspopup', 'dialog'); // Avisa a los lectores de pantalla que abre una ventana
+
+    const imagen = producto.foto
+      ? `<img src="${producto.foto}" alt="" loading="lazy" decoding="async"${producto.encuadre ? ` style="object-position:${producto.encuadre}"` : ''}>`
+      : dibujoUnico(producto);
+    const mini = producto.foto ? `<span class="producto-mini" aria-hidden="true">${dibujoUnico(producto)}</span>` : '';
+
+    // alt="" en la foto: el nombre ya está escrito en el botón, así no se lee dos veces
+    boton.innerHTML = `
+      <span class="producto-imagen${producto.foto ? '' : ' sin-foto'}">${imagen}</span>
+      <span class="producto-info">${mini}<span class="producto-texto"><span>${producto.nombre}</span><strong>${textoPrecio(producto.precio)}</strong></span></span>`;
+    boton.addEventListener('click', () => abrirProducto(producto));
+    return boton;
+  }
+
+  function mostrarCategoria(indice) {
+    const grupo = MENU[indice];
+    cajaCategorias.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-pressed', String(i === indice)));
+
+    cajaProductos.innerHTML = '';
+    let tipoAnterior = '';
+    let n = 0; // Para que los cuadros aparezcan uno tras otro
+
+    grupo.productos.forEach((producto) => {
+      if (producto.tipo && producto.tipo !== tipoAnterior) {
+        const subtitulo = document.createElement('h4');
+        subtitulo.className = 'subgrupo';
+        subtitulo.textContent = producto.tipo;
+        cajaProductos.appendChild(subtitulo);
+        tipoAnterior = producto.tipo;
+      }
+
+      const cuadro = crearCuadro(producto);
+      cajaProductos.appendChild(cuadro);
+
+      if (cuadro.animate && !menosMovimiento.matches) {
+        cuadro.animate(
+          [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }],
+          { duration: 250, delay: Math.min(n++, 10) * 40, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'backwards' }
+        );
+      }
+    });
+
+    // La página cambia de alto según la categoría: GSAP debe volver a medir sus efectos,
+    // si no, secciones como "Visítanos" se pueden quedar sin aparecer
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+
+  MENU.forEach((grupo, i) => {
+    const boton = document.createElement('button');
+    boton.type = 'button';
+    boton.textContent = grupo.categoria;
+    boton.addEventListener('click', () => {
+      mostrarCategoria(i);
+      boton.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    });
+    cajaCategorias.appendChild(boton);
+  });
+
+  // Cerrar la ventana: con la ✕, con Esc (ya lo hace <dialog>) o tocando el fondo oscuro
+  cerrar.addEventListener('click', () => ventana.close());
+  ventana.addEventListener('click', (e) => {
+    if (e.target === ventana) ventana.close(); // El clic cayó en el fondo, no en el contenido
+  });
+
+  mostrarCategoria(0);
+})();

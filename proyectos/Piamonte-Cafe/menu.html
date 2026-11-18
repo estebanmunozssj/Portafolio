@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- SEGURIDAD (CSP): sitios desde donde la página puede cargar cosas; lo demás se bloquea.
+         OJO: el script que agrega la clase "js" está permitido por su huella sha256. Si cambias su texto, recalcula la huella.
+         Si se agrega algo de otro sitio (ej. la plataforma de tarjetas), hay que sumarlo aquí. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Menú | Piamonte Café</title>
+    <meta name="description" content="Menú de Piamonte Café en Yotoco: cafés de nuestra finca, bebidas frías, cócteles, comida y repostería, con precios.">
+    <meta name="theme-color" content="#3b2418">
+
+    <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Piamonte Café">
+    <meta property="og:title" content="Menú | Piamonte Café">
+    <meta property="og:description" content="Café de nuestra finca en Dopo, Yotoco. Mira el menú y ven a vivir la experiencia.">
+    <meta property="og:locale" content="es_CO">
+    <!-- Direcciones completas (con https://). Si Piamonte compra su dominio, cámbialas aquí -->
+    <meta property="og:url" content="https://estebandev.online/proyectos/Piamonte-Cafe/menu.html">
+    <meta property="og:image" content="https://estebandev.online/proyectos/Piamonte-Cafe/img/compartir.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Logo de Piamonte Café sobre la foto de su finca en Yotoco: De la finca, directo a tu mesa">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://estebandev.online/proyectos/Piamonte-Cafe/menu.html">
+
+    <!-- Ícono de la pestaña (grano de café) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233b2418'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' transform='rotate(30 16 16)' fill='%23f5ede1'/%3E%3Cpath d='M12.5 8.5c5 4 1 11 7 15' stroke='%233b2418' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&family=Kalam:wght@700&display=swap">
+    <link rel="stylesheet" href="css/estilos.css">
+    <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
+    <script>document.documentElement.classList.add('js');</script>
+
+</head>
+
+<body>
+    <a class="saltar-link" href="#contenido">Saltar al contenido</a>
+
+    <!-- ===== ENCABEZADO FIJO ===== -->
+    <header class="encabezado solido" id="encabezado"> <!-- "solido" desde el inicio: aquí no hay portada oscura -->
+        <a href="index.html" class="logo" aria-label="Piamonte Café, ir al inicio">
+            <span class="logo-nombre">Piamonte</span>
+            <span class="logo-cafe">café</span>
+        </a>
+        <nav aria-label="Principal">
+            <ul class="nav-enlaces">
+                <li><a href="menu.html" aria-current="page">Menú</a></li>
+                <li><a href="index.html#visitanos">Visítanos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenido" class="pagina-menu">
+        <!-- ===== MENÚ (productos y precios: lista MENU en js/main.js) ===== -->
+        <section class="seccion menu" id="menu">
+            <h2>¿Qué vas a pedir?</h2>
+            <p class="menu-ayuda">Toca un producto para verlo en grande y saber qué lleva.</p>
+
+            <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
+
+            <!-- Cuadrícula de productos: foto (o dibujo si no hay foto). La arma js/menu.js -->
+            <div class="productos" id="productos"></div>
+
+            <p class="menu-nota">
+                <strong>Adiciones:</strong> esencias $2.000 · licor, vodka o gin $4.000 · Amaretto $4.000 · Baileys $3.000
+            </p>
+
+            <div class="domicilio">
+                <p><strong>¿No puedes venir?</strong> Te lo llevamos. Hacemos domicilios.</p>
+                <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener">Pide por WhatsApp</a>
+            </div>
+
+            <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
+        </section>
+
+        <!-- Ventana de detalle: se abre al tocar un producto. <dialog> ya trae el fondo oscuro,
+             el cierre con Esc y devolver el foco al producto al cerrar -->
+        <dialog class="detalle" id="detalle" aria-labelledby="destacado-nombre">
+            <!-- Todo va dentro de esta caja: así un toque fuera de ella (en el fondo) cierra la ventana -->
+            <div class="detalle-caja">
+                <button type="button" class="detalle-cerrar" id="detalle-cerrar" aria-label="Cerrar">✕</button>
+                <img class="detalle-foto" id="destacado-foto" alt="" width="800" height="800" decoding="async" hidden>
+                <div class="destacado">
+                    <div class="destacado-dibujo" id="destacado-dibujo"></div>
+                    <div class="destacado-texto">
+                        <h3 id="destacado-nombre">Capuchino</h3>
+                        <p class="destacado-precio" id="destacado-precio"></p>
+                        <ul class="destacado-capas" id="destacado-capas"></ul>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+    </main>
+
+    <!-- Pie (el mismo de la portada, con su franja verde) -->
+    <div class="visitanos">
+        <footer class="pie">
+            <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
+            <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
+            <a href="#contenido">Volver arriba</a>
+
+            <!-- Aviso de privacidad (Ley 1581 de 2012) -->
+            <details class="privacidad">
+                <summary>Aviso de privacidad</summary>
+                <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
+                <p>Si nos escribes por WhatsApp, esa conversación la maneja WhatsApp (Meta) con sus propias reglas de privacidad.</p>
+                <p>Responsable: Piamonte Café, Calle 6 # 3-116, Yotoco, Valle del Cauca. Según la Ley 1581 de 2012 puedes conocer, actualizar o pedir que borremos tus datos escribiéndonos al WhatsApp 316 879 8017.</p>
+            </details>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+            integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+            integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/scroll.js"></script>
+</body>
+</html>

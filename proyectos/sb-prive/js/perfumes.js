@@ -28,6 +28,8 @@
    - fotos: ['img/perfumes/x-1.webp', 'img/perfumes/x-2.webp'] (más de una foto; la primera es la principal)
    - decant5: { ml: 5, precio: 25000 } si también lo vende en 5 ml.
    - genero: 'hombre', 'mujer' o 'unisex' (para el filtro "Para" del catálogo).
+   - color: el color de las partículas que salen del frasco en la vitrina (ej: '#2F5D9E').
+     Si no se pone, se saca solo de la foto del frasco; si el frasco es plateado o transparente, sale perla.
 
    La vitrina del inicio muestra los 6 PRIMEROS perfumes de esta lista (dos repisas de 3).
    Conviene que entre esos 6 haya al menos uno de cada aroma (Dulce, Fresco, Amaderado, Intenso):

@@ -1,0 +1,215 @@
+    <!DOCTYPE html>
+    <html lang="es-CO">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <title>Política de privacidad | S. B. Privé</title>
+        <meta name="description" content="Cómo S. B. Privé trata tus datos personales: qué recibimos por WhatsApp, para qué, con quién se comparten y cómo ejercer tus derechos (Ley 1581 de 2012).">
+        <link rel="canonical" href="https://estebandev.online/proyectos/sb-prive/privacidad.html">
+        <meta name="theme-color" content="#071810">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+        <link rel="stylesheet" href="css/estilos.css">
+
+        <!-- Solo lo compartido: menú del celular, franja, bolsa con el número de Mi lista -->
+        <script src="js/perfumes.js" defer></script>
+        <script src="js/comun.js" defer></script>
+
+        <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
+        <link rel="apple-touch-icon" href="img/logo/icono-180.png">
+    </head>
+
+    <body>
+        <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
+        <a class="saltar" href="#contenido">Saltar al contenido</a>
+        <p class="franja">
+            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
+            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
+            <span class="franja__mensaje">Solo perfumes originales</span>
+            <span class="franja__mensaje">Decants para probar antes del frasco</span>
+            <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
+            <button class="franja__pausa" type="button" aria-pressed="false" aria-label="Pausar movimiento">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="2" width="3" height="10"></rect>
+                    <rect x="8" y="2" width="3" height="10"></rect>
+                </svg>
+            </button>
+        </p>
+
+        <header class="encabezado">
+            <a href="index.html" class="logo">
+                <img src="img/logo/logo-horizontal-dorado.webp" alt="S. B. Privé, ir al inicio" width="259" height="80">
+            </a>
+            <nav class="menu" id="menu" aria-label="Navegación principal">
+                <a href="catalogo.html?tipo=arabes">Árabes</a>
+                <a href="catalogo.html?tipo=disenador">De diseñador</a>
+                <a href="catalogo.html?tipo=nicho">De nicho</a>
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#kit">Decants</a>
+                <a href="index.html#promesas">Por qué elegirnos</a>
+            </nav>
+
+            <div class="encabezado__botones">
+                <a class="boton-icono" href="catalogo.html#buscar" aria-label="Buscar perfume">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-4-4"></path>
+                    </svg>
+                </a>
+                <a class="boton-icono boton-lista" href="catalogo.html#mi-lista" aria-label="Mi lista: 0 perfumes">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 8h12l-1 12H7L6 8z"></path>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                    </svg>
+                    <span class="boton-lista__cuenta" aria-hidden="true">0</span>
+                </a>
+                <button class="boton-icono boton-menu" type="button" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- OJO: texto de base según la Ley 1581 de 2012 (protección de datos personales) y el Decreto 1074 de 2015.
+             Antes de publicar, el cliente debe llenar los [DATOS] y pedirle a un abogado que lo revise. -->
+        <main class="legal" id="contenido">
+            <header class="legal__cabecera">
+                <p class="legal__antetitulo">Información legal</p>
+                <h1>Política de privacidad</h1>
+                <p class="legal__fecha">Vigente desde: [FECHA]</p>
+                <p class="legal__intro">Esta es nuestra política de tratamiento de datos personales. Explica qué datos recibimos cuando nos escribes, para qué los usamos, con quién los compartimos y cómo puedes consultarlos, corregirlos o pedir que los borremos.</p>
+            </header>
+
+            <nav class="legal__indice" aria-label="Contenido de esta página">
+                <ol>
+                    <li><a href="#responsable">Quién es el responsable</a></li>
+                    <li><a href="#datos">Qué datos recibimos</a></li>
+                    <li><a href="#finalidad">Para qué los usamos</a></li>
+                    <li><a href="#autorizacion">Tu autorización</a></li>
+                    <li><a href="#compartimos">Con quién los compartimos</a></li>
+                    <li><a href="#tiempo">Cuánto tiempo los guardamos</a></li>
+                    <li><a href="#derechos">Tus derechos</a></li>
+                    <li><a href="#ejercer">Cómo ejercer tus derechos</a></li>
+                    <li><a href="#pagina">La página y tu navegador</a></li>
+                    <li><a href="#seguridad">Seguridad</a></li>
+                    <li><a href="#vigencia">Vigencia y cambios</a></li>
+                </ol>
+            </nav>
+
+            <section class="legal__seccion" id="responsable">
+                <h2>1. Quién es el responsable</h2>
+                <p>El responsable de tus datos es [RAZÓN SOCIAL O NOMBRE DEL TITULAR], identificado con [NIT O CÉDULA] [NÚMERO], con domicilio en [DIRECCIÓN], [CIUDAD], Colombia, que vende bajo la marca S. B. Privé.</p>
+                <ul>
+                    <li>WhatsApp: <a href="https://wa.me/573158599499">+57 315 859 9499</a></li>
+                    <li>Correo para temas de datos personales: [CORREO]</li>
+                </ul>
+            </section>
+
+            <section class="legal__seccion" id="datos">
+                <h2>2. Qué datos recibimos</h2>
+                <p>La página no tiene formularios ni te pide datos. Los recibimos solo cuando nos escribes por WhatsApp para hacer un pedido o una pregunta:</p>
+                <ul>
+                    <li>tu nombre y tu número de teléfono,</li>
+                    <li>la dirección y la ciudad de entrega,</li>
+                    <li>tu correo, si nos lo das,</li>
+                    <li>lo que pediste y el comprobante de pago.</li>
+                </ul>
+                <p>No pedimos datos sensibles (de salud, religión, política u otros que la ley protege de forma especial) ni datos de tarjetas o cuentas bancarias.</p>
+            </section>
+
+            <section class="legal__seccion" id="finalidad">
+                <h2>3. Para qué los usamos</h2>
+                <ul>
+                    <li>Confirmar y preparar tu pedido.</li>
+                    <li>Enviarlo y avisarte cómo va.</li>
+                    <li>Recibir y verificar tu pago.</li>
+                    <li>Atender cambios, garantías, peticiones, quejas y reclamos.</li>
+                    <li>Cumplir obligaciones contables, tributarias y legales.</li>
+                    <li>Solo si nos lo autorizas aparte: contarte lanzamientos y novedades. Puedes pedir que no te escribamos más en cualquier momento.</li>
+                </ul>
+            </section>
+
+            <section class="legal__seccion" id="autorizacion">
+                <h2>4. Tu autorización</h2>
+                <p>Cuando nos escribes y nos das tus datos para un pedido, nos autorizas a usarlos para las finalidades de arriba. Antes de pedirte tus datos te enviamos el enlace a esta política. Para escribirte con novedades te pedimos una autorización aparte.</p>
+            </section>
+
+            <section class="legal__seccion" id="compartimos">
+                <h2>5. Con quién los compartimos</h2>
+                <p>No vendemos ni alquilamos tus datos. Solo los compartimos con quien los necesita para cumplir tu pedido:</p>
+                <ul>
+                    <li><strong>La transportadora</strong> ([TRANSPORTADORA]): tu nombre, teléfono y dirección, para la entrega.</li>
+                    <li><strong>La plataforma de pago</strong> que elijas: lo necesario para procesar el pago.</li>
+                    <li><strong>WhatsApp</strong> (Meta): es el canal por el que hablamos; su manejo de datos se rige por sus propias políticas.</li>
+                    <li><strong>Autoridades</strong>, cuando la ley nos obligue.</li>
+                </ul>
+            </section>
+
+            <section class="legal__seccion" id="tiempo">
+                <h2>6. Cuánto tiempo los guardamos</h2>
+                <p>Mientras tengamos una relación contigo y durante el tiempo que exijan las normas contables, tributarias y de protección al consumidor. Después los borramos.</p>
+            </section>
+
+            <section class="legal__seccion" id="derechos">
+                <h2>7. Tus derechos</h2>
+                <p>Según el artículo 8 de la Ley 1581 de 2012, tienes derecho a:</p>
+                <ul>
+                    <li>conocer, actualizar y corregir tus datos;</li>
+                    <li>pedir prueba de la autorización que nos diste;</li>
+                    <li>saber para qué hemos usado tus datos;</li>
+                    <li>revocar la autorización o pedir que borremos tus datos, cuando no haya un deber legal de conservarlos;</li>
+                    <li>consultar tus datos gratis;</li>
+                    <li>presentar quejas ante la Superintendencia de Industria y Comercio (<a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer">www.sic.gov.co</a>).</li>
+                </ul>
+            </section>
+
+            <section class="legal__seccion" id="ejercer">
+                <h2>8. Cómo ejercer tus derechos</h2>
+                <p>Escríbenos a [CORREO] o por <a href="https://wa.me/573158599499">WhatsApp</a> con tu nombre, lo que pides y cómo quieres que te respondamos.</p>
+                <ul>
+                    <li><strong>Consultas</strong> (saber qué datos tenemos): te respondemos en máximo 10 días hábiles.</li>
+                    <li><strong>Reclamos</strong> (corregir, borrar o revocar): te respondemos en máximo 15 días hábiles.</li>
+                </ul>
+                <p>Si necesitamos más tiempo, te avisamos antes de que se cumpla el plazo, como lo permite la ley.</p>
+            </section>
+
+            <section class="legal__seccion" id="pagina">
+                <h2>9. La página y tu navegador</h2>
+                <p>La página no usa cookies de seguimiento ni herramientas de analítica [ACTUALIZAR SI SE AGREGAN].</p>
+                <p>Guarda dos cosas <strong>solo en tu navegador</strong> (almacenamiento local): los perfumes que agregas a "Mi lista" y si pausaste el movimiento de la página. Esa información no nos llega a nosotros; la puedes borrar borrando los datos del sitio en tu navegador.</p>
+                <p>Para mostrar las letras y algunas animaciones, la página carga archivos de Google Fonts y de cdnjs (Cloudflare). Como pasa con cualquier página, esos servicios reciben la dirección IP de tu conexión. El servicio de alojamiento de la página también puede guardar registros técnicos de las visitas.</p>
+            </section>
+
+            <section class="legal__seccion" id="seguridad">
+                <h2>10. Seguridad</h2>
+                <p>Cuidamos tus datos: solo los ve quien los necesita para tu pedido y no los publicamos. Nunca te pediremos contraseñas ni códigos de tu banco.</p>
+            </section>
+
+            <section class="legal__seccion" id="vigencia">
+                <h2>11. Vigencia y cambios</h2>
+                <p>Esta política rige desde la fecha de arriba. Si la cambiamos de forma importante, lo publicaremos en esta página antes de aplicar el cambio.</p>
+                <p>Las condiciones de compra están en los <a href="terminos.html">términos y condiciones</a>.</p>
+            </section>
+        </main>
+
+        <footer class="pie">
+            <nav class="pie__nav" aria-label="Navegación del pie de página">
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#envios">Envíos</a>
+                <a href="index.html#cambios">Cambios</a>
+                <a href="terminos.html">Términos</a>
+                <a href="privacidad.html" aria-current="page">Privacidad</a>
+                <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
+            </nav>
+            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+            <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
+        </footer>
+
+        <a class="barra-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Escribir por WhatsApp</a>
+    </body>
+    </html>

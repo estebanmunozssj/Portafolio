@@ -8,6 +8,28 @@
    "Abriendo WhatsApp…" están en js/comun.js, porque los usan todas las páginas.
    ========================================================= */
 
+/* ---------- Entrada elegante: tocarla (o Esc) la salta ---------- */
+// La entrada se va sola con CSS; esto solo la adelanta para quien no quiere esperar
+// "entrada-saltada" en <html> quita la entrada y también la subida de la vitrina y del título
+const entrada = document.querySelector('.entrada');
+if (entrada) {
+  const raiz = document.documentElement;
+  // Mientras dura la entrada (2,1 s) no se puede hacer scroll: así, al abrirse las puertas, la página está arriba
+  const soltarScroll = function () { raiz.classList.remove('entrada-quieta'); };
+  if (raiz.classList.contains('con-entrada')) {
+    raiz.classList.add('entrada-quieta');
+    setTimeout(soltarScroll, 2100);
+  }
+  const saltarEntrada = function () {
+    raiz.classList.add('entrada-saltada');
+    soltarScroll();
+  };
+  entrada.addEventListener('click', saltarEntrada);
+  document.addEventListener('keydown', function (evento) {
+    if (evento.key === 'Escape') saltarEntrada();
+  }, { once: true });
+}
+
 /* ---------- Piezas de la página que vamos a cambiar ---------- */
 const botonesAroma = document.querySelectorAll('.aroma');
 const botonesFrasco = document.querySelectorAll('.frasco');

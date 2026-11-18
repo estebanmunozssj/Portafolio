@@ -40,27 +40,30 @@
     });
 
     /* ----- 2. Los 4 pasos aparecen y se "iluminan" uno por uno ----- */
-    // timeline: encadena animaciones en orden
-    const pasos = gsap.timeline({
-      scrollTrigger: { trigger: '.pasos', start: 'top 85%', once: true },
-    });
+    // Solo si hay pasos (están en la portada, no en menu.html)
+    if (document.querySelector('.pasos')) {
+      // timeline: encadena animaciones en orden
+      const pasos = gsap.timeline({
+        scrollTrigger: { trigger: '.pasos', start: 'top 85%', once: true },
+      });
 
-    pasos
-      .from('.pasos li', {
-        autoAlpha: 0,
-        y: 16,
-        duration: 0.5,
-        ease: 'power3.out',
-        stagger: 0.12,
-      })
-      .to('.pasos span', {
-        backgroundColor: '#e6bd85',
-        borderColor: '#e6bd85',
-        color: '#3b2418',
-        duration: 0.35,
-        ease: 'power2.out',
-        stagger: 0.25,
-      }, '-=0.2'); // Empieza 0,2 s antes de que termine lo anterior
+      pasos
+        .from('.pasos li', {
+          autoAlpha: 0,
+          y: 16,
+          duration: 0.5,
+          ease: 'power3.out',
+          stagger: 0.12,
+        })
+        .to('.pasos span', {
+          backgroundColor: '#e6bd85',
+          borderColor: '#e6bd85',
+          color: '#3b2418',
+          duration: 0.35,
+          ease: 'power2.out',
+          stagger: 0.25,
+        }, '-=0.2'); // Empieza 0,2 s antes de que termine lo anterior
+    }
 
     /* ----- 3. El video de la finca y la foto de la fachada se revelan de abajo hacia arriba ----- */
     // inset(100% ...) = foto oculta; inset(0% ...) = foto completa
@@ -80,7 +83,8 @@
     /* ----- 4. Parallax en la portada: el logo y la frase bajan más lento que la página ----- */
     // Se mueve el bloque completo para que el logo no se monte sobre la frase.
     // scrub: la animación sigue el scroll (si subes, se devuelve)
-    gsap.to('.portada-centro', {
+    // Solo en la portada (index.html): en menu.html no existe y GSAP avisaría en la consola
+    if (document.querySelector('.portada')) gsap.to('.portada-centro', {
       y: 100,
       ease: 'none',
       scrollTrigger: {

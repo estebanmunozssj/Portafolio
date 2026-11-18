@@ -3325,3 +3325,542 @@ select {
     column-gap: 40px;
   }
 }
+
+/* =========================================================
+   PÁGINAS LEGALES (terminos.html y privacidad.html)
+   Pensadas para leer: una columna de unos 70 caracteres por línea,
+   letra cómoda y un índice para saltar a la sección que se busca
+   ========================================================= */
+
+.legal {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 16px 56px;
+  line-height: 1.7;
+}
+
+/* Al tocar un enlace del índice, el título no queda pegado al borde de arriba */
+.legal [id] {
+  scroll-margin-top: 24px;
+}
+
+/* ---------- Cabecera ---------- */
+.legal__antetitulo {
+  font-family: var(--fuentes-mayusculas);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+.legal__cabecera h1 {
+  margin-top: 8px;
+  font-family: var(--fuentes-titulos);
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+.legal__fecha {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--gris);
+}
+.legal__intro {
+  margin-top: 16px;
+  font-size: 17px;
+  color: var(--dorado-claro);
+}
+
+/* ---------- Índice: una caja con los números en dorado ---------- */
+.legal__indice {
+  margin: 32px 0 8px;
+  padding: 20px 20px 16px;
+  background: var(--verde-oscuro);
+}
+.legal__indice ol {
+  counter-reset: indice;
+}
+.legal__indice li {
+  counter-increment: indice;
+  display: flex;
+  align-items: baseline; /* el número y el texto en la misma línea, aunque el enlace tenga relleno */
+  gap: 8px;
+}
+.legal__indice li::before {
+  content: counter(indice) '.';
+  min-width: 1.4em;
+  font-variant-numeric: tabular-nums; /* los números quedan alineados */
+  color: var(--dorado);
+}
+.legal__indice a {
+  display: inline-block;
+  padding: 6px 0; /* zona de toque cómoda en el celular */
+  color: var(--crema);
+  text-decoration: none;
+}
+
+/* ---------- Secciones ---------- */
+.legal__seccion {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--linea);
+}
+.legal__seccion h2 {
+  font-family: var(--fuentes-titulos);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+.legal__seccion h3 {
+  margin-top: 22px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--dorado-claro);
+}
+.legal__seccion p,
+.legal__seccion ul {
+  margin-top: 12px;
+}
+.legal__seccion strong {
+  font-weight: 500;
+  color: var(--dorado-claro);
+}
+
+/* Viñetas: el CSS base quita las de todas las listas; aquí vuelven, como un punto dorado */
+.legal__seccion ul li {
+  position: relative;
+  padding-left: 20px;
+}
+.legal__seccion ul li + li {
+  margin-top: 6px;
+}
+.legal__seccion ul li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.75em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dorado);
+}
+
+/* Enlaces dentro del texto: dorado claro y subrayados, para que se vean como enlaces */
+.legal__seccion a {
+  color: var(--dorado-claro);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere; /* el correo o una dirección larga no se salen de la pantalla */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .legal__indice a:hover {
+    color: var(--dorado-claro);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .legal__seccion a:hover {
+    color: var(--dorado);
+  }
+}
+
+/* Computador: más aire arriba y el índice en dos columnas */
+@media (min-width: 1024px) {
+  .legal {
+    padding: 64px 40px 96px;
+  }
+  .legal__indice {
+    padding: 28px 32px 22px;
+  }
+  .legal__indice ol {
+    columns: 2;
+    column-gap: 40px;
+  }
+  .legal__indice li {
+    break-inside: avoid; /* un punto del índice no se parte entre las dos columnas */
+  }
+  .legal__seccion h2 {
+    font-size: 34px;
+  }
+}
+
+/* =========================================================
+   ENTRADA (solo inicio, primera vez por visita) — igual al diseño "Entrada"
+   0 s     las puertas cerradas, el sello dorado aparece y se dibuja un anillo
+   0,3 s   aparece el lema: "S. B. PRIVÉ / Perfume que se lleva como un secreto"
+   1,3 s   el lema y el anillo se desvanecen
+   1,5 s   las puertas se entreabren 7 px…
+   1,6 s   …y se abren hacia los lados: el sello se parte en dos
+   1,75 s  la luz de la vitrina se enciende titilando y los frascos suben
+   2,0 s   suben el encabezado, el título y los aromas
+   Todo es CSS: aunque el JavaScript falle, a los 2,1 s la entrada deja de existir
+   ========================================================= */
+.entrada {
+  display: none;
+}
+.con-entrada .entrada {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  cursor: pointer;
+  animation: entrada-fin 0s linear 2.15s forwards; /* al final deja de existir (también para el mouse) */
+}
+/* Al tocarla, se va de una vez (main.js pone la clase "entrada-saltada" en <html>) */
+.entrada-saltada .entrada {
+  display: none;
+}
+
+/* Las dos puertas: verde botella con el patrón del monograma SB muy suave */
+.entrada__puerta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden; /* cada puerta muestra solo su mitad del sello */
+  background: var(--verde);
+}
+.entrada__puerta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../img/logo/patron-monograma.png') repeat center / 60px auto;
+  opacity: 0.22;
+}
+.entrada__puerta--izquierda {
+  left: 0;
+  border-right: 1px solid var(--verde-oscuro); /* la rendija entre las dos puertas */
+  animation: entrada-puerta-izquierda 1.3s cubic-bezier(0.7, 0, 0.2, 1) 0.8s both;
+}
+.entrada__puerta--derecha {
+  right: 0;
+  animation: entrada-puerta-derecha 1.3s cubic-bezier(0.7, 0, 0.2, 1) 0.8s both;
+}
+
+/* El sello: círculo dorado con el monograma verde, partido justo en la rendija */
+.entrada__sello {
+  position: absolute;
+  top: 50%;
+  width: 110px;
+  height: 110px;
+  margin-top: -55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dorado);
+  animation: entrada-sello 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.entrada__puerta--izquierda .entrada__sello {
+  right: -55px;
+}
+.entrada__puerta--derecha .entrada__sello {
+  left: -55px;
+}
+.entrada__sello img {
+  width: 60px;
+  height: auto;
+}
+
+/* El anillo que se dibuja alrededor del sello */
+.entrada__anillo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -75px 0 0 -75px;
+  pointer-events: none;
+}
+.entrada__anillo circle {
+  stroke-dasharray: 415; /* el largo del círculo: así se puede "dibujar" de 0 a completo */
+  animation: entrada-anillo 0.6s cubic-bezier(0.6, 0, 0.3, 1) 0.15s both,
+             entrada-desvanece 0.2s linear 1.45s both;
+}
+
+/* El lema, debajo del sello */
+.entrada__lema {
+  position: absolute;
+  top: calc(50% + 100px);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  pointer-events: none;
+  animation: entrada-sube 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both,
+             entrada-desvanece 0.25s linear 1.3s both;
+}
+.entrada__marca {
+  font-family: var(--fuentes-mayusculas);
+  font-size: 13px;
+  letter-spacing: 0.45em;
+  color: var(--dorado);
+}
+.entrada__frase {
+  font-family: var(--fuentes-titulos);
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.2;
+  color: var(--crema);
+}
+
+/* ---------- Lo que pasa en la página cuando se abren las puertas (solo la primera vez) ---------- */
+/* "backwards": la animación solo se aplica antes y durante; al terminar, cada elemento vuelve a su estilo normal
+   (así el frasco elegido conserva su tamaño y su respiración) */
+
+/* La luz de la vitrina se enciende titilando */
+.con-entrada:not(.entrada-saltada) .vitrina__fondo {
+  animation: entrada-lampara 0.8s linear 1.75s backwards;
+}
+/* Los frascos suben uno por uno */
+.con-entrada:not(.entrada-saltada) .frasco {
+  animation: entrada-frasco 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(1) { animation-delay: 1.85s; }
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(2) { animation-delay: 1.91s; }
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(3) { animation-delay: 1.97s; }
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(1) { animation-delay: 2.03s; }
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(2) { animation-delay: 2.09s; }
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(3) { animation-delay: 2.15s; }
+/* El encabezado, el título y lo de abajo suben */
+.con-entrada:not(.entrada-saltada) .encabezado {
+  animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2s backwards;
+}
+.con-entrada:not(.entrada-saltada) .inicio > h1 {
+  animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.1s backwards;
+}
+.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type,
+.con-entrada:not(.entrada-saltada) .inicio > .aromas {
+  animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.2s backwards;
+}
+
+@keyframes entrada-puerta-izquierda {
+  0%, 52% { transform: translateX(0); }
+  60% { transform: translateX(-7px); }   /* se entreabre… */
+  100% { transform: translateX(-102%); } /* …y se abre */
+}
+@keyframes entrada-puerta-derecha {
+  0%, 52% { transform: translateX(0); }
+  60% { transform: translateX(7px); }
+  100% { transform: translateX(102%); }
+}
+@keyframes entrada-sello {
+  from { opacity: 0; transform: scale(0.86); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes entrada-anillo {
+  from { stroke-dashoffset: 415; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes entrada-sube {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes entrada-frasco {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes entrada-desvanece {
+  to { opacity: 0; }
+}
+@keyframes entrada-lampara {
+  0% { filter: brightness(0.45); }
+  25% { filter: brightness(0.9); }
+  35% { filter: brightness(0.55); }
+  55% { filter: brightness(0.95); }
+  65% { filter: brightness(0.7); }
+  100% { filter: brightness(1); }
+}
+@keyframes entrada-fin {
+  to { visibility: hidden; }
+}
+
+/* ---------- Mejoras de la entrada ---------- */
+
+/* 1. El sello parece de metal: degradado con los tres dorados de la marca y un filo fino.
+      Un destello de luz lo cruza una vez antes de que se abran las puertas */
+.entrada__sello {
+  overflow: hidden;
+  background: radial-gradient(circle at 35% 30%, var(--dorado-claro) 0%, var(--dorado) 45%, #7A5D26 100%);
+  box-shadow: inset 0 0 0 1px rgba(230, 207, 152, 0.55), 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.entrada__sello::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(251, 248, 241, 0.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: entrada-destello 0.7s ease-in-out 0.55s both;
+}
+@keyframes entrada-destello {
+  to { transform: translateX(120%); }
+}
+
+/* 2. Las puertas tienen profundidad: un filo dorado en la rendija y una sombra al abrirse */
+.entrada__puerta--izquierda {
+  border-right: 0;
+  box-shadow: inset -1px 0 0 rgba(200, 164, 92, 0.45), 12px 0 28px rgba(0, 0, 0, 0.45);
+}
+.entrada__puerta--derecha {
+  box-shadow: inset 1px 0 0 rgba(200, 164, 92, 0.45), -12px 0 28px rgba(0, 0, 0, 0.45);
+}
+
+/* 3. El encabezado, el título y los aromas suben MIENTRAS se abren las puertas
+      (antes, por un instante, se veía la página vacía) */
+.con-entrada:not(.entrada-saltada) .encabezado {
+  animation-delay: 1.7s;
+}
+.con-entrada:not(.entrada-saltada) .inicio > h1 {
+  animation-delay: 1.8s;
+}
+.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type,
+.con-entrada:not(.entrada-saltada) .inicio > .aromas {
+  animation-delay: 1.9s;
+}
+
+/* 4. Mientras dura la entrada no se puede hacer scroll (main.js pone y quita "entrada-quieta") */
+.entrada-quieta,
+.entrada-quieta body {
+  overflow: hidden;
+}
+
+/* 5. En computador el sello, el anillo y la frase son un poco más grandes */
+@media (min-width: 1024px) {
+  .entrada__sello {
+    width: 140px;
+    height: 140px;
+    margin-top: -70px;
+  }
+  .entrada__puerta--izquierda .entrada__sello {
+    right: -70px;
+  }
+  .entrada__puerta--derecha .entrada__sello {
+    left: -70px;
+  }
+  .entrada__sello img {
+    width: 76px;
+  }
+  .entrada__anillo {
+    width: 190px;
+    height: 190px;
+    margin: -95px 0 0 -95px;
+  }
+  .entrada__puerta::before {
+    background-size: 72px auto;
+  }
+  .entrada__lema {
+    top: calc(50% + 124px);
+  }
+  .entrada__marca {
+    font-size: 14px;
+  }
+  .entrada__frase {
+    font-size: 32px;
+  }
+}
+
+/* =========================================================
+   HUMO DE FRAGANCIA (vitrina del inicio)
+   Un lienzo encima del armario donde js/humo.js dibuja una bruma muy suave
+   que sube del frasco elegido. No se puede tocar (los frascos siguen funcionando)
+   ========================================================= */
+.humo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen; /* la bruma solo aclara, como luz sobre el mármol */
+}
+
+/* =========================================================
+   FASE 2 · DETALLES DE LUJO
+   ========================================================= */
+
+/* 1. Brillo suave en los botones dorados (los que piden): al pasar el mouse,
+      una franja de luz los cruza una vez. Solo en computador y si no se pidió menos movimiento */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tarjeta .boton-whatsapp,
+  .ficha__pedir,
+  .mi-lista__enviar,
+  .catalogo__vacio .boton-whatsapp,
+  .ficha__no-existe .boton-oscuro {
+    position: relative;
+    overflow: hidden;
+  }
+  .tarjeta .boton-whatsapp::after,
+  .ficha__pedir::after,
+  .mi-lista__enviar::after,
+  .catalogo__vacio .boton-whatsapp::after,
+  .ficha__no-existe .boton-oscuro::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(251, 248, 241, 0.45) 50%, transparent 70%);
+    transform: translateX(-110%);
+    pointer-events: none;
+  }
+  .tarjeta .boton-whatsapp:hover::after,
+  .ficha__pedir:hover::after,
+  .mi-lista__enviar:hover::after,
+  .catalogo__vacio .boton-whatsapp:hover::after,
+  .ficha__no-existe .boton-oscuro:hover::after {
+    transform: translateX(110%);
+    transition: transform 0.75s ease-out; /* solo al entrar: al salir vuelve sin animación */
+  }
+}
+
+/* 2. Botón flotante de WhatsApp en computador.
+      Es la misma barra fija del celular (así su mensaje ya cambia según la página:
+      el perfume elegido en el inicio, Mi lista en el catálogo, el tamaño y la cantidad en la ficha).
+      En computador se vuelve un círculo discreto abajo a la derecha que, al pasar el mouse,
+      se abre y muestra su texto */
+@media (min-width: 1024px) {
+  .barra-whatsapp {
+    display: flex;
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    height: 52px;
+    max-width: 52px;           /* cerrado: solo el ícono (el ancho incluye el borde y el relleno) */
+    padding: 0 0 0 50px;       /* el ícono va en los primeros 50 px; el texto queda afuera, escondido */
+    justify-content: flex-start;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 1px solid var(--dorado);
+    border-radius: 26px;
+    background: var(--verde-oscuro);
+    color: var(--crema);
+    font-size: 15px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+    transition: max-width 0.35s ease-out, padding 0.35s ease-out, border-color 0.2s ease-out;
+  }
+  /* El ícono: una burbuja de conversación en dorado */
+  .barra-whatsapp::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
+    background: var(--dorado);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  /* Al pasar el mouse o llegar con el teclado: se abre y muestra el texto ("Pedir por WhatsApp", "Enviar mi lista (2)"…) */
+  .barra-whatsapp:hover,
+  .barra-whatsapp:focus-visible {
+    max-width: 340px;
+    padding-right: 22px;
+    border-color: var(--dorado-claro);
+  }
+  .barra-whatsapp:focus-visible {
+    outline: 2px solid var(--dorado-claro);
+    outline-offset: 3px;
+  }
+  /* El aviso "Agregado a tu lista" sube para no quedar encima del botón */
+  .aviso {
+    bottom: 92px;
+  }
+}

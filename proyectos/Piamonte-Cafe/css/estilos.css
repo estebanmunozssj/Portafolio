@@ -84,6 +84,8 @@ html { scrollbar-color: var(--cafe-suave) var(--crema); }
     margin-inline: auto;
     padding: 4rem 0;
 }
+/* menu.html no tiene portada: el encabezado fijo quedaría encima del título */
+.pagina-menu { padding-top: var(--alto-encabezado); }
 
 h2 {
     font-family: var(--letra-titulo);
@@ -318,7 +320,7 @@ h2 {
 
 @keyframes rebote {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
+    50% { transform: translateX(6px); } /* De lado: la flecha lleva a otra página (el menú) */
 }
 
 /* ===== HISTORIA ===== */
@@ -407,34 +409,58 @@ h2 {
     color: var(--crema);
 }
 
-.destacado {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+/* ===== VENTANA DE DETALLE (<dialog>): se abre al tocar un producto ===== */
+.detalle {
+    width: min(100% - 2rem, 26rem);
+    max-height: calc(100dvh - 2rem);
+    padding: 0;              /* Sin relleno: así un toque fuera de .detalle-caja cae en el fondo y cierra */
+    border: 0;
     border-radius: 1.25rem;
-    background: var(--crema-oscura);
-    box-shadow: 0 10px 24px -14px rgba(59, 36, 24, 0.45);
+    background: var(--crema);
+    color: var(--cafe);
+    overflow: auto;
 }
-/* Foto real del producto: ocupa todo el ancho arriba del dibujo */
-.destacado-foto {
-    grid-column: 1 / -1;
+.detalle::backdrop { background: rgba(30, 18, 12, 0.75); } /* El fondo oscuro detrás de la ventana */
+.detalle[open] { animation: detalle-abrir 240ms var(--ease-out); }
+@keyframes detalle-abrir {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+.detalle-caja { position: relative; padding: 1rem; }
+.detalle-foto {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 0.9rem;
+    margin-bottom: 1rem;
+    background: var(--crema-oscura);
+}
+.detalle-foto[hidden] { display: none; }
+.detalle-cerrar {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1;
+    width: 2.75rem;  /* 44 px: tamaño cómodo para el dedo */
+    height: 2.75rem;
+    border: 0;
+    border-radius: 50%;
     background: var(--crema);
+    color: var(--cafe);
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
-.destacado-foto[hidden] { display: none; }
-.destacado.fijo .destacado-foto { aspect-ratio: 2 / 1; } /* Más bajita cuando se queda pegada, para ver más lista */
-/* En las categorías de bebidas (clase "fijo") se queda pegada arriba mientras bajas por la lista */
-.destacado.fijo {
-    position: sticky;
-    top: calc(var(--alto-encabezado) + 0.5rem);
-    z-index: 5;
+
+/* Dentro de la ventana: dibujo a la izquierda, nombre, precio e ingredientes a la derecha */
+.destacado {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    align-items: center;
+    gap: 1rem;
 }
+.destacado-texto { padding-right: 0.5rem; }
 .destacado .unidad { text-transform: none; } /* "250 g" y no "250 G" */
 .destacado h3 {
     font-family: var(--letra-titulo);
@@ -465,27 +491,39 @@ h2 {
 .productos {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
+    gap: 0.75rem;
     margin-top: 1rem;
 }
+/* Cada producto es un cuadro: imagen arriba, nombre y precio abajo */
 .producto {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.15rem;
-    min-height: 4.25rem;
-    padding: 0.75rem 0.9rem;
-    border-radius: 0.9rem;
+    padding: 0;
+    border-radius: 1rem;
     border: 1.5px solid var(--crema-oscura);
     background: #fffaf3;
     text-align: left;
     font-size: 0.95rem;
     cursor: pointer;
+    overflow: hidden;
     transition: border-color 200ms ease, transform 160ms var(--ease-out);
 }
+.producto-imagen {
+    display: block;
+    background: var(--crema-oscura);
+}
+/* La proporción va en la foto misma: en la caja, una foto vertical la estiraría (aspect-ratio es solo un mínimo) */
+.producto-imagen img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.producto-imagen.sin-foto { aspect-ratio: 1; }
+.producto-imagen.sin-foto { display: grid; place-items: center; padding: 0.9rem 1.4rem 0.6rem; } /* El dibujo, con aire alrededor */
+.producto-info { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 0.75rem 0.7rem; }
+.producto-mini { flex: none; width: 2.1rem; } /* El dibujo pequeño al lado del nombre (solo si hay foto) */
+.producto-texto { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
 .producto strong { color: var(--verde); font-size: 0.9rem; font-variant-numeric: tabular-nums; } /* Números del mismo ancho: precios alineados */
 .producto:active { transform: scale(0.97); }
-.producto[aria-pressed="true"] { border-color: var(--cafe); }
+/* En los cuadros los dibujos van quietos: 20 tazas echando vapor a la vez distraen. Se animan en la ventana */
+.producto .dibujo .vapor path,
+.producto .dibujo .liquido { animation: none; }
 
 /* Subtítulos de la lista (Café negro, Con leche...) */
 .subgrupo {
@@ -699,9 +737,16 @@ h2 {
 @media (min-width: 769px) {
     :root { --margen: 2.5rem; }
     .seccion { padding: 6rem 0; }
-    .destacado { grid-template-columns: 10rem 1fr; padding: 1.5rem; }
     .productos { grid-template-columns: repeat(3, 1fr); }
     .nav-enlaces { gap: 2rem; }
+}
+
+/* ===== MENÚ EN PANTALLA ANCHA: más espacio para la cuadrícula ===== */
+@media (min-width: 960px) {
+    .seccion.menu { width: min(100% - var(--margen) * 2, 64rem); }
+    .productos { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    /* Las categorías bajan a otra línea en vez de cortarse (aquí no hace falta deslizar) */
+    .seccion.menu .categorias { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
 }
 
 /* Menos movimiento NO es cero: se quita lo que se desplaza, quedan los fundidos */

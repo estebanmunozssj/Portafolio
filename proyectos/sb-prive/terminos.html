@@ -1,0 +1,197 @@
+    <!DOCTYPE html>
+    <html lang="es-CO">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <title>Términos y condiciones | S. B. Privé</title>
+        <meta name="description" content="Condiciones de compra de S. B. Privé: pedidos por WhatsApp, precios, pagos, envíos, garantía, cambios y devoluciones.">
+        <link rel="canonical" href="https://estebandev.online/proyectos/sb-prive/terminos.html">
+        <meta name="theme-color" content="#071810">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap">
+        <link rel="stylesheet" href="css/estilos.css">
+
+        <!-- Solo lo compartido: menú del celular, franja, bolsa con el número de Mi lista -->
+        <script src="js/perfumes.js" defer></script>
+        <script src="js/comun.js" defer></script>
+
+        <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
+        <link rel="apple-touch-icon" href="img/logo/icono-180.png">
+    </head>
+
+    <body>
+        <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
+        <a class="saltar" href="#contenido">Saltar al contenido</a>
+        <p class="franja">
+            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
+            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
+            <span class="franja__mensaje">Solo perfumes originales</span>
+            <span class="franja__mensaje">Decants para probar antes del frasco</span>
+            <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
+            <button class="franja__pausa" type="button" aria-pressed="false" aria-label="Pausar movimiento">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="2" width="3" height="10"></rect>
+                    <rect x="8" y="2" width="3" height="10"></rect>
+                </svg>
+            </button>
+        </p>
+
+        <header class="encabezado">
+            <a href="index.html" class="logo">
+                <img src="img/logo/logo-horizontal-dorado.webp" alt="S. B. Privé, ir al inicio" width="259" height="80">
+            </a>
+            <nav class="menu" id="menu" aria-label="Navegación principal">
+                <a href="catalogo.html?tipo=arabes">Árabes</a>
+                <a href="catalogo.html?tipo=disenador">De diseñador</a>
+                <a href="catalogo.html?tipo=nicho">De nicho</a>
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#kit">Decants</a>
+                <a href="index.html#promesas">Por qué elegirnos</a>
+            </nav>
+
+            <div class="encabezado__botones">
+                <a class="boton-icono" href="catalogo.html#buscar" aria-label="Buscar perfume">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-4-4"></path>
+                    </svg>
+                </a>
+                <a class="boton-icono boton-lista" href="catalogo.html#mi-lista" aria-label="Mi lista: 0 perfumes">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 8h12l-1 12H7L6 8z"></path>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+                    </svg>
+                    <span class="boton-lista__cuenta" aria-hidden="true">0</span>
+                </a>
+                <button class="boton-icono boton-menu" type="button" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A45C" stroke-width="1.6" aria-hidden="true">
+                        <path d="M4 8h16M4 16h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- OJO: texto de base redactado según la ley colombiana (Ley 1480 de 2011, Estatuto del Consumidor).
+             Antes de publicar, el cliente debe llenar los [DATOS] y pedirle a un abogado que lo revise. -->
+        <main class="legal" id="contenido">
+            <header class="legal__cabecera">
+                <p class="legal__antetitulo">Información legal</p>
+                <h1>Términos y condiciones</h1>
+                <p class="legal__fecha">Última actualización: [FECHA]</p>
+                <p class="legal__intro">Estas son las condiciones de compra en S. B. Privé. Las escribimos para que sepas, antes de pedir, cómo funcionan los pedidos, los envíos, los cambios y la garantía.</p>
+            </header>
+
+            <!-- Índice: en una página larga, ayuda a llegar directo a lo que se busca -->
+            <nav class="legal__indice" aria-label="Contenido de esta página">
+                <ol>
+                    <li><a href="#quienes-somos">Quiénes somos</a></li>
+                    <li><a href="#productos">Qué vendemos</a></li>
+                    <li><a href="#pedidos">Cómo se hace un pedido</a></li>
+                    <li><a href="#precios">Precios</a></li>
+                    <li><a href="#pagos">Pagos</a></li>
+                    <li><a href="#envios">Envíos</a></li>
+                    <li><a href="#originales">Perfumes originales</a></li>
+                    <li><a href="#garantia">Garantía, cambios y devoluciones</a></li>
+                    <li><a href="#marcas">Marcas</a></li>
+                    <li><a href="#pqr">Peticiones, quejas y reclamos</a></li>
+                    <li><a href="#cambios-terminos">Cambios a estos términos</a></li>
+                </ol>
+            </nav>
+
+            <section class="legal__seccion" id="quienes-somos">
+                <h2>1. Quiénes somos</h2>
+                <p>S. B. Privé es una tienda de perfumes de [RAZÓN SOCIAL O NOMBRE DEL TITULAR], identificada con [NIT O CÉDULA] [NÚMERO], con domicilio en [DIRECCIÓN], [CIUDAD], Colombia.</p>
+                <ul>
+                    <li>WhatsApp: <a href="https://wa.me/573158599499">+57 315 859 9499</a></li>
+                    <li>Correo: [CORREO]</li>
+                    <li>Horario de atención: [DÍAS Y HORAS]</li>
+                </ul>
+            </section>
+
+            <section class="legal__seccion" id="productos">
+                <h2>2. Qué vendemos</h2>
+                <p>Vendemos perfumes originales árabes, de diseñador y de nicho, en frasco completo y en decant.</p>
+                <p>Un <strong>decant</strong> es una porción del perfume original que nosotros pasamos a un frasco más pequeño, para que puedas probarlo antes de comprar el frasco completo. No es una presentación oficial de la marca.</p>
+                <p>Las fotos de la página son de referencia. La caja, el frasco o el lote pueden cambiar un poco según lo que la marca tenga en el mercado; el perfume es el mismo.</p>
+            </section>
+
+            <section class="legal__seccion" id="pedidos">
+                <h2>3. Cómo se hace un pedido</h2>
+                <p>La página es un catálogo: aquí eliges, pero el pedido se hace por WhatsApp. Ahí te confirmamos:</p>
+                <ul>
+                    <li>que el perfume está disponible,</li>
+                    <li>el precio final, con el envío,</li>
+                    <li>las formas de pago y el tiempo de entrega.</li>
+                </ul>
+                <p>Tu pedido queda confirmado cuando recibimos el pago [CONFIRMAR: o cuando se acepta el pago contra entrega]. Hasta ese momento podemos ajustar la disponibilidad o el precio, y siempre te lo diremos antes de que pagues.</p>
+            </section>
+
+            <section class="legal__seccion" id="precios">
+                <h2>4. Precios</h2>
+                <p>Los precios están en pesos colombianos y [CONFIRMAR: incluyen IVA / no son responsables de IVA]. El precio que vale es el que te confirmamos por WhatsApp. Si en la página aparece un precio con un error evidente, te lo diremos antes de cobrarte.</p>
+            </section>
+
+            <section class="legal__seccion" id="pagos">
+                <h2>5. Pagos</h2>
+                <p>Recibimos [NEQUI, PSE, TARJETA, CONTRAENTREGA]. La página no pide ni guarda datos de tarjetas ni de cuentas bancarias.</p>
+                <p><strong>Nunca te pediremos contraseñas, claves de tu banco ni códigos que te lleguen por mensaje.</strong> Si alguien te los pide a nombre de S. B. Privé, no somos nosotros.</p>
+            </section>
+
+            <section class="legal__seccion" id="envios">
+                <h2>6. Envíos</h2>
+                <p>Enviamos a toda Colombia con [TRANSPORTADORA]. El envío es sin costo desde $[MONTO]; por debajo de ese valor cuesta $[VALOR]. Los pedidos confirmados antes de las [HORA] de un día hábil salen ese mismo día, y llegan en [DÍAS] días hábiles según la ciudad.</p>
+                <p>Al recibir, revisa que el paquete esté cerrado y en buen estado. Si ves algo raro, tómale fotos antes de abrirlo y escríbenos.</p>
+            </section>
+
+            <section class="legal__seccion" id="originales">
+                <h2>7. Perfumes originales</h2>
+                <p>Todos nuestros perfumes son originales. [CÓMO LO DEMUESTRAN: factura de compra, código de lote que se puede verificar, sello]. Si tienes dudas sobre un perfume, pregúntanos antes de comprarlo y te mostramos cómo comprobarlo.</p>
+            </section>
+
+            <section class="legal__seccion" id="garantia">
+                <h2>8. Garantía, cambios y devoluciones</h2>
+                <h3>Si llega dañado o no es lo que pediste</h3>
+                <p>Escríbenos dentro de los [NÚMERO] días siguientes a la entrega, con fotos o video del producto y del empaque. Te lo cambiamos o te devolvemos el dinero, sin costo para ti. Esta es la garantía que te da la ley (artículos 7 y siguientes de la Ley 1480 de 2011).</p>
+                <h3>Si cambias de opinión</h3>
+                <p>En las compras a distancia la ley da 5 días hábiles para retractarse (artículo 47 de la Ley 1480 de 2011). Esa misma norma excluye los <strong>bienes de uso personal</strong>: por eso, y por higiene, no recibimos de vuelta perfumes o decants abiertos o usados. [CONFIRMAR CON ASESOR LEGAL: si el cliente acepta devoluciones de frascos sellados, explicar aquí cómo y quién paga el envío.]</p>
+                <h3>Reversión del pago</h3>
+                <p>Si pagaste con tarjeta, PSE u otro medio electrónico, puedes pedir la reversión del pago en los casos del artículo 51 de la Ley 1480 de 2011 (por ejemplo, fraude, una compra que no hiciste, un producto que no llegó o que no corresponde a lo que pediste), dentro de los 5 días hábiles siguientes a cuando lo supiste. Escríbenos y también avisa a tu banco.</p>
+            </section>
+
+            <section class="legal__seccion" id="marcas">
+                <h2>9. Marcas</h2>
+                <p>Los nombres, logos y frascos de los perfumes pertenecen a sus marcas. S. B. Privé es una tienda independiente que revende perfumes originales; no es distribuidor oficial ni tiene relación con esas marcas [CONFIRMAR: salvo que sea distribuidor autorizado de alguna].</p>
+            </section>
+
+            <section class="legal__seccion" id="pqr">
+                <h2>10. Peticiones, quejas y reclamos</h2>
+                <p>Si algo no salió bien, escríbenos por <a href="https://wa.me/573158599499">WhatsApp</a> o a [CORREO]. Te respondemos en máximo 15 días hábiles. Si no quedas conforme, puedes acudir a la Superintendencia de Industria y Comercio (<a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer">www.sic.gov.co</a>).</p>
+            </section>
+
+            <section class="legal__seccion" id="cambios-terminos">
+                <h2>11. Cambios a estos términos</h2>
+                <p>Podemos actualizar estos términos. La fecha de arriba dice cuándo fue el último cambio. Cada pedido se rige por los términos vigentes el día en que lo confirmamos.</p>
+                <p>Cómo tratamos tus datos personales está en la <a href="privacidad.html">política de privacidad</a>.</p>
+            </section>
+        </main>
+
+        <footer class="pie">
+            <nav class="pie__nav" aria-label="Navegación del pie de página">
+                <a href="catalogo.html">Catálogo</a>
+                <a href="index.html#envios">Envíos</a>
+                <a href="index.html#cambios">Cambios</a>
+                <a href="terminos.html" aria-current="page">Términos</a>
+                <a href="privacidad.html">Privacidad</a>
+                <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
+            </nav>
+            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+            <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
+        </footer>
+
+        <a class="barra-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Escribir por WhatsApp</a>
+    </body>
+    </html>
