@@ -30,10 +30,9 @@ const vacioWhatsApp = vacio.querySelector('.boton-whatsapp');
 // Con JavaScript la lista cambia sola: el botón "Ver perfumes" ya no hace falta
 document.querySelector('.filtros__aplicar').hidden = true;
 
-// En computador hay espacio: los filtros empiezan abiertos. En celular, plegados
-if (window.matchMedia('(min-width: 1024px)').matches) {
-  detallesFiltros.open = true;
-}
+// Los filtros empiezan plegados (también en computador), para que los perfumes se vean primero.
+// "Filtros (2)" avisa cuando hay alguno puesto
+const quitarFiltros = document.querySelector('.filtros .filtros__quitar');
 
 /* =========================================================
    Parte 1: tarjetas, buscador, filtros y orden
@@ -150,6 +149,8 @@ function mostrarCatalogo() {
     if (valor && !(clave === 'orden' && valor === 'mas-pedidos')) nuevos.set(clave, valor);
   });
   const texto = nuevos.toString();
+  // "Quitar filtros" solo aparece cuando hay algo que quitar (búsqueda, filtro u orden distinto)
+  quitarFiltros.hidden = !texto;
   // location.hash (#mi-lista, #buscar) se conserva: sin él, la bolsa y la lupa no llevarían a su lugar
   history.replaceState(null, '', (texto ? '?' + texto : location.pathname) + location.hash);
 }

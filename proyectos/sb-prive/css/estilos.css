@@ -15,6 +15,14 @@
   --fuentes-cuerpo: 'Jost', sans-serif;
 
   --alto-barra: 64px;
+
+  /* Escala de tamaños de los títulos: cada título usa uno de estos, nunca un número suelto.
+     clamp(mínimo en celular, crece con la pantalla, máximo en escritorio) */
+  --t-portada: clamp(2.125rem, 1.25rem + 3.6vw, 3.5rem);   /* título del inicio: el más grande del sitio */
+  --t-pagina: clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem);   /* título del catálogo y de las páginas legales */
+  --t-seccion: clamp(2rem, 1.5rem + 1.6vw, 3rem);        /* todos los títulos de sección */
+  --t-tipo: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);      /* Árabes / Diseñador / Nicho */
+  --t-verbo: clamp(2.75rem, 2rem + 2.6vw, 4.5rem);       /* Elige / Escribe / Paga / Recibe (adorno) */
 }
 
 *, *::before, *::after {
@@ -29,15 +37,40 @@ html {
 body {
   margin: 0;
   padding-bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom));
-  background: var(--verde);
+  /* "Luz de vitrina" (1/2): el mismo verde, con un brillo champaña muy suave arriba de la página,
+     como la luz de una lámpara sobre el salón */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(230, 207, 152, 0.09), transparent 70%) no-repeat,
+    var(--verde);
   font-family: var(--fuentes-cuerpo);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.5;
   color: var(--crema);
 }
 
+/* "Luz de vitrina" (2/2): los bordes de la pantalla un poco más oscuros, para dar profundidad
+   y llevar la mirada al centro. Es una capa quieta encima de todo que no se puede tocar */
+html::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: radial-gradient(ellipse 110% 85% at 50% 45%, transparent 55%, rgba(4, 14, 9, 0.38) 100%);
+}
+
 h1, h2, h3, p, dl, dd, ul, ol {
   margin: 0;
+}
+
+/* Que los títulos no dejen una palabra sola en la última línea */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* Y que los párrafos tampoco (ej: "confirmes." sola en la última línea) */
+p, dd, li {
+  text-wrap: pretty;
 }
 
 ul, ol {
@@ -143,8 +176,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--dorado);
-  color: var(--verde);
+  /* Verde noche con una línea dorada arriba: el oro queda como acento (70/20/10 de la marca)
+     y la barra no se funde con los bloques dorados, como el del kit */
+  background: var(--verde-oscuro);
+  border-top: 1px solid var(--dorado);
+  color: var(--crema);
   font-weight: 500;
   text-decoration: none;
 }
@@ -171,7 +207,7 @@ button {
 
 .inicio h1 {
   font-family: var(--fuentes-titulos);
-  font-size: 42px;
+  font-size: var(--t-portada);
   font-weight: 500;
   line-height: 1.02;
   letter-spacing: 0.01em;
@@ -186,6 +222,7 @@ button {
 .inicio__ayuda {
   margin-top: -6px;
   font-size: 14px;
+  text-align: center; /* igual que la línea de confianza que va debajo */
   color: var(--gris);
 }
 
@@ -345,7 +382,7 @@ button {
 
 .tarjeta__precio {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .tarjeta__decant {
@@ -376,7 +413,7 @@ button {
 .promesas__titulo {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -416,7 +453,7 @@ button {
   margin-bottom: 20px;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -440,7 +477,7 @@ button {
 .tipo__nombre {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 30px;
+  font-size: var(--t-tipo);
 }
 
 .tipo__desde {
@@ -469,8 +506,8 @@ button {
 
 .kit__titulo {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 500;
+  font-size: var(--t-seccion);
   line-height: 1.02;
 }
 
@@ -496,7 +533,7 @@ button {
 
 .kit__precio {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .kit__nota,
@@ -528,7 +565,7 @@ button {
 .pedidos__titulo {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -706,7 +743,7 @@ button {
 .producto__precio {
   margin-top: 6px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .producto__aviso {
@@ -762,7 +799,7 @@ button {
 .regalos__titulo {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -808,7 +845,7 @@ button {
 .capturas__titulo {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -882,7 +919,7 @@ button {
 .pasos__titulo {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -901,7 +938,7 @@ button {
 .paso__verbo {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 52px;
+  font-size: var(--t-verbo);
   line-height: 0.95;
 }
 
@@ -922,7 +959,7 @@ button {
   margin-bottom: 4px;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: var(--t-seccion);
   line-height: 1.05;
 }
 
@@ -987,8 +1024,8 @@ button {
 
 .ayuda__titulo {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 34px;
+  font-weight: 500;
+  font-size: var(--t-seccion);
   line-height: 1.02;
 }
 
@@ -1079,7 +1116,7 @@ html {
     margin-right: 0;
   }
   .inicio > h1 {
-    font-size: clamp(2.6rem, 4vw, 4.2rem);
+    font-size: var(--t-portada);
     line-height: 1.05;
   }
 
@@ -1187,12 +1224,6 @@ html {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     transition: background 0.2s, transform 0.2s;
-  }
-  @media (hover: hover) and (pointer: fine) {
-  .tarjeta .boton-whatsapp:hover {
-      background: #E0BE78;
-      transform: translateY(-2px);
-    }
   }
 
   /* Marco dorado y sombra para la vitrina */
@@ -1335,7 +1366,7 @@ html {
     padding-bottom: 80px;
   }
   .promesas__titulo {
-    font-size: 40px;
+    font-size: var(--t-seccion);
     line-height: 1.05;
   }
   .promesas__lista {
@@ -1360,7 +1391,7 @@ html {
   .tipos__titulo {
     grid-column: 1;
     grid-row: 1;
-    font-size: 48px;
+    font-size: var(--t-seccion);
     line-height: 1;
   }
   .tipos__lista {
@@ -1382,7 +1413,7 @@ html {
     padding: 0 32px;
   }
   .tipo__nombre {
-    font-size: 48px;
+    font-size: var(--t-tipo);
   }
 }
 
@@ -1406,7 +1437,7 @@ html {
     grid-column: 1;
   }
   .kit__titulo {
-    font-size: 52px;
+    font-size: var(--t-seccion);
     line-height: 1;
   }
   .kit__cajas {
@@ -1438,7 +1469,7 @@ html {
     gap: 36px;
   }
   .pedidos__titulo {
-    font-size: 48px;
+    font-size: var(--t-seccion);
   }
   .pedidos__controles {
     display: none;
@@ -1476,7 +1507,7 @@ html {
     background: #071810;
   }
   .regalos__titulo {
-    font-size: 48px;
+    font-size: var(--t-seccion);
     line-height: 1;
   }
 }
@@ -1491,7 +1522,7 @@ html {
     gap: 44px;
   }
   .pasos__titulo {
-    font-size: 48px;
+    font-size: var(--t-seccion);
   }
   .pasos__lista {
     display: grid;
@@ -1499,7 +1530,7 @@ html {
     gap: 40px;
   }
   .paso__verbo {
-    font-size: 72px;
+    font-size: var(--t-verbo);
   }
 
   /* Preguntas: título, texto y botón a la izquierda; las preguntas en dos columnas a la derecha */
@@ -1515,7 +1546,7 @@ html {
   .preguntas__titulo {
     grid-column: 1;
     grid-row: 1;
-    font-size: 48px;
+    font-size: var(--t-seccion);
   }
   .preguntas__texto {
     grid-column: 1;
@@ -1561,7 +1592,7 @@ html {
     padding: 72px 64px;
   }
   .ayuda__titulo {
-    font-size: 56px;
+    font-size: var(--t-seccion);
     line-height: 1;
   }
   .ayuda__contenido .boton-whatsapp,
@@ -1601,15 +1632,16 @@ html {
     line-height: 1.35;
   }
 
-  /* Menos espacio entre las piezas del inicio */
+  /* Menos espacio entre las piezas del inicio: así se asoma el nombre del perfume
+     en la primera pantalla, por encima de la barra de WhatsApp */
   .inicio {
-    padding-top: 24px;
-    gap: 18px;
+    padding-top: 16px;
+    gap: 14px;
   }
 
   /* Título en dos líneas, no en tres: se achica un poco en celulares muy angostos */
   .inicio h1 {
-    font-size: clamp(28px, 9vw, 34px);
+    font-size: var(--t-portada);
     line-height: 1.05;
   }
 
@@ -1633,9 +1665,11 @@ html {
     font-size: 14px;
   }
 
-  /* La vitrina agrandada se recorta menos por arriba y por abajo */
+  /* La vitrina agrandada un poco menos (106 % en vez de 116 %): se ve casi igual y ocupa menos alto.
+     El margen deja espacio para lo que crece al ampliarla, sin taparse con lo de arriba ni la tarjeta */
   .armario {
-    margin: 6vw 0;
+    margin: 3vw 0;
+    transform: scale(1.06);
   }
 }
 
@@ -1780,7 +1814,7 @@ html {
   }
   .inicio > h1 {
     max-width: 700px;
-    font-size: clamp(3rem, 4.4vw, 4.6rem);
+    font-size: var(--t-portada);
     line-height: 1;
     letter-spacing: -0.01em;
   }
@@ -1830,11 +1864,6 @@ html {
     letter-spacing: 0;
     text-transform: none;
     font-size: 16px;
-  }
-  @media (hover: hover) and (pointer: fine) {
-  .tarjeta .boton-whatsapp:hover {
-      transform: none;
-    }
   }
 
   /* 11. Vitrina sin marco de 1 px ni sombra: la foto ya trae su marco dorado */
@@ -1903,6 +1932,15 @@ button,
 .boton-flecha:active:not(:disabled),
 .tipo:active {
   transform: scale(0.97);
+}
+
+/* La barra fija baja y sale de la pantalla cuando ya hay otro botón de WhatsApp a la vista
+   (la clase la pone js/comun.js). En computador su transición está en el bloque de la píldora. */
+.barra-whatsapp {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+body.con-otro-whatsapp .barra-whatsapp {
+  transform: translateY(calc(100% + 32px));
 }
 
 /* Al llegar al final del carrusel, el deslizamiento no arrastra la página de lado */
@@ -2050,7 +2088,7 @@ select {
 /* Título y frase: los mismos tamaños que el título del inicio */
 .catalogo__cabecera h1 {
   font-family: var(--fuentes-titulos);
-  font-size: 42px;
+  font-size: var(--t-pagina);
   font-weight: 500;
   line-height: 1.02;
   color: var(--crema);
@@ -2232,37 +2270,49 @@ select {
     padding: 56px 40px 80px;
   }
   .catalogo__cabecera h1 {
-    font-size: clamp(3rem, 4.4vw, 4.6rem);
+    font-size: var(--t-pagina);
   }
+  /* Controles en dos filas:
+     1) buscador | Ordenar por      2) Filtros (plegable) | Quitar filtros */
   .filtros {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     column-gap: 24px;
-    align-items: end;
+    align-items: center;
   }
-  .filtros__buscar,
-  .filtros__campo,
-  .filtros__mas {
+  .filtros__buscar {
     grid-column: 1 / -1;
+    grid-row: 1;
   }
-  .filtros__mas {
-    grid-row: 3;
+  .filtros__campo {
+    grid-column: 1;
+    grid-row: 2;
   }
   .filtros__ordenar {
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 2;
   }
+  .filtros__mas {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .filtros__quitar {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: start;   /* a la altura de la fila "Filtros", aunque se abra */
+    justify-self: end;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  /* "Ver perfumes" solo existe sin JavaScript */
   .filtros__aplicar {
     grid-column: 1;
     grid-row: 4;
     width: auto;
     justify-self: start;
     padding: 0 40px;
-  }
-  .filtros__quitar {
-    grid-column: 1 / -1;
-    justify-self: start;
-    padding-left: 0;
   }
   /* En computador los grupos de filtros van uno al lado del otro */
   /* Los 4 grupos de filtros (Tipo, Para, Tamaño, Precio) en 4 columnas */
@@ -2319,6 +2369,7 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 26px; /* aire arriba para el sello "Más pedido": así no tapa el aro del frasco */
   background: var(--verde-oscuro); /* más oscuro que la página, para que la tarjeta se distinga */
 }
 .perfume__foto img {
@@ -2372,7 +2423,7 @@ select {
 .perfume__precio {
   margin-top: 10px;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .perfume__decant {
   font-size: 13px;
@@ -2399,7 +2450,7 @@ select {
   font-size: 14px;
 }
 /* Como los demás botones secundarios del sitio: relleno, sin borde.
-   Crema un poco más oscura que la tarjeta, para que no compita con "Pedir por WhatsApp" */
+   Crema un poco más oscura que la tarjeta: discreto, porque la tarjeta entera ya lleva a la ficha */
 .perfume__agregar {
   width: 100%;
   border: 0;
@@ -2429,7 +2480,7 @@ select {
 }
 .catalogo__vacio h2 {
   font-family: var(--fuentes-titulos);
-  font-size: 30px;
+  font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.1;
 }
@@ -2461,7 +2512,7 @@ select {
 }
 .mi-lista h2 {
   font-family: var(--fuentes-titulos);
-  font-size: 34px;
+  font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.05;
 }
@@ -2529,7 +2580,7 @@ select {
   display: flex;
   justify-content: space-between;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .mi-lista__enviar {
   background: var(--dorado);
@@ -2589,10 +2640,6 @@ select {
   }
   .perfume__enlace:hover .perfume__foto img {
     transform: scale(1.04);
-  }
-  .perfume__agregar:hover {
-    background: var(--verde);
-    color: var(--crema);
   }
 }
 
@@ -2749,7 +2796,7 @@ select {
   height: 1px;
 }
 .tamano__precio {
-  font-weight: 500;
+  font-weight: 400;
   white-space: nowrap; /* el precio nunca se parte en dos líneas */
 }
 /* Elegido: borde dorado y nombre en dorado */
@@ -2785,7 +2832,7 @@ select {
   justify-content: space-between;
   align-items: baseline;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Botones: WhatsApp es el principal (dorado); "Agregar a mi lista" el secundario */
@@ -2837,7 +2884,7 @@ select {
 .ficha__relacionados h2 {
   margin-bottom: 16px;
   font-family: var(--fuentes-titulos);
-  font-size: 34px;
+  font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.05;
 }
@@ -2923,7 +2970,7 @@ select {
 }
 .ficha__no-existe h1 {
   font-family: var(--fuentes-titulos);
-  font-size: 34px;
+  font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.1;
 }
@@ -2988,7 +3035,7 @@ select {
   .ficha__momentos h2,
   .ficha__guia h2,
   .ficha__relacionados h2 {
-    font-size: 40px;
+    font-size: var(--t-seccion);
   }
   .ficha__aroma,
   .ficha__momentos,
@@ -3082,7 +3129,7 @@ select {
 .ficha__precio {
   margin-top: 4px;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .ficha__precio-decant {
   font-size: 15px;
@@ -3302,7 +3349,7 @@ select {
   /* El título, un poco más pequeño para que siga en dos líneas en la columna más angosta */
   .inicio > h1 {
     max-width: none;
-    font-size: clamp(2.5rem, 3.3vw, 3.4rem);
+    font-size: var(--t-portada);
   }
 
   /* La vitrina llena su columna, sin pasarse del alto de la pantalla
@@ -3351,7 +3398,7 @@ select {
 .legal__cabecera h1 {
   margin-top: 8px;
   font-family: var(--fuentes-titulos);
-  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-size: var(--t-pagina);
   font-weight: 500;
   line-height: 1.05;
 }
@@ -3773,36 +3820,38 @@ select {
    FASE 2 · DETALLES DE LUJO
    ========================================================= */
 
-/* 1. Brillo suave en los botones dorados (los que piden): al pasar el mouse,
-      una franja de luz los cruza una vez. Solo en computador y si no se pidió menos movimiento */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .tarjeta .boton-whatsapp,
-  .ficha__pedir,
-  .mi-lista__enviar,
-  .catalogo__vacio .boton-whatsapp,
-  .ficha__no-existe .boton-oscuro {
-    position: relative;
-    overflow: hidden;
-  }
-  .tarjeta .boton-whatsapp::after,
-  .ficha__pedir::after,
-  .mi-lista__enviar::after,
-  .catalogo__vacio .boton-whatsapp::after,
-  .ficha__no-existe .boton-oscuro::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, transparent 30%, rgba(251, 248, 241, 0.45) 50%, transparent 70%);
-    transform: translateX(-110%);
-    pointer-events: none;
-  }
-  .tarjeta .boton-whatsapp:hover::after,
-  .ficha__pedir:hover::after,
-  .mi-lista__enviar:hover::after,
-  .catalogo__vacio .boton-whatsapp:hover::after,
-  .ficha__no-existe .boton-oscuro:hover::after {
-    transform: translateX(110%);
-    transition: transform 0.75s ease-out; /* solo al entrar: al salir vuelve sin animación */
+/* 1. Botones: "relleno que sube". Al pasar el mouse, un tono un poco más claro sube desde abajo
+      y llena el botón. Tranquilo, sin brillos. El relleno vive en ::before, detrás del texto */
+.boton-whatsapp,
+.boton-oscuro,
+.boton-borde {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* así el relleno (z-index -1) queda encima del fondo pero detrás del texto */
+}
+.boton-whatsapp::before,
+.boton-oscuro::before,
+.boton-borde::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--relleno, rgba(251, 248, 241, 0.16)); /* marfil transparente: aclara el dorado y el verde */
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+}
+/* En los botones claros el relleno es un verde suave (el marfil no se notaría) */
+.perfume__agregar {
+  --relleno: rgba(14, 42, 28, 0.1);
+}
+/* Solo con mouse: en el celular no hay "pasar por encima" y el relleno se quedaría pegado al tocar */
+@media (hover: hover) and (pointer: fine) {
+  .boton-whatsapp:hover::before,
+  .boton-oscuro:hover::before,
+  .boton-borde:hover::before {
+    transform: scaleY(1);
   }
 }
 
@@ -3829,7 +3878,8 @@ select {
     /* Cerrado se recorta a un círculo de 52 px con el ícono. Al abrirse, el recorte se quita y la píldora
        "sale" del círculo hacia la izquierda. Se anima el recorte (clip-path), no el ancho: más fluido */
     clip-path: inset(0 0 0 calc(100% - 52px) round 26px);
-    transition: clip-path 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease;
+    transition: clip-path 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease,
+                transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   }
   /* El ícono: una burbuja de conversación en dorado */
   .barra-whatsapp::before {
@@ -4094,7 +4144,7 @@ select {
     background: transparent;
   }
   .capturas__titulo {
-    font-size: 40px;
+    font-size: var(--t-seccion);
   }
   .capturas__lista {
     display: grid;
@@ -4105,4 +4155,37 @@ select {
   .capturas__guia {
     display: none;
   }
+}
+
+/* =========================================================
+   ÍCONOS (Lucide + el frasco dibujado a mano)
+   Todos iguales: línea fina, sin relleno, puntas redondas y del color del texto que acompañan.
+   Van dentro del HTML (no se descargan) y con aria-hidden: son adorno, el texto ya lo dice todo
+   ========================================================= */
+.icono {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* "Lo que te prometemos" y "Así pides": el ícono arriba, en el dorado oscuro de los nombres */
+.promesa__icono,
+.paso__icono {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 4px;
+  color: #7A5D26;
+}
+
+/* "Te respondemos en minutos…": un relojito al principio de la línea */
+.confianza__icono {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: -3px;
 }

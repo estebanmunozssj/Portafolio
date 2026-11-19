@@ -399,9 +399,8 @@ function tarjetaPerfume(p, nivelTitulo) {
   agregar.type = 'button';
   agregar.dataset.id = p.id;
   marcarBotonAgregar(agregar);
-  const pedir = crear('a', 'boton-oscuro', 'Pedir por WhatsApp');
-  pedir.href = enlacePedido(p);
-  botones.append(agregar, pedir);
+  // Sin botón de WhatsApp aquí: la tarjeta lleva a la ficha, que arma un pedido mejor (tamaño y cantidad)
+  botones.append(agregar);
   tarjeta.append(botones);
 
   item.append(tarjeta);
@@ -410,6 +409,33 @@ function tarjetaPerfume(p, nivelTitulo) {
 
 /* ---------- Al cargar cualquier página: el número de la bolsa ---------- */
 pintarBolsa();
+
+/* =========================================================
+   La barra fija de WhatsApp se esconde cuando ya hay otro botón de WhatsApp a la vista
+   (el de la tarjeta, el de la ficha, "Enviar mi lista"...), y vuelve sola cuando ese botón
+   sale de la pantalla. Así siempre hay UN botón de WhatsApp a mano: nunca cero, nunca dos.
+   ========================================================= */
+function esconderBarraConOtroBoton() {
+  const barra = document.querySelector('.barra-whatsapp');
+  if (!barra || !('IntersectionObserver' in window)) return;
+
+  const otrosBotones = document.querySelectorAll('a[href^="https://wa.me/"]:not(.barra-whatsapp)');
+  const aLaVista = new Set();
+
+  const observador = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (entrada) {
+      if (entrada.isIntersecting) aLaVista.add(entrada.target);
+      else aLaVista.delete(entrada.target);
+    });
+    const esconder = aLaVista.size > 0;
+    document.body.classList.toggle('con-otro-whatsapp', esconder);
+    barra.inert = esconder; // escondida, tampoco se llega a ella con el teclado
+  }, { rootMargin: '0px 0px -64px 0px' }); // la franja de abajo (donde está la barra) no cuenta
+
+  // Un botón con "hidden" (ej: "Enviar mi lista" con la lista vacía) nunca cuenta como visible
+  otrosBotones.forEach(function (boton) { observador.observe(boton); });
+}
+esconderBarraConOtroBoton();
 
 /* =========================================================
    Movimiento: la franja de arriba que alterna mensajes y el botón "Pausar movimiento"

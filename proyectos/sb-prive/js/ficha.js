@@ -32,10 +32,46 @@ function llenarFicha(p) {
   document.title = p.nombre + ' de ' + p.marca + ' | S. B. Privé';
   const descripcionCorta = (p.descripcion || p.notas || '') + ' En frasco' + (p.decant ? ' y en decant' : '') + '. Pide por WhatsApp.';
   document.querySelector('meta[name="description"]').content = descripcionCorta.trim();
+  // Dirección oficial del sitio. OJO: cuando el cliente tenga su dominio, cambiarla aquí (y en los .html)
+  const SITIO = 'https://estebandev.online/proyectos/sb-prive/';
+  const direccion = SITIO + 'perfume.html?id=' + encodeURIComponent(p.id);
+
   const canonica = document.createElement('link');
   canonica.rel = 'canonical';
-  canonica.href = 'https://estebandev.online/proyectos/sb-prive/perfume.html?id=' + encodeURIComponent(p.id);
+  canonica.href = direccion;
   document.head.append(canonica);
+
+  // La dirección oficial para redes y WhatsApp (las demás páginas la tienen fija en el HTML)
+  const ogUrl = document.createElement('meta');
+  ogUrl.setAttribute('property', 'og:url');
+  ogUrl.content = direccion;
+  document.head.append(ogUrl);
+
+  /* ---------- Datos de producto para Google (JSON-LD) ----------
+     Con esto Google puede mostrar el precio debajo del enlace.
+     Solo se ponen los tamaños con precio real: si todo es "Precio por WhatsApp", no se agrega nada. */
+  const ofertas = ['frasco', 'decant', 'decant-5']
+    .map(function (tamano) { return datosTamano(p, tamano); })
+    .filter(function (t) { return t && t.precio != null; })
+    .map(function (t) {
+      return { '@type': 'Offer', name: t.texto, price: t.precio, priceCurrency: 'COP', url: direccion,
+        seller: { '@id': SITIO + '#tienda' } };
+    });
+  if (ofertas.length) {
+    const datos = document.createElement('script');
+    datos.type = 'application/ld+json';
+    datos.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: p.nombre,
+      brand: { '@type': 'Brand', name: p.marca },
+      description: p.descripcion || p.notas,
+      image: SITIO + p.imagen,
+      category: 'Perfumes ' + p.tipo,
+      offers: ofertas
+    });
+    document.head.append(datos);
+  }
 
   /* ---------- Migas ---------- */
   const claveTipo = Object.keys(TIPOS).find(function (clave) { return TIPOS[clave] === p.tipo; });
