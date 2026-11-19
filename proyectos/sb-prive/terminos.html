@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Seguridad (CSP): el navegador solo acepta código de este sitio y de cdnjs (GSAP), estilos de aquí
+             y de Google Fonts, letras de Google Fonts e imágenes de aquí. Si alguien lograra meter un script, se bloquea.
+             OJO: si algún día se agrega otro servicio (pasarela de pago, analítica), hay que sumarlo aquí -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
         <title>Términos y condiciones | S. B. Privé</title>
         <meta name="description" content="Condiciones de compra de S. B. Privé: pedidos por WhatsApp, precios, pagos, envíos, garantía, cambios y devoluciones.">
         <link rel="canonical" href="https://estebandev.online/proyectos/sb-prive/terminos.html">

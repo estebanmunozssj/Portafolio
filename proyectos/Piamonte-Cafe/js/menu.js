@@ -6,7 +6,7 @@
 /* =========================================================
    MENÚ: aquí cambias productos y precios (sacado del menú oficial de Piamonte)
    - precio: número sin puntos (ej: 6500 → se ve $6.500). Si es null se ve "Precio pronto"
-   - detalle: tamaño o ingredientes. Se muestra en la tarjeta grande
+   - detalle: tamaño o ingredientes. Se muestra en la ventana de detalle (al tocar el producto)
    - recipiente: el dibujo. 'taza' (caliente), 'vaso' (frío), 'dulce' (torta), 'bolsa' (café para llevar),
      'waffle', 'sandwich', 'croissant' o 'tapa'
    - encima: lo que va sobre el waffle o la tapa (ver dibujoWaffle y dibujoTapa)
@@ -16,8 +16,9 @@
    - Recipientes de bebidas: 'taza', 'vaso', 'copa' (malteadas) o 'balon' (copa balón, sodas)
    - capas: de abajo hacia arriba. [ingrediente, cuánto llena] (1 = llena todo)
    - tipo (opcional): subgrupo con título dentro de la categoría (ej: 'Con leche')
-   - foto (opcional): foto real del producto (ej: 'img/latte.jpg'). Se ve arriba del dibujo
-   - bebidas: true en la categoría → la tarjeta de la taza se queda pegada arriba al bajar
+   - foto (opcional): foto real del producto (ej: 'img/latte.jpg'). Se ve en el cuadro y en la ventana;
+     sin foto, el cuadro muestra el dibujo
+   - encuadre (opcional): qué parte de la foto se ve al recortarla (ej: 'center 15%' = la parte de arriba)
    OJO: las capas son aproximadas. Se ajustan cuando tengamos el recetario
    ========================================================= */
 
@@ -30,7 +31,6 @@ const CHAI = [['te', 0.5], ['leche', 0.3], ['espuma', 0.1]];
 const MENU = [
   {
     categoria: 'Calientes',
-    bebidas: true, // La tarjeta con la taza se queda pegada arriba mientras bajas
     productos: [
       { tipo: 'Café negro', nombre: 'Espresso', precio: 4000, detalle: 'Taza pequeña', recipiente: 'taza', capas: [['espresso', 0.4]] },
       { tipo: 'Café negro', nombre: 'Americano', foto: 'img/americano.jpg', precio: 5000, detalle: 'Taza mediana', recipiente: 'taza', capas: AMERICANO },
@@ -61,7 +61,6 @@ const MENU = [
   },
   {
     categoria: 'Fríos',
-    bebidas: true,
     productos: [
       { tipo: 'Con café', nombre: 'Granizado de café', precio: 13000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizado', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
       { tipo: 'Con café', nombre: 'Granizado de mocca', foto: 'img/granizado-mocca.jpg', precio: 14000, detalle: 'Vaso grande', recipiente: 'vaso', capas: [['granizadomocca', 0.6], ['chantilly', 0.2]], cubierta: 'chocolate' },
@@ -90,7 +89,6 @@ const MENU = [
   },
   {
     categoria: 'Cócteles',
-    bebidas: true,
     productos: [
       { nombre: 'Limonada envenenada', precio: 16000, detalle: 'Con licor', recipiente: 'vaso', capas: [['casa', 0.8]] },
       { nombre: 'Tres notas café vodka', precio: 18000, detalle: 'Con vodka', recipiente: 'vaso', capas: [['casa', 0.8]] },

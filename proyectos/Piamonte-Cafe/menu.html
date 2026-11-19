@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Menú | Piamonte Café</title>
     <meta name="description" content="Menú de Piamonte Café en Yotoco: cafés de nuestra finca, bebidas frías, cócteles, comida y repostería, con precios.">
-    <meta name="theme-color" content="#3b2418">
+    <meta name="theme-color" content="#f6efe4">
 
     <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
     <meta property="og:type" content="website">
@@ -24,7 +24,7 @@
     <meta property="og:image" content="https://estebandev.online/proyectos/Piamonte-Cafe/img/compartir.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Logo de Piamonte Café sobre la foto de su finca en Yotoco: De la finca, directo a tu mesa">
+    <meta property="og:image:alt" content="Logo de Piamonte Café con la frase De la finca, directo a tu mesa, entre la foto de un capuchino y la fachada del local en Yotoco">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://estebandev.online/proyectos/Piamonte-Cafe/menu.html">
 
@@ -33,7 +33,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&family=Kalam:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&display=swap">
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
@@ -60,9 +60,24 @@
     <main id="contenido" class="pagina-menu">
         <!-- ===== MENÚ (productos y precios: lista MENU en js/main.js) ===== -->
         <section class="seccion menu" id="menu">
-            <!-- Cabecera con el logo original de Piamonte (fondo transparente: img/logo-piamonte.png) -->
+            <!-- Cabecera con el mismo logo de la portada -->
             <div class="menu-cabecera">
-                <h1 class="menu-logo"><img src="img/logo-piamonte.png" width="560" height="391" alt="Piamonte café"></h1>
+                <h1 class="menu-logo">
+                    <span class="solo-lectores">Piamonte café</span>
+                    <!-- Logo original de Piamonte (vector en img/logo-piamonte.svg, una sola copia para las dos páginas).
+                         Cada <use> trae una parte: así se colorean con CSS y se animan por separado -->
+                    <svg viewBox="244 109 1104 774" aria-hidden="true">
+                        <defs>
+                            <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
+                            <clipPath id="escribir"><rect class="logo-pluma" x="244" y="109" width="1104" height="774"/></clipPath>
+                        </defs>
+                        <use class="lo-grano lo-grano-1" href="img/logo-piamonte.svg#grano-1"/>
+                        <use class="lo-grano lo-grano-2" href="img/logo-piamonte.svg#grano-2"/>
+                        <use class="lo-grano lo-grano-3" href="img/logo-piamonte.svg#grano-3"/>
+                        <use class="lo-nombre" href="img/logo-piamonte.svg#nombre" clip-path="url(#escribir)"/>
+                        <use class="lo-cafe" href="img/logo-piamonte.svg#cafe"/>
+                    </svg>
+                </h1>
                 <h2>¿Qué vas a pedir?</h2>
                 <p class="menu-ayuda">Toca un producto para verlo en grande y saber qué lleva.</p>
             </div>
@@ -78,7 +93,7 @@
 
             <div class="domicilio">
                 <p><strong>¿No puedes venir?</strong> Te lo llevamos. Hacemos domicilios.</p>
-                <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener">Pide por WhatsApp</a>
+                <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero hacer un pedido a domicilio" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg>Pide por WhatsApp</a>
             </div>
 
             <noscript><p>Para ver el menú, activa JavaScript o escríbenos por WhatsApp.</p></noscript>
@@ -108,6 +123,11 @@
         <footer class="pie">
             <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
             <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
+            <!-- Redes con íconos (img/iconos.svg). aria-label: el lector de pantalla dice a dónde lleva -->
+            <p class="pie-redes">
+                <a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener" aria-label="Instagram de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a>
+                <a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener" aria-label="WhatsApp de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg></a>
+            </p>
             <a href="#contenido">Volver arriba</a>
 
             <!-- Aviso de privacidad (Ley 1581 de 2012) -->

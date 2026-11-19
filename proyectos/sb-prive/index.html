@@ -4,19 +4,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Seguridad (CSP): el navegador solo acepta código de este sitio y de cdnjs (GSAP), estilos de aquí
+             y de Google Fonts, letras de Google Fonts e imágenes de aquí. Si alguien lograra meter un script, se bloquea.
+             OJO: si algún día se agrega otro servicio (pasarela de pago, analítica), hay que sumarlo aquí -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
         <!-- Entrada elegante: este script corre ANTES de que se dibuje la página, para decidir si se muestra.
              Solo la primera vez por visita, y nunca a quien pidió menos movimiento o pausó el movimiento.
              Si falla, no pasa nada: la página se ve sin entrada -->
-        <script>
-            try {
-                if (!sessionStorage.getItem('sbprive-entrada') &&
-                    !matchMedia('(prefers-reduced-motion: reduce)').matches &&
-                    localStorage.getItem('sbprive-sin-movimiento') !== 'si') {
-                    document.documentElement.classList.add('con-entrada');
-                    sessionStorage.setItem('sbprive-entrada', 'vista');
-                }
-            } catch (error) {}
-        </script>
+        <script src="js/entrada.js"></script>
         <!-- Título y descripción: lo que muestra Google en los resultados -->
         <title>Perfumes originales en [CIUDAD] | S. B. Privé</title>
         <meta name="description" content="Perfumes originales árabes, de diseñador y de nicho, y decants para probarlos antes de comprar el frasco. Envíos a toda Colombia. Pide por WhatsApp.">
@@ -47,10 +42,11 @@
         <script src="js/capturas.js" defer></script>
         <script src="js/comun.js" defer></script>
         <script src="js/main.js" defer></script>
+        <script src="js/test.js" defer></script>
         <!-- GSAP (la misma versión de Piamonte) solo para la animación de "Elige por tipo".
              Si no carga, la página funciona igual, sin esa animación -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
         <script src="js/animaciones.js" defer></script>
         <!-- Humo de fragancia sutil sobre el frasco elegido en la vitrina -->
         <script src="js/humo.js" defer></script>
@@ -268,6 +264,17 @@
                 <p class="inicio__confianza"><svg class="icono confianza__icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Te respondemos en minutos, de [HORA] a [HORA]. Pagas solo cuando confirmes.</p>
             </section>
 
+            <!-- Marquesina 1: lleva al catálogo.
+                 Toda la franja es un enlace. El texto va dos veces seguidas para que el giro no tenga corte;
+                 la segunda copia se esconde del lector de pantalla (ya lee el aria-label del enlace).
+                 Se detiene al pasar el mouse, con el teclado, con "Pausar movimiento" o si se pidió menos movimiento -->
+            <a class="marquesina marquesina--catalogo" href="catalogo.html" aria-label="Ver el catálogo: perfumes originales árabes, de diseñador y de nicho, decants y envíos a toda Colombia">
+                <span class="marquesina__pista" aria-hidden="true">
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
+                </span>
+            </a>
+
             <section id="promesas">
                 <!-- 2. Lo que te prometemos: las tres dudas de quien compra perfume en línea -->
                 <h2 class="promesas__titulo">Lo que te prometemos</h2>
@@ -430,6 +437,17 @@
                 </button>
             </dialog>
 
+            <!-- Marquesina 2: abre WhatsApp para armar el kit (va en sentido contrario a la primera).
+                 Toda la franja es un enlace. El texto va dos veces seguidas para que el giro no tenga corte;
+                 la segunda copia se esconde del lector de pantalla (ya lee el aria-label del enlace).
+                 Se detiene al pasar el mouse, con el teclado, con "Pausar movimiento" o si se pidió menos movimiento -->
+            <a class="marquesina marquesina--kit" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants" aria-label="Armar mi kit de tres decants por WhatsApp">
+                <span class="marquesina__pista" aria-hidden="true">
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
+                </span>
+            </a>
+
             <section id="como-pedir">
                 <!-- 8. Así pides -->
                  <h2 class="pasos__titulo">Así pides</h2>
@@ -460,40 +478,43 @@
             <section id="preguntas">
                 <!-- 9. Preguntas -->
                  <h2 class="preguntas__titulo">Preguntas</h2>
-                 <dl class="preguntas__lista">
-                    <div class="pregunta">
-                        <dt>¿Los perfumes son originales?</dt>
-                        <dd class="pregunta__respuesta">Sí. Cada frasco viene con [CÓMO LO DEMUESTRAN: factura, código, sello].</dd>
-                    </div>
-                    <div class="pregunta">
-                        <dt>¿Cómo sé que no es una réplica?</dt>
-                        <dd>[CÓMO LO DEMUESTRAN: factura de compra, código de lote que se puede verificar, sello]. Antes de pagar te enviamos fotos del frasco que te va a llegar. [CONFIRMAR]</dd>
-                    </div>
-                    <div class="pregunta">
-                        <dt>¿Qué es un decant?</dt>
-                        <dd>Es una porción del perfume original en un frasco pequeño, para probarlo antes de comprar el frasco completo.</dd>
-                    </div>
-                    <div class="pregunta">
-                        <dt>¿Cuánto demora en llegar?</dt>
-                        <dd>Llega en [DÍAS] días hábiles.</dd>
-                    </div>
-                    <div class="pregunta" id="envios">
-                        <dt>¿Cuánto cuesta el envío?</dt>
-                        <dd>Es gratis desde $[MONTO]. Por debajo de ese valor cuesta $[VALOR].</dd>
-                    </div>
-                    <div class="pregunta">
-                        <dt>¿Qué formas de pago hay?</dt>
-                        <dd>[NEQUI, PSE, TARJETA, CONTRAENTREGA].</dd>
-                    </div>
-                    <div class="pregunta" id="cambios">
-                        <dt>¿Y si llega dañado o no me gusta?</dt>
-                        <dd>Si llega dañado, te lo cambiamos sin costo. [POLÍTICA DE CAMBIOS: qué cubre y en cuántos días avisar]</dd>
-                    </div>
-                    <div class="pregunta">
-                        <dt>¿Cuánto dura el perfume en la piel?</dt>
-                        <dd>Depende de la piel de cada persona. En cada perfume te mostramos cuánto dura y qué tan lejos se siente.</dd>
-                    </div>
-                </dl>
+                 <!-- Acordeón: cada pregunta es un <details> que se abre al tocarla (HTML nativo: funciona sin JavaScript,
+                      con teclado y con lector de pantalla). Las que tienen id (envios, cambios) se abren solas
+                      cuando se llega desde los enlaces del pie de página (js/main.js) -->
+                 <div class="preguntas__lista">
+                    <details class="pregunta">
+                        <summary>¿Los perfumes son originales?</summary>
+                        <p class="pregunta__respuesta">Sí. Cada frasco viene con [CÓMO LO DEMUESTRAN: factura, código, sello].</p>
+                    </details>
+                    <details class="pregunta">
+                        <summary>¿Cómo sé que no es una réplica?</summary>
+                        <p class="pregunta__respuesta">[CÓMO LO DEMUESTRAN: factura de compra, código de lote que se puede verificar, sello]. Antes de pagar te enviamos fotos del frasco que te va a llegar. [CONFIRMAR]</p>
+                    </details>
+                    <details class="pregunta">
+                        <summary>¿Qué es un decant?</summary>
+                        <p class="pregunta__respuesta">Es una porción del perfume original en un frasco pequeño, para probarlo antes de comprar el frasco completo.</p>
+                    </details>
+                    <details class="pregunta">
+                        <summary>¿Cuánto demora en llegar?</summary>
+                        <p class="pregunta__respuesta">Llega en [DÍAS] días hábiles.</p>
+                    </details>
+                    <details class="pregunta" id="envios">
+                        <summary>¿Cuánto cuesta el envío?</summary>
+                        <p class="pregunta__respuesta">Es gratis desde $[MONTO]. Por debajo de ese valor cuesta $[VALOR].</p>
+                    </details>
+                    <details class="pregunta">
+                        <summary>¿Qué formas de pago hay?</summary>
+                        <p class="pregunta__respuesta">[NEQUI, PSE, TARJETA, CONTRAENTREGA].</p>
+                    </details>
+                    <details class="pregunta" id="cambios">
+                        <summary>¿Y si llega dañado o no me gusta?</summary>
+                        <p class="pregunta__respuesta">Si llega dañado, te lo cambiamos sin costo. [POLÍTICA DE CAMBIOS: qué cubre y en cuántos días avisar]</p>
+                    </details>
+                    <details class="pregunta">
+                        <summary>¿Cuánto dura el perfume en la piel?</summary>
+                        <p class="pregunta__respuesta">Depende de la piel de cada persona. En cada perfume te mostramos cuánto dura y qué tan lejos se siente.</p>
+                    </details>
+                 </div>
                 <p class="preguntas__texto">Si tienes otra pregunta, escríbenos por WhatsApp y te respondemos en minutos, de [HORA] a [HORA].</p>
                 <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Preguntar por WhatsApp</a>
             </section>
@@ -504,8 +525,48 @@
                  </div>
                  <div class="ayuda__contenido">
                     <h2 class="ayuda__titulo">¿No sabes cuál elegir?</h2>
-                    <p class="ayuda__texto">Escríbenos y te ayudamos a escoger el perfume que más se acerque a lo que buscas.</p>
-                    <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20no%20s%C3%A9%20cu%C3%A1l%20perfume%20elegir.%20%C2%BFMe%20ayudan%3F">Ayuda por WhatsApp</a>
+                    <p class="ayuda__texto">Responde tres preguntas y te recomendamos tres perfumes. O escríbenos y te ayudamos a escoger.</p>
+
+                    <!-- Test "¿Cuál es tu perfume?": tres preguntas, una a la vez, y al final tres perfumes recomendados.
+                         Va escondido (hidden) y el JavaScript lo muestra: sin JavaScript queda solo el botón de WhatsApp -->
+                    <form class="test" id="test" hidden>
+                        <!-- "Pregunta 1 de 3": aria-live para que el lector de pantalla avise al cambiar de pregunta -->
+                        <p class="test__paso" aria-live="polite">Pregunta 1 de 3</p>
+
+                        <fieldset class="test__pregunta">
+                            <legend>¿Cómo quieres oler?</legend>
+                            <label><input type="radio" name="aroma" value="Dulce"> Dulce <span>Vainilla, ámbar, caramelo</span></label>
+                            <label><input type="radio" name="aroma" value="Fresco"> Fresco <span>Cítricos, mar, limpio</span></label>
+                            <label><input type="radio" name="aroma" value="Amaderado"> Amaderado <span>Maderas, cuero, tierra</span></label>
+                            <label><input type="radio" name="aroma" value="Intenso"> Intenso <span>Oud, especias, profundo</span></label>
+                        </fieldset>
+
+                        <fieldset class="test__pregunta" hidden>
+                            <legend>¿Para cuándo?</legend>
+                            <label><input type="radio" name="momento" value="dia"> De día</label>
+                            <label><input type="radio" name="momento" value="noche"> De noche</label>
+                            <label><input type="radio" name="momento" value="ocasion"> Para una ocasión especial</label>
+                        </fieldset>
+
+                        <fieldset class="test__pregunta" hidden>
+                            <legend>¿Qué tan intenso?</legend>
+                            <label><input type="radio" name="intensidad" value="suave"> Cerca de la piel <span>Solo lo nota quien se acerca</span></label>
+                            <label><input type="radio" name="intensidad" value="media"> Que se note <span>Te acompaña sin llenar el lugar</span></label>
+                            <label><input type="radio" name="intensidad" value="fuerte"> Que deje huella <span>Se queda en el lugar cuando te vas</span></label>
+                        </fieldset>
+
+                        <button class="test__atras" type="button" hidden>Atrás</button>
+
+                        <!-- Resultado: lo llena el JavaScript con tres tarjetas de js/perfumes.js -->
+                        <div class="test__resultado" hidden>
+                            <h3 class="test__titulo" tabindex="-1">Te recomendamos</h3>
+                            <ul class="catalogo__lista test__lista"></ul>
+                            <a class="boton-whatsapp test__whatsapp" href="https://wa.me/573158599499">Pedir asesoría con mis respuestas</a>
+                            <button class="test__otra-vez" type="reset">Volver a empezar</button>
+                        </div>
+                    </form>
+
+                    <a class="boton-whatsapp ayuda__whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20no%20s%C3%A9%20cu%C3%A1l%20perfume%20elegir.%20%C2%BFMe%20ayudan%3F">Ayuda por WhatsApp</a>
                 </div>
             </section>
         </main>

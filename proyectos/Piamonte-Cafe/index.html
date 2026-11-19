@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <!-- SEGURIDAD (CSP): sitios desde donde la página puede cargar cosas; lo demás se bloquea.
          OJO: el script que agrega la clase "js" está permitido por su huella sha256. Si cambias su texto, recalcula la huella.
-         Si se agrega algo de otro sitio (ej. la plataforma de tarjetas), hay que sumarlo aquí. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+         Si se agrega algo de otro sitio (ej. la plataforma de tarjetas), hay que sumarlo aquí.
+         Behold (feeds.behold.so y *.behold.pictures): el feed y las fotos de la sección de Instagram -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://behold.pictures https://cdn.behold.pictures; connect-src 'self' https://feeds.behold.so; object-src 'none'; base-uri 'self'; form-action 'none'">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Piamonte Café | Café de finca en Yotoco, Valle del Cauca</title>
     <meta name="description" content="Cafetería de una familia caficultora en Yotoco. Café 100% colombiano arábigo de nuestra finca en Dopo, postres, bebidas y experiencias alrededor del café.">
-    <meta name="theme-color" content="#3b2418">
+    <meta name="theme-color" content="#f6efe4">
 
     <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
     <meta property="og:type" content="website">
@@ -24,7 +25,7 @@
     <meta property="og:image" content="https://estebandev.online/proyectos/Piamonte-Cafe/img/compartir.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Logo de Piamonte Café sobre la foto de su finca en Yotoco: De la finca, directo a tu mesa">
+    <meta property="og:image:alt" content="Logo de Piamonte Café con la frase De la finca, directo a tu mesa, entre la foto de un capuchino y la fachada del local en Yotoco">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://estebandev.online/proyectos/Piamonte-Cafe/">
 
@@ -33,7 +34,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&family=Kalam:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&display=swap">
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Marca que hay JavaScript, para esconder el logo hasta que empiece su animación -->
     <script>document.documentElement.classList.add('js');</script>
@@ -67,7 +68,7 @@
 <body>
     <a class="saltar-link" href="#contenido">Saltar al contenido</a>
 
-    <!-- ===== ENCABEZADO FIJO (al bajar se vuelve crema: js/main.js) ===== -->
+    <!-- ===== ENCABEZADO FIJO (al bajar le aparecen su línea y el logo pequeño: js/main.js) ===== -->
     <header class="encabezado" id="encabezado">
         <a href="#inicio" class="logo" aria-label="Piamonte Café, ir al inicio">
             <span class="logo-nombre">Piamonte</span>
@@ -87,32 +88,18 @@
         <div class="portada-centro">
         <h1 class="portada-logo">
             <span class="solo-lectores">Piamonte café</span>
-            <!-- Logo de Piamonte en SVG: 3 granos, "Piamonte" y "café" (sin círculos, como pidió el dueño). Animación en css/estilos.css -->
-            <svg viewBox="36 30 228 200" aria-hidden="true">
+            <!-- Logo original de Piamonte (vector en img/logo-piamonte.svg, una sola copia para las dos páginas).
+                 Cada <use> trae una parte: así se colorean con CSS y se animan por separado -->
+            <svg viewBox="244 109 1104 774" aria-hidden="true">
                 <defs>
                     <!-- Rectángulo que se estira de izquierda a derecha para "escribir" el nombre -->
-                    <clipPath id="escribir"><rect class="logo-pluma" x="0" y="0" width="300" height="300"/></clipPath>
+                    <clipPath id="escribir"><rect class="logo-pluma" x="244" y="109" width="1104" height="774"/></clipPath>
                 </defs>
-                <g class="logo-granos">
-                    <!-- El <g> de afuera se anima; el de adentro guarda la posición e inclinación de cada grano -->
-                    <g class="grano grano-1"><g transform="translate(150 57) rotate(20)">
-                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
-                    </g></g>
-                    <g class="grano grano-2"><g transform="translate(127 88) rotate(-60)">
-                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
-                    </g></g>
-                    <g class="grano grano-3"><g transform="translate(161 93) rotate(-28)">
-                        <ellipse rx="13" ry="19"/><path d="M-2 -16c9 9-7 19 2 32"/>
-                    </g></g>
-                </g>
-                <g clip-path="url(#escribir)">
-                    <!-- La "o" queda invisible (guarda su espacio) y encima va un grano -->
-                    <text class="logo-nombre-svg" x="148" y="168" text-anchor="middle">Piam<tspan class="letra-o">o</tspan>nte</text>
-                    <g class="grano-o" transform="translate(172 152) rotate(12)">
-                        <ellipse rx="10" ry="14"/><path d="M-1.5 -12c6 6-5 14 1.5 24"/>
-                    </g>
-                </g>
-                <text class="logo-cafe-svg" x="150" y="216" text-anchor="middle">café</text>
+                <use class="lo-grano lo-grano-1" href="img/logo-piamonte.svg#grano-1"/>
+                <use class="lo-grano lo-grano-2" href="img/logo-piamonte.svg#grano-2"/>
+                <use class="lo-grano lo-grano-3" href="img/logo-piamonte.svg#grano-3"/>
+                <use class="lo-nombre" href="img/logo-piamonte.svg#nombre" clip-path="url(#escribir)"/>
+                <use class="lo-cafe" href="img/logo-piamonte.svg#cafe"/>
             </svg>
         </h1>
         <p class="portada-frase">De la finca, directo a tu mesa.</p>
@@ -125,6 +112,28 @@
     </section>
 
     <main id="contenido">
+        <!-- ===== MARQUESINA: mensajes que pasan de lado a lado =====
+             Truco: los mensajes van DOS veces seguidas y la fila se corre exactamente la mitad;
+             al terminar, la segunda copia queda donde empezó la primera y el ciclo no se nota.
+             La copia lleva aria-hidden: el lector de pantalla lee los mensajes una sola vez.
+             Para cambiar un mensaje, cámbialo en LAS DOS listas -->
+        <div class="marquesina" role="region" aria-label="Avisos de Piamonte">
+            <div class="marquesina-pista">
+                <ul class="marquesina-grupo">
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Abiertos miércoles a domingo · 4 a 10 p. m.</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Domicilios por WhatsApp</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Café de nuestra finca en Dopo</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Pregunta por el postre del día</li>
+                </ul>
+                <ul class="marquesina-grupo" aria-hidden="true">
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Abiertos miércoles a domingo · 4 a 10 p. m.</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Domicilios por WhatsApp</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Café de nuestra finca en Dopo</li>
+                    <li><svg class="marquesina-grano" aria-hidden="true"><use href="img/iconos.svg#grano"/></svg>Pregunta por el postre del día</li>
+                </ul>
+            </div>
+        </div>
+
 
         <!-- ===== HISTORIA (corta) ===== -->
         <section class="seccion historia" id="historia">
@@ -220,29 +229,99 @@
             </ul>
         </section>
 
+        <!-- ===== RESEÑAS (copiadas de Google Maps el 19 nov 2026: reales, con nombre e inicial del apellido).
+             Para actualizar: copia un <li>, cambia el texto y el nombre. La nota (4,9 · 11) también cambia con el tiempo ===== -->
+        <section class="seccion resenas" id="resenas">
+            <h2>Lo que dicen de nosotros.</h2>
+            <p class="resenas-nota"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><strong>4,9</strong> en Google · 11 opiniones</p>
+            <ul class="resenas-lista">
+                <li>
+                    <figure>
+                        <blockquote><p>“Un lugar maravilloso para disfrutar de un buen café. El ambiente es acogedor, el servicio es excelente y se siente la dedicación en cada detalle.”</p></blockquote>
+                        <figcaption><span class="estrellas" role="img" aria-label="5 de 5 estrellas"><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg></span>Isabella B.</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <blockquote><p>“Un delicioso café y comida, su dueño y colaboradores son muy amables… Recomiendo mucho el lugar para aprender y tomar un café de calidad.”</p></blockquote>
+                        <figcaption><span class="estrellas" role="img" aria-label="5 de 5 estrellas"><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg></span>Luisa A.</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <blockquote><p>“Un encantador lugar en el centro de Yotoco, ideal para tomar un delicioso café y comida.”</p></blockquote>
+                        <figcaption><span class="estrellas" role="img" aria-label="5 de 5 estrellas"><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg></span>Angélica T.</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <blockquote><p>“Un lindo y acogedor lugar, donde se puede disfrutar del mejor café.”</p></blockquote>
+                        <figcaption><span class="estrellas" role="img" aria-label="5 de 5 estrellas"><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg><svg aria-hidden="true"><use href="img/iconos.svg#estrella"/></svg></span>Nathaly L.</figcaption>
+                    </figure>
+                </li>
+            </ul>
+            <a class="boton boton-borde" href="https://maps.app.goo.gl/hvNeRe5YRefwaEbQ7" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#google"/></svg>Ver todas en Google</a>
+        </section>
+
         <!-- ===== EXPERIENCIAS ===== -->
         <section class="seccion experiencias" id="experiencias">
             <h2>El café no solo se toma, se vive.</h2>
 
+            <!-- Cada experiencia tiene su imagen. Mientras llegan las fotos, va un dibujo con "Foto pronto".
+                 Para poner la foto real: cambia todo el <div class="experiencia-foto foto-pendiente">…</div> por
+                 <img class="experiencia-foto" src="img/coffee-party.jpg" alt="Qué se ve en la foto" width="800" height="600" loading="lazy"> -->
             <ul class="lista-experiencias">
                 <li>
-                    <h3>Coffee Party</h3>
-                    <p>Catas, música y bebidas a base de café. Una tarde para tus sentidos.</p>
+                    <div class="experiencia-foto foto-pendiente">
+                        <svg aria-hidden="true"><use href="img/iconos.svg#exp-fiesta"/></svg>
+                        <span>Foto pronto</span>
+                    </div>
+                    <div class="experiencia-texto">
+                        <h3>Coffee Party</h3>
+                        <p>Catas, música y bebidas a base de café. Una tarde para tus sentidos.</p>
+                    </div>
                 </li>
                 <li>
-                    <h3>Reuniones</h3>
-                    <p>En la mañana o fuera de servicio, te recibimos para reuniones de empresa o de estudio.</p>
+                    <div class="experiencia-foto foto-pendiente">
+                        <svg aria-hidden="true"><use href="img/iconos.svg#exp-reunion"/></svg>
+                        <span>Foto pronto</span>
+                    </div>
+                    <div class="experiencia-texto">
+                        <h3>Reuniones</h3>
+                        <p>En la mañana o fuera de servicio, te recibimos para reuniones de empresa o de estudio.</p>
+                    </div>
                 </li>
                 <li>
-                    <h3>Aprende de café</h3>
-                    <p>Te contamos cómo se cultiva, se procesa y se prepara.</p>
+                    <div class="experiencia-foto foto-pendiente">
+                        <svg aria-hidden="true"><use href="img/iconos.svg#exp-aprende"/></svg>
+                        <span>Foto pronto</span>
+                    </div>
+                    <div class="experiencia-texto">
+                        <h3>Aprende de café</h3>
+                        <p>Te contamos cómo se cultiva, se procesa y se prepara.</p>
+                    </div>
                 </li>
                 <li>
-                    <h3>Café para llevar</h3>
-                    <p>El café de nuestra finca, molido o en grano, en bolsas de 250 g y 500 g. También tenemos bonos de regalo.</p>
+                    <div class="experiencia-foto foto-pendiente">
+                        <svg aria-hidden="true"><use href="img/iconos.svg#exp-llevar"/></svg>
+                        <span>Foto pronto</span>
+                    </div>
+                    <div class="experiencia-texto">
+                        <h3>Café para llevar</h3>
+                        <p>El café de nuestra finca, molido o en grano, en bolsas de 250 g y 500 g. También tenemos bonos de regalo.</p>
+                    </div>
                 </li>
             </ul>
             <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero información sobre sus experiencias" target="_blank" rel="noopener">Pregunta por WhatsApp</a>
+        </section>
+
+        <!-- ===== INSTAGRAM: últimas 6 publicaciones, en vivo (servicio Behold; lo arma js/main.js).
+             Si el feed no está configurado o no carga, solo se ve el botón al perfil ===== -->
+        <section class="seccion instagram" id="instagram">
+            <h2>Síguenos en Instagram.</h2>
+            <p class="instagram-intro">Lo último de <strong>@piamonte.cafe</strong></p>
+            <ul class="instagram-fotos" id="instagram-fotos" hidden></ul>
+            <a class="boton" href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>Ver @piamonte.cafe</a>
         </section>
 
         <!-- ===== VISÍTANOS ===== -->
@@ -255,22 +334,22 @@
 
                 <dl class="datos">
                     <div>
-                        <dt>Dónde</dt>
+                        <dt><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#ubicacion"/></svg>Dónde</dt>
                         <dd>Calle 6 # 3-116, Yotoco</dd>
                         <dd class="dato-suave">Cerca del parque</dd>
-                        <dd><a href="https://maps.app.goo.gl/hvNeRe5YRefwaEbQ7" target="_blank" rel="noopener">Abrir en Google Maps →</a></dd>
-                        <dd><a href="https://www.instagram.com/piamonte.cafe/reel/DNQslu0NVS-/" target="_blank" rel="noopener">Video: cómo llegar →</a></dd>
+                        <dd><a href="https://maps.app.goo.gl/hvNeRe5YRefwaEbQ7" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#ubicacion"/></svg>Abrir en Google Maps →</a></dd>
+                        <dd><a href="https://www.instagram.com/piamonte.cafe/reel/DNQslu0NVS-/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#video"/></svg>Video: cómo llegar →</a></dd>
                     </div>
                     <div>
                         <!-- Pronto abrirán en las mañanas: actualizar aquí Y en "openingHoursSpecification" (<head>) -->
-                        <dt>Horario</dt>
+                        <dt><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#reloj"/></svg>Horario</dt>
                         <dd>Miércoles a domingo · 4 a 10 p. m.</dd>
                         <dd class="dato-suave">Lunes y martes cerrado</dd>
                     </div>
                     <div>
-                        <dt>Escríbenos y domicilios</dt>
-                        <dd><a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener">WhatsApp 316 879 8017 →</a></dd>
-                        <dd><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">Instagram @piamonte.cafe →</a></dd>
+                        <dt><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg>Escríbenos y domicilios</dt>
+                        <dd><a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg>WhatsApp 316 879 8017 →</a></dd>
+                        <dd><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>Instagram @piamonte.cafe →</a></dd>
                     </div>
                 </dl>
             </div>
@@ -278,6 +357,11 @@
             <footer class="pie">
                 <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
                 <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
+                <!-- Redes con íconos (img/iconos.svg). aria-label: el lector de pantalla dice a dónde lleva -->
+                <p class="pie-redes">
+                    <a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener" aria-label="Instagram de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a>
+                    <a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener" aria-label="WhatsApp de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg></a>
+                </p>
                 <a href="#inicio">Volver arriba</a>
 
                 <!-- Aviso de privacidad (Ley 1581 de 2012) -->
@@ -285,6 +369,7 @@
                     <summary>Aviso de privacidad</summary>
                     <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
                     <p>Si nos escribes por WhatsApp, esa conversación la maneja WhatsApp (Meta) con sus propias reglas de privacidad.</p>
+                    <p>Las fotos de Instagram se muestran a través de Behold (behold.so), que entrega las publicaciones y sus imágenes. No pone cookies; como cualquier sitio que sirve imágenes, recibe tu dirección IP.</p>
                     <p>Responsable: Piamonte Café, Calle 6 # 3-116, Yotoco, Valle del Cauca. Según la Ley 1581 de 2012 puedes conocer, actualizar o pedir que borremos tus datos escribiéndonos al WhatsApp 316 879 8017.</p>
                 </details>
             </footer>

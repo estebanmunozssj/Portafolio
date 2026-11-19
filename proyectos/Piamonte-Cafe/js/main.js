@@ -2,17 +2,23 @@
 
 const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + número, sin + ni espacios
 
+// Feed de Instagram (Behold). Cuando lo tengas, pega aquí la dirección del feed, ej: 'https://feeds.behold.so/AbC123'
+// Vacío = la sección de Instagram muestra solo el botón al perfil
+const FEED_INSTAGRAM = '';
+
 /* =========================================================
-   LOGO ANIMADO DE LA PORTADA
+   LOGO ANIMADO (portada y cabecera del menú)
    Espera a que carguen las letras (si no, el nombre se escribiría con otra letra
    y luego cambiaría). Si tardan más de 1,5 segundos, arranca igual
    ========================================================= */
 
 (() => {
-  const portada = document.getElementById('inicio');
-  if (!portada) return;
+  // La portada (index.html) y la cabecera del menú (menu.html) llevan el mismo logo animado
+  const contenedores = document.querySelectorAll('.portada, .menu-cabecera');
+  if (!contenedores.length) return;
 
-  const arrancar = () => portada.classList.add('lista'); // La clase "lista" inicia la animación (ver CSS)
+  // La clase "lista" inicia la animación (ver CSS)
+  const arrancar = () => contenedores.forEach((c) => c.classList.add('lista'));
   const espera = new Promise((listo) => setTimeout(listo, 1500));
   const letras = document.fonts ? document.fonts.ready : espera;
 
@@ -20,7 +26,7 @@ const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + númer
 })();
 
 /* =========================================================
-   ENCABEZADO: cambia de color al bajar y marca la sección actual
+   ENCABEZADO: al bajar muestra su línea y el logo pequeño, y marca la sección actual
    ========================================================= */
 
 (() => {
@@ -36,7 +42,7 @@ const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + númer
   function revisar() {
     const y = window.scrollY;
 
-    // Encabezado crema al salir de la portada (">= ... - 1" cuenta también el borde exacto)
+    // Clase "solido" al salir de la portada: muestra la línea y el logo pequeño (">= ... - 1" cuenta también el borde exacto)
     encabezado.classList.toggle('solido', y >= portada.offsetHeight - encabezado.offsetHeight - 1);
 
     // La sección actual es la última cuyo inicio ya pasó la mitad de la pantalla
@@ -97,6 +103,69 @@ const NUMERO = '573168798017'; // WhatsApp de domicilios: 57 (Colombia) + númer
   }, { passive: true });
   window.addEventListener('resize', llenar);
   llenar();
+})();
+
+/* =========================================================
+   INSTAGRAM EN VIVO (Behold): las últimas 6 publicaciones de @piamonte.cafe
+   Plan gratis de Behold: 1.200 consultas al mes. Para no gastarlas, cada visitante
+   guarda el feed 12 horas en su navegador (localStorage) y no lo vuelve a pedir
+   ========================================================= */
+
+(() => {
+  const lista = document.getElementById('instagram-fotos');
+  if (!lista || !FEED_INSTAGRAM) return;
+
+  const CLAVE = 'piamonte-instagram';
+  const DOCE_HORAS = 12 * 60 * 60 * 1000;
+
+  // localStorage puede fallar (modo privado, bloqueado): por eso va dentro de try/catch
+  function leerGuardado() {
+    try {
+      const guardado = JSON.parse(localStorage.getItem(CLAVE));
+      if (guardado && Date.now() - guardado.fecha < DOCE_HORAS) return guardado.datos;
+    } catch (e) { /* Sin guardado: se pide de nuevo */ }
+    return null;
+  }
+  function guardar(datos) {
+    try { localStorage.setItem(CLAVE, JSON.stringify({ fecha: Date.now(), datos })); } catch (e) { /* No pasa nada */ }
+  }
+
+  function mostrar(datos) {
+    const posts = (datos.posts || []).slice(0, 6);
+    if (!posts.length) return;
+    lista.innerHTML = '';
+    posts.forEach((post) => {
+      const tam = post.sizes && (post.sizes.medium || post.sizes.small);
+      // Seguridad: los datos vienen de otro sitio. Solo aceptamos enlaces a Instagram
+      // (así nadie puede colar un enlace peligroso tipo "javascript:..." en la página)
+      if (!tam || !String(post.permalink).startsWith('https://www.instagram.com/')) return;
+      const li = document.createElement('li');
+      const enlace = document.createElement('a');
+      enlace.href = post.permalink;
+      enlace.target = '_blank';
+      enlace.rel = 'noopener';
+      const img = document.createElement('img');
+      img.src = tam.mediaUrl;
+      img.width = tam.width;
+      img.height = tam.height;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      // Texto alternativo: el que puso Piamonte en Instagram o, si no hay, el comienzo de la publicación
+      img.alt = post.altText || (post.prunedCaption || 'Publicación de Piamonte Café en Instagram').slice(0, 120);
+      enlace.appendChild(img);
+      li.appendChild(enlace);
+      lista.appendChild(li);
+    });
+    lista.hidden = false;
+  }
+
+  const guardado = leerGuardado();
+  if (guardado) { mostrar(guardado); return; }
+
+  fetch(FEED_INSTAGRAM)
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then((datos) => { guardar(datos); mostrar(datos); })
+    .catch(() => { /* Si Behold no responde (o se acabaron las consultas del mes), queda el botón al perfil */ });
 })();
 
 /* ===== BOTONES DE WHATSAPP ===== */

@@ -19,7 +19,7 @@
     /* ----- 1. Títulos, textos y listas aparecen al llegar a ellos ----- */
     // Los .boton no van aquí: ya tienen su propio efecto al tocarlos
     const aparecen = gsap.utils.toArray(
-      '.menu-logo, .seccion h2, .cita-granos, .cita p, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .lista-experiencias li, .visitanos h2, .datos > div'
+      '.seccion h2, .cita-granos, .cita p, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .resenas-nota, .resenas-lista li, .instagram-intro, .lista-experiencias li, .visitanos h2, .datos > div'
     );
 
     gsap.set(aparecen, { autoAlpha: 0, y: 28 });

@@ -5,7 +5,7 @@
 
 /* ===== COLORES Y LETRAS (cámbialos aquí y cambia toda la página) ===== */
 :root {
-    --cafe: #3b2418;         /* Café oscuro: portada, textos y botones */
+    --cafe: #3b2418;         /* Café oscuro: textos, logo y botones */
     --cafe-suave: #74533f;
     --crema: #f6efe4;
     --crema-oscura: #ece0cd;
@@ -70,9 +70,7 @@ button { font: inherit; color: inherit; }
     outline: 3px solid var(--cafe);
     outline-offset: 3px;
 }
-.portada :focus-visible,
-.encabezado:not(.solido) :focus-visible,
-.visitanos :focus-visible { outline-color: var(--caramelo-claro); }
+.visitanos :focus-visible { outline-color: var(--caramelo-claro); } /* Sobre el verde de Visítanos */
 
 ::selection { background: var(--caramelo-claro); color: var(--cafe); }
 
@@ -146,15 +144,13 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--crema);
-    background: var(--cafe);
-    transition: background-color 250ms ease, color 250ms ease;
-}
-.encabezado.solido {
-    background: var(--crema);
     color: var(--cafe);
-    border-bottom: 1px solid var(--crema-oscura);
+    background: var(--crema); /* Del mismo crema que la portada: se funde con ella */
+    border-bottom: 1px solid transparent;
+    transition: border-color 250ms ease;
 }
+/* Al bajar de la portada aparece una línea fina que lo separa del contenido */
+.encabezado.solido { border-bottom-color: var(--crema-oscura); }
 
 .logo {
     display: flex;
@@ -216,15 +212,15 @@ h2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: var(--cafe);
-    color: var(--crema);
+    background: var(--crema); /* Crema, como el menú (antes era café oscuro) */
+    color: var(--cafe);
 }
 .portada-lugar {
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     text-wrap: balance;
-    color: var(--caramelo-claro);
+    color: var(--caramelo-oscuro); /* El caramelo claro no se lee sobre crema */
     margin: 0;
 }
 .portada-centro { /* Agrupa logo, frase y lugar para moverlos juntos al hacer scroll */
@@ -250,25 +246,14 @@ h2 {
     white-space: nowrap;
 }
 
-/* Piezas del logo (aspecto final) */
-/* Va sobre el fondo café oscuro: colores claros para que se lea */
-.grano ellipse { fill: var(--crema); }
-.grano path { fill: none; stroke: var(--cafe); stroke-width: 3; stroke-linecap: round; }
-.letra-o { fill: transparent; stroke: none; } /* La "o" se esconde: en su lugar va .grano-o */
-.grano-o ellipse { fill: var(--crema); }
-.grano-o path { fill: none; stroke: var(--cafe); stroke-width: 2; stroke-linecap: round; }
-/* Dancing Script sí trae negrita (700), así que no hay "negrita falsa". font-synthesis: none lo asegura */
-.logo-nombre-svg {
-    font-family: var(--letra-logo); font-weight: 700; font-synthesis: none; font-size: 62px; fill: var(--crema);
-    /* Borde del mismo color: engrosa el trazo como si fuera de pincel, sin "negrita falsa".
-       paint-order: stroke → pinta el borde primero y el relleno encima, así la letra no se deforma */
-    stroke: var(--crema); stroke-width: 1.6; stroke-linejoin: round; paint-order: stroke;
-}
-/* "café" en el logo real es una letra derecha, gruesa y redondeada: Kalam se le parece */
-.logo-cafe-svg { font-family: 'Kalam', cursive; font-weight: 700; font-synthesis: none; font-size: 40px; fill: var(--caramelo-claro); }
+/* Piezas del logo (img/logo-piamonte.svg). Las ranuras de los granos son huecos:
+   dejan ver el fondo, como en el logo original (fondo blanco, ranura blanca) */
+/* Sobre fondo crema (portada y menú): granos y letras café oscuro, "café" en caramelo */
+.lo-grano, .lo-nombre { fill: var(--cafe); }
+.lo-cafe { fill: var(--caramelo-oscuro); }
 
 /* ===== ANIMACIÓN DE ENTRADA DEL LOGO =====
-   Orden: 3 granos → se escribe "Piamonte" (con su "o" de grano) → "café" → frase → botón
+   Orden: 3 granos → se escribe "Piamonte" (con su línea) → "café" → frase → botón
    js/main.js le pone la clase "lista" a la portada cuando cargan las letras, y ahí arranca todo */
 
 /* Mientras cargan las letras, escondemos la portada para que no "salte" */
@@ -277,14 +262,14 @@ h2 {
 .js .portada:not(.lista) .portada-frase,
 .js .portada:not(.lista) .portada-boton { opacity: 0; }
 
-.lista .grano {
+.lista .lo-grano {
     transform-box: fill-box;
     transform-origin: center bottom;
     animation: caer-grano 600ms var(--ease-out) both;
 }
-.lista .grano-1 { animation-delay: 0.1s; }
-.lista .grano-2 { animation-delay: 0.2s; }
-.lista .grano-3 { animation-delay: 0.3s; }
+.lista .lo-grano-1 { animation-delay: 0.1s; }
+.lista .lo-grano-2 { animation-delay: 0.2s; }
+.lista .lo-grano-3 { animation-delay: 0.3s; }
 
 .lista .logo-pluma { /* El rectángulo se estira y va descubriendo el nombre */
     transform-box: fill-box;
@@ -292,7 +277,7 @@ h2 {
     animation: escribir 1.2s var(--ease-in-out) 0.45s both;
 }
 
-.lista .logo-cafe-svg { animation: aparecer 500ms var(--ease-out) 1.45s both; }
+.lista .lo-cafe { animation: aparecer 500ms var(--ease-out) 1.45s both; }
 .lista .portada-frase { animation: aparecer 500ms var(--ease-out) 1.65s both; }
 .lista .portada-lugar { animation: aparecer 500ms var(--ease-out) 1.73s both; }
 .lista .portada-boton { animation: aparecer 500ms var(--ease-out) 1.81s both; }
@@ -345,6 +330,45 @@ h2 {
 @keyframes rebote {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateX(6px); } /* De lado: la flecha lleva a otra página (el menú) */
+}
+
+/* ===== MARQUESINA (franja café con mensajes que pasan) ===== */
+.marquesina {
+    --fondo-grano: var(--cafe); /* La ranura del grano (img/iconos.svg) toma el color del fondo */
+    overflow: hidden;
+    background: var(--cafe);
+    color: var(--crema);
+}
+/* La "pista" lleva las dos copias seguidas y se corre la mitad de su ancho, en bucle */
+.marquesina-pista {
+    display: flex;
+    width: max-content;
+    animation: marquesina 38s linear infinite; /* linear: velocidad pareja, sin frenar */
+}
+.marquesina:hover .marquesina-pista { animation-play-state: paused; } /* Se detiene para poder leer */
+.marquesina-grupo {
+    display: flex;
+    flex: none;
+    justify-content: space-around;
+    min-width: 100vw; /* En pantallas muy anchas, cada copia llena la pantalla: no queda un hueco al final */
+    margin: 0;
+    padding: 0.85rem 0;
+    list-style: none;
+}
+.marquesina-grupo li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0 0.9rem;
+    white-space: nowrap; /* Cada mensaje en una sola línea */
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.marquesina-grano { width: 1.1rem; height: 1.1rem; color: var(--caramelo-claro); flex: none; }
+@keyframes marquesina {
+    to { transform: translateX(-50%); } /* -50% = el ancho de una copia */
 }
 
 /* ===== HISTORIA ===== */
@@ -406,7 +430,10 @@ h2 {
 /* Cabecera de menu.html: logo grande y centrado, con el título debajo */
 .menu-cabecera { text-align: center; }
 .menu-logo { margin: 0 auto 1.25rem; width: min(70%, 16rem); }
-.menu-logo img { display: block; width: 100%; height: auto; }
+.menu-logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* Como en la portada: escondido hasta que cargan las letras y arranca su animación (js/main.js) */
+.js .menu-cabecera:not(.lista) .menu-logo { opacity: 0; }
 
 /* En menu.html las categorías se quedan pegadas bajo el encabezado al bajar:
    así cambias de categoría sin volver hasta arriba. Fondo crema para que los productos no se vean detrás */
@@ -692,15 +719,119 @@ h2 {
     }
     .galeria-fila li { width: calc(25% - 0.95rem); max-width: none; }}
 
+/* ===== RESEÑAS (de Google Maps) ===== */
+.resenas-nota { display: flex; align-items: center; color: var(--cafe-suave); }
+.resenas-nota .icono { color: var(--caramelo); }
+.resenas-nota strong { color: var(--cafe); margin-right: 0.3em; }
+.resenas-lista {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.9rem;
+}
+.resenas-lista figure {
+    margin: 0;
+    padding: 1.25rem 1.25rem 1.1rem;
+    border-radius: 1.25rem;
+    background: #fffaf3;
+    border: 1.5px solid var(--crema-oscura);
+}
+.resenas-lista blockquote { margin: 0; }
+.resenas-lista blockquote p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.resenas-lista figcaption {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.estrellas { display: inline-flex; gap: 0.1rem; color: var(--caramelo); }
+.estrellas svg { width: 0.95rem; height: 0.95rem; }
+
+/* Botón de borde (secundario): para acciones que llevan a otro sitio */
+.boton.boton-borde { background: transparent; color: var(--cafe); box-shadow: inset 0 0 0 2px var(--cafe); }
+@media (hover: hover) and (pointer: fine) {
+    .boton.boton-borde:hover { background: var(--crema-oscura); }
+}
+
+@media (min-width: 769px) {
+    .resenas-lista { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== INSTAGRAM (fotos en vivo de Behold, las pone js/main.js) ===== */
+.instagram-intro { color: var(--cafe-suave); }
+.instagram-intro strong { color: var(--cafe); }
+.instagram-fotos {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Como el perfil de Instagram: 3 por fila */
+    gap: 0.35rem;
+}
+.instagram-fotos[hidden] { display: none; }
+.instagram-fotos a { display: block; border-radius: 0.6rem; overflow: hidden; }
+.instagram-fotos img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--crema-oscura);
+    transition: transform 300ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+    .instagram-fotos a:hover img { transform: scale(1.05); }
+}
+
 /* ===== EXPERIENCIAS ===== */
 .lista-experiencias {
     list-style: none;
     padding: 0;
     margin: 1.5rem 0 0;
 }
+/* Celular: imagen pequeña a la izquierda y texto a la derecha (lista compacta) */
 .lista-experiencias li {
-    padding: 1.1rem 0;
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
     border-top: 1px solid var(--crema-oscura);
+}
+.experiencia-foto {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+/* Mientras no hay foto: dibujo de línea con la etiqueta "Foto pronto".
+   Borde punteado: se nota que es un espacio por llenar, no la foto final */
+.foto-pendiente {
+    position: relative;
+    display: grid;
+    place-items: center;
+    background: var(--crema-oscura);
+    border: 1.5px dashed rgba(59, 36, 24, 0.25);
+    color: var(--cafe-suave);
+}
+.foto-pendiente svg { width: 78%; height: auto; aspect-ratio: 4 / 3; }
+.foto-pendiente span {
+    position: absolute;
+    left: 0.4rem;
+    bottom: 0.4rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: var(--crema);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--cafe-suave);
 }
 .lista-experiencias h3 {
     font-family: var(--letra-titulo);
@@ -708,6 +839,17 @@ h2 {
     margin-bottom: 0.25rem;
 }
 .lista-experiencias p { margin: 0; color: var(--cafe-suave); }
+
+/* Computador: 4 tarjetas en fila, imagen arriba */
+@media (min-width: 769px) {
+    .seccion.experiencias { width: min(100% - var(--margen) * 2, 64rem); }
+    .lista-experiencias { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    /* align-content: start → todo arriba, aunque la tarjeta se estire para igualar a la más alta */
+    .lista-experiencias li { grid-template-columns: 1fr; align-content: start; gap: 0.9rem; padding: 0; border-top: 0; }
+    .experiencia-foto { aspect-ratio: 4 / 3; }
+    .foto-pendiente svg { width: 62%; }
+    .foto-pendiente span { font-size: 0.72rem; left: 0.6rem; bottom: 0.6rem; }
+}
 
 /* ===== VISÍTANOS + PIE ===== */
 .visitanos {
@@ -761,6 +903,33 @@ h2 {
 }
 .pie p { margin: 0; opacity: 0.8; }
 
+/* Íconos (img/iconos.svg): miden lo mismo que la letra (1em) y toman su color (currentColor) */
+.icono {
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+    vertical-align: -0.2em; /* Los baja un poquito para alinearlos con las letras */
+    margin-right: 0.4em;
+}
+.datos dt .icono { width: 1.35em; height: 1.35em; vertical-align: -0.35em; }
+.boton .icono { width: 1.3em; height: 1.3em; margin-right: 0.5em; }
+
+/* Íconos de redes en el pie: solo ícono, con área cómoda para el dedo (44 px) */
+.pie .pie-redes { display: flex; gap: 0.25rem; opacity: 1; }
+.pie-redes a {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    color: inherit;
+    transition: background-color 200ms ease;
+}
+.pie-redes .icono { width: 1.4rem; height: 1.4rem; margin: 0; vertical-align: 0; }
+@media (hover: hover) and (pointer: fine) {
+    .pie-redes a:hover { background: rgba(246, 239, 228, 0.15); }
+}
+
 /* Aviso de privacidad (se despliega al tocarlo) */
 .privacidad { flex-basis: 100%; margin-top: 0.75rem; }
 .privacidad summary {
@@ -795,8 +964,12 @@ h2 {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; } /* Las transiciones cortas se quedan */
     .lista .portada-logo,
+    .lista .menu-logo,
     .lista .portada-frase,
     .lista .portada-lugar,
     .lista .portada-boton { animation: desvanecer 400ms ease both !important; }
     .dibujo { animation: desvanecer 200ms ease !important; }
+    .marquesina-pista { width: auto; }
+    .marquesina-grupo { flex: 1; min-width: 0; flex-wrap: wrap; justify-content: center; row-gap: 0.4rem; } /* flex: 1 = se ajusta al ancho de la pantalla */
+    .marquesina-grupo[aria-hidden="true"] { display: none; }
 }

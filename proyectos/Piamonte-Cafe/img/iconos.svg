@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Íconos de Piamonte, dibujados a mano. Cada <symbol> se usa así en el HTML:
+       <svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>
+       Usan currentColor: toman el color del texto que los rodea -->
+
+  <symbol id="instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="5"/>
+    <circle cx="12" cy="12" r="4"/>
+    <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Globo de chat con su "colita" abajo a la izquierda -->
+    <path d="M3.6 20.4l1.2-4.1A8.6 8.6 0 1 1 8 19.3z"/>
+    <!-- Teléfono dentro del globo -->
+    <path d="M9.2 8.4c.3-.6.9-.6 1.2-.1l.7 1.4c.2.4 0 .8-.3 1.1l-.4.4c.5 1.1 1.4 2 2.5 2.5l.4-.4c.3-.3.7-.5 1.1-.3l1.4.7c.5.3.5.9-.1 1.2-.9.6-2 .7-3 .2a8 8 0 0 1-3.7-3.7c-.5-1-.4-2.1.2-3z"/>
+  </symbol>
+
+  <symbol id="ubicacion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/>
+    <circle cx="12" cy="10" r="2.4"/>
+  </symbol>
+
+  <symbol id="reloj" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7v5l3.2 2"/>
+  </symbol>
+
+  <symbol id="video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M10.2 8.6v6.8l5.6-3.4z" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="estrella" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 3.2l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.6l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/>
+  </symbol>
+
+  <symbol id="google" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- "G" sencilla de línea, en el color del texto (no copiamos el logo de colores de Google) -->
+    <path d="M19.5 12.2H12.5M19.5 12.2a7.5 7.5 0 1 1-2.2-5.4"/>
+  </symbol>
+  <symbol id="grano" viewBox="0 0 24 24">
+    <!-- Grano de café relleno, con su ranura (separador de la marquesina) -->
+    <ellipse cx="12" cy="12" rx="6.5" ry="9" transform="rotate(25 12 12)" fill="currentColor"/>
+    <path d="M10.6 4.6c3.6 3.8-2.9 8.2.6 14.6" fill="none" stroke="var(--fondo-grano, #3b2418)" stroke-width="1.6" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- ===== Ilustraciones provisionales de Experiencias (mientras llegan las fotos) ===== -->
+  <symbol id="exp-fiesta" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Dos tazas brindando, con chispas y una nota musical -->
+    <g transform="rotate(-14 40 56)"><path d="M26 40h26v20a10 10 0 0 1-10 10h-6a10 10 0 0 1-10-10z"/><path d="M52 45h4a6 6 0 0 1 0 12h-4"/></g>
+    <g transform="rotate(14 80 56)"><path d="M68 40h26v20a10 10 0 0 1-10 10h-6a10 10 0 0 1-10-10z"/><path d="M68 45h-4a6 6 0 0 0 0 12h4"/></g>
+    <path d="M60 22v8M50 26l4 5M70 26l-4 5"/>
+    <path d="M98 14v16"/><circle cx="94.5" cy="30.5" r="3.5"/><path d="M98 14l7 3"/>
+    <path d="M14 78h92"/>
+  </symbol>
+
+  <symbol id="exp-reunion" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mesa con tres tazas y dos globos de conversación -->
+    <path d="M14 64h92M24 64v16M96 64v16"/>
+    <path d="M30 52h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M42 54h2a3 3 0 0 1 0 6h-2"/>
+    <path d="M54 52h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M66 54h2a3 3 0 0 1 0 6h-2"/>
+    <path d="M78 52h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M90 54h2a3 3 0 0 1 0 6h-2"/>
+    <path d="M26 14h30a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H38l-7 6v-6h-5a5 5 0 0 1-5-5V19a5 5 0 0 1 5-5z"/>
+    <path d="M70 22h22a5 5 0 0 1 5 5v7a5 5 0 0 1-5 5h-3v5l-6-5H70a5 5 0 0 1-5-5v-7a5 5 0 0 1 5-5z"/>
+    <path d="M30 24h20M74 30h14"/>
+  </symbol>
+
+  <symbol id="exp-aprende" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Filtro V60 sobre una jarra, con la tetera sirviendo -->
+    <path d="M40 22h40l-13 22H53z"/><path d="M36 22h48"/>
+    <path d="M46 52h28l-2 22a6 6 0 0 1-6 5H54a6 6 0 0 1-6-5z"/><path d="M74 58h4a5 5 0 0 1 0 10h-3"/>
+    <path d="M60 46v3"/>
+    <path d="M86 6c6 0 10 3 12 7l-10 4c-2-3-5-4-9-4"/><path d="M98 13c3-2 6-2 9 0"/><path d="M80 14c-6 2-10 5-12 9"/>
+    <path d="M14 82h92"/>
+  </symbol>
+
+  <symbol id="exp-llevar" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Bolsa de café con su grano y un moño de regalo al lado -->
+    <path d="M38 22h44l4 58H34z"/><path d="M38 22l-3-8h50l-3 8"/><path d="M44 14v-2M60 14v-2M76 14v-2"/>
+    <ellipse cx="60" cy="50" rx="9" ry="13" transform="rotate(20 60 50)"/><path d="M58 38c5 6-4 13 1 24"/>
+    <path d="M92 60h18v20H92z"/><path d="M101 60v20M92 68h18"/><path d="M101 60c-6-8-12-4-8 0M101 60c6-8 12-4 8 0"/>
+  </symbol>
+</svg>

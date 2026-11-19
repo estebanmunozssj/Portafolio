@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <!-- Seguridad (CSP): el navegador solo acepta código de este sitio y de cdnjs (GSAP), estilos de aquí
+             y de Google Fonts, letras de Google Fonts e imágenes de aquí. Si alguien lograra meter un script, se bloquea.
+             OJO: si algún día se agrega otro servicio (pasarela de pago, analítica), hay que sumarlo aquí -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
         <!-- Una sola página sirve para todos los perfumes: perfume.html?id=dulce-1, perfume.html?id=fresco-1...
              El JavaScript cambia el título y la descripción con los datos del perfume de la dirección -->
         <title>Perfume original | S. B. Privé</title>
@@ -31,6 +35,10 @@
         <script src="js/perfumes.js" defer></script>
         <script src="js/comun.js" defer></script>
         <script src="js/ficha.js" defer></script>
+        <!-- GSAP: la línea que baja por las notas de "Cómo huele". Si no carga, la página se ve completa igual -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="js/animaciones.js" defer></script>
 
         <link rel="icon" href="img/logo/icono-32.png" sizes="32x32" type="image/png">
         <link rel="apple-touch-icon" href="img/logo/icono-180.png">

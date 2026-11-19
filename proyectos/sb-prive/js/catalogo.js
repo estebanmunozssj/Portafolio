@@ -233,13 +233,16 @@ function pintarLista() {
     enviarLista.href = enlaceWhatsApp(mensajeLista());
   }
 
-  // La barra fija de abajo: con perfumes en la lista, los envía todos
+  // El botón flotante de WhatsApp: con perfumes en la lista, los envía todos.
+  // data-cuenta pone el numerito sobre el círculo (lo dibuja el CSS)
   if (hayAlgo) {
     barraWhatsApp.href = enlaceWhatsApp(mensajeLista());
     barraWhatsApp.textContent = 'Enviar mi lista (' + unidadesLista() + ')';
+    barraWhatsApp.dataset.cuenta = unidadesLista();
   } else {
     barraWhatsApp.href = barraOriginal.href;
     barraWhatsApp.textContent = barraOriginal.texto;
+    delete barraWhatsApp.dataset.cuenta;
   }
 }
 

@@ -283,9 +283,10 @@ if (pistaPedidos && masPedidos.length) {
     if (decant) aviso.push('También en ' + decant.texto.toLowerCase().replace('decant ', 'decant de ')); // "También en decant de 10 ml"
     if (aviso.length) info.append(crear('p', 'producto__aviso', aviso.join(' · ')));
 
-    const pedir = crear('a', 'boton-oscuro', 'Pedir este');
-    pedir.href = enlacePedido(p);
-    info.append(pedir);
+    // Lleva a la ficha (como las tarjetas del catálogo): allí se elige el tamaño y el pedido sale completo
+    const ver = crear('a', 'boton-oscuro', 'Ver perfume');
+    ver.href = 'perfume.html?id=' + encodeURIComponent(p.id);
+    info.append(ver);
 
     tarjetaProducto.append(vitrinaProducto, info);
     pistaPedidos.append(tarjetaProducto);
@@ -434,3 +435,13 @@ if (ventana && tarjetasProducto.length && flechas.length === 2) {
   window.addEventListener('resize', actualizarCarrusel);
   actualizarCarrusel();
 }
+
+/* ---------- Preguntas: abrir la que viene en la dirección ----------
+   El pie de página enlaza a index.html#envios y #cambios. Las preguntas son un acordeón cerrado,
+   así que al llegar por ese enlace (o al tocarlo estando aquí) se abre la pregunta */
+function abrirPreguntaDeLaDireccion() {
+  const destino = location.hash && document.getElementById(location.hash.slice(1));
+  if (destino && destino.tagName === 'DETAILS') destino.open = true;
+}
+abrirPreguntaDeLaDireccion();
+window.addEventListener('hashchange', abrirPreguntaDeLaDireccion);
