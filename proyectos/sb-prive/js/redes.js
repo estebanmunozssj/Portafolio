@@ -21,9 +21,9 @@
    ========================================================= */
 
 const REDES = {
-  usuario: '',   // [USUARIO DE INSTAGRAM]
-  instagram: '', // [URL DE INSTAGRAM]
-  tiktok: ''     // [URL DE TIKTOK]
+  usuario: 'sbprive',
+  instagram: 'https://www.instagram.com/sbprive/',
+  tiktok: 'https://www.tiktok.com/@sbprive'
 };
 
 const PUBLICACIONES = [

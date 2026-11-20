@@ -13,7 +13,7 @@
              Si falla, no pasa nada: la página se ve sin entrada -->
         <script src="js/entrada.js"></script>
         <!-- Título y descripción: lo que muestra Google en los resultados -->
-        <title>Perfumes originales en [CIUDAD] | S. B. Privé</title>
+        <title>Perfumes originales en Cali | S. B. Privé</title>
         <meta name="description" content="Perfumes originales árabes, de diseñador y de nicho, y decants para probarlos antes de comprar el frasco. Envíos a toda Colombia. Pide por WhatsApp.">
         <!-- Dirección oficial de la página. OJO: cuando el cliente tenga su dominio, cambiar aquí y en og:url y og:image -->
         <link rel="canonical" href="https://estebandev.online/proyectos/sb-prive/">
@@ -56,9 +56,7 @@
         <link rel="apple-touch-icon" href="img/logo/icono-180.png">
 
         <!-- Datos para Google (JSON-LD): quién es la tienda y cuál es su sitio.
-             Solo lleva datos reales. Cuando el cliente las dé, agregar dentro de "OnlineStore":
-             "sameAs": ["https://www.instagram.com/...", "https://www.tiktok.com/@..."],
-             Si cambia el dominio, cambiar todas las direcciones https://estebandev.online/... -->
+             Solo lleva datos reales. Si cambia el dominio, cambiar todas las direcciones https://estebandev.online/... -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -69,6 +67,7 @@
                     "name": "S. B. Privé",
                     "telephone": "+573158599499",
                     "alternateName": "S. B. Privé Alta Perfumería",
+                    "sameAs": ["https://www.instagram.com/sbprive/", "https://www.tiktok.com/@sbprive"],
                     "url": "https://estebandev.online/proyectos/sb-prive/",
                     "logo": "https://estebandev.online/proyectos/sb-prive/img/logo/icono-512.png",
                     "image": "https://estebandev.online/proyectos/sb-prive/img/compartir.jpg",
@@ -129,8 +128,8 @@
              El botón pausa la franja y las partículas de la vitrina (para quien prefiere que nada se mueva) -->
         <p class="franja">
             <!-- Mensajes cortos (máximo unas 34 letras): así cada uno cabe en una línea en el celular -->
-            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
-            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
+            <span class="franja__mensaje activo">Envío gratis desde el segundo producto</span>
+            <span class="franja__mensaje">Pide antes de las 2:00 p. m. y sale hoy</span>
             <span class="franja__mensaje">Solo perfumes originales</span>
             <span class="franja__mensaje">Decants para probar antes del frasco</span>
             <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
@@ -306,7 +305,7 @@
                 </div>
 
                 <p class="inicio__ayuda">Toca un frasco para ver qué es y cuánto cuesta.</p>
-                <p class="inicio__confianza"><svg class="icono confianza__icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Te respondemos en minutos, de [HORA] a [HORA]. Pagas solo cuando confirmes.</p>
+                <p class="inicio__confianza"><svg class="icono confianza__icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Te respondemos en minutos, de lunes a sábado, de 8:00 a. m. a 5:00 p. m. Pagas solo cuando confirmes.</p>
             </section>
 
             <!-- Marquesina 1: lleva al catálogo.
@@ -331,17 +330,19 @@
                         <li class="promesa">
                             <svg class="icono promesa__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
                             <h3 class="promesa__nombre">Originales</h3>
-                            <p class="promesa__texto">Cada frasco con [CÓMO LO DEMUESTRAN: factura, código, sello].</p>
+                            <p class="promesa__texto">Con factura, código de lote y su sello de fábrica intacto.</p>
                         </li>
                         <li class="promesa">
                             <svg class="icono promesa__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
                             <h3 class="promesa__nombre">A toda Colombia</h3>
-                            <p class="promesa__texto">Sin costo desde $[MONTO]. Llega en [DÍAS] días.</p>
+                            <p class="promesa__texto">Gratis desde el segundo producto. Llega en 2 a 4 días hábiles.</p>
+                            <ul class="medios medios--claro" aria-label="Transportadoras"><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Servientrega</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Interrapidísimo</li></ul>
                         </li>
                         <li class="promesa">
                             <svg class="icono promesa__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
                             <h3 class="promesa__nombre">Pagas como prefieras</h3>
-                            <p class="promesa__texto">[NEQUI, PSE, TARJETA, CONTRAENTREGA].</p>
+                            <p class="promesa__texto">Elige el que te quede más fácil.</p>
+                            <ul class="medios medios--claro" aria-label="Medios de pago"><li class="medio">Nequi</li><li class="medio">Daviplata</li><li class="medio">PSE</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>Débito y crédito</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg>Contraentrega</li></ul>
                         </li>
                     </ul>
             </section>
@@ -416,7 +417,7 @@
                 <!-- 4. Kit de descubrimiento -->
                  <div class="kit">
                     <h2 class="kit__titulo">Tres decants, una semana para decidir</h2>
-                    <p class="kit__texto">Elige tres perfumes en decants de [ML]. Llévalos unos días y quédate con el frasco del que te enamores.</p>
+                    <p class="kit__texto">Elige tres perfumes en decants de 5 ml. Llévalos unos días y quédate con el frasco del que te enamores.</p>
                 <!-- Los tres decants del kit: la foto del decant de S. B. Privé (recortada, sin fondo), tres veces,
                      como un kit abierto. Es decorativa: el texto de arriba ya dice que son tres decants -->
                  <div class="kit__trio" aria-hidden="true">
@@ -426,9 +427,9 @@
                  </div>
 
                  <p class="kit__precio">Kit de descubrimiento · Precio por WhatsApp</p>
-                 <p class="kit__nota">Si luego llevas el frasco, te descontamos el kit. [CONFIRMAR]</p>
+                 <p class="kit__nota">Si luego llevas el frasco completo, te descontamos el valor del kit.</p>
                  <a class="boton-oscuro" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants">Armar mi kit</a>
-                 <p class="kit__extra">¿Prefieres dos frascos? Te los enviamos sin costo. [CONFIRMAR]</p>
+                 <p class="kit__extra">¿Prefieres dos frascos? En el mismo pedido van con envío gratis.</p>
                  </div>
             </section>
 
@@ -442,20 +443,20 @@
 
                     <dl class="ritual">
                         <div class="ritual__paso">
-                            <dt>[QUE]</dt>
-                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                            <dt>Caja sellada</dt>
+                            <dd>Resistente y con nuestro logo, para envíos a toda Colombia.</dd>
                         </div>
                         <div class="ritual__paso">
-                            <dt>[QUE]</dt>
-                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                            <dt>En Cali, el mismo día</dt>
+                            <dd>Te lo llevamos en bolsa, el mismo día.</dd>
                         </div>
                         <div class="ritual__paso">
-                            <dt>[QUE]</dt>
-                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                            <dt>Factura y código de lote</dt>
+                            <dd>Van con cada pedido.</dd>
                         </div>
                          <div class="ritual__paso">
-                            <dt>[QUE]</dt>
-                            <dd>[COMO LLEGA: caja, papel, sello]</dd>
+                            <dt>Sello de fábrica</dt>
+                            <dd>El frasco llega con su sello intacto.</dd>
                         </div>
                     </dl>
                     <p class="regalos__nota">Y si quieres, te ayudamos a armar un kit de regalo con varios perfumes.</p>
@@ -536,12 +537,12 @@
                     <li class="paso">
                         <svg class="icono paso__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
                         <p class="paso__verbo">Paga</p>
-                        <p class="paso__texto">Te respondemos en minutos con disponibilidad y formas de pago. [CONFIRMAR]</p>
+                        <p class="paso__texto">Te respondemos en minutos con disponibilidad y formas de pago.</p>
                     </li>
                     <li class="paso">
                         <svg class="icono paso__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C9.5 3 11 5 12 8c1-3 2.5-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
                         <p class="paso__verbo">Recibe</p>
-                        <p class="paso__texto">En [DÍAS] días, en tu casa o donde quieras. [CONFIRMAR]</p>
+                        <p class="paso__texto">En 2 a 4 días hábiles a toda Colombia. En Cali, el mismo día.</p>
                     </li>
                 </ol>
             </section>
@@ -555,11 +556,11 @@
                  <div class="preguntas__lista">
                     <details class="pregunta">
                         <summary>¿Los perfumes son originales?</summary>
-                        <p class="pregunta__respuesta">Sí. Cada frasco viene con [CÓMO LO DEMUESTRAN: factura, código, sello].</p>
+                        <p class="pregunta__respuesta">Sí. Cada pedido va con factura y código de lote, y el frasco llega con su sello de fábrica intacto.</p>
                     </details>
                     <details class="pregunta">
                         <summary>¿Cómo sé que no es una réplica?</summary>
-                        <p class="pregunta__respuesta">[CÓMO LO DEMUESTRAN: factura de compra, código de lote que se puede verificar, sello]. Antes de pagar te enviamos fotos del frasco que te va a llegar. [CONFIRMAR]</p>
+                        <p class="pregunta__respuesta">Cada pedido va con su factura y el código de lote del perfume, y el frasco llega con el sello de fábrica intacto. Si tienes dudas, pregúntanos antes de pagar.</p>
                     </details>
                     <details class="pregunta">
                         <summary>¿Qué es un decant?</summary>
@@ -567,26 +568,26 @@
                     </details>
                     <details class="pregunta">
                         <summary>¿Cuánto demora en llegar?</summary>
-                        <p class="pregunta__respuesta">Llega en [DÍAS] días hábiles.</p>
+                        <p class="pregunta__respuesta">Llega en 2 a 4 días hábiles con Servientrega o Interrapidísimo, según tu ciudad. En Cali te lo llevamos el mismo día.</p>
                     </details>
                     <details class="pregunta" id="envios">
                         <summary>¿Cuánto cuesta el envío?</summary>
-                        <p class="pregunta__respuesta">Es gratis desde $[MONTO]. Por debajo de ese valor cuesta $[VALOR].</p>
+                        <p class="pregunta__respuesta">Es gratis desde el segundo producto. Si pides uno solo, el valor depende de tu ciudad y te lo decimos por WhatsApp antes de confirmar.</p>
                     </details>
                     <details class="pregunta">
                         <summary>¿Qué formas de pago hay?</summary>
-                        <p class="pregunta__respuesta">[NEQUI, PSE, TARJETA, CONTRAENTREGA].</p>
+                        <p class="pregunta__respuesta">Nequi, Daviplata, PSE, tarjeta débito o crédito, o contraentrega. Si pagas contra entrega, tu pedido queda confirmado cuando nos escribes y confirmas tu dirección y tus datos.</p>
                     </details>
                     <details class="pregunta" id="cambios">
-                        <summary>¿Y si llega dañado o no me gusta?</summary>
-                        <p class="pregunta__respuesta">Si llega dañado, te lo cambiamos sin costo. [POLÍTICA DE CAMBIOS: qué cubre y en cuántos días avisar]</p>
+                        <summary>¿Y si mi pedido llega con algún problema?</summary>
+                        <p class="pregunta__respuesta">Tienes 5 días después de la entrega para avisarnos por WhatsApp, con fotos o video del producto y del empaque, y lo revisamos contigo.</p>
                     </details>
                     <details class="pregunta">
                         <summary>¿Cuánto dura el perfume en la piel?</summary>
                         <p class="pregunta__respuesta">Depende de la piel de cada persona. En cada perfume te mostramos cuánto dura y qué tan lejos se siente.</p>
                     </details>
                  </div>
-                <p class="preguntas__texto">Si tienes otra pregunta, escríbenos por WhatsApp y te respondemos en minutos, de [HORA] a [HORA].</p>
+                <p class="preguntas__texto">Si tienes otra pregunta, escríbenos por WhatsApp y te respondemos en minutos, de lunes a sábado, de 8:00 a. m. a 5:00 p. m.</p>
                 <a class="boton-whatsapp" href="https://wa.me/573158599499?text=Hola%2C%20tengo%20una%20pregunta%3A%20">Preguntar por WhatsApp</a>
             </section>
             <section id="ayuda">
@@ -647,13 +648,21 @@
                 <nav class="pie__nav" aria-label="Navegación del pie de página">
                     <a href="catalogo.html">Catálogo</a>
                     <a href="#envios">Envíos</a>
-                    <a href="#cambios">Cambios</a>
+                    <a href="#cambios">Problemas con tu pedido</a>
                     <a href="terminos.html">Términos</a>
                     <a href="privacidad.html">Privacidad</a>
                     <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
                     <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
                 </nav>
-                <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+                <!-- Medios de pago y transportadoras: el comprador ve de un vistazo cómo paga y quién le lleva el pedido -->
+                <div class="pie__medios">
+                    <p class="pie__titulo">Pagas con</p>
+                    <ul class="medios " aria-label="Medios de pago"><li class="medio">Nequi</li><li class="medio">Daviplata</li><li class="medio">PSE</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>Débito y crédito</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg>Contraentrega</li></ul>
+                    <p class="pie__titulo">Enviamos con</p>
+                    <ul class="medios " aria-label="Transportadoras"><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Servientrega</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Interrapidísimo</li></ul>
+                </div>
+                <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, Cali.</p>
+                <p class="pie__credito">Hecho por Esteban Muñoz · <a href="https://estebandev.online/" target="_blank" rel="noopener">Mira mi portafolio</a></p>
                 <!--nombre gigante cortado-->
                 <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
         </footer>

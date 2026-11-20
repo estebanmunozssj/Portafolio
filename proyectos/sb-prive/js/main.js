@@ -503,6 +503,8 @@ if (seccionCapturas && listaCapturas.length) {
   });
 
   seccionCapturas.hidden = false;
+  // Con una sola captura no hay nada que deslizar: sin puntos ni "Desliza para ver más"
+  if (listaCapturas.length < 2) seccionCapturas.querySelector('.capturas__guia').hidden = true;
 
   // Puntos: marcan qué captura se está viendo al deslizar (en celular)
   function marcarPunto() {
@@ -521,18 +523,24 @@ if (seccionCapturas && listaCapturas.length) {
     if (evento.target === visor) visor.close();
   });
 } else if (seccionCapturas) {
-  const carrusel = seccionCapturas.querySelector('.capturas__lista');
-  for (let i = 0; i < 4; i++) {
-    const item = crear('li', 'captura captura--ejemplo');
-    item.setAttribute('aria-hidden', 'true'); // es solo de muestra: el lector de pantalla no lo lee
-    const marco = crear('div', 'captura__abrir captura__marco');
-    marco.append(crear('span', 'captura__aviso', '[Captura de cliente]'));
-    item.append(marco);
-    item.append(crear('p', 'captura__texto', '[Frase corta del cliente]'));
-    item.append(crear('span', 'captura__perfume', '[Perfume que pidió]'));
-    carrusel.append(item);
+  // Sin capturas todavía, la sección no se muestra (la página ya está publicada: nada de marcos de ejemplo).
+  // Para ver cómo se vería con marcos de ejemplo mientras se diseña, abrir la página con ?ejemplos
+  if (new URLSearchParams(location.search).has('ejemplos')) {
+    const carrusel = seccionCapturas.querySelector('.capturas__lista');
+    for (let i = 0; i < 4; i++) {
+      const item = crear('li', 'captura captura--ejemplo');
+      item.setAttribute('aria-hidden', 'true');
+      const marco = crear('div', 'captura__abrir captura__marco');
+      marco.append(crear('span', 'captura__aviso', '[Captura de cliente]'));
+      item.append(marco);
+      item.append(crear('p', 'captura__texto', '[Frase corta del cliente]'));
+      item.append(crear('span', 'captura__perfume', '[Perfume que pidió]'));
+      carrusel.append(item);
+    }
+    seccionCapturas.querySelector('.capturas__guia').hidden = true;
+  } else {
+    seccionCapturas.hidden = true;
   }
-  seccionCapturas.querySelector('.capturas__guia').hidden = true;
 }
 
 /* ---------- "Síguenos": publicaciones de Instagram (js/redes.js) ---------- */
@@ -564,6 +572,9 @@ if (seccionRedes && typeof PUBLICACIONES !== 'undefined') {
       item.append(enlace);
       listaRedes.append(item);
     });
+  } else if (!new URLSearchParams(location.search).has('ejemplos')) {
+    // Sin publicaciones todavía: queda el título, el usuario y los botones a Instagram y TikTok, sin cuadrícula
+    listaRedes.hidden = true;
   } else {
     ['reel', 'foto', 'reel', 'foto', 'reel', 'foto'].forEach(function (tipo) {
       const item = crear('li');

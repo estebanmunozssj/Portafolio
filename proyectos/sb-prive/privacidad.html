@@ -31,8 +31,8 @@
         <!-- Para quien usa teclado: el primer Tab muestra este enlace y salta el menú -->
         <a class="saltar" href="#contenido">Saltar al contenido</a>
         <p class="franja">
-            <span class="franja__mensaje activo">Envío sin costo desde $[MONTO]</span>
-            <span class="franja__mensaje">Pide antes de las [HORA] y sale hoy</span>
+            <span class="franja__mensaje activo">Envío gratis desde el segundo producto</span>
+            <span class="franja__mensaje">Pide antes de las 2:00 p. m. y sale hoy</span>
             <span class="franja__mensaje">Solo perfumes originales</span>
             <span class="franja__mensaje">Decants para probar antes del frasco</span>
             <span class="franja__mensaje">Respuesta en minutos por WhatsApp</span>
@@ -101,7 +101,7 @@
             <header class="legal__cabecera">
                 <p class="legal__antetitulo">Información legal</p>
                 <h1>Política de privacidad</h1>
-                <p class="legal__fecha">Vigente desde: [FECHA]</p>
+                <p class="legal__fecha">Vigente desde: 20 de noviembre de 2026</p>
                 <p class="legal__intro">Esta es nuestra política de tratamiento de datos personales. Explica qué datos recibimos cuando nos escribes, para qué los usamos, con quién los compartimos y cómo puedes consultarlos, corregirlos o pedir que los borremos.</p>
             </header>
 
@@ -123,7 +123,7 @@
 
             <section class="legal__seccion" id="responsable">
                 <h2>1. Quién es el responsable</h2>
-                <p>El responsable de tus datos es [RAZÓN SOCIAL O NOMBRE DEL TITULAR], identificado con [NIT O CÉDULA] [NÚMERO], con domicilio en [DIRECCIÓN], [CIUDAD], Colombia, que vende bajo la marca S. B. Privé.</p>
+                <p>El responsable de tus datos es Sebastián Bustos Ospina, identificado con cédula de ciudadanía 1.116.160.675, con domicilio en Alfaguara, Jamundí (Valle del Cauca), Colombia, que vende bajo la marca S. B. Privé.</p>
                 <ul>
                     <li>WhatsApp: <a href="https://wa.me/573158599499">+57 315 859 9499</a></li>
                     <li>Correo para temas de datos personales: priveexclusividad@gmail.com</li>
@@ -148,7 +148,7 @@
                     <li>Confirmar y preparar tu pedido.</li>
                     <li>Enviarlo y avisarte cómo va.</li>
                     <li>Recibir y verificar tu pago.</li>
-                    <li>Atender cambios, garantías, peticiones, quejas y reclamos.</li>
+                    <li>Atender peticiones, quejas y reclamos sobre tu pedido.</li>
                     <li>Cumplir obligaciones contables, tributarias y legales.</li>
                     <li>Solo si nos lo autorizas aparte: contarte lanzamientos y novedades. Puedes pedir que no te escribamos más en cualquier momento.</li>
                 </ul>
@@ -163,7 +163,7 @@
                 <h2>5. Con quién los compartimos</h2>
                 <p>No vendemos ni alquilamos tus datos. Solo los compartimos con quien los necesita para cumplir tu pedido:</p>
                 <ul>
-                    <li><strong>La transportadora</strong> ([TRANSPORTADORA]): tu nombre, teléfono y dirección, para la entrega.</li>
+                    <li><strong>La transportadora</strong> (Servientrega o Interrapidísimo): tu nombre, teléfono y dirección, para la entrega.</li>
                     <li><strong>La plataforma de pago</strong> que elijas: lo necesario para procesar el pago.</li>
                     <li><strong>WhatsApp</strong> (Meta): es el canal por el que hablamos; su manejo de datos se rige por sus propias políticas.</li>
                     <li><strong>Autoridades</strong>, cuando la ley nos obligue.</li>
@@ -200,7 +200,8 @@
 
             <section class="legal__seccion" id="pagina">
                 <h2>9. La página y tu navegador</h2>
-                <p>La página no usa cookies de seguimiento ni herramientas de analítica [ACTUALIZAR SI SE AGREGAN].</p>
+                <p>La página no usa cookies de seguimiento ni herramientas de analítica.</p>
+                <!-- OJO: si algún día se agrega analítica (Google Analytics, Meta Pixel…), actualizar este párrafo -->
                 <p>Guarda dos cosas <strong>solo en tu navegador</strong> (almacenamiento local): los perfumes que agregas a "Mi lista" y si pausaste el movimiento de la página. Esa información no nos llega a nosotros; la puedes borrar borrando los datos del sitio en tu navegador.</p>
                 <p>Para mostrar las letras y algunas animaciones, la página carga archivos de Google Fonts y de cdnjs (Cloudflare). Como pasa con cualquier página, esos servicios reciben la dirección IP de tu conexión. El servicio de alojamiento de la página también puede guardar registros técnicos de las visitas.</p>
             </section>
@@ -221,13 +222,21 @@
             <nav class="pie__nav" aria-label="Navegación del pie de página">
                 <a href="catalogo.html">Catálogo</a>
                 <a href="index.html#envios">Envíos</a>
-                <a href="index.html#cambios">Cambios</a>
+                <a href="index.html#cambios">Problemas con tu pedido</a>
                 <a href="terminos.html">Términos</a>
                 <a href="privacidad.html" aria-current="page">Privacidad</a>
                 <a href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Instagram</a>
                 <a href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">TikTok</a>
             </nav>
-            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, [CIUDAD].</p>
+            <!-- Medios de pago y transportadoras: el comprador ve de un vistazo cómo paga y quién le lleva el pedido -->
+            <div class="pie__medios">
+                <p class="pie__titulo">Pagas con</p>
+                <ul class="medios " aria-label="Medios de pago"><li class="medio">Nequi</li><li class="medio">Daviplata</li><li class="medio">PSE</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>Débito y crédito</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg>Contraentrega</li></ul>
+                <p class="pie__titulo">Enviamos con</p>
+                <ul class="medios " aria-label="Transportadoras"><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Servientrega</li><li class="medio"><svg class="icono medio__icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 17V6H3v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Interrapidísimo</li></ul>
+            </div>
+            <p class="pie__legal">&copy; 2026 S. B. Privé. Alta perfumería, Cali.</p>
+            <p class="pie__credito">Hecho por Esteban Muñoz · <a href="https://estebandev.online/" target="_blank" rel="noopener">Mira mi portafolio</a></p>
             <p class="pie__marca" aria-hidden="true">S. B. Privé</p>
         </footer>
 

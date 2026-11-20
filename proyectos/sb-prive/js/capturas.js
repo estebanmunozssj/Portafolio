@@ -20,4 +20,5 @@
 
 const CAPTURAS = [
   // Aquí van las capturas reales del cliente
+  { imagen: 'img/capturas/cliente-royal-amber.jpg', texto: 'La loción llegó en perfectas condiciones y tiene un aroma espectacular. ¡Volvería a comprar!' },
 ];

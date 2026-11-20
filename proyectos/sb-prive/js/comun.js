@@ -158,7 +158,7 @@ const BARRA_INTENSIDAD = { 'Cerca de la piel': 30, 'Media': 55, 'Fuerte': 75, 'M
 
 // Entrega (datos del cliente). Con alguno en null, la página del perfume no muestra la fecha.
 // diasMin y diasMax: días hábiles que tarda en llegar. horaCorte: hasta qué hora sale el mismo día, en 24 h (14 = 2 p. m.)
-const ENTREGA = { diasMin: null, diasMax: null, horaCorte: null };
+const ENTREGA = { diasMin: 2, diasMax: 4, horaCorte: 14 }; // 2 a 4 días hábiles; antes de las 2:00 p. m. sale el mismo día
 
 /* ---------- Tamaños de un perfume ---------- */
 // "Frasco 100 ml" si el perfume tiene ml anotados; si no, solo "Frasco" (los tamaños del proveedor varían)

@@ -3358,6 +3358,76 @@ html {
   color: #B9B29C;
 }
 
+/* Crédito del diseñador de la página: discreto, al lado del texto legal */
+.pie__credito {
+  font-size: 13px;
+  color: #B9B29C;
+}
+
+.pie__credito a {
+  display: inline-block;
+  padding: 10px 0; /* zona de toque cómoda */
+  color: #E6CF98;
+  text-decoration: underline;
+  text-decoration-color: rgba(200, 164, 92, 0.5);
+  text-underline-offset: 3px;
+}
+
+/* Medios de pago y transportadoras: sellos pequeños con borde dorado (sin logos de otras marcas:
+   solo el nombre, como en las tiendas de referencia). Si el cliente consigue los logos oficiales, pueden ir aquí */
+.pie__medios {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pie__titulo {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #B9B29C;
+}
+
+.medios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.medio {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 4px 10px;
+  border: 1px solid rgba(200, 164, 92, 0.45);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #E6CF98;
+}
+
+.medio__icono {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* En "Lo que te prometemos" (fondo crema): verde oscuro en vez de dorado */
+.medios--claro {
+  margin-top: 10px;
+}
+
+.medios--claro .medio {
+  border-color: rgba(14, 42, 28, 0.25);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--verde);
+}
+
 .pie__marca {
   margin: 8px 0 -10px;
   font-family: 'Cormorant Garamond', serif;
@@ -3374,10 +3444,31 @@ html {
   /* Pie: nombre a la izquierda, enlaces al centro y datos legales a la derecha, en una sola fila */
   .pie {
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 32px;
     padding: 48px max(5vw, calc((100% - 1280px) / 2));
+  }
+
+  /* Los medios de pago y envío van en su propia fila, debajo, de lado a lado */
+  .pie__medios {
+    order: 5;
+    flex-basis: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(200, 164, 92, 0.2);
+  }
+
+  .pie__titulo {
+    margin: 0 0 0 8px;
+  }
+
+  .pie__titulo:first-child {
+    margin-left: 0;
   }
 
   .pie__marca {
