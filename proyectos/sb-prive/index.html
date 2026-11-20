@@ -198,17 +198,26 @@
                 <h1>Perfumes originales, pedidos por WhatsApp</h1>
                 <!-- El precio de entrada más bajo baja la barrera para la primera compra -->
                 <p>Árabes, de diseñador y de nicho, y decants para probarlos antes del frasco.</p>
+                <a class="boton-borde inicio__catalogo" href="catalogo.html">Ver catálogo</a>
 
                 <!-- Selector de aroma (en el paso 6 le damos vida con JavaScript) -->
                 <fieldset class="aromas">
                     <legend class="aromas__pregunta">¿Cómo quieres oler hoy?</legend>
                     <div class="aromas__opciones">
-                        <button class="aroma activo" type="button" aria-pressed="true">Dulce</button>
-                        <button class="aroma" type="button" aria-pressed="false">Fresco</button>
-                        <button class="aroma" type="button" aria-pressed="false">Amaderado</button>
-                        <button class="aroma" type="button" aria-pressed="false">Intenso</button>
+                        <!-- data-aroma: el aroma que lee el JavaScript. El punto de color es la luz de ese aroma en la vitrina -->
+                        <button class="aroma activo" type="button" aria-pressed="true" data-aroma="Dulce"><span class="aroma__nombre">Dulce</span><span class="aroma__pista">Vainilla, ámbar</span></button>
+                        <button class="aroma" type="button" aria-pressed="false" data-aroma="Fresco"><span class="aroma__nombre">Fresco</span><span class="aroma__pista">Cítricos, limpio</span></button>
+                        <button class="aroma" type="button" aria-pressed="false" data-aroma="Amaderado"><span class="aroma__nombre">Amaderado</span><span class="aroma__pista">Maderas, cuero</span></button>
+                        <button class="aroma" type="button" aria-pressed="false" data-aroma="Intenso"><span class="aroma__nombre">Intenso</span><span class="aroma__pista">Oud, especias</span></button>
                     </div>
                 </fieldset>
+
+                <!-- ¿O prefieres una marca?: los botones los arma js/main.js con las marcas de js/perfumes.js
+                     (de la que más perfumes tiene a la que menos). Al elegir una, la vitrina muestra esa marca -->
+                <div class="marcas" hidden>
+                    <p class="aromas__pregunta" id="titulo-marcas">¿O prefieres una marca?</p>
+                    <div class="marcas__lista" role="group" aria-labelledby="titulo-marcas"></div>
+                </div>
 
                 <!-- Vitrina: el armario se queda quieto, los frascos cambian.
                      Se ven el arco y las dos primeras repisas (6 frascos), en celular y en computador:
@@ -256,6 +265,12 @@
                             </div>
                         </div>
                      </div>
+
+                    <!-- "Otras opciones": la vitrina muestra 6 frascos del aroma o la marca elegida; este botón trae los 6 siguientes -->
+                    <div class="vitrina__mas" hidden>
+                        <button class="boton-borde vitrina__otras" type="button">Otras opciones</button>
+                        <span class="vitrina__pagina" aria-live="polite"></span>
+                    </div>
 
                     <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->
                     <div class="tarjeta" aria-live="polite">
@@ -312,6 +327,37 @@
                     </ul>
             </section>
 
+            <section id="mas-pedidos">
+                <!-- 5. Los más pedidos -->
+                 <div class="pedidos__cabecera">
+                    <h2 class="pedidos__titulo">Los más pedidos</h2>
+                    <div class="pedidos__controles">
+                        <!--el js cambia el 1 y el total-->
+                        <span class="pedidos__contador" aria-live="polite"></span>
+                        <button class="boton-flecha" type="button" aria-label="Perfume anterior">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
+                                <path d="M15 5l-7 7 7 7"></path>
+                            </svg>
+                        </button>
+
+                        <button class="boton-flecha" type="button" aria-label="Perfume siguiente">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
+                                <path d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>  
+                 </div>
+
+                 <!--la ventana oculta lo que le sale la pista es la que se desplaza-->
+                 <div class="pedidos__ventana">
+                    <div class="pedidos__pista">
+                        <!-- Las tarjetas las crea js/main.js con los perfumes que tienen masPedido: true en js/perfumes.js -->
+                    </div>
+                 </div>
+
+                 <a class="boton-borde" href="catalogo.html">Ver todo el catálogo</a>
+            </section>
+
             <section id="tipos">
                 <!-- 3. Elige por tipo -->
                  <h2 class="tipos__titulo">Elige por tipo</h2>
@@ -366,36 +412,6 @@
                  </div>
             </section>
 
-            <section id="mas-pedidos">
-                <!-- 5. Los más pedidos -->
-                 <div class="pedidos__cabecera">
-                    <h2 class="pedidos__titulo">Los más pedidos</h2>
-                    <div class="pedidos__controles">
-                        <!--el js cambia el 1 y el total-->
-                        <span class="pedidos__contador" aria-live="polite"></span>
-                        <button class="boton-flecha" type="button" aria-label="Perfume anterior">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
-                                <path d="M15 5l-7 7 7 7"></path>
-                            </svg>
-                        </button>
-
-                        <button class="boton-flecha" type="button" aria-label="Perfume siguiente">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E2A1C" stroke-width="1.6" aria-hidden="true">
-                                <path d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>  
-                 </div>
-
-                 <!--la ventana oculta lo que le sale la pista es la que se desplaza-->
-                 <div class="pedidos__ventana">
-                    <div class="pedidos__pista">
-                        <!-- Las tarjetas las crea js/main.js con los perfumes que tienen masPedido: true en js/perfumes.js -->
-                    </div>
-                 </div>
-
-                 <a class="boton-borde" href="catalogo.html">Ver todo el catálogo</a>
-            </section>
 
             <section id="regalos">
                 <!-- 6. Llega como un regalo -->

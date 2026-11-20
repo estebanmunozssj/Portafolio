@@ -291,3 +291,123 @@ document.querySelectorAll('a[href="#buscar"]').forEach(function (lupa) {
 mostrarCatalogo();
 pintarLista();
 irAlLugar();
+
+/* =========================================================
+   Parte 3: Explora por marca
+   Una tarjeta por marca, de la que más perfumes tiene a la que menos, con el frasco recortado
+   de uno de sus perfumes. Al tocarla, el catálogo muestra solo esa marca (es el mismo filtro "Marca").
+   Las tarjetas avanzan solas, de a una, cada pocos segundos. Se detienen con el mouse encima,
+   al tocarlas, con el teclado, si la persona pidió menos movimiento, o para siempre al elegir una marca
+   ========================================================= */
+const explorar = document.querySelector('.explorar');
+const listaCasas = explorar.querySelector('.explorar__lista');
+const barraProgreso = explorar.querySelector('.explorar__progreso span');
+const marcasPorCantidad = Object.keys(cuentaMarcas)
+  .sort(function (a, b) { return cuentaMarcas[b] - cuentaMarcas[a] || a.localeCompare(b, 'es'); });
+const botonesCasa = [];
+
+marcasPorCantidad.forEach(function (marca, i) {
+  const item = crear('li');
+  const boton = crear('button', 'casa');
+  boton.type = 'button';
+  boton.dataset.marca = marca;
+  boton.setAttribute('aria-pressed', selectorMarca.value === marca ? 'true' : 'false');
+  const total = marcasPorCantidad.length;
+  boton.append(crear('span', 'casa__numero', String(i + 1).padStart(2, '0') + ' / ' + total));
+  boton.append(crear('span', 'casa__nombre', marca));
+  const n = cuentaMarcas[marca];
+  boton.append(crear('span', 'casa__cuenta', n === 1 ? '1 perfume' : n + ' perfumes'));
+  boton.append(crear('span', 'casa__accion', 'Ver perfumes'));
+  // El frasco de uno de sus perfumes (el primero que tenga foto recortada)
+  const conFrasco = PERFUMES.find(function (p) { return p.marca === marca && p.vitrina; });
+  if (conFrasco) {
+    const foto = crear('img', 'casa__frasco');
+    foto.src = conFrasco.vitrina;
+    foto.alt = '';
+    foto.loading = 'lazy';
+    foto.addEventListener('error', function () { foto.remove(); });
+    boton.append(foto);
+  }
+  item.append(boton);
+  listaCasas.append(item);
+  botonesCasa.push(boton);
+});
+explorar.hidden = botonesCasa.length < 2;
+
+function marcarCasa() {
+  botonesCasa.forEach(function (b) {
+    b.setAttribute('aria-pressed', b.dataset.marca === selectorMarca.value ? 'true' : 'false');
+  });
+}
+formulario.addEventListener('change', marcarCasa);
+formulario.addEventListener('reset', function () { setTimeout(marcarCasa); });
+
+let casasDetenidas = false;
+botonesCasa.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    casasDetenidas = true;
+    // Tocar la marca elegida otra vez la quita
+    selectorMarca.value = selectorMarca.value === boton.dataset.marca ? '' : boton.dataset.marca;
+    mostrarCatalogo();
+    marcarCasa();
+    if (selectorMarca.value) {
+      cuenta.scrollIntoView({ behavior: pideQuietudCatalogo() ? 'auto' : 'smooth', block: 'start' });
+    }
+  });
+});
+
+function pideQuietudCatalogo() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    document.documentElement.classList.contains('sin-movimiento');
+}
+
+// Mueve la fila una tarjeta (paso 1) o una hacia atrás (paso -1). Al llegar al final, vuelve al inicio
+function moverCasas(paso) {
+  const ancho = listaCasas.firstElementChild.getBoundingClientRect().width + 12; // tarjeta + espacio
+  const alFinal = listaCasas.scrollLeft + listaCasas.clientWidth >= listaCasas.scrollWidth - 4;
+  const alInicio = listaCasas.scrollLeft <= 4;
+  let destino = listaCasas.scrollLeft + paso * ancho;
+  if (paso > 0 && alFinal) destino = 0;
+  if (paso < 0 && alInicio) destino = listaCasas.scrollWidth;
+  listaCasas.scrollTo({ left: destino, behavior: pideQuietudCatalogo() ? 'auto' : 'smooth' });
+}
+
+explorar.querySelectorAll('.explorar__flecha').forEach(function (flecha) {
+  flecha.addEventListener('click', function () {
+    moverCasas(Number(flecha.dataset.paso));
+    esperarCasas();
+  });
+});
+
+// La barrita dorada de abajo dice por dónde va
+listaCasas.addEventListener('scroll', function () {
+  const recorrido = listaCasas.scrollWidth - listaCasas.clientWidth;
+  const parte = listaCasas.clientWidth / listaCasas.scrollWidth;
+  barraProgreso.style.width = (parte * 100) + '%';
+  barraProgreso.style.transform = 'translateX(' + (recorrido ? (listaCasas.scrollLeft / recorrido) * (1 / parte - 1) * 100 : 0) + '%)';
+}, { passive: true });
+listaCasas.dispatchEvent(new Event('scroll'));
+
+// Avance solo
+let casasPausadas = false;
+let casasAVista = true;
+let esperaCasas = null;
+function pausarCasas() { casasPausadas = true; clearTimeout(esperaCasas); }
+function esperarCasas() {
+  casasPausadas = true;
+  clearTimeout(esperaCasas);
+  esperaCasas = setTimeout(function () { casasPausadas = false; }, 5000);
+}
+listaCasas.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pausarCasas(); });
+listaCasas.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') esperarCasas(); });
+listaCasas.addEventListener('touchstart', pausarCasas, { passive: true });
+listaCasas.addEventListener('touchend', esperarCasas, { passive: true });
+listaCasas.addEventListener('focusin', pausarCasas);
+listaCasas.addEventListener('focusout', esperarCasas);
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(function (e) { casasAVista = e[0].isIntersecting; }).observe(listaCasas);
+}
+function avanceCasas() {
+  if (!casasDetenidas && !casasPausadas && casasAVista && !document.hidden && !pideQuietudCatalogo()) moverCasas(1);
+}
+setInterval(avanceCasas, 3500);

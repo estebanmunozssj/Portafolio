@@ -334,6 +334,13 @@ function tamanoDeTarjeta(id) {
 function marcarBotonAgregar(boton) {
   const dentro = estaEnLista(boton.dataset.id, tamanoDeTarjeta(boton.dataset.id));
   boton.setAttribute('aria-pressed', dentro ? 'true' : 'false');
+  // El corazón no lleva texto: lo que dice va en aria-label (lo lee el lector de pantalla)
+  if (boton.classList.contains('perfume__corazon')) {
+    const nombre = buscarPerfume(boton.dataset.id)?.nombre || '';
+    boton.setAttribute('aria-label', (dentro ? 'Quitar de mi lista: ' : 'Agregar a mi lista: ') + nombre);
+    boton.title = dentro ? 'En mi lista' : 'Agregar a mi lista';
+    return;
+  }
   boton.textContent = dentro ? 'En mi lista ✓' : 'Agregar a mi lista';
 }
 
@@ -369,13 +376,19 @@ window.addEventListener('storage', function (evento) {
 function tarjetaPerfume(p, nivelTitulo) {
   const item = crear('li');
   const tarjeta = crear('article', 'perfume');
+  tarjeta.dataset.aroma = p.aroma || ''; // el CSS pinta el punto del color de ese aroma
 
   // Foto, marca, nombre y aroma: un solo enlace a la página del perfume
   const enlace = crear('a', 'perfume__enlace');
   enlace.href = 'perfume.html?id=' + encodeURIComponent(p.id);
 
   const marco = crear('div', 'perfume__foto');
-  if (p.masPedido) marco.append(crear('span', 'perfume__sello', 'Más pedido'));
+  // Etiquetas arriba a la izquierda: el tipo (Árabe, Nicho, Diseñador) y, si aplica, "Más pedido"
+  const etiquetas = crear('div', 'perfume__etiquetas');
+  const tipoCorto = { 'Árabes': 'Árabe' }[p.tipo] || p.tipo;
+  if (tipoCorto) etiquetas.append(crear('span', 'perfume__tipo', tipoCorto));
+  if (p.masPedido) etiquetas.append(crear('span', 'perfume__sello', 'Más pedido'));
+  marco.append(etiquetas);
   const foto = crear('img');
   foto.alt = p.nombre + ' de ' + p.marca;
   foto.width = 240;
@@ -386,26 +399,34 @@ function tarjetaPerfume(p, nivelTitulo) {
   marco.append(foto);
   enlace.append(marco);
 
-  enlace.append(crear('p', 'perfume__datos', [p.marca, p.tipo].filter(Boolean).join(' · ')));
+  enlace.append(crear('p', 'perfume__marca', p.marca));
   enlace.append(crear(nivelTitulo || 'h2', 'perfume__nombre', p.nombre));
-  const aroma = [p.aroma, p.intensidad].filter(Boolean).join(' · ');
-  if (aroma) enlace.append(crear('p', 'perfume__aroma', aroma));
+  // El aroma como etiqueta con su punto de color. Cuando el cliente pase las notas, aquí pueden ir 2 o 3
+  if (p.aroma) enlace.append(crear('p', 'perfume__aroma', p.aroma));
   tarjeta.append(enlace);
 
-  // Precios y aviso
-  tarjeta.append(crear('p', 'perfume__precio', precioTexto(p.precio)));
+  // Tamaños: "Frasco · Decant 10 ml" (con precio solo si el perfume ya tiene precio)
   const decant = datosTamano(p, tamanoDecant(p));
-  if (decant) tarjeta.append(crear('p', 'perfume__decant', decant.texto + ': ' + precioTexto(decant.precio)));
+  const tamanos = [textoFrasco(p) + (p.precio ? ' ' + precioTexto(p.precio) : '')];
+  if (decant) tamanos.push(decant.texto + (decant.precio ? ' ' + precioTexto(decant.precio) : ''));
+  tarjeta.append(crear('p', 'perfume__tamanos', tamanos.join(' · ')));
   if (p.pocasPiezas) tarjeta.append(crear('p', 'perfume__aviso', 'Pocas piezas'));
 
-  // Botones
-  const botones = crear('div', 'perfume__botones');
-  const agregar = crear('button', 'boton-borde perfume__agregar');
+  // Corazón arriba a la derecha de la foto: agrega o quita de Mi lista
+  const agregar = crear('button', 'perfume__agregar perfume__corazon');
   agregar.type = 'button';
   agregar.dataset.id = p.id;
+  agregar.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.3 8.4 3 5 6.4 5c2 0 3.3 1.1 4 2.3h3.2C14.3 6.1 15.6 5 17.6 5 21 5 22.7 8.4 21.2 11.4 19 15.6 12 20 12 20z"/></svg>';
   marcarBotonAgregar(agregar);
-  // Sin botón de WhatsApp aquí: la tarjeta lleva a la ficha, que arma un pedido mejor (tamaño y cantidad)
-  botones.append(agregar);
+  tarjeta.append(agregar);
+
+  // Pedir por WhatsApp directo, con el mensaje de ese perfume
+  const botones = crear('div', 'perfume__botones');
+  const pedir = crear('a', 'perfume__pedir', 'Pedir por WhatsApp');
+  pedir.href = enlacePedido(p);
+  pedir.target = '_blank';
+  pedir.rel = 'noopener';
+  botones.append(pedir);
   tarjeta.append(botones);
 
   item.append(tarjeta);

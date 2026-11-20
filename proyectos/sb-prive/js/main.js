@@ -42,24 +42,61 @@ const tarjeta = {
   boton: document.querySelector('.tarjeta .boton-whatsapp')
 };
 
-/* ---------- 1. Llenar la vitrina con los perfumes de la lista ---------- */
-// Cada botón .frasco del HTML recibe un perfume. Si sobran botones, se esconden.
-botonesFrasco.forEach(function (boton, i) {
-  const perfume = PERFUMES[i];
-  if (!perfume) {
-    boton.hidden = true;
-    return;
+/* ---------- 1. La vitrina: muestra 6 frascos del aroma o la marca elegida ---------- */
+// Solo entran perfumes con foto recortada (campo "vitrina" en js/perfumes.js).
+// "grupo" es la lista elegida (todos los dulces, o todos los de Lattafa...) y "pagina" cuál tanda de 6 se ve
+const armario = document.querySelector('.armario');
+const conFrascoRecortado = PERFUMES.filter(function (p) { return p.vitrina; });
+const cajaOtras = document.querySelector('.vitrina__mas');
+const botonOtras = document.querySelector('.vitrina__otras');
+const textoPagina = document.querySelector('.vitrina__pagina');
+const pideQuietud = window.matchMedia('(prefers-reduced-motion: reduce)');
+let grupo = [];
+let pagina = 0;
+
+function totalPaginas() {
+  return Math.max(1, Math.ceil(grupo.length / botonesFrasco.length));
+}
+
+// Pone en las repisas la tanda actual. Al cambiar, los frascos se desvanecen y aparecen los nuevos
+function llenarVitrina() {
+  const tanda = grupo.slice(pagina * botonesFrasco.length, (pagina + 1) * botonesFrasco.length);
+  const cambiar = function () {
+    botonesFrasco.forEach(function (boton, i) {
+      const perfume = tanda[i];
+      boton.hidden = !perfume;
+      if (!perfume) return;
+      boton.dataset.id = perfume.id;
+      boton.setAttribute('aria-label', perfume.nombre + ', ' + perfume.marca);
+      const foto = boton.querySelector('img');
+      foto.src = perfume.vitrina;
+    });
+    armario.classList.remove('vitrina--cambiando');
+    if (tanda[0]) mostrarPerfume(tanda[0]);
+  };
+  const quieta = pideQuietud.matches || document.documentElement.classList.contains('sin-movimiento');
+  if (quieta || !armario.dataset.lleno) {
+    cambiar();
+  } else {
+    armario.classList.add('vitrina--cambiando'); // el CSS desvanece los frascos
+    setTimeout(cambiar, 220);
   }
-  boton.dataset.id = perfume.id;
-  boton.setAttribute('aria-label', perfume.nombre + ', ' + perfume.marca);
+  armario.dataset.lleno = 'si';
+
+  // "Otras opciones" solo si hay más de una tanda; el contador dice en cuál va
+  const paginas = totalPaginas();
+  cajaOtras.hidden = paginas < 2;
+  textoPagina.textContent = (pagina + 1) + ' de ' + paginas;
+}
+
+// Si la foto recortada de un frasco no carga (por ejemplo, un navegador viejo sin AVIF), usa la foto normal
+botonesFrasco.forEach(function (boton) {
   const foto = boton.querySelector('img');
-  // Si la foto no existe (nombre mal escrito, archivo sin subir), el frasco se esconde
-  // en vez de mostrar el ícono de imagen rota
   foto.addEventListener('error', function () {
-    boton.hidden = true;
+    const perfume = buscarPerfume(boton.dataset.id);
+    if (perfume && foto.getAttribute('src') !== perfume.imagen) foto.src = perfume.imagen;
+    else boton.hidden = true;
   });
-  // En las repisas va la foto SIN fondo (vitrina); si un perfume no la tiene, la normal
-  foto.src = perfume.vitrina || perfume.imagen;
 });
 
 /* ---------- 2. Mostrar un perfume en la tarjeta ---------- */
@@ -76,6 +113,9 @@ function mostrarPerfume(perfume) {
   tarjeta.decant.textContent = decant ? decant.texto + ': ' + precioTexto(decant.precio) : '';
   tarjeta.boton.href = enlacePedido(perfume);
 
+  // La luz de la vitrina toma el color del aroma de este perfume (ámbar, verde frío, madera, rojo)
+  armario.dataset.aroma = perfume.aroma;
+
   // Marcar cuál frasco está elegido: crece y se ilumina (lo hace el CSS con .activo)
   botonesFrasco.forEach(function (boton) {
     const elegido = boton.dataset.id === perfume.id;
@@ -84,37 +124,140 @@ function mostrarPerfume(perfume) {
   });
 }
 
-/* ---------- 3. Elegir un aroma ---------- */
-// Los frascos de ese aroma se quedan encendidos y los demás se apagan un poco.
-// La tarjeta muestra el primer perfume de ese aroma.
-function elegirAroma(aroma) {
-  // La vitrina cambia de luz según el aroma (el CSS lee data-aroma: ámbar, verde frío, madera, rojo)
-  document.querySelector('.armario').dataset.aroma = aroma;
+/* ---------- 3. Elegir un aroma o una marca ---------- */
+const listaMarcas = document.querySelector('.marcas__lista');
+let botonesMarca = [];
 
+// Marca como elegido el botón que corresponde (y desmarca los demás, de aromas y de marcas)
+function marcarEleccion(tipo, valor) {
   botonesAroma.forEach(function (boton) {
-    const elegido = boton.textContent.trim() === aroma;
+    const elegido = tipo === 'aroma' && boton.dataset.aroma === valor;
     boton.classList.toggle('activo', elegido);
     boton.setAttribute('aria-pressed', elegido ? 'true' : 'false');
   });
-
-  botonesFrasco.forEach(function (boton) {
-    const perfume = buscarPerfume(boton.dataset.id);
-    boton.classList.toggle('apagado', !!perfume && perfume.aroma !== aroma);
+  botonesMarca.forEach(function (boton) {
+    const elegido = tipo === 'marca' && boton.dataset.marca === valor;
+    boton.classList.toggle('activo', elegido);
+    boton.setAttribute('aria-pressed', elegido ? 'true' : 'false');
   });
+}
 
-  // El primero de ese aroma que se vea en la vitrina (si su foto falló, se salta)
-  const primero = PERFUMES.find(function (p) {
-    const boton = document.querySelector('.frasco[data-id="' + p.id + '"]');
-    return p.aroma === aroma && boton && !boton.hidden;
-  }) || PERFUMES.find(function (p) { return p.aroma === aroma; });
-  if (primero) {
-    mostrarPerfume(primero);
+// Reparte las marcas: un perfume de cada marca por turno, así cada tanda de 6 se ve variada
+// (si no, saldrían cinco de Ariana Grande seguidos). El orden de la lista se respeta dentro de cada marca
+function intercalarMarcas(lista) {
+  const porMarca = {};
+  lista.forEach(function (p) { (porMarca[p.marca] = porMarca[p.marca] || []).push(p); });
+  const filas = Object.values(porMarca);
+  const resultado = [];
+  for (let i = 0; resultado.length < lista.length; i++) {
+    filas.forEach(function (fila) { if (fila[i]) resultado.push(fila[i]); });
   }
+  return resultado;
+}
+
+function elegirAroma(aroma) {
+  marcarEleccion('aroma', aroma);
+  grupo = intercalarMarcas(conFrascoRecortado.filter(function (p) { return p.aroma === aroma; }));
+  pagina = 0;
+  llenarVitrina();
+}
+
+function elegirMarca(marca) {
+  marcarEleccion('marca', marca);
+  grupo = conFrascoRecortado.filter(function (p) { return p.marca === marca; });
+  pagina = 0;
+  llenarVitrina();
+}
+
+// Los botones de marca: de la que más perfumes tiene en la vitrina a la que menos.
+// Cada uno muestra cuántos perfumes tiene esa marca (el número pequeño dorado)
+const cuentaMarcas = {};
+conFrascoRecortado.forEach(function (p) { cuentaMarcas[p.marca] = (cuentaMarcas[p.marca] || 0) + 1; });
+const marcasOrdenadas = Object.keys(cuentaMarcas)
+  .sort(function (a, b) { return cuentaMarcas[b] - cuentaMarcas[a] || a.localeCompare(b, 'es'); });
+
+function botonMarca(marca, esCopia) {
+  const boton = crear('button', 'marca', marca);
+  boton.type = 'button';
+  boton.dataset.marca = marca;
+  boton.append(crear('span', 'marca__cuenta', String(cuentaMarcas[marca])));
+  if (esCopia) {
+    // La copia solo existe para que la fila se desplace sin fin: el lector de pantalla y el tabulador la saltan
+    boton.setAttribute('aria-hidden', 'true');
+    boton.tabIndex = -1;
+  } else {
+    boton.setAttribute('aria-label', marca + ', ' + cuentaMarcas[marca] + (cuentaMarcas[marca] === 1 ? ' perfume' : ' perfumes'));
+    boton.setAttribute('aria-pressed', 'false');
+  }
+  listaMarcas.append(boton);
+  botonesMarca.push(boton);
+}
+marcasOrdenadas.forEach(function (marca) { botonMarca(marca, false); });
+marcasOrdenadas.forEach(function (marca) { botonMarca(marca, true); }); // la segunda vuelta, igual a la primera
+if (botonesMarca.length) document.querySelector('.marcas').hidden = false;
+
+/* ---------- Las marcas se desplazan solas, despacio ---------- */
+// La fila avanza sola para que se vayan viendo todas las marcas. Como las marcas están dos veces seguidas,
+// al terminar la primera vuelta salta al inicio sin que se note. Se detiene:
+// - mientras el mouse está encima, o el dedo la toca, o el teclado está en ella (y sigue 3 s después);
+// - para siempre, en cuanto la persona elige una marca (así la marca elegida no se va de la pantalla);
+// - si la persona pidió menos movimiento, si la fila no está en pantalla o si la pestaña está oculta.
+// La fila sigue siendo un scroll normal: se puede deslizar con el dedo o la rueda del mouse
+const VELOCIDAD_MARCAS = 26; // píxeles por segundo
+let marcasPausadas = false;
+let marcasDetenidas = false;
+let marcasAVista = true;
+let pausaMarcas = null;
+let posicionMarcas = 0;
+let tiempoAnterior = null;
+
+function marcasQuietas() {
+  return marcasDetenidas || marcasPausadas || !marcasAVista || document.hidden ||
+    pideQuietud.matches || document.documentElement.classList.contains('sin-movimiento');
+}
+
+function moverMarcas(tiempo) {
+  if (marcasQuietas()) {
+    tiempoAnterior = null;
+    posicionMarcas = listaMarcas.scrollLeft; // si la persona la movió, sigue desde ahí
+  } else {
+    if (tiempoAnterior !== null) {
+      const vuelta = listaMarcas.scrollWidth / 2; // el ancho de una sola vuelta de marcas
+      posicionMarcas += VELOCIDAD_MARCAS * Math.min(tiempo - tiempoAnterior, 100) / 1000;
+      if (posicionMarcas >= vuelta) posicionMarcas -= vuelta;
+      listaMarcas.scrollLeft = posicionMarcas;
+    }
+    tiempoAnterior = tiempo;
+  }
+  requestAnimationFrame(moverMarcas);
+}
+
+function pausarMarcas() {
+  marcasPausadas = true;
+  clearTimeout(pausaMarcas);
+}
+function seguirMarcasLuego() {
+  clearTimeout(pausaMarcas);
+  pausaMarcas = setTimeout(function () { marcasPausadas = false; }, 3000);
+}
+
+if (botonesMarca.length) {
+  listaMarcas.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pausarMarcas(); });
+  listaMarcas.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') seguirMarcasLuego(); });
+  listaMarcas.addEventListener('touchstart', pausarMarcas, { passive: true });
+  listaMarcas.addEventListener('touchend', seguirMarcasLuego, { passive: true });
+  listaMarcas.addEventListener('wheel', function () { pausarMarcas(); seguirMarcasLuego(); }, { passive: true });
+  listaMarcas.addEventListener('focusin', pausarMarcas);
+  listaMarcas.addEventListener('focusout', seguirMarcasLuego);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) { marcasAVista = entradas[0].isIntersecting; }).observe(listaMarcas);
+  }
+  requestAnimationFrame(moverMarcas);
 }
 
 /* ---------- 4. Escuchar los toques ---------- */
 // La barra fija de abajo empieza con un mensaje general ("quiero pedir un perfume").
-// Cuando la persona elige un aroma o un frasco, la barra pide ese perfume,
+// Cuando la persona elige un aroma, una marca o un frasco, la barra pide ese perfume,
 // así el cliente no tiene que preguntarle "¿cuál?". Al cargar no se cambia: nadie ha elegido nada todavía
 const barraWhatsApp = document.querySelector('.barra-whatsapp');
 function barraConPerfume(perfume) {
@@ -122,11 +265,24 @@ function barraConPerfume(perfume) {
     barraWhatsApp.href = enlacePedido(perfume);
   }
 }
+function barraConElegido() {
+  // La vitrina tarda un momento en cambiar (se desvanece): la barra se actualiza después
+  setTimeout(function () {
+    barraConPerfume(buscarPerfume(document.querySelector('.frasco.activo')?.dataset.id));
+  }, 260);
+}
 
 botonesAroma.forEach(function (boton) {
   boton.addEventListener('click', function () {
-    elegirAroma(boton.textContent.trim());
-    barraConPerfume(buscarPerfume(document.querySelector('.frasco.activo')?.dataset.id));
+    elegirAroma(boton.dataset.aroma);
+    barraConElegido();
+  });
+});
+botonesMarca.forEach(function (boton) {
+  boton.addEventListener('click', function () {
+    marcasDetenidas = true; // ya eligió: la fila se queda quieta
+    elegirMarca(boton.dataset.marca);
+    barraConElegido();
   });
 });
 
@@ -140,20 +296,24 @@ botonesFrasco.forEach(function (boton) {
   });
 });
 
+// "Otras opciones": la tanda siguiente; después de la última, vuelve a la primera
+function otrasOpciones(paso) {
+  pagina = (pagina + paso + totalPaginas()) % totalPaginas();
+  llenarVitrina();
+  barraConElegido();
+}
+botonOtras.addEventListener('click', function () { otrasOpciones(1); });
+
 // Notas cortadas: en el celular no hay mouse, así que al tocarlas se abren o se vuelven a cortar
 tarjeta.notas.addEventListener('click', function () {
   tarjeta.notas.classList.toggle('tarjeta__notas--completas');
 });
 
-/* ---------- Aromas sin perfumes en la vitrina ---------- */
-// La vitrina muestra los primeros perfumes de la lista (uno por frasco). Si entre ellos no hay
-// ninguno de un aroma (por ejemplo, ninguno "Fresco"), su botón se esconde:
-// así nadie toca un aroma y ve todos los frascos apagados
-const enVitrina = PERFUMES.slice(0, botonesFrasco.length);
+/* ---------- Aromas sin perfumes recortados ---------- */
+// Si ningún perfume de un aroma tiene foto recortada, su botón se esconde (no habría nada que mostrar)
 botonesAroma.forEach(function (boton) {
-  const aroma = boton.textContent.trim();
-  const hayPerfumes = enVitrina.some(function (p) { return p.aroma === aroma; });
-  boton.hidden = !hayPerfumes;
+  const aroma = boton.dataset.aroma;
+  boton.hidden = !conFrascoRecortado.some(function (p) { return p.aroma === aroma; });
 });
 
 /* ---------- Al cargar: empieza con el aroma marcado en el HTML (o el primero que tenga perfumes) ---------- */
@@ -161,53 +321,46 @@ const aromaMarcado = document.querySelector('.aroma.activo:not([hidden])');
 const primerAromaVisible = document.querySelector('.aroma:not([hidden])');
 const aromaInicial = aromaMarcado || primerAromaVisible;
 if (aromaInicial) {
-  elegirAroma(aromaInicial.textContent.trim());
+  elegirAroma(aromaInicial.dataset.aroma);
 }
 
-/* ---------- Deslizar en el celular: cambia de aroma ---------- */
-// Pasar el dedo de lado sobre la vitrina pasa al aroma siguiente (o al anterior), como tocar su botón.
+/* ---------- Deslizar en el celular: otras opciones ---------- */
+// Pasar el dedo de lado sobre la vitrina trae la tanda siguiente (o la anterior), como "Otras opciones".
 // Solo con el dedo (no con mouse). Si el gesto es más vertical que horizontal, es scroll y no se toca nada
-const armarioVitrina = document.querySelector('.armario');
 let dedo = null;
 let seDeslizo = false;
 
-armarioVitrina.addEventListener('pointerdown', function (evento) {
+armario.addEventListener('pointerdown', function (evento) {
   seDeslizo = false; // un toque nuevo nunca se ignora
   if (evento.pointerType !== 'touch') return;
   dedo = { x: evento.clientX, y: evento.clientY };
 });
-armarioVitrina.addEventListener('pointercancel', function () { dedo = null; });
-armarioVitrina.addEventListener('pointerup', function (evento) {
+armario.addEventListener('pointercancel', function () { dedo = null; });
+armario.addEventListener('pointerup', function (evento) {
   if (!dedo) return;
   const dx = evento.clientX - dedo.x;
   const dy = evento.clientY - dedo.y;
   dedo = null;
   if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return; // muy corto, o era scroll
+  if (totalPaginas() < 2) return;
   seDeslizo = true;
   // Ese "toque" de rebote llega enseguida o no llega; en medio segundo se olvida,
   // para no tragarse el siguiente toque de verdad
   setTimeout(function () { seDeslizo = false; }, 500);
-  cambiarAroma(dx < 0 ? 1 : -1); // a la izquierda: el siguiente; a la derecha: el anterior
+  otrasOpciones(dx < 0 ? 1 : -1); // a la izquierda: las siguientes; a la derecha: las anteriores
 });
 // Si el dedo terminó sobre un frasco, el navegador también lo "toca": ese toque se ignora
-armarioVitrina.addEventListener('click', function (evento) {
+armario.addEventListener('click', function (evento) {
   if (!seDeslizo) return;
   seDeslizo = false;
   evento.preventDefault();
   evento.stopPropagation();
 }, true);
 
-function cambiarAroma(paso) {
-  const visibles = Array.prototype.filter.call(botonesAroma, function (b) { return !b.hidden; });
-  if (visibles.length < 2) return;
-  const actual = visibles.findIndex(function (b) { return b.classList.contains('activo'); });
-  visibles[(actual + paso + visibles.length) % visibles.length].click();
-}
-
 // En pantallas táctiles, el texto de ayuda cuenta que se puede deslizar
 if (window.matchMedia('(pointer: coarse)').matches) {
   const ayuda = document.querySelector('.inicio__ayuda');
-  if (ayuda) ayuda.textContent = 'Toca un frasco o desliza para cambiar de aroma.';
+  if (ayuda) ayuda.textContent = 'Toca un frasco o desliza para ver otras opciones.';
 }
 
 /* =========================================================

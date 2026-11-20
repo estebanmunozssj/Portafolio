@@ -120,6 +120,23 @@
                 <p>Árabes, de diseñador y de nicho. Todos en frasco, y muchos en decant para probarlos primero.</p>
             </section>
 
+            <!-- Explora por marca: una tarjeta por marca (las arma catalogo.js) que avanzan solas.
+                 Al tocar una, el catálogo de abajo muestra solo los perfumes de esa marca -->
+            <section class="explorar" aria-labelledby="titulo-explorar" hidden>
+                <div class="explorar__arriba">
+                    <div>
+                        <p class="explorar__antetitulo">Nuestras casas</p>
+                        <h2 class="explorar__titulo" id="titulo-explorar">Explora por marca</h2>
+                    </div>
+                    <div class="explorar__flechas">
+                        <button class="explorar__flecha" type="button" data-paso="-1" aria-label="Marcas anteriores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+                        <button class="explorar__flecha" type="button" data-paso="1" aria-label="Más marcas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+                    </div>
+                </div>
+                <ul class="explorar__lista"></ul>
+                <div class="explorar__progreso" aria-hidden="true"><span></span></div>
+            </section>
+
             <!-- 2. Buscador y filtros.
                  Es un formulario normal (method="get"): sin JavaScript también funciona, y los enlaces
                  del inicio (catalogo.html?tipo=arabes) llegan con el filtro ya puesto.

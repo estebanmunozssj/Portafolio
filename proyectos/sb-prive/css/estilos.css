@@ -855,19 +855,138 @@ body.con-otro-whatsapp .barra-whatsapp {
 }
 
 .aromas__opciones {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 × 2: así cabe la pista de cada aroma en una línea */
   gap: 8px;
 }
 
 .aroma {
-  height: 44px;
-  padding: 0 18px;
+  min-height: 58px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: center;
   border: 1px solid var(--dorado);
   background: transparent;
   color: var(--crema);
   font-size: 15px;
+  text-align: left;
   transition: background 0.2s, color 0.2s;
+}
+/* El punto del color de la luz de ese aroma en la vitrina */
+.aroma::before {
+  content: '';
+  grid-row: 1 / 3;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--punto);
+  box-shadow: 0 0 10px var(--punto);
+}
+.aroma__pista {
+  grid-column: 2;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
+.aroma[data-aroma="Dulce"] { --punto: #E8963A; }      /* ámbar */
+.aroma[data-aroma="Fresco"] { --punto: #78CDC8; }     /* verde frío */
+.aroma[data-aroma="Amaderado"] { --punto: #A0703F; }  /* madera */
+.aroma[data-aroma="Intenso"] { --punto: #C23A4B; }    /* rojo profundo */
+
+/*SELECTOR DE MARCA: una fila de botones que avanza sola, despacio (main.js), y también se desliza a mano*/
+.marcas {
+  margin-top: 20px;
+  min-width: 0;
+}
+.marcas .aromas__pregunta {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.marcas__lista {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;           /* sin barra de scroll visible: los botones cortados en los bordes dicen que sigue */
+  padding-bottom: 2px;
+  /* Los dos bordes se desvanecen: los botones entran y salen suave mientras la fila avanza */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+.marcas__lista::-webkit-scrollbar {
+  display: none;
+}
+.marca {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(200, 164, 92, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--crema);
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.marca.activo {
+  border-color: var(--dorado);
+  background: var(--dorado);
+  color: var(--verde);
+}
+/* Cuántos perfumes tiene esa marca */
+.marca__cuenta {
+  font-size: 11px;
+  color: var(--dorado);
+  font-variant-numeric: tabular-nums;
+}
+.marca.activo .marca__cuenta {
+  color: var(--verde);
+  opacity: 0.7;
+}
+@media (hover: hover) and (pointer: fine) {
+  .marca:hover:not(.activo) {
+    border-color: var(--dorado);
+  }
+}
+@media (min-width: 1024px) {
+  .marcas {
+    margin-top: 16px;
+  }
+}
+
+/* "Otras opciones": recarga la vitrina con 6 perfumes más del mismo aroma o marca */
+.vitrina__mas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 16px 0;
+}
+.vitrina__mas[hidden] {
+  display: none;
+}
+.vitrina__pagina {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--crema);
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Ver catálogo": debajo del texto del hero, con borde dorado (no compite con "Pedir por WhatsApp") */
+.inicio__catalogo {
+  align-self: stretch;
+}
+@media (min-width: 1024px) {
+  .inicio__catalogo {
+    grid-column: 1; /* en computador el inicio es una grilla: va a la izquierda, con el texto */
+    justify-self: start;
+    padding: 0 28px;
+  }
 }
 
 /* ---------- 3. BOTONES Y AVISOS (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
@@ -935,38 +1054,44 @@ body.con-otro-whatsapp .barra-whatsapp {
   background: var(--verde-oscuro);
 }
 
-/* Se ve solo la parte de arriba de la foto: el arco y las dos primeras repisas (6 frascos).
-   La foto mide 687 × 1024; el recuadro muestra 687 × 614 (el 60 % de arriba) y el resto se recorta.
-   Igual en celular y en computador, como la vitrina de referencia */
+/* Se ven solo los dos cajones iluminados de la foto (sin el arco ni la lámpara), como la vitrina de referencia:
+   así los frascos se ven más grandes en el celular. La foto mide 687 × 1024 y el recuadro muestra
+   el pedazo de x 95 a 592 y de y 345 a 752 (497 × 407). Igual en celular y en computador */
 .armario {
   position: relative;
   container-type: inline-size;
-  aspect-ratio: 687 / 614;
+  aspect-ratio: 497 / 407;
   overflow: hidden;
 }
 
+/* La foto completa, agrandada y corrida para que en el recuadro quede solo ese pedazo:
+   687 ÷ 497 = 138,23 % de ancho; se corre 95 ÷ 497 a la izquierda y 345 ÷ 407 hacia arriba */
 .vitrina__fondo {
+  position: absolute;
   display: block;
-  width: 100%;
+  width: 138.23%;
+  max-width: none;
   height: auto;
+  left: -19.11%;
+  top: -84.77%;
 }
 
 .repisa {
   position: absolute;
-  left: 14%;
-  right: 14%;
+  left: 5%;
+  right: 5%;
   top: var(--y);
   transform: translateY(-100%);
 }
 
-/* Altura de cada repisa (% del alto del recuadro recortado).
-   En la foto completa están al 34,4 % y al 53 %; como el recuadro es el 60 % de la foto: 34,4 ÷ 0,6 y 53 ÷ 0,6 */
+/* Altura de cada repisa (% del alto del recuadro): donde se apoyan los frascos.
+   En la foto completa están en y 543 y 710: (543 − 345) ÷ 407 y (710 − 345) ÷ 407 */
 .repisa:nth-of-type(1) {
-  --y: 57.3%; /* la del arco */
+  --y: 48.9%;
 }
 
 .repisa:nth-of-type(2) {
-  --y: 88.3%;
+  --y: 89.6%;
 }
 
 .repisa__frascos {
@@ -989,8 +1114,11 @@ body.con-otro-whatsapp .barra-whatsapp {
 
 .frasco img {
   display: block;
-  height: 20cqw;
+  height: 26cqw;            /* cabe en el cajón, con aire arriba */
   width: auto;
+  max-width: 28cqw;          /* algunos recortes son anchos (frasco con caja): no se salen de su lugar */
+  object-fit: contain;
+  object-position: 50% 100%; /* apoyados en la repisa */
   /* Sombra bajo el frasco: lo "apoya" en la repisa de la foto para que no parezca flotando. taste-skill-ignore */
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.55));
 }
@@ -1061,7 +1189,7 @@ body.con-otro-whatsapp .barra-whatsapp {
   }
 
   /* Columna izquierda */
-  .inicio > h1, .inicio > p:not(.inicio__ayuda):not(.inicio__confianza), .inicio > .aromas {
+  .inicio > h1, .inicio > p:not(.inicio__ayuda):not(.inicio__confianza), .inicio > .aromas, .inicio > .marcas {
     grid-column: 1;
     max-width: 540px;
     margin-left: 0;
@@ -1077,11 +1205,6 @@ body.con-otro-whatsapp .barra-whatsapp {
     margin: 0 auto;
   }
 
-  .vitrina__fondo {
-    max-height: 78vh;
-    object-fit: contain;
-  }
-
   /* Textos de apoyo debajo, a la izquierda */
   .inicio__ayuda, .inicio__confianza {
     grid-column: 1;
@@ -1095,7 +1218,7 @@ body.con-otro-whatsapp .barra-whatsapp {
   }
 
   .inicio {
-    grid-template-rows: auto auto auto auto auto 1fr;
+    grid-template-rows: repeat(8, auto) 1fr; /* título, texto, catálogo, aromas, marcas, otras opciones, tarjeta, ayuda… */
     align-items: start;
   }
 
@@ -1103,15 +1226,15 @@ body.con-otro-whatsapp .barra-whatsapp {
   .armario {
     grid-column: 2;
     grid-row: 1 / -1;
-    width: min(100%, calc((100svh - 140px) * 687 / 614)); /* 614: el alto del recuadro recortado */
+    width: min(100%, calc((100svh - 140px) * 497 / 407)); /* 497 × 407: el recuadro de los cajones */
   }
 
-  .vitrina__fondo {
-    width: 100%;
-    height: auto;
+  /* Izquierda: "Otras opciones" y la tarjeta van debajo de las marcas */
+  .vitrina__mas {
+    grid-column: 1;
+    justify-content: flex-start;
+    padding: 16px 0 0;
   }
-
-  /* Izquierda: la tarjeta va debajo de los aromas */
   .tarjeta {
     grid-column: 1;
     max-width: 540px;
@@ -1167,11 +1290,6 @@ body.con-otro-whatsapp .barra-whatsapp {
     transform-origin: center;
   }
 
-  .vitrina__fondo {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
 
   /* Menos espacio entre las piezas del inicio: así se asoma el nombre del perfume
      en la primera pantalla, por encima de la barra de WhatsApp */
@@ -1197,14 +1315,11 @@ body.con-otro-whatsapp .barra-whatsapp {
   }
 
   .aromas__opciones {
-    flex-wrap: nowrap;
     gap: 6px;
   }
 
   .aroma {
-    flex: 1 1 auto;
-    height: 44px;
-    padding: 0 10px;
+    padding: 9px 10px;
     font-size: 14px;
   }
 
@@ -1216,18 +1331,10 @@ body.con-otro-whatsapp .barra-whatsapp {
   }
 }
 
-/* Cuando eliges un aroma, los frascos de los demás aromas se apagan un poco */
-.frasco.apagado {
-  opacity: 0.28;
-  transform: scale(0.9);
-}
-
-@media (hover: hover) {
-
-  /* Al pasar el mouse por un frasco apagado, se asoma para invitar a tocarlo */
-  .frasco.apagado:hover {
-    opacity: 0.6;
-  }
+/* Al cambiar de aroma, de marca o de tanda, los frascos se desvanecen y bajan un poco; luego entran los nuevos */
+.vitrina--cambiando .frasco {
+  opacity: 0;
+  transform: translateY(6px) scale(0.94);
 }
 
 @media (max-width: 1023px) {
@@ -1380,7 +1487,7 @@ body.con-otro-whatsapp .barra-whatsapp {
   /* La vitrina llena su columna, sin pasarse del alto de la pantalla
      (100svh - 160px: lo que queda debajo de la franja y el encabezado) */
   .armario {
-    width: min(100%, calc((100svh - 160px) * 687 / 614));
+    width: min(100%, calc((100svh - 160px) * 497 / 407));
     margin: 0 0 0 auto;
   }
 }
@@ -1488,18 +1595,11 @@ body.con-otro-whatsapp .barra-whatsapp {
 }
 
 /* 3. Vitrina "editorial" (revisión de la vitrina) */
-/* Bordes fundidos con el fondo: los lados y la base de la foto se desvanecen en la pared de la página,
-   así la vitrina parece empotrada y no un recuadro pegado (antes se veían franjas oscuras a los lados).
-   Son dos degradados (de lado a lado y de arriba abajo) que se cruzan: solo se ve donde los dos dejan ver */
+/* Bordes fundidos con el fondo: arriba y abajo los cajones se desvanecen en la pared de la página,
+   así la vitrina parece empotrada y no un recuadro pegado. Los lados no: ahí está el borde del mueble */
 .armario {
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
-  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 94%, transparent 100%);
 }
 
 @media (min-width: 1024px) {
@@ -1526,15 +1626,6 @@ body.con-otro-whatsapp .barra-whatsapp {
   transition: opacity 0.4s ease;
 }
 
-.frasco.apagado::before {
-  opacity: 0.25;
-}
-
-/* Profundidad de campo: los frascos de otro aroma, además de apagados, quedan un poco fuera de foco.
-   El elegido se queda nítido, como en una foto con lente */
-.frasco.apagado {
-  filter: blur(1.6px);
-}
 
 /* =========================================================
    5. SECCIONES DEL INICIO: marquesinas, promesas, tipos, kit, más pedidos, regalos, capturas, así pides, preguntas, ayuda y test
@@ -3007,6 +3098,242 @@ html {
   color: var(--dorado-claro);
 }
 
+/* EXPLORA POR MARCA: tarjetas de marca que avanzan solas (las arma catalogo.js) */
+.explorar {
+  margin-top: 28px;
+}
+
+.explorar__arriba {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.explorar__antetitulo {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.explorar__titulo {
+  margin-top: 2px;
+  font-family: var(--fuentes-titulos);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--crema);
+}
+
+/* Flechas ‹ › (solo en computador: en el celular se desliza con el dedo) */
+.explorar__flechas {
+  display: none;
+  gap: 8px;
+}
+
+.explorar__flecha {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(200, 164, 92, 0.45);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--dorado-claro);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 120ms ease-out;
+}
+
+.explorar__flecha svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.explorar__flecha:active {
+  transform: scale(0.94);
+}
+
+/* La fila de tarjetas: se sale del margen de la página para llegar al borde de la pantalla */
+.explorar__lista {
+  margin: 16px -16px 0;
+  padding: 4px 16px 8px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory; /* cada avance deja una tarjeta alineada a la izquierda */
+  scroll-padding-left: 16px;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.explorar__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.explorar__lista > li {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+/* Cada tarjeta: verde con un brillo dorado abajo a la derecha (donde va el frasco) y un aro fino de adorno */
+.casa {
+  position: relative;
+  width: 236px;
+  height: 148px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  border: 1px solid rgba(200, 164, 92, 0.35);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 88% 115%, rgba(232, 190, 110, 0.32), transparent 55%),
+    radial-gradient(circle at 92% 20%, transparent 46px, rgba(200, 164, 92, 0.12) 47px, transparent 48px),
+    linear-gradient(160deg, #143424, #0A1F15);
+  color: var(--crema);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.casa__numero {
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--dorado);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Nombre, cuenta y "Ver perfumes" van encima del frasco y no llegan hasta él */
+.casa__nombre, .casa__cuenta, .casa__accion {
+  position: relative;
+  z-index: 1;
+}
+
+.casa__nombre {
+  max-width: 62%;
+  margin-top: 8px;
+  font-family: var(--fuentes-titulos);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.casa__cuenta {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--gris);
+}
+
+.casa__accion {
+  margin-top: auto;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dorado-claro);
+}
+
+.casa__accion::after {
+  content: ' ↗';
+}
+
+/* El frasco recortado de un perfume de la marca, apoyado abajo a la derecha */
+.casa__frasco {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  height: 112px;
+  max-width: 42%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5)); /* taste-skill-ignore */
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* La marca elegida (es el mismo filtro "Marca" del catálogo) */
+.casa[aria-pressed="true"] {
+  border-color: var(--dorado);
+  box-shadow: inset 0 0 0 1px var(--dorado);
+}
+
+.casa[aria-pressed="true"] .casa__accion {
+  color: var(--dorado);
+}
+
+.casa[aria-pressed="true"] .casa__accion::after {
+  content: ' · elegida';
+}
+
+.casa:active {
+  transform: scale(0.98);
+}
+
+/* La barrita dorada de abajo: por dónde va la fila */
+.explorar__progreso {
+  height: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(200, 164, 92, 0.18);
+}
+
+.explorar__progreso span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--dorado);
+  transition: transform 0.2s linear;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .explorar__flecha:hover {
+    border-color: var(--dorado);
+    background: rgba(200, 164, 92, 0.1);
+  }
+
+  .casa:hover {
+    border-color: var(--dorado);
+  }
+
+  /* El frasco se asoma un poco al pasar el mouse */
+  .casa:hover .casa__frasco {
+    transform: translateY(-4px) rotate(-3deg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .explorar__titulo {
+    font-size: 34px;
+  }
+
+  .explorar__flechas {
+    display: flex;
+  }
+
+  .explorar__lista {
+    margin: 18px 0 0;
+    padding: 4px 0 8px;
+    scroll-padding-left: 0;
+  }
+
+  .casa {
+    width: 268px;
+    height: 164px;
+  }
+
+  .casa__frasco {
+    height: 128px;
+  }
+}
+
 .filtros {
   margin-top: 28px;
   display: flex;
@@ -3297,11 +3624,27 @@ html {
 }
 
 .perfume {
+  position: relative; /* el corazón de Mi lista va encima de la foto */
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--crema-clara);
-  color: var(--verde);
+  border-radius: 10px;
+  text-align: center;
+  /* Verde botella con un filete dorado fino: la foto queda dentro como una pequeña vitrina marfil */
+  border: 1px solid rgba(200, 164, 92, 0.35);
+  background: var(--verde);
+  color: var(--crema);
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.perfume[data-aroma="Dulce"] { --punto: #E8963A; }
+.perfume[data-aroma="Fresco"] { --punto: #78CDC8; }
+.perfume[data-aroma="Amaderado"] { --punto: #A0703F; }
+.perfume[data-aroma="Intenso"] { --punto: #C23A4B; }
+@media (hover: hover) and (pointer: fine) {
+  .perfume:hover {
+    border-color: var(--dorado);
+    transform: translateY(-3px);
+  }
 }
 
 /* Foto, marca, nombre y aroma son un solo enlace a la página del perfume */
@@ -3316,7 +3659,9 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 26px 10px 10px; /* aire arriba para el sello "Más pedido" */
+  margin: 8px 8px 0; /* la foto queda enmarcada dentro de la tarjeta verde, como una vitrina */
+  padding: 30px 10px 10px; /* aire arriba para las etiquetas y el corazón */
+  border-radius: 8px;
   background: var(--crema-clara); /* las fotos del proveedor tienen fondo blanco: se funden con este marfil */
 }
 
@@ -3327,61 +3672,130 @@ html {
   mix-blend-mode: multiply; /* el blanco de la foto toma el marfil de atrás: no se ve un cuadro blanco */
 }
 
-.perfume__sello {
+/* Etiquetas arriba a la izquierda de la foto: el tipo (Árabe, Nicho, Diseñador) y "Más pedido" */
+.perfume__etiquetas {
   position: absolute;
   top: 8px;
   left: 8px;
-  padding: 2px 8px;
-  background: var(--dorado-claro);
-  color: var(--verde);
-  font-size: 12px;
+  right: 48px; /* no se meten debajo del corazón */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
-.perfume__datos, .perfume__nombre, .perfume__aroma {
-  padding: 0 12px;
-}
-
-.perfume__datos {
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--texto-suave);
-}
-
-/* El nombre siempre reserva 2 líneas, para que todas las tarjetas de una fila midan igual */
-.perfume__nombre {
-  margin-top: 4px;
-  min-height: 2.6em;
-  font-family: var(--fuentes-mayusculas);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.3;
+.perfume__tipo, .perfume__sello {
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 1.2;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.perfume__tipo {
+  background: rgba(14, 42, 28, 0.08);
+  color: #5B5A4C; /* gris verdoso: se lee sobre el marfil */
+}
+
+.perfume__sello {
+  background: var(--dorado);
+  color: var(--verde);
+}
+
+/* Corazón arriba a la derecha: agrega o quita el perfume de Mi lista */
+.perfume__corazon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8B8670;
+  cursor: pointer;
+}
+
+.perfume__corazon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  transition: fill 0.2s ease, transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Ya está en la lista: el JavaScript le pone aria-pressed="true" y el corazón se rellena */
+.perfume__corazon[aria-pressed="true"] {
+  color: #B8475A; /* rojo vino */
+}
+
+.perfume__corazon[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
+.perfume__corazon:active svg {
+  transform: scale(0.85);
+}
+
+.perfume__marca, .perfume__nombre, .perfume__tamanos {
+  padding: 0 10px;
+}
+
+.perfume__marca {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.perfume__nombre {
+  margin-top: 2px;
+  font-family: var(--fuentes-titulos);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--crema);
   overflow-wrap: anywhere; /* nombres largos sin espacios no se salen de la tarjeta */
 }
 
+/* El aroma, como etiqueta con borde (cuando haya notas, pueden ir 2 o 3 así) */
 .perfume__aroma {
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--texto-medio);
+  width: fit-content;
+  margin: 10px auto 0;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(200, 164, 92, 0.4);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--crema);
+}
+/* El punto del color del aroma (el mismo de los botones del inicio y de la luz de la vitrina) */
+.perfume__aroma::before {
+  content: '';
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--punto, var(--dorado));
+  box-shadow: 0 0 8px var(--punto, var(--dorado));
 }
 
-.perfume__precio, .perfume__decant, .perfume__aviso {
-  padding: 0 12px;
-}
-
-.perfume__precio {
+/* "Frasco · Decant 10 ml" (con precio cuando lo haya) */
+.perfume__tamanos {
   margin-top: 10px;
-  font-size: 17px;
-  font-weight: 400;
-}
-
-.perfume__decant {
-  font-size: 13px;
-  color: var(--texto-medio);
+  font-size: 12.5px;
+  color: var(--gris);
 }
 
 .perfume__aviso {
   margin-top: 4px;
+  padding: 0 10px;
   font-size: 12px;
   font-weight: 500;
   color: #8A5A1E; /* dorado oscuro: se lee bien sobre crema */
@@ -3396,27 +3810,29 @@ html {
   gap: 8px;
 }
 
-.perfume__botones .boton-borde, .perfume__botones .boton-oscuro {
-  height: 44px;
-}
-
-/* Como los demás botones secundarios del sitio: relleno, sin borde.
-   Crema un poco más oscura que la tarjeta: discreto, porque la tarjeta entera ya lleva a la ficha */
-.perfume__agregar {
-  width: 100%;
-  border: 0;
-  background: var(--crema);
+/* "Pedir por WhatsApp": dorado, en la letra normal (la mayúscula espaciada no cabe en una tarjeta angosta) */
+.perfume__pedir {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--dorado);
   color: var(--verde);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 120ms ease-out;
 }
 
-/* Ya está en la lista: el JavaScript le pone aria-pressed="true" y cambia el texto */
-.perfume__agregar[aria-pressed="true"] {
-  background: var(--verde);
-  color: var(--crema);
-}
-
-.perfume__botones .boton-borde:active, .perfume__botones .boton-oscuro:active {
+.perfume__pedir:active {
   transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .perfume__pedir:hover {
+    background: var(--dorado-claro);
+  }
 }
 
 .catalogo__vacio {
@@ -3604,16 +4020,12 @@ html {
 
 @media (min-width: 1024px) {
 
-  .perfume__datos, .perfume__nombre, .perfume__aroma, .perfume__precio, .perfume__decant, .perfume__aviso {
+  .perfume__marca, .perfume__nombre, .perfume__tamanos, .perfume__aviso {
     padding: 0 16px;
   }
 
   .perfume__nombre {
-    font-size: 15px;
-  }
-
-  .perfume__precio {
-    font-size: 18px;
+    font-size: 23px;
   }
 
   .perfume__botones {
@@ -3670,14 +4082,6 @@ html {
   }
 }
 
-/* En los botones claros el relleno es un verde suave (el marfil no se notaría) */
-.perfume__agregar {
-  --relleno: rgba(14, 42, 28, 0.1);
-}
-
-.perfume__agregar::before, .perfume__agregar::after {
-  display: none;
-}
 
 /* =========================================================
    8. PÁGINA DE UN PERFUME: fotos, compra, tamaños, notas y relacionados
@@ -3939,19 +4343,6 @@ html {
     letter-spacing: 0.08em;
     text-wrap: balance;
   }
-}
-
-/* ---------- 7. CATÁLOGO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
-
-/* En las tarjetas (catálogo, "También te puede gustar" y el test) no cabe la mayúscula espaciada:
-   "Agregar a mi lista" va en la letra normal y sin rombos, como un control discreto de la tarjeta.
-   Los rombos quedan para los botones principales */
-.perfume__agregar {
-  font-family: var(--fuentes-cuerpo);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
 }
 
 /* ---------- 8. PÁGINA DE UN PERFUME (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
