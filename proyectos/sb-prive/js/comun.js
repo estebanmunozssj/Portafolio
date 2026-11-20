@@ -25,7 +25,7 @@ function enlaceWhatsApp(mensaje) {
 
 // El mensaje para pedir un perfume, escrito en un solo lugar
 function enlacePedido(perfume) {
-  return enlaceWhatsApp('Hola, quiero pedir ' + perfume.nombre + ' de ' + perfume.marca + ' (100 ml).');
+  return enlaceWhatsApp('Hola, quiero pedir ' + perfume.nombre + ' de ' + perfume.marca + ' (' + textoFrasco(perfume).toLowerCase() + ').');
 }
 
 // Busca un perfume de la lista por su id
@@ -161,10 +161,15 @@ const BARRA_INTENSIDAD = { 'Cerca de la piel': 30, 'Media': 55, 'Fuerte': 75, 'M
 const ENTREGA = { diasMin: null, diasMax: null, horaCorte: null };
 
 /* ---------- Tamaños de un perfume ---------- */
+// "Frasco 100 ml" si el perfume tiene ml anotados; si no, solo "Frasco" (los tamaños del proveedor varían)
+function textoFrasco(perfume) {
+  return perfume && perfume.ml ? 'Frasco ' + perfume.ml + ' ml' : 'Frasco';
+}
+
 // 'frasco', 'decant' o 'decant-5' → { texto: 'Decant 10 ml', precio: 45000 }, o null si ese perfume no lo tiene
 function datosTamano(perfume, tamano) {
   if (!perfume) return null;
-  if (tamano === 'frasco') return { texto: 'Frasco 100 ml', precio: perfume.precio };
+  if (tamano === 'frasco') return { texto: textoFrasco(perfume), precio: perfume.precio };
   if (tamano === 'decant' && perfume.decant) return { texto: 'Decant ' + perfume.decant.ml + ' ml', precio: perfume.decant.precio };
   if (tamano === 'decant-5' && perfume.decant5) return { texto: 'Decant ' + perfume.decant5.ml + ' ml', precio: perfume.decant5.precio };
   return null;

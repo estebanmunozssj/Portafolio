@@ -180,13 +180,24 @@
                 </button>
             </div>
         </header>
+        <!-- Marquesina bajo el menú (inicio, catálogo y ficha): abre WhatsApp para pedir asesoría.
+             Igual que las del inicio: el texto va cuatro veces, el lector de pantalla lee solo el aria-label,
+             y se detiene con el mouse, el teclado, "Pausar movimiento" o si se pidió menos movimiento -->
+        <a class="marquesina marquesina--menu" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20que%20me%20ayuden%20a%20elegir%20un%20perfume" aria-label="Pedir asesoría por WhatsApp para elegir un perfume">
+            <span class="marquesina__pista" aria-hidden="true">
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+            </span>
+        </a>
 
         <main id="contenido">
             <section id="inicio" class="inicio">
                 <!-- 1. Inicio: título, selector de aroma y vitrina -->
                 <h1>Perfumes originales, pedidos por WhatsApp</h1>
                 <!-- El precio de entrada más bajo baja la barrera para la primera compra -->
-                <p>Árabes, de diseñador y de nicho. Decants desde $[PRECIO] para probarlos antes del frasco.</p>
+                <p>Árabes, de diseñador y de nicho, y decants para probarlos antes del frasco.</p>
 
                 <!-- Selector de aroma (en el paso 6 le damos vida con JavaScript) -->
                 <fieldset class="aromas">
@@ -248,7 +259,7 @@
 
                     <!-- Tarjeta del perfume elegido. aria-live avisa al lector de pantalla cuando cambia -->
                     <div class="tarjeta" aria-live="polite">
-                        <p class="tarjeta__datos">[MARCA] · 100 ml · [FAMILIA]</p>
+                        <p class="tarjeta__datos">[MARCA] · [TIPO]</p>
                         <p class="tarjeta__nombre">[NOMBRE DEL PERFUME]</p>
                         <p class="tarjeta__notas">[Notas: vainilla, ámbar, oud]</p>
                             <div class="tarjeta__precios">
@@ -265,11 +276,15 @@
             </section>
 
             <!-- Marquesina 1: lleva al catálogo.
-                 Toda la franja es un enlace. El texto va dos veces seguidas para que el giro no tenga corte;
+                 Toda la franja es un enlace. El texto va cuatro veces seguidas para que el giro no tenga corte, ni en pantallas muy anchas;
                  la segunda copia se esconde del lector de pantalla (ya lee el aria-label del enlace).
                  Se detiene al pasar el mouse, con el teclado, con "Pausar movimiento" o si se pidió menos movimiento -->
             <a class="marquesina marquesina--catalogo" href="catalogo.html" aria-label="Ver el catálogo: perfumes originales árabes, de diseñador y de nicho, decants y envíos a toda Colombia">
                 <span class="marquesina__pista" aria-hidden="true">
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
                     <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
                     <span class="marquesina__grupo"><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Árabes · Diseñador · Nicho</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Ver el catálogo</span><span class="marquesina__rombo"></span></span>
                 </span>
@@ -344,7 +359,7 @@
                     <li class="kit__caja">III</li>
                  </ol>
 
-                 <p class="kit__precio">Kit de descubrimiento: [PRECIO]</p>
+                 <p class="kit__precio">Kit de descubrimiento · Precio por WhatsApp</p>
                  <p class="kit__nota">Si luego llevas el frasco, te descontamos el kit. [CONFIRMAR]</p>
                  <a class="boton-oscuro" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants">Armar mi kit</a>
                  <p class="kit__extra">¿Prefieres dos frascos? Te los enviamos sin costo. [CONFIRMAR]</p>
@@ -438,11 +453,15 @@
             </dialog>
 
             <!-- Marquesina 2: abre WhatsApp para armar el kit (va en sentido contrario a la primera).
-                 Toda la franja es un enlace. El texto va dos veces seguidas para que el giro no tenga corte;
+                 Toda la franja es un enlace. El texto va cuatro veces seguidas para que el giro no tenga corte, ni en pantallas muy anchas;
                  la segunda copia se esconde del lector de pantalla (ya lee el aria-label del enlace).
                  Se detiene al pasar el mouse, con el teclado, con "Pausar movimiento" o si se pidió menos movimiento -->
             <a class="marquesina marquesina--kit" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20armar%20mi%20kit%20de%20tres%20decants" aria-label="Armar mi kit de tres decants por WhatsApp">
                 <span class="marquesina__pista" aria-hidden="true">
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
+                    <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
                     <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
                     <span class="marquesina__grupo"><span>Tres decants, una semana para decidir</span><span class="marquesina__rombo"></span><span>Arma tu kit de descubrimiento</span><span class="marquesina__rombo"></span><span>Te asesoramos por WhatsApp</span><span class="marquesina__rombo"></span></span>
                 </span>

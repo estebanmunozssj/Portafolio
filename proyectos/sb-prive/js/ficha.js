@@ -246,6 +246,9 @@ function llenarFicha(p) {
     barras[1].remove();
   }
   if (!medidas.querySelector('.medida')) medidas.remove();
+  // Sin descripción, pirámide ni medidas, "Cómo huele" quedaría vacía: se quita
+  const seccionAroma = document.querySelector('.ficha__aroma');
+  if (!(p.descripcion || p.notas) && !document.querySelector('.ficha__piramide') && !document.querySelector('.ficha__medidas')) seccionAroma.remove();
 
   /* ---------- Cuándo usarlo ---------- */
   const seccionMomentos = document.querySelector('.ficha__momentos');

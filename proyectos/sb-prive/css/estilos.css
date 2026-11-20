@@ -1,11 +1,32 @@
+/* =========================================================
+   S. B. PRIVÉ — ESTILOS
+   Ordenado por partes de la página. Dentro de cada parte, primero lo general y después
+   los ajustes de celular o computador (@media). Si dos reglas tocan lo mismo, la de más abajo gana.
+   Partes:
+   1. BASE
+   2. ENCABEZADO
+   3. BOTONES Y AVISOS
+   4. INICIO
+   5. SECCIONES DEL INICIO
+   6. PIE DE PÁGINA
+   7. CATÁLOGO
+   8. PÁGINA DE UN PERFUME
+   9. PÁGINAS LEGALES
+   10. ENTRADA ELEGANTE Y ANIMACIONES GENERALES
+   ========================================================= */
+
+/* =========================================================
+   1. BASE: variables, reinicio, letras, enlaces, íconos y accesibilidad
+   ========================================================= */
+
 :root {
-  --verde: #0E2A1C;        
-  --verde-oscuro: #071810; 
-  --crema: #F4EEDF;        
-  --crema-clara: #FBF8F1;   
-  --dorado: #C8A45C;       
-  --dorado-claro: #E6CF98; 
-  --linea: #2A4234;  
+  --verde: #0E2A1C;
+  --verde-oscuro: #071810;
+  --crema: #F4EEDF;
+  --crema-clara: #FBF8F1;
+  --dorado: #C8A45C;
+  --dorado-claro: #E6CF98;
+  --linea: #2A4234;
   --gris: #B9B29C;
   --texto-suave: #4A5A4F;
   --texto-medio: #2E3B33;
@@ -27,7 +48,7 @@
 }
 
 *, *::before, *::after {
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 body {
@@ -89,9 +110,141 @@ button {
   display: none !important;
 }
 
+@media (min-width: 1024px) {
+
+  /* En computador el círculo flota sobre la esquina: no hace falta el espacio de abajo */
+  body {
+    padding-bottom: 0;
+  }
+}
+
+.ritual {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ritual__paso {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.ritual__paso dt {
+  min-width: 92px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: #C8A45C;
+}
+
+.ritual__paso dd {
+  color: #E6CF98;
+}
+
+.punto {
+  width: 8px;
+  height: 4px;
+  background: #3E5A47;
+}
+
+/* Sin el destello gris/azul al tocar, y sin que el iPhone agrande el texto al girarlo */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* En el celular girado (horizontal), el contenido no se mete debajo de la cámara */
+body {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* El toque responde al instante (sin esperar a ver si es doble toque) */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Campos de texto (buscador y formularios futuros) en 16 px: el iPhone no hace zoom al tocarlos */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* Texto que solo lee el lector de pantalla (no se ve, pero sigue en la página) */
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 2. "Saltar al contenido": escondido hasta que alguien llega con Tab */
+.saltar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 12px 16px;
+  background: var(--dorado);
+  color: var(--verde);
+  font-weight: 500;
+  transform: translateY(-200%);
+}
+
+.saltar:focus {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.35s;
+  }
+}
+
+@starting-style {
+  .aviso {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (max-width: 1023px) {
+
+  @starting-style {
+      .menu.abierto {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+    }
+}
+
+@starting-style {
+  .visor[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.icono {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =========================================================
+   2. ENCABEZADO: franja de avisos, logo, menú y botones de arriba
+   ========================================================= */
+
 /*FRANJA DE ARRIBA*/
 .franja {
-
   align-items: center;
   justify-content: center;
   background: var(--verde-oscuro);
@@ -106,7 +259,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
 .logo {
@@ -139,9 +291,290 @@ button {
   justify-content: center;
 }
 
+/* Celular: el menú de PC no se ve */
+.menu {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+
+  /* Header a todo el ancho */
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 5vw;
+  }
+
+  /* Header fijo arriba al hacer scroll */
+  .encabezado {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .menu {
+    display: flex;
+    gap: 36px;
+  }
+
+  .menu a {
+    position: relative;
+    padding: 6px 0;
+    color: #F3EBD8;
+    font-family: "Jost", sans-serif;
+
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  /* Línea dorada que crece al pasar el mouse */
+  .menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: #C8A45C;
+    transform: scaleX(0);      /* crece con escala, no con ancho: más fluido */
+    transform-origin: left;
+    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+@media (min-width: 1024px) {
+  @media (hover: hover) and (pointer: fine) {
+
+    .menu a:hover {
+      color: #C8A45C;
+    }
+
+    .menu a:hover::after {
+      transform: scaleX(1);
+    }
+}}
+
+@media (max-width: 1023px) {
+
+  /* Objetivo: que sin bajar ya se vean los perfumes de la vitrina */
+  /* La franja lleva dos datos; en pantallas muy angostas pasa a dos líneas sin cortarse */
+  .franja {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 12px;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* El JavaScript le pone la clase "abierto" al menú cuando tocan las dos rayas */
+  .encabezado {
+    position: relative;
+    z-index: 60;
+  }
+
+  .menu.abierto {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 20px;
+    background: var(--verde-oscuro);
+  }
+
+  .menu.abierto a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+
+    color: var(--crema);
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  .menu.abierto a:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* 4. Encabezado sin línea fina: se separa por el tono (verde noche) */
+.encabezado {
+  border-bottom: 0;
+  background: var(--verde-oscuro);
+}
+
+@media (max-width: 1023px) {
+
+  /* 5. Menú del celular: los enlaces se separan con espacio, no con líneas */
+  .menu.abierto {
+    border-bottom: 0;
+    gap: 2px;
+  }
+
+  .menu.abierto a {
+    border-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* 8. Menú en tamaño normal, sin mayúsculas espaciadas */
+  .menu a {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* 9. Encabezado fijo sin vidrio: color sólido */
+  .encabezado {
+    border-bottom: 0;
+    background: var(--verde-oscuro);
+    backdrop-filter: none;
+  }
+}
+
+/* Encabezado: el número de perfumes en "Mi lista", como una bolita sobre la bolsa */
+.boton-lista {
+  position: relative;
+}
+
+.boton-lista__cuenta {
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dorado);
+  color: var(--verde);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* El enlace de la página en la que estás queda en dorado */
+.menu a[aria-current="page"], .pie__nav a[aria-current="page"] {
+  color: var(--dorado);
+}
+
+/* 4. Áreas de toque de al menos 44 px, sin cambiar cómo se ven
+      (el relleno agranda la zona que se toca, no el texto) */
+.logo {
+  padding: 2px 0;
+}
+
+/* 3. Franja de arriba: varios mensajes en el mismo lugar que se alternan con un fundido.
+      Sin JavaScript se ve solo el primero */
+.franja {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-right: 44px;  /* espacio para el botón de pausa */
+  padding-left: 44px;
+}
+
+.franja__mensaje {
+  grid-area: 1 / 1; /* todos los mensajes en la misma celda, uno encima del otro */
+  text-align: center;
+  opacity: 0;
+  filter: blur(2px); /* el que se va se desenfoca un poco: así el cambio no se ve "encimado" */
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* El nuevo espera 0,3 s a que el anterior termine de irse: nunca se ven los dos a la vez */
+.franja__mensaje.activo {
+  opacity: 1;
+  filter: none;
+  transition-delay: 0.3s;
+}
+
+/* Botón de pausa: a la derecha de la franja. Pausa la franja y las partículas de la vitrina */
+.franja__pausa {
+  position: absolute;
+  top: 50%;
+
+  width: 36px;
+  height: 36px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* Si el teléfono ya pide menos movimiento, no hay nada que pausar */
+  .franja__pausa {
+    display: none;
+  }
+}
+
+/* 7. Franja de arriba más limpia: siempre de una línea y 36 px de alto (antes el mensaje largo
+      ocupaba 2 líneas y dejaba la franja alta y con espacio vacío para los mensajes cortos) */
+.franja {
+  height: 36px;
+  min-height: 0;
+  padding: 0 40px; /* lo mismo a los dos lados: el texto queda centrado de verdad */
+  overflow: hidden;
+}
+
+.franja__mensaje {
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* Botón de pausa discreto: gris y más pequeño; se ilumina al pasar el mouse o con el teclado.
+   El área que se toca sigue siendo de 36 px */
+.franja__pausa {
+  right: 2px;
+  color: var(--gris);
+  opacity: 0.75;
+}
+
+.franja__pausa svg {
+  width: 11px;
+  height: 11px;
+}
+
+.franja__pausa:focus-visible {
+  opacity: 1;
+  color: var(--dorado-claro);
+  outline: 1px solid var(--dorado-claro);
+  outline-offset: -6px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .franja__pausa:hover {
+    opacity: 1;
+    color: var(--dorado-claro);
+  }
+}
+
+@media (max-width: 1023px) {
+
+  /* El menú del celular: baja 6 px desde el encabezado y aparece (0,2 s), así se entiende de dónde sale.
+   Al cerrar se va al instante, que es lo que espera quien ya eligió */
+  .menu.abierto {
+    transition: opacity 0.2s ease-out, transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+/* =========================================================
+   3. BOTONES Y AVISOS: botones, botón flotante de WhatsApp y aviso "Agregado"
+   ========================================================= */
+
 /*BOTONES COMPARTIDOS*/
-.boton-borde,
-.boton-oscuro {
+.boton-borde, .boton-oscuro {
   height: 52px;
   display: flex;
   align-items: center;
@@ -163,12 +596,209 @@ button {
   text-decoration: none;
 }
 
-/* En computador el círculo flota sobre la esquina: no hace falta el espacio de abajo */
+.boton-whatsapp {
+  margin-top: 10px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--verde);
+  color: var(--crema);
+  text-decoration: none;
+}
+
+.boton-flecha {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #0E2A1C;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 1024px) {
-  body {
-    padding-bottom: 0;
+
+  /* La hamburguesa solo se usa en celular (se busca por su clase, no por el texto del aria-label) */
+  .boton-menu {
+    display: none;
   }
 }
+
+/* Cuando no hay más perfumes hacia ese lado, la flecha se apaga */
+.boton-flecha:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* 2. Botones secundarios rellenos, no con borde de 1 px */
+.boton-borde {
+  border: 0;
+  background: var(--verde-oscuro);
+  color: var(--dorado-claro);
+}
+
+/* Mantener el dedo sobre un botón no selecciona su texto ni abre el menú de copiar */
+button, .boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .tipo, .menu a {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.boton-whatsapp:active, .barra-whatsapp:active, .boton-oscuro:active, .boton-borde:active, .aroma:active, .boton-flecha:active:not(:disabled), .tipo:active {
+  transform: scale(0.97);
+}
+
+/* La barra fija baja y sale de la pantalla cuando ya hay otro botón de WhatsApp a la vista
+   (la clase la pone js/comun.js). En computador su transición está en el bloque de la píldora. */
+body.con-otro-whatsapp .barra-whatsapp {
+  transform: translateY(calc(100% + 32px));
+}
+
+/* 1. Aviso corto abajo: "Agregado a tu lista · Ver mi lista" / "Quitado · Deshacer".
+      En celular va encima de la barra de WhatsApp; en computador, abajo a la derecha */
+.aviso {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom) + 12px);
+  z-index: 60;
+  min-height: 52px;
+  padding: 6px 6px 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--crema);
+  color: var(--verde);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-size: 15px;
+}
+
+.aviso__accion {
+  min-height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--verde);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+
+  .aviso {
+    left: auto;
+    right: 24px;
+
+    width: 380px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  /* Solo con mouse: en el celular no hay "pasar por encima" y el efecto se quedaría pegado al tocar */
+  .boton-whatsapp:hover, .boton-oscuro:hover, .boton-borde:hover {
+    box-shadow: inset 0 -80px 0 0 var(--relleno, rgba(251, 248, 241, 0.16));
+  }
+
+  .boton-whatsapp:hover::before, .boton-oscuro:hover::before, .boton-borde:hover::before {
+    transform: translateX(-5px) rotate(225deg);
+    background-color: currentColor;
+  }
+
+  .boton-whatsapp:hover::after, .boton-oscuro:hover::after, .boton-borde:hover::after {
+    transform: translateX(5px) rotate(225deg);
+    background-color: currentColor;
+  }
+}
+
+/* El ícono: una burbuja de conversación en dorado */
+.barra-whatsapp::before {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  background: var(--dorado);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Al llegar con el teclado, o al pasar el mouse (solo con mouse: en el celular el "hover" queda pegado
+   después de tocar y la píldora se quedaría abierta): se abre y muestra el texto ("Pedir por WhatsApp"…) */
+.barra-whatsapp:focus-visible {
+  clip-path: inset(0 0 0 0 round 26px);
+  border-color: var(--dorado-claro);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .barra-whatsapp:hover {
+    clip-path: inset(0 0 0 0 round 26px);
+    border-color: var(--dorado-claro);
+  }
+}
+
+/* El recorte también cortaría un borde de foco por fuera: por eso va por dentro */
+.barra-whatsapp:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: -5px;
+}
+
+/* Catálogo con perfumes en "Mi lista": el numerito sobre el ícono (js/catalogo.js pone data-cuenta).
+   Va dentro del círculo, arriba a la derecha, para que el recorte no lo corte */
+.barra-whatsapp[data-cuenta]::after {
+  content: attr(data-cuenta);
+  position: absolute;
+  right: 5px;
+  top: 6px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--dorado);
+  color: var(--verde);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+
+  /* El aviso "Agregado a tu lista" sube para no quedar encima del botón */
+  .aviso {
+    bottom: 92px;
+  }
+}
+
+/* El aviso "Agregado a tu lista": sube 8 px y aparece (0,2 s); al irse, se va más rápido (0,15 s).
+   @starting-style da el punto de partida al aparecer; "allow-discrete" deja animar la salida
+   aunque el aviso termine escondido (hidden). En navegadores viejos simplemente aparece, como antes */
+.aviso {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease-out,
+              transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+              display 0.2s allow-discrete;
+}
+
+.aviso[hidden] {
+  opacity: 0;
+  transform: translateY(4px);
+  transition-duration: 0.15s;
+}
+
+/* =========================================================
+   4. INICIO: título, aromas, vitrina (armario, repisas, frascos) y tarjeta del perfume
+   ========================================================= */
 
 /*INICIO*/
 .inicio {
@@ -240,10 +870,64 @@ button {
   transition: background 0.2s, color 0.2s;
 }
 
+/* ---------- 3. BOTONES Y AVISOS (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+/* Respuesta al apoyar el dedo: el botón se hunde un poquito, como en una app */
+.boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .aroma, .boton-flecha, .tipo {
+  transition: transform 120ms ease-out, background-color 120ms ease-out;
+}
+
+/* 2. Botón flotante de WhatsApp (celular y computador).
+      Su mensaje cambia según la página: el perfume elegido en el inicio, Mi lista en el catálogo,
+      el tamaño y la cantidad en la ficha. Es un círculo discreto abajo a la derecha; con el mouse
+      (o al llegar con el teclado) se abre y muestra su texto. En el celular queda como círculo:
+      la barra a lo ancho tapaba la página */
+.barra-whatsapp {
+  display: flex;
+  align-items: center;
+  left: auto;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  height: 52px;
+  padding: 0 52px 0 22px;    /* el texto a la izquierda; el ícono en los últimos 52 px, a la derecha */
+  justify-content: flex-start;
+  white-space: nowrap;
+  border: 1px solid var(--dorado);
+  border-radius: 26px;
+  background: var(--verde-oscuro);
+  color: var(--crema);
+  font-size: 15px;
+  /* Cerrado se recorta a un círculo de 52 px con el ícono. Al abrirse, el recorte se quita y la píldora
+     "sale" del círculo hacia la izquierda. Se anima el recorte (clip-path), no el ancho: más fluido */
+  clip-path: inset(0 0 0 calc(100% - 52px) round 26px);
+  transition: clip-path 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease,
+              transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (min-width: 1024px) {
+
+  /* En computador, un poco más separado de la esquina */
+  .barra-whatsapp {
+    right: 24px;
+    bottom: 24px;
+  }
+}
+
+/* ---------- 4. INICIO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
 .aroma.activo {
   background: var(--dorado);
   color: var(--verde);
 }
+
+/* ---------- 1. BASE (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+.punto.activo {
+  width: 22px;
+  background: #C8A45C;
+}
+
+/* ---------- 4. INICIO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
 
 /*VITRINA*/
 .vitrina {
@@ -315,7 +999,6 @@ button {
 .frasco.activo {
   transform: scale(1.08);
   opacity: 1;
-  
 }
 
 /*TARJETA DEL PERFUME*/
@@ -363,16 +1046,499 @@ button {
   font-size: 14px;
 }
 
-.boton-whatsapp {
-  margin-top: 10px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--verde);
-  color: var(--crema);
-  text-decoration: none;
+@media (min-width: 1024px) {
+
+  /* Hero en dos columnas */
+  .inicio {
+    display: grid;
+
+    align-content: center;
+
+    min-height: calc(100svh - 120px);
+    margin: 0 auto;
+    padding: 48px 5vw;
+    text-align: left;
+  }
+
+  /* Columna izquierda */
+  .inicio > h1, .inicio > p:not(.inicio__ayuda):not(.inicio__confianza), .inicio > .aromas {
+    grid-column: 1;
+    max-width: 540px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Columna derecha: la vitrina ocupa todas las filas */
+  .inicio > .vitrina {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .vitrina__fondo {
+    max-height: 78vh;
+    object-fit: contain;
+  }
+
+  /* Textos de apoyo debajo, a la izquierda */
+  .inicio__ayuda, .inicio__confianza {
+    grid-column: 1;
+    max-width: 540px;
+    margin-left: 0;
+  }
+
+  /* Los hijos de .vitrina pasan a ser parte del grid del hero */
+  .inicio > .vitrina {
+    display: contents;
+  }
+
+  .inicio {
+    grid-template-rows: auto auto auto auto auto 1fr;
+    align-items: start;
+  }
+
+  /* Derecha: el armario ocupa todas las filas y cabe en pantalla */
+  .armario {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: min(100%, calc((100svh - 140px) * 687 / 614)); /* 614: el alto del recuadro recortado */
+  }
+
+  .vitrina__fondo {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Izquierda: la tarjeta va debajo de los aromas */
+  .tarjeta {
+    grid-column: 1;
+    max-width: 540px;
+  }
+
+  /* Textos de apoyo alineados a la izquierda */
+  .inicio__ayuda, .inicio__confianza {
+    text-align: left;
+    margin: 0 0 8px;
+  }
+
+  /* Menos hueco entre aromas y tarjeta */
+  .tarjeta {
+    margin: 20px 0 16px;
+    padding: 24px 28px;
+  }
+
+  .tarjeta__nombre {
+    font-size: 1.8rem;
+  }
+
+  .tarjeta__precio {
+    font-size: 1.4rem;
+  }
+
+  /* Botón dorado, como el "Ver catálogo" de la referencia */
+  .tarjeta .boton-whatsapp {
+    background: #C8A45C;
+    color: #0E2A1C;
+    font-weight: 500;
+  }
 }
+
+@media (max-width: 1023px) {
+
+  /* La vitrina rompe el margen de la página y ocupa todo el ancho */
+  .vitrina {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Se amplía todo el armario (imagen + frascos juntos) y lo que sobra se recorta */
+  .armario {
+    width: 100%;
+
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+
+    transform-origin: center;
+  }
+
+  .vitrina__fondo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Menos espacio entre las piezas del inicio: así se asoma el nombre del perfume
+     en la primera pantalla, por encima de la barra de WhatsApp */
+  .inicio {
+    padding-top: 16px;
+    gap: 14px;
+  }
+
+  /* Título en dos líneas, no en tres: se achica un poco en celulares muy angostos */
+  .inicio h1 {
+    font-size: var(--t-portada);
+    line-height: 1.05;
+  }
+
+  .inicio > p:first-of-type {
+    font-size: 16px;
+  }
+
+  /* Pregunta y aromas en una sola fila, para que la vitrina suba */
+  .aromas__pregunta {
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+
+  .aromas__opciones {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .aroma {
+    flex: 1 1 auto;
+    height: 44px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  /* La vitrina agrandada un poco menos (106 % en vez de 116 %): se ve casi igual y ocupa menos alto.
+     El margen deja espacio para lo que crece al ampliarla, sin taparse con lo de arriba ni la tarjeta */
+  .armario {
+    margin: 3vw 0;
+    transform: scale(1.06);
+  }
+}
+
+/* Cuando eliges un aroma, los frascos de los demás aromas se apagan un poco */
+.frasco.apagado {
+  opacity: 0.28;
+  transform: scale(0.9);
+}
+
+@media (hover: hover) {
+
+  /* Al pasar el mouse por un frasco apagado, se asoma para invitar a tocarlo */
+  .frasco.apagado:hover {
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 1023px) {
+
+  /* En celular la foto completa (4 niveles) ocupaba toda la pantalla y la tarjeta quedaba debajo.
+   Aquí solo se ve la parte de arriba de la foto: el arco y la primera repisa, con 6 perfumes.
+   Así la vitrina y la tarjeta caben juntas en la pantalla. */
+  /* (El recorte de la vitrina a dos repisas ahora vale para todas las pantallas: ver .armario arriba) */
+  /* Tarjeta más compacta: todo se lee de un vistazo */
+  .tarjeta {
+    padding: 16px 18px 18px;
+  }
+
+  .tarjeta__nombre {
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+  }
+
+  .tarjeta__notas {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+}
+
+/* 6. El frasco elegido crece, pero sin brillo alrededor */
+.frasco.activo {
+  filter: none;
+}
+
+@media (min-width: 1024px) {
+
+  /* 7. Título que manda en la primera pantalla: más grande y en dos líneas.
+        La columna del texto se ensancha (7 de 12) porque la vitrina no necesita tanto ancho */
+  .inicio > h1 {
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* 10. Tarjeta del perfume: panel marfil sólido, sin vidrio ni borde dorado */
+  .tarjeta {
+    border: 0;
+    backdrop-filter: none;
+    background: var(--crema);
+    color: var(--verde);
+  }
+
+  .tarjeta__datos {
+    color: var(--texto-suave);
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 14px;
+  }
+
+  .tarjeta__nombre {
+    color: var(--verde);
+  }
+
+  .tarjeta__notas {
+    color: var(--texto-medio);
+  }
+
+  .tarjeta__precio {
+    color: var(--verde);
+  }
+
+  .tarjeta__decant {
+    color: var(--texto-medio);
+    opacity: 1;
+  }
+
+  /* 11. Vitrina sin marco de 1 px ni sombra: la foto ya trae su marco dorado */
+  .armario {
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+/* Notas de la tarjeta: máximo 3 líneas; si son más largas terminan en "…" */
+.tarjeta__notas {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+
+  /* Vitrina de borde a borde en celular y tablet, SIN 100vw.
+   100vw incluye la barra de scroll del navegador: la página quedaba ~15 px más ancha,
+   se podía mover de lado y se veía un borde.
+   Ahora el inicio ocupa todo el ancho con un margen interno, y la vitrina se sale
+   de ese margen con un margen negativo exactamente igual: nunca sobra nada */
+  .inicio {
+    /* 264 = la mitad de 528, el ancho del texto. Va en vw (no en %) porque el padding y el margen
+       negativo deben medir exactamente lo mismo, y el % se calcularía distinto en cada caja */
+    --margen-inicio: max(16px, calc(50vw - 264px));
+    max-width: none;
+    padding-left: var(--margen-inicio);
+    padding-right: var(--margen-inicio);
+  }
+
+  .inicio > .vitrina {
+    width: auto;
+    margin-left: calc(-1 * var(--margen-inicio));
+    margin-right: calc(-1 * var(--margen-inicio));
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* En computador la foto del armario no se limita a 78vh: si se achicaba, los frascos
+   (que van en % del armario) quedaban unos píxeles fuera de las repisas pintadas */
+  .armario .vitrina__fondo {
+    max-height: none;
+  }
+}
+
+/* Notas cortadas: se pueden tocar para leerlas completas */
+.tarjeta__notas {
+  cursor: pointer;
+}
+
+.tarjeta__notas--completas {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+
+  .inicio {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: 56px;
+    /* En pantallas grandes (1920) el inicio puede ser más ancho y el margen no crece de más:
+       así el título sigue en dos líneas y la vitrina aprovecha el espacio */
+    max-width: 1600px;
+    padding-left: min(5vw, 72px);
+    padding-right: min(5vw, 72px);
+  }
+
+  /* El título, un poco más pequeño para que siga en dos líneas en la columna más angosta */
+  .inicio > h1 {
+    max-width: none;
+    font-size: var(--t-portada);
+  }
+
+  /* La vitrina llena su columna, sin pasarse del alto de la pantalla
+     (100svh - 160px: lo que queda debajo de la franja y el encabezado) */
+  .armario {
+    width: min(100%, calc((100svh - 160px) * 687 / 614));
+    margin: 0 0 0 auto;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+
+  /* Computadores pequeños (1024–1279 px): con 5/7 la columna del texto queda muy angosta
+   (los aromas pasan a dos filas y la tarjeta se aprieta), así que ahí las dos columnas van iguales */
+  .inicio {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 40px;
+  }
+}
+
+.humo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen; /* la bruma solo aclara, como luz sobre el mármol */
+}
+
+@media (max-width: 1023px) {
+
+  /* Celular y tablet: la tarjeta del perfume va de borde a borde, como la vitrina (antes tenía 20 px de margen
+   a cada lado y se veía una franja verde). Su texto queda alineado con el resto del inicio:
+   usa el mismo margen interno (--margen-inicio: 16 px en celular, más en tablet) */
+  .tarjeta {
+    margin: 0;
+    padding-left: var(--margen-inicio, 16px);
+    padding-right: var(--margen-inicio, 16px);
+  }
+}
+
+/* 1. La luz cambia de color según el aroma elegido.
+      @property permite que el color se mezcle poco a poco (casi 1 s), como cambiar la bombilla.
+      La capa va entre la foto y los frascos: tiñe el mármol y la luz del arco, no los frascos */
+@property --luz {
+  syntax: '<color>';
+  inherits: false; /* solo la capa de luz cambia: los frascos no se recalculan durante el cambio */
+  initial-value: rgba(0, 0, 0, 0);
+}
+
+.armario {
+  touch-action: pan-y; /* deslizar de lado lo maneja la página; de arriba abajo sigue siendo scroll */
+}
+
+.armario__luz {
+  transition: --luz 0.9s ease;
+}
+
+.armario[data-aroma="Dulce"] .armario__luz {
+  --luz: rgba(232, 150, 52, 0.8);
+}
+
+/* ámbar */
+.armario[data-aroma="Fresco"] .armario__luz {
+  --luz: rgba(120, 205, 200, 0.8);
+}
+
+/* verde frío */
+.armario[data-aroma="Amaderado"] .armario__luz {
+  --luz: rgba(108, 62, 28, 0.95);
+}
+
+/* madera oscura */
+.armario[data-aroma="Intenso"] .armario__luz {
+  --luz: rgba(170, 30, 48, 0.85);
+}
+
+/* rojo profundo */
+.armario__luz {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* La luz nace arriba, en la lámpara del arco, y se abre hacia abajo */
+  background: radial-gradient(ellipse 95% 85% at 50% 15%, var(--luz), transparent 80%);
+  mix-blend-mode: overlay; /* tiñe sin tapar: el mármol y sus vetas se siguen viendo */
+}
+
+/* 2. Profundidad: cada frasco apoyado en su repisa */
+.frasco {
+  position: relative;
+}
+
+/* Sombra de contacto: una elipse oscura y difusa justo en la base */
+.frasco::after {
+  content: '';
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -3px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Reflejo suave del frasco en la repisa, como en vidrio pulido (Chrome y Safari; en Firefox no se ve) */
+.frasco img {
+  -webkit-box-reflect: below 1px linear-gradient(transparent 78%, rgba(255, 255, 255, 0.2));
+}
+
+/* 3. Vitrina "editorial" (revisión de la vitrina) */
+/* Bordes fundidos con el fondo: los lados y la base de la foto se desvanecen en la pared de la página,
+   así la vitrina parece empotrada y no un recuadro pegado (antes se veían franjas oscuras a los lados).
+   Son dos degradados (de lado a lado y de arriba abajo) que se cruzan: solo se ve donde los dos dejan ver */
+.armario {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
+  mask-composite: intersect;
+}
+
+@media (min-width: 1024px) {
+
+  /* En computador, un poco más de aire sobre el arco */
+  .armario {
+    margin-top: 28px;
+  }
+}
+
+/* Luz cálida que atraviesa el perfume y cae sobre la repisa, debajo de cada frasco */
+.frasco::before {
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -10px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(240, 190, 110, 0.55), rgba(240, 190, 110, 0.15) 45%, transparent 72%);
+  mix-blend-mode: screen; /* solo aclara, como la luz */
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.frasco.apagado::before {
+  opacity: 0.25;
+}
+
+/* Profundidad de campo: los frascos de otro aroma, además de apagados, quedan un poco fuera de foco.
+   El elegido se queda nítido, como en una foto con lente */
+.frasco.apagado {
+  filter: blur(1.6px);
+}
+
+/* =========================================================
+   5. SECCIONES DEL INICIO: marquesinas, promesas, tipos, kit, más pedidos, regalos, capturas, así pides, preguntas, ayuda y test
+   ========================================================= */
 
 /*PROMESAS*/
 #promesas {
@@ -492,7 +1658,7 @@ button {
   background: #0E2A1C;
   font-family: 'Cinzel', serif;
   font-size: 13px;
-  
+
   color: #C8A45C;
 }
 
@@ -501,8 +1667,7 @@ button {
   font-weight: 400;
 }
 
-.kit__nota,
-.kit__extra {
+.kit__nota, .kit__extra {
   font-size: 14px;
 }
 
@@ -547,16 +1712,6 @@ button {
   color: #4A5A4F;
 }
 
-.boton-flecha {
-  width: 44px;
-  height: 44px;
-  border: 1px solid #0E2A1C;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /*Carrusel */
 /* La ventana se desliza con el dedo y cada tarjeta se acomoda sola */
 .pedidos__ventana {
@@ -587,11 +1742,11 @@ button {
 .producto__vitrina {
   position: relative;
   height: 250px;
-  padding-bottom: 30px;
+  padding: 12px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  background: #0E2A1C;
+  background: var(--crema-clara); /* las fotos del proveedor tienen fondo blanco: se funden con este marfil */
 }
 
 .producto__sello {
@@ -601,11 +1756,9 @@ button {
   padding: 3px 10px;
   background: #E6CF98;
   color: #0E2A1C;
-  
 }
 
 /* Frasco decorativo hecho con cajas de color */
-
 .producto__info {
   padding: 16px;
   display: flex;
@@ -679,7 +1832,6 @@ button {
 }
 
 .producto .boton-oscuro {
-  
   height: 46px;
 }
 
@@ -687,7 +1839,6 @@ button {
 #mas-pedidos > .boton-borde {
   margin-right: 16px;
   border-color: #0E2A1C;
-  
 }
 
 /* LLEGA COMO UN REGALO*/
@@ -727,30 +1878,6 @@ button {
   font-weight: 500;
   font-size: var(--t-seccion);
   line-height: 1.05;
-}
-
-.ritual {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.ritual__paso {
-  display: flex;
-  gap: 14px;
-  align-items: baseline;
-}
-
-.ritual__paso dt {
-  min-width: 92px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 22px;
-  color: #C8A45C;
-}
-
-.ritual__paso dd {
-  color: #E6CF98;
 }
 
 .regalos__nota {
@@ -795,10 +1922,29 @@ button {
 
 .captura {
   flex: 0 0 210px;
-  
-  scroll-snap-align: start;
 
+  scroll-snap-align: start;
 }
+
+/* ---------- 1. BASE (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+/* Scroll suave y que el título no quede tapado por el header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* Quien prefiere menos movimiento: nada se desplaza, crece ni se hunde (esos cambios son instantáneos),
+   pero los fundidos y los cambios de color se mantienen, porque ayudan a entender qué cambió */
+  *, *::before, *::after {
+    transition-property: opacity, color, background-color, border-color, --luz !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 5. SECCIONES DEL INICIO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
 
 .captura img {
   display: block;
@@ -812,17 +1958,6 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.punto {
-  width: 8px;
-  height: 4px;
-  background: #3E5A47;
-}
-
-.punto.activo {
-  width: 22px;
-  background: #C8A45C;
 }
 
 .capturas__ayuda {
@@ -857,14 +1992,12 @@ button {
 .paso {
   display: flex;
   flex-direction: column;
-  
 }
 
 .paso__verbo {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: var(--t-verbo);
-  
 }
 
 .paso__texto {
@@ -899,6 +2032,7 @@ button {
   border-bottom: 1px solid var(--linea);
   color: var(--dorado-claro);
 }
+
 .pregunta summary {
   min-height: 56px;
   padding: 14px 0;
@@ -911,9 +2045,11 @@ button {
   cursor: pointer;
   list-style: none; /* quita el triángulo del navegador */
 }
+
 .pregunta summary::-webkit-details-marker {
   display: none;
 }
+
 /* El "+" dorado que gira a "×" al abrirse (igual que "Filtros" en el catálogo) */
 .pregunta summary::after {
   content: '+';
@@ -924,18 +2060,23 @@ button {
   color: var(--dorado);
   transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 .pregunta[open] summary::after {
   transform: rotate(45deg);
 }
+
 .pregunta summary:focus-visible {
   outline: 2px solid var(--dorado-claro);
   outline-offset: 2px;
 }
+
 @media (hover: hover) and (pointer: fine) {
+
   .pregunta summary:hover {
     color: var(--dorado-claro);
   }
 }
+
 .pregunta__respuesta {
   padding-bottom: 18px;
   max-width: 62ch;
@@ -985,7 +2126,794 @@ button {
   height: 56px;
 }
 
-/* ========== PIE DE PÁGINA ========== */
+/* ---------- 3. BOTONES Y AVISOS (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+.boton-whatsapp::before, .boton-whatsapp::after, .boton-oscuro::before, .boton-oscuro::after, .boton-borde::before, .boton-borde::after {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.3s ease;
+}
+
+/* ---------- 5. SECCIONES DEL INICIO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+@media (min-width: 1024px) {
+
+  /* Mismo margen a los lados en todas las secciones: el fondo llega al borde,
+     pero el contenido se queda en una columna central de máximo 1280 px */
+  #promesas, #tipos, #kit, #mas-pedidos, #regalos, #como-pedir, #preguntas, #ayuda {
+    padding-left: max(5vw, calc((100% - 1280px) / 2));
+    padding-right: max(5vw, calc((100% - 1280px) / 2));
+  }
+
+  /* Lo que te prometemos: el título a la izquierda y las tres promesas en fila */
+  #promesas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 48px;
+    align-items: start;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .promesas__titulo {
+    font-size: var(--t-seccion);
+    line-height: 1.05;
+  }
+
+  .promesas__lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 48px;
+  }
+
+  /* Elige por tipo: título, texto y botón a la izquierda; la lista grande a la derecha */
+  #tipos {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    /* Las dos primeras filas miden lo que su contenido; la última toma el resto,
+       así el título, el texto y el botón quedan juntos arriba */
+    grid-template-rows: auto auto 1fr;
+    column-gap: 56px;
+    row-gap: 20px;
+    align-content: start;
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+
+  .tipos__titulo {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: var(--t-seccion);
+    line-height: 1;
+  }
+
+  .tipos__lista {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  .tipos__texto {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #tipos > .boton-borde {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    padding: 0 28px;
+  }
+
+  .tipo {
+    min-height: 112px;
+    padding: 0 32px;
+  }
+
+  .tipo__nombre {
+    font-size: var(--t-tipo);
+  }
+
+  /* Kit: el texto a la izquierda y los tres decants grandes a la derecha */
+  #kit {
+    padding-top: 0;
+    padding-bottom: 120px;
+  }
+
+  .kit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 64px;
+    row-gap: 16px;
+    align-items: center;
+    padding: 72px 64px;
+  }
+
+  .kit > * {
+    grid-column: 1;
+  }
+
+  .kit__titulo {
+    font-size: var(--t-seccion);
+    line-height: 1;
+  }
+
+  .kit__cajas {
+    grid-column: 2;
+    grid-row: 1 / span 7;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  .kit__caja {
+    width: 120px;
+    height: 210px;
+    font-size: 18px;
+  }
+
+  .kit__caja:nth-child(2) {
+    height: 250px;
+  }
+
+  .kit .boton-oscuro {
+    justify-self: start;
+    padding: 0 32px;
+  }
+
+  .kit__extra {
+    text-align: left;
+  }
+
+  /* Más pedidos: en computador caben todos en fila, sin carrusel ni flechas */
+  #mas-pedidos {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    gap: 36px;
+  }
+
+  .pedidos__titulo {
+    font-size: var(--t-seccion);
+  }
+
+  .pedidos__controles {
+    display: none;
+  }
+
+  .pedidos__ventana {
+    overflow: visible;
+  }
+
+  .pedidos__pista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    padding-right: 0;
+  }
+
+  #mas-pedidos > .boton-borde {
+    align-self: flex-start;
+    padding: 0 32px;
+  }
+
+  /* Regalo: el patrón de monogramas a la izquierda y el texto a la derecha */
+  /* Esta sección va de borde a borde (sin el margen central), como un cuadro partido en dos */
+  #regalos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .regalos__patron {
+    height: auto;
+    min-height: 480px;
+  }
+
+  .regalos__contenido {
+    justify-content: center;
+    padding: 72px 64px;
+    background: #071810;
+  }
+
+  .regalos__titulo {
+    font-size: var(--t-seccion);
+    line-height: 1;
+  }
+
+  /* Así pides: los cuatro pasos en fila, de izquierda a derecha */
+  #como-pedir {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    gap: 44px;
+  }
+
+  .pasos__titulo {
+    font-size: var(--t-seccion);
+  }
+
+  .pasos__lista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px;
+  }
+
+  .paso__verbo {
+    font-size: var(--t-verbo);
+  }
+
+  /* Preguntas: título, texto y botón a la izquierda; las preguntas en dos columnas a la derecha */
+  #preguntas {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 56px;
+    row-gap: 18px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+
+  .preguntas__titulo {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: var(--t-seccion);
+  }
+
+  .preguntas__texto {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  #preguntas > .boton-whatsapp {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    justify-self: start;
+    padding: 0 28px;
+  }
+
+  /* Una sola columna: en dos, al abrir una pregunta la otra columna saltaba */
+  .preguntas__lista {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  /* ¿No sabes cuál elegir?: el logo a la izquierda y el texto a la derecha, de borde a borde */
+  #ayuda {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .ayuda__imagen {
+    height: auto;
+    min-height: 520px;
+  }
+
+  .ayuda__imagen img {
+    width: 300px;
+  }
+
+  .ayuda__contenido {
+    justify-content: center;
+    padding: 72px 64px;
+  }
+
+  .ayuda__titulo {
+    font-size: var(--t-seccion);
+    line-height: 1;
+  }
+
+  .ayuda__contenido .boton-whatsapp, .ayuda__contenido .boton-oscuro {
+    align-self: flex-start;
+    padding: 0 32px;
+  }
+}
+
+/* 1. Sin etiquetas pequeñas en mayúsculas.
+      Cinzel en mayúsculas queda solo para nombres de perfumes, como pide el manual. */
+.promesa__nombre {
+  font-family: var(--fuentes-titulos);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--verde);
+}
+
+#mas-pedidos > .boton-borde {
+  background: var(--verde);
+  color: var(--crema);
+}
+
+/* 3. Etiqueta "Más pedido" legible (13 px, el mínimo para leer) */
+.producto__sello {
+  font-size: 13px;
+}
+
+/* Los números I, II, III del kit sin espaciado de etiqueta */
+.kit__caja {
+  letter-spacing: 0;
+}
+
+/* Al llegar al final del carrusel, el deslizamiento no arrastra la página de lado */
+.pedidos__ventana, .capturas__lista {
+  overscroll-behavior-x: contain;
+}
+
+/* Foto real del perfume en las tarjetas de "Los más pedidos" */
+.producto__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply; /* el blanco de la foto toma el marfil de atrás */
+}
+
+/* "Los más pedidos": todas las tarjetas iguales aunque un nombre sea más largo.
+   El nombre siempre reserva 2 líneas y el botón "Pedir este" queda pegado abajo */
+.producto__info {
+  flex: 1;
+}
+
+.producto__nombre {
+  line-height: 1.3;
+  min-height: 2.6em; /* 2 líneas × 1,3 */
+}
+
+.producto .boton-oscuro {
+  margin-top: auto;
+}
+
+.producto__aviso {
+  margin-bottom: 8px; /* espacio mínimo antes del botón */
+}
+
+/* 4. (El frasco elegido ya no "respira": el humo de fragancia cumple esa función, y los dos
+      juntos sobre el mismo frasco eran demasiado movimiento para una marca discreta) */
+/* 5. "Elige por tipo": la línea dorada de arriba de cada fila (GSAP la dibuja al aparecer;
+      sin GSAP se ve completa). --trazo va de 0 (sin línea) a 1 (línea completa) */
+.tipo {
+  position: relative;
+}
+
+.tipo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--dorado);
+  transform: scaleX(var(--trazo, 1));
+  transform-origin: left;
+}
+
+/* 6. "Lo que te prometemos" y "Así pides": la misma línea de "Elige por tipo" sobre cada elemento.
+      Sobre crema va en dorado oscuro (el de los nombres de las promesas): el dorado claro casi no se ve ahí */
+.promesa, .paso {
+  position: relative;
+  padding-top: 14px;
+}
+
+.promesa::before, .paso::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #7A5D26;
+  transform: scaleX(var(--trazo, 1));
+  transform-origin: left;
+}
+
+/* "Así pides": más aire entre la palabra grande (Elige, Escribe, Paga, Recibe) y su texto.
+   La palabra va en cursiva grande y las letras con cola (la g de Elige, la p de Paga) se salían de su caja
+   y casi tocaban el texto: con alto de línea 1 caben, y el espacio de abajo crece */
+.paso {
+  gap: 14px;
+}
+
+.paso__verbo {
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+
+  .paso {
+    gap: 20px;
+  }
+}
+
+/* Cada captura: la foto (vertical, como un celular), y debajo la frase y el perfume */
+.captura {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+}
+
+.captura__abrir {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--linea);
+  background: var(--verde);
+  aspect-ratio: 7 / 12;      /* proporción de una captura de celular */
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.captura__abrir img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;      /* lo de arriba del chat es lo que más se lee */
+}
+
+.captura__abrir:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
+.captura__texto {
+  font-family: var(--fuentes-titulos);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--crema);
+}
+
+.captura__perfume {
+  align-self: flex-start;
+  padding: 10px 0;           /* zona de toque cómoda */
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--dorado-claro);
+}
+
+/* Puntos de posición: los crea main.js, uno por captura */
+.capturas__puntos {
+  display: flex;
+  gap: 8px;
+}
+
+/* El visor: la captura en grande sobre un fondo oscuro */
+.visor {
+  width: min(92vw, 460px);
+  max-height: 92vh;
+  padding: 0;
+  border: 1px solid var(--linea);
+  background: var(--verde-oscuro);
+  overflow: visible;
+}
+
+.visor::backdrop {
+  background: rgba(7, 24, 16, 0.88);
+}
+
+.visor__foto {
+  display: block;
+  width: 100%;
+  max-height: 92vh;
+  object-fit: contain;
+}
+
+.visor__cerrar {
+  position: absolute;
+  top: -52px;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--crema);
+}
+
+/* Al abrirse, el visor aparece con un fundido y crece un poco (0,2 s) */
+.visor[open] {
+  transition: opacity 0.2s ease-out, transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .captura__abrir img {
+    transition: transform 0.3s ease-out;
+  }
+
+  .captura__abrir:hover img {
+    transform: scale(1.03);
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* Computador: las capturas en cuadrícula (sin deslizar), así que los puntos no hacen falta */
+  #ya-les-llego {
+    padding: 80px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: transparent;
+  }
+
+  .capturas__titulo {
+    font-size: var(--t-seccion);
+  }
+
+  .capturas__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 28px;
+    overflow: visible;
+  }
+
+  .capturas__guia {
+    display: none;
+  }
+}
+
+/* "Lo que te prometemos" y "Así pides": el ícono arriba, en el dorado oscuro de los nombres */
+.promesa__icono, .paso__icono {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 4px;
+  color: #7A5D26;
+}
+
+/* "Te respondemos en minutos…": un relojito al principio de la línea */
+.confianza__icono {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: -3px;
+}
+
+.test {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+/* "Pregunta 1 de 3" */
+.test__paso {
+  font-family: var(--fuentes-mayusculas);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.test__pregunta {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.test__pregunta legend {
+  padding: 0;
+  margin-bottom: 10px;
+  font-family: var(--fuentes-titulos);
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+/* Cada opción es una fila grande que se toca (no un circulito de formulario) */
+.test__pregunta label {
+  position: relative;
+  min-height: 56px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(14, 42, 28, 0.35);
+  background: rgba(251, 248, 241, 0.22);
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* La pista corta debajo ("Vainilla, ámbar, caramelo") */
+.test__pregunta label span {
+  font-size: 14px;
+  font-weight: 300;
+  color: #2E3B33;
+}
+
+/* El circulito queda escondido pero sigue ahí: el teclado y el lector de pantalla lo usan */
+.test__pregunta input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Elegida: verde botella con texto marfil */
+.test__pregunta label:has(input:checked) {
+  border-color: var(--verde);
+  background: var(--verde);
+  color: var(--crema);
+}
+
+.test__pregunta label:has(input:checked) span {
+  color: var(--dorado-claro);
+}
+
+/* Con teclado se ve en qué opción está */
+.test__pregunta label:has(input:focus-visible) {
+  outline: 2px solid var(--verde);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .test__pregunta label:hover {
+    border-color: var(--verde);
+  }
+}
+
+/* "Atrás" y "Volver a empezar": enlaces discretos, con zona cómoda para el dedo */
+.test__atras, .test__otra-vez {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--verde);
+  font: inherit;
+  font-size: 15px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.test__resultado {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.test__titulo {
+  font-family: var(--fuentes-titulos);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.test__titulo:focus {
+  outline: none; /* recibe el foco al terminar el test solo para que el lector de pantalla empiece aquí */
+}
+
+.test__lista::-webkit-scrollbar {
+  display: none;
+}
+
+/* Con el resultado en pantalla ya hay un botón de WhatsApp (con las respuestas): el general se esconde */
+.ayuda__contenido:has(.test__resultado:not([hidden])) .ayuda__whatsapp {
+  display: none;
+}
+
+.marquesina {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  /* "safe center": centra el "Abriendo WhatsApp…" que aparece un momento al tocar, pero la pista
+     (más ancha que la pantalla) arranca desde la izquierda; con "center" se corría y dejaba un hueco */
+  justify-content: flex-start;
+  justify-content: safe center;
+  overflow: hidden;
+  border-top: 1px solid var(--dorado);
+  border-bottom: 1px solid var(--dorado);
+  background: var(--verde-oscuro);
+  color: var(--crema);
+  font-family: var(--fuentes-mayusculas);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.marquesina--kit {
+  border-color: var(--verde);
+  background: var(--dorado);
+  color: var(--verde);
+}
+
+/* La pista lleva el texto cuatro veces seguidas: al correrse la mitad, empieza de nuevo sin corte */
+.marquesina__pista {
+  display: flex;
+  width: max-content;
+  animation: marquesina 96s linear infinite; /* recorre dos copias del texto: lento a propósito */
+}
+
+.marquesina--kit .marquesina__pista {
+  animation-direction: reverse; /* la segunda va en sentido contrario */
+  animation-duration: 72s;
+}
+
+/* La de debajo del menú: más delgada y sin filete arriba, para leerse como parte del encabezado */
+.marquesina--menu {
+  height: 38px;
+  border-top: 0;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+}
+.marquesina--menu .marquesina__grupo {
+  gap: 22px;
+  padding-right: 22px;
+}
+
+.marquesina__grupo {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+}
+
+.marquesina__rombo {
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.8;
+}
+
+@keyframes marquesina {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Se detiene al pasar el mouse o al llegar con el teclado, para leerla y tocarla con calma */
+.marquesina:hover .marquesina__pista, .marquesina:focus-visible .marquesina__pista {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .marquesina--catalogo:hover {
+    color: var(--dorado-claro);
+  }
+}
+
+.marquesina:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: -5px;
+}
+
+/* Quieta con "Pausar movimiento" o si el teléfono pide menos movimiento */
+.sin-movimiento .marquesina__pista {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .marquesina__pista {
+    animation: none;
+  }
+}
+
+/* =========================================================
+   6. PIE DE PÁGINA
+   ========================================================= */
+
 .pie {
   padding: 40px 16px 0;
   display: flex;
@@ -1022,476 +2950,7 @@ button {
   color: #C8A45C;
 }
 
-/* Celular: el menú de PC no se ve */
-.menu {
-  display: none;
-}
-
-/* Scroll suave y que el título no quede tapado por el header */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-
 @media (min-width: 1024px) {
-
-  /* Header a todo el ancho */
-  .encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 5vw;
-  }
-
-  /* Hero en dos columnas */
-  .inicio {
-    display: grid;
-
-    align-content: center;
-
-    min-height: calc(100svh - 120px);
-    margin: 0 auto;
-    padding: 48px 5vw;
-    text-align: left;
-  }
-
-  /* Columna izquierda */
-  .inicio > h1,
-  .inicio > p:not(.inicio__ayuda):not(.inicio__confianza),
-  .inicio > .aromas {
-    grid-column: 1;
-    max-width: 540px;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  /* Columna derecha: la vitrina ocupa todas las filas */
-  .inicio > .vitrina {
-    grid-column: 2;
-    grid-row: 1 / span 6;
-    max-width: 520px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  .vitrina__fondo {
-
-    max-height: 78vh;
-    object-fit: contain;
-  }
-
-  /* Textos de apoyo debajo, a la izquierda */
-  .inicio__ayuda,
-  .inicio__confianza {
-    grid-column: 1;
-    max-width: 540px;
-    margin-left: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-
-  /* Los hijos de .vitrina pasan a ser parte del grid del hero */
-  .inicio > .vitrina {
-    display: contents;
-  }
-
-  .inicio {
-    grid-template-rows: auto auto auto auto auto 1fr;
-    align-items: start;
-  }
-
-  /* Derecha: el armario ocupa todas las filas y cabe en pantalla */
-  .armario {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    width: min(100%, calc((100svh - 140px) * 687 / 614)); /* 614: el alto del recuadro recortado */
-    
-  }
-  .vitrina__fondo {
-    width: 100%;
-    height: auto;
-  }
-
-  /* Izquierda: la tarjeta va debajo de los aromas */
-  .tarjeta {
-    grid-column: 1;
-    max-width: 540px;
-    
-  }
-
-  /* Textos de apoyo alineados a la izquierda */
-  .inicio__ayuda,
-  .inicio__confianza {
-    text-align: left;
-    margin: 0 0 8px;
-  }
-}
-
-@media (min-width: 1024px) {
-
-  /* Menos hueco entre aromas y tarjeta */
-  .tarjeta {
-    margin: 20px 0 16px;
-    padding: 24px 28px;
-
-  }
-
-  .tarjeta__nombre {
-    
-    font-size: 1.8rem;
-  }
-
-  .tarjeta__precio {
-    
-    font-size: 1.4rem;
-  }
-
-  /* Botón dorado, como el "Ver catálogo" de la referencia */
-  .tarjeta .boton-whatsapp {
-    background: #C8A45C;
-    color: #0E2A1C;
-    font-weight: 500;
-  }
-
-}
-
-@media (min-width: 1024px) {
-
-  /* Header fijo arriba al hacer scroll */
-  .encabezado {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-
-  }
-
-  .menu {
-    display: flex;
-    gap: 36px;
-  }
-  .menu a {
-    position: relative;
-    padding: 6px 0;
-    color: #F3EBD8;
-    font-family: "Jost", sans-serif;
-
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  /* Línea dorada que crece al pasar el mouse */
-  .menu a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: #C8A45C;
-    transform: scaleX(0);      /* crece con escala, no con ancho: más fluido */
-    transform-origin: left;
-    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  @media (hover: hover) and (pointer: fine) {
-  .menu a:hover {
-      color: #C8A45C;
-    }
-  }
-  @media (hover: hover) and (pointer: fine) {
-  .menu a:hover::after {
-      transform: scaleX(1);
-    }
-  }
-
-  /* La hamburguesa solo se usa en celular (se busca por su clase, no por el texto del aria-label) */
-  .boton-menu {
-    display: none;
-  }
-}
-
-@media (max-width: 1023px) {
-
-  /* La vitrina rompe el margen de la página y ocupa todo el ancho */
-  .vitrina {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  /* Se amplía todo el armario (imagen + frascos juntos) y lo que sobra se recorta */
-  .armario {
-    width: 100%;
-    
-    border: 0;
-    box-shadow: none;
-    border-radius: 0;
-    
-    transform-origin: center;
-  }
-
-  .vitrina__fondo {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-}
-
-/* ===== COMPUTADOR: SECCIONES (parte 3) ===== */
-@media (min-width: 1024px) {
-
-  /* Mismo margen a los lados en todas las secciones: el fondo llega al borde,
-     pero el contenido se queda en una columna central de máximo 1280 px */
-  #promesas,
-  #tipos,
-  #kit,
-  #mas-pedidos,
-  #regalos,
-  #como-pedir,
-  #preguntas,
-  #ayuda {
-    padding-left: max(5vw, calc((100% - 1280px) / 2));
-    padding-right: max(5vw, calc((100% - 1280px) / 2));
-  }
-
-  /* Lo que te prometemos: el título a la izquierda y las tres promesas en fila */
-  #promesas {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-    gap: 48px;
-    align-items: start;
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-  .promesas__titulo {
-    font-size: var(--t-seccion);
-    line-height: 1.05;
-  }
-  .promesas__lista {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 48px;
-  }
-
-  /* Elige por tipo: título, texto y botón a la izquierda; la lista grande a la derecha */
-  #tipos {
-    display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    /* Las dos primeras filas miden lo que su contenido; la última toma el resto,
-       así el título, el texto y el botón quedan juntos arriba */
-    grid-template-rows: auto auto 1fr;
-    column-gap: 56px;
-    row-gap: 20px;
-    align-content: start;
-    padding-top: 120px;
-    padding-bottom: 120px;
-  }
-  .tipos__titulo {
-    grid-column: 1;
-    grid-row: 1;
-    font-size: var(--t-seccion);
-    line-height: 1;
-  }
-  .tipos__lista {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-  }
-  .tipos__texto {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  #tipos > .boton-borde {
-    grid-column: 1;
-    grid-row: 3;
-    align-self: start;
-    padding: 0 28px;
-  }
-  .tipo {
-    min-height: 112px;
-    padding: 0 32px;
-  }
-  .tipo__nombre {
-    font-size: var(--t-tipo);
-  }
-}
-
-/* ===== COMPUTADOR: KIT, MÁS PEDIDOS Y REGALO (parte 4) ===== */
-@media (min-width: 1024px) {
-
-  /* Kit: el texto a la izquierda y los tres decants grandes a la derecha */
-  #kit {
-    padding-top: 0;
-    padding-bottom: 120px;
-  }
-  .kit {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 64px;
-    row-gap: 16px;
-    align-items: center;
-    padding: 72px 64px;
-  }
-  .kit > * {
-    grid-column: 1;
-  }
-  .kit__titulo {
-    font-size: var(--t-seccion);
-    line-height: 1;
-  }
-  .kit__cajas {
-    grid-column: 2;
-    grid-row: 1 / span 7;
-    align-items: flex-end;
-    gap: 24px;
-  }
-  .kit__caja {
-    width: 120px;
-    height: 210px;
-    font-size: 18px;
-  }
-  .kit__caja:nth-child(2) {
-    height: 250px;
-  }
-  .kit .boton-oscuro {
-    justify-self: start;
-    padding: 0 32px;
-  }
-  .kit__extra {
-    text-align: left;
-  }
-
-  /* Más pedidos: en computador caben todos en fila, sin carrusel ni flechas */
-  #mas-pedidos {
-    padding-top: 120px;
-    padding-bottom: 120px;
-    gap: 36px;
-  }
-  .pedidos__titulo {
-    font-size: var(--t-seccion);
-  }
-  .pedidos__controles {
-    display: none;
-  }
-  .pedidos__ventana {
-    overflow: visible;
-  }
-  .pedidos__pista {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 20px;
-    padding-right: 0;
-  }
-  #mas-pedidos > .boton-borde {
-    align-self: flex-start;
-    padding: 0 32px;
-  }
-
-  /* Regalo: el patrón de monogramas a la izquierda y el texto a la derecha */
-  /* Esta sección va de borde a borde (sin el margen central), como un cuadro partido en dos */
-  #regalos {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .regalos__patron {
-    height: auto;
-    min-height: 480px;
-  }
-  .regalos__contenido {
-    justify-content: center;
-    padding: 72px 64px;
-    background: #071810;
-  }
-  .regalos__titulo {
-    font-size: var(--t-seccion);
-    line-height: 1;
-  }
-}
-
-/* ===== COMPUTADOR: ASÍ PIDES, PREGUNTAS, AYUDA Y PIE (parte 5) ===== */
-@media (min-width: 1024px) {
-
-  /* Así pides: los cuatro pasos en fila, de izquierda a derecha */
-  #como-pedir {
-    padding-top: 120px;
-    padding-bottom: 120px;
-    gap: 44px;
-  }
-  .pasos__titulo {
-    font-size: var(--t-seccion);
-  }
-  .pasos__lista {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 40px;
-  }
-  .paso__verbo {
-    font-size: var(--t-verbo);
-  }
-
-  /* Preguntas: título, texto y botón a la izquierda; las preguntas en dos columnas a la derecha */
-  #preguntas {
-    display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    grid-template-rows: auto auto 1fr;
-    column-gap: 56px;
-    row-gap: 18px;
-    padding-top: 120px;
-    padding-bottom: 120px;
-  }
-  .preguntas__titulo {
-    grid-column: 1;
-    grid-row: 1;
-    font-size: var(--t-seccion);
-  }
-  .preguntas__texto {
-    grid-column: 1;
-    grid-row: 2;
-    margin-top: 0;
-  }
-  #preguntas > .boton-whatsapp {
-    grid-column: 1;
-    grid-row: 3;
-    align-self: start;
-    justify-self: start;
-    padding: 0 28px;
-  }
-  /* Una sola columna: en dos, al abrir una pregunta la otra columna saltaba */
-  .preguntas__lista {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-  }
-
-  /* ¿No sabes cuál elegir?: el logo a la izquierda y el texto a la derecha, de borde a borde */
-  #ayuda {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .ayuda__imagen {
-    height: auto;
-    min-height: 520px;
-  }
-  .ayuda__imagen img {
-    width: 300px;
-  }
-  .ayuda__contenido {
-    justify-content: center;
-    padding: 72px 64px;
-  }
-  .ayuda__titulo {
-    font-size: var(--t-seccion);
-    line-height: 1;
-  }
-  .ayuda__contenido .boton-whatsapp,
-  .ayuda__contenido .boton-oscuro {
-    align-self: flex-start;
-    padding: 0 32px;
-  }
 
   /* Pie: nombre a la izquierda, enlaces al centro y datos legales a la derecha, en una sola fila */
   .pie {
@@ -1501,464 +2960,30 @@ html {
     gap: 32px;
     padding: 48px max(5vw, calc((100% - 1280px) / 2));
   }
+
   .pie__marca {
     order: -1;
     margin: 0;
     line-height: 1;
   }
+
   .pie__nav {
     gap: 28px;
   }
 }
 
-/* ===== CELULAR: PRIMERA PANTALLA QUE VENDE ===== */
-/* Objetivo: que sin bajar ya se vean los perfumes de la vitrina */
-@media (max-width: 1023px) {
-
-  /* La franja lleva dos datos; en pantallas muy angostas pasa a dos líneas sin cortarse */
-  .franja {
-    height: auto;
-    min-height: 36px;
-    padding: 6px 12px;
-    text-align: center;
-    line-height: 1.35;
-  }
-
-  /* Menos espacio entre las piezas del inicio: así se asoma el nombre del perfume
-     en la primera pantalla, por encima de la barra de WhatsApp */
-  .inicio {
-    padding-top: 16px;
-    gap: 14px;
-  }
-
-  /* Título en dos líneas, no en tres: se achica un poco en celulares muy angostos */
-  .inicio h1 {
-    font-size: var(--t-portada);
-    line-height: 1.05;
-  }
-
-  .inicio > p:first-of-type {
-    font-size: 16px;
-  }
-
-  /* Pregunta y aromas en una sola fila, para que la vitrina suba */
-  .aromas__pregunta {
-    margin-bottom: 8px;
-    font-size: 20px;
-  }
-  .aromas__opciones {
-    flex-wrap: nowrap;
-    gap: 6px;
-  }
-  .aroma {
-    flex: 1 1 auto;
-    height: 44px;
-    padding: 0 10px;
-    font-size: 14px;
-  }
-
-  /* La vitrina agrandada un poco menos (106 % en vez de 116 %): se ve casi igual y ocupa menos alto.
-     El margen deja espacio para lo que crece al ampliarla, sin taparse con lo de arriba ni la tarjeta */
-  .armario {
-    margin: 3vw 0;
-    transform: scale(1.06);
-  }
+.pie__nav a {
+  display: inline-block;
+  padding: 11px 0;
 }
 
-/* ===== VITRINA: FRASCOS DE OTRO AROMA ===== */
-/* Cuando eliges un aroma, los frascos de los demás aromas se apagan un poco */
-.frasco.apagado {
-  opacity: 0.28;
-  transform: scale(0.9);
-}
-
-/* Al pasar el mouse por un frasco apagado, se asoma para invitar a tocarlo */
-@media (hover: hover) {
-  .frasco.apagado:hover {
-    opacity: 0.6;
-  }
-}
-
-/* ===== CELULAR: MENÚ DESPLEGABLE ===== */
-/* El JavaScript le pone la clase "abierto" al menú cuando tocan las dos rayas */
-@media (max-width: 1023px) {
-  .encabezado {
-    position: relative;
-    z-index: 60;
-  }
-  .menu.abierto {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 8px 16px 20px;
-    background: var(--verde-oscuro);
-    
-  }
-  .menu.abierto a {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    
-    color: var(--crema);
-    font-size: 16px;
-    text-decoration: none;
-  }
-  .menu.abierto a:last-child {
-    border-bottom: 0;
-  }
-}
-
-/* ===== CARRUSEL: FLECHAS EN LAS PUNTAS ===== */
-/* Cuando no hay más perfumes hacia ese lado, la flecha se apaga */
-.boton-flecha:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-/* ===== CELULAR: VITRINA CORTA (6 perfumes) Y TARJETA COMPACTA ===== */
-/* En celular la foto completa (4 niveles) ocupaba toda la pantalla y la tarjeta quedaba debajo.
-   Aquí solo se ve la parte de arriba de la foto: el arco y la primera repisa, con 6 perfumes.
-   Así la vitrina y la tarjeta caben juntas en la pantalla. */
-@media (max-width: 1023px) {
-
-  /* (El recorte de la vitrina a dos repisas ahora vale para todas las pantallas: ver .armario arriba) */
-
-  /* Tarjeta más compacta: todo se lee de un vistazo */
-  .tarjeta {
-    padding: 16px 18px 18px;
-  }
-  .tarjeta__nombre {
-    font-size: 18px;
-    letter-spacing: 0.06em;
-    line-height: 1.25;
-  }
-  .tarjeta__notas {
-    font-size: 17px;
-    line-height: 1.35;
-  }
+.pie__nav {
+  row-gap: 0; /* el relleno de los enlaces ya los separa */
 }
 
 /* =========================================================
-   ANTI-IA (revisión con la skill design-taste-frontend)
-   Lo que más delata una página hecha con IA, quitado sin tocar la marca:
-   etiquetas pequeñas en mayúsculas espaciadas, cajas con borde de 1 px,
-   vidrio (blur), sombras y líneas finas. En su lugar: tamaño, tono y espacio.
+   7. CATÁLOGO: buscador, filtros, tarjetas de perfume y Mi lista
    ========================================================= */
-
-/* 1. Sin etiquetas pequeñas en mayúsculas.
-      Cinzel en mayúsculas queda solo para nombres de perfumes, como pide el manual. */
-.promesa__nombre {
-  font-family: var(--fuentes-titulos);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--verde);
-}
-
-/* 2. Botones secundarios rellenos, no con borde de 1 px */
-.boton-borde {
-  border: 0;
-  background: var(--verde-oscuro);
-  color: var(--dorado-claro);
-}
-#mas-pedidos > .boton-borde {
-  background: var(--verde);
-  color: var(--crema);
-}
-
-/* 3. Etiqueta "Más pedido" legible (13 px, el mínimo para leer) */
-.producto__sello {
-  font-size: 13px;
-}
-
-/* 4. Encabezado sin línea fina: se separa por el tono (verde noche) */
-.encabezado {
-  border-bottom: 0;
-  background: var(--verde-oscuro);
-}
-
-/* 5. Menú del celular: los enlaces se separan con espacio, no con líneas */
-@media (max-width: 1023px) {
-  .menu.abierto {
-    border-bottom: 0;
-    gap: 2px;
-  }
-  .menu.abierto a {
-    border-bottom: 0;
-  }
-}
-
-/* 6. El frasco elegido crece, pero sin brillo alrededor */
-.frasco.activo {
-  filter: none;
-}
-
-@media (min-width: 1024px) {
-
-  /* 7. Título que manda en la primera pantalla: más grande y en dos líneas.
-        La columna del texto se ensancha (7 de 12) porque la vitrina no necesita tanto ancho */
-
-  .inicio > h1 {
-
-    line-height: 1;
-    letter-spacing: -0.01em;
-  }
-
-  /* 8. Menú en tamaño normal, sin mayúsculas espaciadas */
-  .menu a {
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  /* 9. Encabezado fijo sin vidrio: color sólido */
-  .encabezado {
-    border-bottom: 0;
-    background: var(--verde-oscuro);
-    backdrop-filter: none;
-  }
-
-  /* 10. Tarjeta del perfume: panel marfil sólido, sin vidrio ni borde dorado */
-  .tarjeta {
-    border: 0;
-    backdrop-filter: none;
-    background: var(--crema);
-    color: var(--verde);
-  }
-  .tarjeta__datos {
-    color: var(--texto-suave);
-    letter-spacing: 0;
-    text-transform: none;
-    font-size: 14px;
-  }
-  .tarjeta__nombre {
-    color: var(--verde);
-  }
-  .tarjeta__notas {
-    color: var(--texto-medio);
-  }
-  .tarjeta__precio {
-    color: var(--verde);
-  }
-  .tarjeta__decant {
-    color: var(--texto-medio);
-    opacity: 1;
-  }
-
-  /* 11. Vitrina sin marco de 1 px ni sombra: la foto ya trae su marco dorado */
-  .armario {
-    border: 0;
-    box-shadow: none;
-  }
-}
-
-/* Los números I, II, III del kit sin espaciado de etiqueta */
-.kit__caja {
-  letter-spacing: 0;
-}
-
-/* =========================================================
-   CELULAR NATIVO (revisión con la skill mobile-native)
-   Lo que hace que en el celular se sienta como app y no como página web
-   ========================================================= */
-
-/* Sin el destello gris/azul al tocar, y sin que el iPhone agrande el texto al girarlo */
-html {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* En el celular girado (horizontal), el contenido no se mete debajo de la cámara */
-body {
-  padding-left: env(safe-area-inset-left, 0px);
-  padding-right: env(safe-area-inset-right, 0px);
-}
-
-/* El toque responde al instante (sin esperar a ver si es doble toque) */
-button,
-a {
-  touch-action: manipulation;
-}
-
-/* Mantener el dedo sobre un botón no selecciona su texto ni abre el menú de copiar */
-button,
-.boton-whatsapp,
-.barra-whatsapp,
-.boton-oscuro,
-.boton-borde,
-.tipo,
-.menu a {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-}
-
-/* Respuesta al apoyar el dedo: el botón se hunde un poquito, como en una app */
-.boton-whatsapp,
-.barra-whatsapp,
-.boton-oscuro,
-.boton-borde,
-.aroma,
-.boton-flecha,
-.tipo {
-  transition: transform 120ms ease-out, background-color 120ms ease-out;
-}
-.boton-whatsapp:active,
-.barra-whatsapp:active,
-.boton-oscuro:active,
-.boton-borde:active,
-.aroma:active,
-.boton-flecha:active:not(:disabled),
-.tipo:active {
-  transform: scale(0.97);
-}
-
-/* La barra fija baja y sale de la pantalla cuando ya hay otro botón de WhatsApp a la vista
-   (la clase la pone js/comun.js). En computador su transición está en el bloque de la píldora. */
-
-body.con-otro-whatsapp .barra-whatsapp {
-  transform: translateY(calc(100% + 32px));
-}
-
-/* Al llegar al final del carrusel, el deslizamiento no arrastra la página de lado */
-.pedidos__ventana,
-.capturas__lista {
-  overscroll-behavior-x: contain;
-}
-
-/* Campos de texto (buscador y formularios futuros) en 16 px: el iPhone no hace zoom al tocarlos */
-input,
-textarea,
-select {
-  font-size: 16px;
-}
-
-/* Quien prefiere menos movimiento: nada se desplaza, crece ni se hunde (esos cambios son instantáneos),
-   pero los fundidos y los cambios de color se mantienen, porque ayudan a entender qué cambió */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-property: opacity, color, background-color, border-color, --luz !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ===== DECISIONES DE BREAK-UI ===== */
-
-/* Notas de la tarjeta: máximo 3 líneas; si son más largas terminan en "…" */
-.tarjeta__notas {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-}
-
-/* Foto real del perfume en las tarjetas de "Los más pedidos" */
-.producto__foto {
-  display: block;
-  width: auto;
-  height: 170px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
-}
-
-/* ===== TARJETAS IGUALES Y SIN CORRIMIENTO LATERAL ===== */
-
-/* "Los más pedidos": todas las tarjetas iguales aunque un nombre sea más largo.
-   El nombre siempre reserva 2 líneas y el botón "Pedir este" queda pegado abajo */
-.producto__info {
-  flex: 1;
-}
-.producto__nombre {
-  line-height: 1.3;
-  min-height: 2.6em; /* 2 líneas × 1,3 */
-}
-.producto .boton-oscuro {
-  margin-top: auto;
-}
-.producto__aviso {
-  margin-bottom: 8px; /* espacio mínimo antes del botón */
-}
-
-/* Vitrina de borde a borde en celular y tablet, SIN 100vw.
-   100vw incluye la barra de scroll del navegador: la página quedaba ~15 px más ancha,
-   se podía mover de lado y se veía un borde.
-   Ahora el inicio ocupa todo el ancho con un margen interno, y la vitrina se sale
-   de ese margen con un margen negativo exactamente igual: nunca sobra nada */
-@media (max-width: 1023px) {
-  .inicio {
-    /* 264 = la mitad de 528, el ancho del texto. Va en vw (no en %) porque el padding y el margen
-       negativo deben medir exactamente lo mismo, y el % se calcularía distinto en cada caja */
-    --margen-inicio: max(16px, calc(50vw - 264px));
-    max-width: none;
-    padding-left: var(--margen-inicio);
-    padding-right: var(--margen-inicio);
-  }
-  .inicio > .vitrina {
-    width: auto;
-    margin-left: calc(-1 * var(--margen-inicio));
-    margin-right: calc(-1 * var(--margen-inicio));
-  }
-}
-
-/* En computador la foto del armario no se limita a 78vh: si se achicaba, los frascos
-   (que van en % del armario) quedaban unos píxeles fuera de las repisas pintadas */
-@media (min-width: 1024px) {
-  .armario .vitrina__fondo {
-    max-height: none;
-  }
-}
-
-/* Notas cortadas: se pueden tocar para leerlas completas */
-.tarjeta__notas {
-  cursor: pointer;
-}
-.tarjeta__notas--completas {
-  display: block;
-  -webkit-line-clamp: unset;
-  line-clamp: none;
-  overflow: visible;
-}
-
-/* =========================================================
-   CATÁLOGO · PARTE 1: título, buscador y filtros
-   (catalogo.html). Usa los mismos colores y letras del inicio
-   ========================================================= */
-
-/* Encabezado: el número de perfumes en "Mi lista", como una bolita sobre la bolsa */
-.boton-lista {
-  position: relative;
-}
-.boton-lista__cuenta {
-  position: absolute;
-  top: 6px;
-  right: 4px;
-  min-width: 17px;
-  height: 17px;
-  padding: 0 4px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--dorado);
-  color: var(--verde);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1;
-}
-
-/* El enlace de la página en la que estás queda en dorado */
-.menu a[aria-current="page"],
-.pie__nav a[aria-current="page"] {
-  color: var(--dorado);
-}
 
 /* Todo el catálogo va en una columna centrada, igual de ancha que el inicio en celular */
 .catalogo {
@@ -1975,13 +3000,13 @@ select {
   line-height: 1.02;
   color: var(--crema);
 }
+
 .catalogo__cabecera p {
   margin-top: 12px;
   font-size: 17px;
   color: var(--dorado-claro);
 }
 
-/* ---------- Buscador ---------- */
 .filtros {
   margin-top: 28px;
   display: flex;
@@ -2007,15 +3032,16 @@ select {
   font: inherit;
   font-size: 16px;
 }
+
 .filtros__campo::placeholder {
   color: var(--gris);
 }
+
 .filtros__campo:focus-visible {
   outline: 2px solid var(--dorado-claro);
   outline-offset: 2px;
 }
 
-/* ---------- Filtros plegables ---------- */
 .filtros__mas {
   border-top: 1px solid var(--linea);
   border-bottom: 1px solid var(--linea);
@@ -2035,9 +3061,11 @@ select {
   cursor: pointer;
   list-style: none; /* quita el triángulo del navegador */
 }
+
 .filtros__mas summary::-webkit-details-marker {
   display: none;
 }
+
 .filtros__mas summary::after {
   content: '+';
   font-family: var(--fuentes-cuerpo);
@@ -2045,6 +3073,7 @@ select {
   font-weight: 300;
   transition: transform 0.2s ease-out;
 }
+
 .filtros__mas[open] summary::after {
   transform: rotate(45deg);
 }
@@ -2058,6 +3087,34 @@ select {
   flex-wrap: wrap;
   gap: 8px;
 }
+
+.filtro-marca {
+  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.filtro-marca label {
+  font-size: 14px;
+  color: var(--gris);
+}
+/* El menú de marcas, del mismo estilo que los campos del catálogo */
+.filtro-marca select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--dorado);
+  border-radius: 0;
+  background: var(--verde-oscuro);
+  color: var(--crema);
+  font: inherit;
+  font-size: 16px; /* 16 px: el iPhone no hace zoom al tocarlo */
+}
+.filtro-marca select:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
 .filtro legend {
   margin-bottom: 10px;
   padding: 0;
@@ -2080,24 +3137,26 @@ select {
   user-select: none;
   -webkit-user-select: none;
 }
+
 .filtro input {
   position: absolute;
   opacity: 0;
   width: 1px;
   height: 1px;
 }
+
 /* Opción elegida: fondo dorado, como el aroma activo */
 .filtro label:has(input:checked) {
   background: var(--dorado);
   color: var(--verde);
 }
+
 /* Con teclado, la opción enfocada se marca */
 .filtro label:has(input:focus-visible) {
   outline: 2px solid var(--dorado-claro);
   outline-offset: 2px;
 }
 
-/* ---------- Ordenar, aplicar y quitar ---------- */
 .filtros__ordenar {
   display: flex;
   align-items: center;
@@ -2106,6 +3165,7 @@ select {
   font-size: 14px;
   color: var(--gris);
 }
+
 .filtros__ordenar select {
   height: 44px;
   padding: 0 12px;
@@ -2127,33 +3187,36 @@ select {
 
 .filtros__quitar {
   align-self: center;
-  
+
   font-size: 14px;
   color: var(--dorado-claro);
 }
 
 /* Al tocar: se aprietan un poco, como el resto de botones del sitio */
-.filtro label:active,
-.filtros__aplicar:active {
+.filtro label:active, .filtros__aplicar:active {
   transform: scale(0.97);
 }
 
-/* Al pasar el mouse (solo computador): el borde se aclara */
 @media (hover: hover) and (pointer: fine) {
+
+  /* Al pasar el mouse (solo computador): el borde se aclara */
   .filtro label:hover {
     border-color: var(--dorado-claro);
   }
 }
 
-/* Computador: más ancho, título más grande y el buscador junto a "Ordenar" */
 @media (min-width: 1024px) {
+
+  /* Computador: más ancho, título más grande y el buscador junto a "Ordenar" */
   .catalogo {
     max-width: 1200px;
     padding: 56px 40px 80px;
   }
+
   .catalogo__cabecera h1 {
     font-size: var(--t-pagina);
   }
+
   /* Controles en dos filas:
      1) buscador | Ordenar por      2) Filtros (plegable) | Quitar filtros */
   .filtros {
@@ -2162,22 +3225,27 @@ select {
     column-gap: 24px;
     align-items: center;
   }
+
   .filtros__buscar {
     grid-column: 1 / -1;
     grid-row: 1;
   }
+
   .filtros__campo {
     grid-column: 1;
     grid-row: 2;
   }
+
   .filtros__ordenar {
     grid-column: 2;
     grid-row: 2;
   }
+
   .filtros__mas {
     grid-column: 1;
     grid-row: 3;
   }
+
   .filtros__quitar {
     grid-column: 2;
     grid-row: 3;
@@ -2188,6 +3256,7 @@ select {
     align-items: center;
     padding: 0;
   }
+
   /* "Ver perfumes" solo existe sin JavaScript */
   .filtros__aplicar {
     grid-column: 1;
@@ -2196,6 +3265,7 @@ select {
     justify-self: start;
     padding: 0 40px;
   }
+
   /* En computador los grupos de filtros van uno al lado del otro */
   /* Los 4 grupos de filtros (Tipo, Para, Tamaño, Precio) en 4 columnas */
   .filtros__grupos {
@@ -2206,12 +3276,6 @@ select {
     padding-bottom: 6px;
   }
 }
-
-/* =========================================================
-   CATÁLOGO · PARTE 2: tarjetas, contador, sin resultados y Mi lista
-   Las tarjetas copian a las de "Los más pedidos" del inicio:
-   foto sobre verde y datos sobre crema
-   ========================================================= */
 
 /* "12 perfumes" */
 .catalogo__cuenta {
@@ -2231,6 +3295,7 @@ select {
 .catalogo__lista > li {
   display: flex;
 }
+
 .perfume {
   width: 100%;
   display: flex;
@@ -2251,15 +3316,17 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 26px; /* aire arriba para el sello "Más pedido": así no tapa el aro del frasco */
-  background: var(--verde-oscuro); /* más oscuro que la página, para que la tarjeta se distinga */
+  padding: 26px 10px 10px; /* aire arriba para el sello "Más pedido" */
+  background: var(--crema-clara); /* las fotos del proveedor tienen fondo blanco: se funden con este marfil */
 }
+
 .perfume__foto img {
-  width: auto;
-  height: 78%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
+  mix-blend-mode: multiply; /* el blanco de la foto toma el marfil de atrás: no se ve un cuadro blanco */
 }
+
 .perfume__sello {
   position: absolute;
   top: 8px;
@@ -2270,16 +3337,16 @@ select {
   font-size: 12px;
 }
 
-.perfume__datos,
-.perfume__nombre,
-.perfume__aroma {
+.perfume__datos, .perfume__nombre, .perfume__aroma {
   padding: 0 12px;
 }
+
 .perfume__datos {
   margin-top: 12px;
   font-size: 12px;
   color: var(--texto-suave);
 }
+
 /* El nombre siempre reserva 2 líneas, para que todas las tarjetas de una fila midan igual */
 .perfume__nombre {
   margin-top: 4px;
@@ -2291,26 +3358,28 @@ select {
   letter-spacing: 0.08em;
   overflow-wrap: anywhere; /* nombres largos sin espacios no se salen de la tarjeta */
 }
+
 .perfume__aroma {
   margin-top: 4px;
   font-size: 13px;
   color: var(--texto-medio);
 }
 
-.perfume__precio,
-.perfume__decant,
-.perfume__aviso {
+.perfume__precio, .perfume__decant, .perfume__aviso {
   padding: 0 12px;
 }
+
 .perfume__precio {
   margin-top: 10px;
   font-size: 17px;
   font-weight: 400;
 }
+
 .perfume__decant {
   font-size: 13px;
   color: var(--texto-medio);
 }
+
 .perfume__aviso {
   margin-top: 4px;
   font-size: 12px;
@@ -2326,10 +3395,11 @@ select {
   flex-direction: column;
   gap: 8px;
 }
-.perfume__botones .boton-borde,
-.perfume__botones .boton-oscuro {
+
+.perfume__botones .boton-borde, .perfume__botones .boton-oscuro {
   height: 44px;
 }
+
 /* Como los demás botones secundarios del sitio: relleno, sin borde.
    Crema un poco más oscura que la tarjeta: discreto, porque la tarjeta entera ya lleva a la ficha */
 .perfume__agregar {
@@ -2338,18 +3408,17 @@ select {
   background: var(--crema);
   color: var(--verde);
 }
+
 /* Ya está en la lista: el JavaScript le pone aria-pressed="true" y cambia el texto */
 .perfume__agregar[aria-pressed="true"] {
   background: var(--verde);
   color: var(--crema);
 }
 
-.perfume__botones .boton-borde:active,
-.perfume__botones .boton-oscuro:active {
+.perfume__botones .boton-borde:active, .perfume__botones .boton-oscuro:active {
   transform: scale(0.97);
 }
 
-/* ---------- Sin resultados ---------- */
 .catalogo__vacio {
   margin-top: 28px;
   padding: 32px 20px;
@@ -2359,15 +3428,18 @@ select {
   gap: 12px;
   text-align: center;
 }
+
 .catalogo__vacio h2 {
   font-family: var(--fuentes-titulos);
   font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.1;
 }
+
 .catalogo__vacio p {
   color: var(--dorado-claro);
 }
+
 .catalogo__vacio .boton-whatsapp {
   background: var(--dorado);
   color: var(--verde);
@@ -2380,7 +3452,6 @@ select {
   color: var(--dorado-claro);
 }
 
-/* ---------- Mi lista ---------- */
 /* Por ahora es una sección al final de la página (el ícono de la bolsa baja hasta aquí) */
 .mi-lista {
   max-width: 560px;
@@ -2391,12 +3462,14 @@ select {
   flex-direction: column;
   gap: 14px;
 }
+
 .mi-lista h2 {
   font-family: var(--fuentes-titulos);
   font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.05;
 }
+
 .mi-lista__vacia {
   color: var(--gris);
 }
@@ -2412,12 +3485,14 @@ select {
   row-gap: 6px;
   align-items: center;
 }
+
 .mi-lista__nombre {
   font-family: var(--fuentes-mayusculas);
   font-size: 14px;
   letter-spacing: 0.08em;
   overflow-wrap: anywhere;
 }
+
 .mi-lista__detalle {
   grid-column: 1;
   font-size: 13px;
@@ -2432,6 +3507,7 @@ select {
   align-items: center;
   border: 1px solid var(--dorado);
 }
+
 .mi-lista__cantidad button {
   width: 44px;
   height: 44px;
@@ -2441,15 +3517,17 @@ select {
   font-size: 20px;
   touch-action: manipulation;
 }
+
 .mi-lista__cantidad output {
   min-width: 24px;
   text-align: center;
   font-variant-numeric: tabular-nums; /* el número no baila al cambiar */
 }
+
 .mi-lista__quitar {
   grid-column: 1;
   justify-self: start;
-  
+
   border: 0;
   background: transparent;
   color: var(--dorado-claro);
@@ -2463,71 +3541,146 @@ select {
   font-size: 17px;
   font-weight: 400;
 }
+
 .mi-lista__enviar {
   background: var(--dorado);
   color: var(--verde);
   font-weight: 500;
 }
 
-/* Tablet: 3 tarjetas por fila */
 @media (min-width: 640px) {
+
+  /* Tablet: 3 tarjetas por fila */
   .catalogo__lista {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
   }
 }
 
-/* Computador: 4 por fila, letras un poco más grandes y Mi lista más ancha */
 @media (min-width: 1024px) {
+
+  /* Computador: 4 por fila, letras un poco más grandes y Mi lista más ancha */
   .catalogo__lista {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
   }
-  .perfume__datos,
-  .perfume__nombre,
-  .perfume__aroma,
-  .perfume__precio,
-  .perfume__decant,
-  .perfume__aviso {
+}
+
+/* ---------- 5. SECCIONES DEL INICIO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+/* Las tres tarjetas en una fila que se desliza de lado (como "Los más pedidos"):
+   así ninguna queda sola en una fila, ni en el celular ni en la columna angosta del computador.
+   Se sale del margen de la sección para que la fila llegue al borde */
+.test__lista {
+  display: flex;
+  gap: 12px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 0 16px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 16px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none; /* sin barrita: la tarjeta que se asoma a la derecha ya avisa que se desliza */
+}
+
+.test__lista > li {
+  flex: 0 0 min(260px, 74%);
+  scroll-snap-align: start;
+}
+
+@media (min-width: 1024px) {
+
+  .test__lista {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    scroll-padding-left: 0;
+  }
+}
+
+/* ---------- 7. CATÁLOGO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+@media (min-width: 1024px) {
+
+  .perfume__datos, .perfume__nombre, .perfume__aroma, .perfume__precio, .perfume__decant, .perfume__aviso {
     padding: 0 16px;
   }
+
   .perfume__nombre {
     font-size: 15px;
   }
+
   .perfume__precio {
     font-size: 18px;
   }
+
   .perfume__botones {
     padding: 16px;
   }
+
   /* Mi lista no necesita todo el ancho: una columna cómoda de leer */
   .mi-lista {
     max-width: 720px;
     padding: 56px 40px 80px;
   }
+
   /* Sin resultados: el botón con un ancho normal, no de lado a lado */
   .catalogo__vacio {
     align-items: center;
   }
+
   .catalogo__vacio .boton-whatsapp {
     width: min(100%, 360px);
   }
 }
 
-/* Mouse: la foto se acerca un poco y el botón de borde se rellena */
 @media (hover: hover) and (pointer: fine) {
+
+  /* Mouse: la foto se acerca un poco y el botón de borde se rellena */
   .perfume__foto img {
     transition: transform 0.3s ease-out;
   }
+
   .perfume__enlace:hover .perfume__foto img {
     transform: scale(1.04);
   }
 }
 
+.mi-lista__quitar {
+  min-height: 44px;
+  padding: 0 10px 0 0;
+}
+
+.filtros__quitar {
+  padding: 13px 10px;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+
+  /* 2. Tarjetas que se levantan un poco al pasar el mouse (solo computador) */
+  .perfume, .producto {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+
+  .perfume:hover, .producto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* En los botones claros el relleno es un verde suave (el marfil no se notaría) */
+.perfume__agregar {
+  --relleno: rgba(14, 42, 28, 0.1);
+}
+
+.perfume__agregar::before, .perfume__agregar::after {
+  display: none;
+}
+
 /* =========================================================
-   PÁGINA DE UN PERFUME (perfume.html)
-   Celular: todo en una columna. Computador: fotos a la izquierda
-   (se quedan quietas al bajar) y la compra a la derecha
+   8. PÁGINA DE UN PERFUME: fotos, compra, tamaños, notas y relacionados
    ========================================================= */
 
 .ficha {
@@ -2536,7 +3689,6 @@ select {
   padding: 16px 16px 48px;
 }
 
-/* ---------- Migas: Inicio › Catálogo › Árabes › Nombre ---------- */
 .migas ol {
   display: flex;
   flex-wrap: wrap;
@@ -2544,38 +3696,44 @@ select {
   font-size: 13px;
   color: var(--gris);
 }
+
 .migas li + li::before {
   content: '›';
   margin: 0 8px;
   color: var(--linea);
 }
+
 .migas a {
   color: var(--gris);
   text-decoration: none;
 }
+
 .migas [aria-current="page"] {
   color: var(--crema);
   overflow-wrap: anywhere;
 }
 
-/* ---------- Fotos ---------- */
 .ficha__galeria {
   margin-top: 16px;
 }
+
 .ficha__foto {
   position: relative;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--verde-oscuro);
+  padding: 16px;
+  background: var(--crema-clara); /* las fotos del proveedor tienen fondo blanco: se funden con este marfil */
 }
+
 .ficha__foto img {
-  width: auto;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5)); /* lo apoya sobre el fondo. taste-skill-ignore */
+  mix-blend-mode: multiply; /* el blanco de la foto toma el marfil de atrás */
 }
+
 /* El mismo sello de las tarjetas */
 .ficha__sello {
   position: absolute;
@@ -2593,34 +3751,39 @@ select {
   display: flex;
   gap: 8px;
 }
+
 .ficha__miniaturas button {
   width: 64px;
   height: 64px;
   padding: 6px;
   border: 1px solid transparent;
-  background: var(--verde-oscuro);
+  background: var(--crema-clara);
 }
+
 .ficha__miniaturas button[aria-current="true"] {
   border-color: var(--dorado);
 }
+
 .ficha__miniaturas img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
-/* ---------- Comprar ---------- */
 .ficha__compra {
   margin-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .ficha__marca {
   font-size: 14px;
   letter-spacing: 0.06em;
   color: var(--dorado-claro);
 }
+
 /* El nombre en Cinzel, como en la tarjeta de la vitrina y en el catálogo */
 .ficha__nombre {
   font-family: var(--fuentes-mayusculas);
@@ -2630,10 +3793,12 @@ select {
   letter-spacing: 0.06em;
   overflow-wrap: anywhere;
 }
+
 .ficha__datos {
   font-size: 14px;
   color: var(--gris);
 }
+
 .ficha__aviso {
   font-size: 13px;
   font-weight: 500;
@@ -2649,12 +3814,14 @@ select {
   flex-direction: column;
   gap: 8px;
 }
+
 .ficha__tamanos legend {
   margin-bottom: 8px;
   padding: 0;
   font-size: 14px;
   color: var(--gris);
 }
+
 .tamano {
   position: relative;
   min-height: 56px;
@@ -2669,6 +3836,7 @@ select {
   user-select: none;
   -webkit-user-select: none;
 }
+
 /* El círculo del radio se esconde a la vista, como en los filtros del catálogo */
 .tamano input {
   position: absolute;
@@ -2676,17 +3844,21 @@ select {
   width: 1px;
   height: 1px;
 }
+
 .tamano__precio {
   font-weight: 400;
   white-space: nowrap; /* el precio nunca se parte en dos líneas */
 }
+
 /* Elegido: borde dorado y nombre en dorado */
 .tamano:has(input:checked) {
   border-color: var(--dorado);
 }
+
 .tamano:has(input:checked) .tamano__nombre {
   color: var(--dorado);
 }
+
 .tamano:has(input:focus-visible) {
   outline: 2px solid var(--dorado-claro);
   outline-offset: 2px;
@@ -2701,6 +3873,7 @@ select {
   font-size: 14px;
   color: var(--gris);
 }
+
 .ficha__cantidad output {
   color: var(--crema);
 }
@@ -2723,23 +3896,77 @@ select {
   flex-direction: column;
   gap: 10px;
 }
+
 .ficha__pedir {
   margin-top: 0;
   background: var(--dorado);
   color: var(--verde);
   font-weight: 500;
 }
+
+/* ---------- 3. BOTONES Y AVISOS (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+/* 1. Botones con rombos: el texto en Cinzel mayúscula (la letra de los nombres de la marca)
+      entre dos rombos finos. Al pasar el mouse, los rombos giran, se rellenan y se abren un poco,
+      y un tono más claro sube desde abajo ("relleno que sube").
+      Los rombos son ::before y ::after, así que ningún botón necesita HTML extra
+      (y el JavaScript puede cambiar su texto sin borrarlos) */
+.boton-whatsapp, .boton-oscuro, .boton-borde {
+  gap: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-family: var(--fuentes-mayusculas);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  /* El relleno que sube es una sombra interior (así ::before y ::after quedan libres para los rombos) */
+  box-shadow: inset 0 0 0 0 var(--relleno, rgba(251, 248, 241, 0.16));
+  transition: transform 120ms ease-out, box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (max-width: 400px) {
+
+  /* Celulares angostos (hasta 400 px): letra y espacios un poco más chicos, para que
+   "Preguntar por WhatsApp" y los demás quepan en una línea. Si un texto muy largo no cabe,
+   se parte en dos líneas parejas */
+  .boton-whatsapp, .boton-oscuro, .boton-borde {
+    gap: 9px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-wrap: balance;
+  }
+}
+
+/* ---------- 7. CATÁLOGO (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
+/* En las tarjetas (catálogo, "También te puede gustar" y el test) no cabe la mayúscula espaciada:
+   "Agregar a mi lista" va en la letra normal y sin rombos, como un control discreto de la tarjeta.
+   Los rombos quedan para los botones principales */
+.perfume__agregar {
+  font-family: var(--fuentes-cuerpo);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ---------- 8. PÁGINA DE UN PERFUME (continuación): estas reglas ajustan algo de más arriba y deben ir después ---------- */
+
 .ficha__agregar {
   width: 100%;
   height: 52px;
 }
+
 .ficha__agregar[aria-pressed="true"] {
   background: var(--crema);
   color: var(--verde);
 }
-.ficha__pedir:active,
-.ficha__agregar:active,
-.tamano:active {
+
+.ficha__pedir:active, .ficha__agregar:active, .tamano:active {
   transform: scale(0.98);
 }
 
@@ -2747,22 +3974,17 @@ select {
   margin-top: 6px;
   font-size: 14px;
 }
+
 .ficha__confianza {
   font-size: 14px;
   color: var(--dorado-claro);
 }
 
-/* ---------- Secciones de abajo: mismo título para todas ---------- */
-.ficha__aroma,
-.ficha__momentos,
-.ficha__guia,
-.ficha__relacionados {
+.ficha__aroma, .ficha__momentos, .ficha__guia, .ficha__relacionados {
   margin-top: 48px;
 }
-.ficha__aroma h2,
-.ficha__momentos h2,
-.ficha__guia h2,
-.ficha__relacionados h2 {
+
+.ficha__aroma h2, .ficha__momentos h2, .ficha__guia h2, .ficha__relacionados h2 {
   margin-bottom: 16px;
   font-family: var(--fuentes-titulos);
   font-size: var(--t-seccion);
@@ -2775,11 +3997,13 @@ select {
   font-size: 17px;
   line-height: 1.6;
 }
+
 .ficha__piramide {
   position: relative;
   margin-top: 20px;
   padding-left: 22px;
 }
+
 /* La línea dorada que une salida, corazón y fondo (en js/animaciones.js baja de arriba abajo).
    Sin GSAP se ve completa: --recorrido vale 1 */
 .ficha__piramide::before {
@@ -2793,6 +4017,7 @@ select {
   transform: scaleY(var(--recorrido, 1));
   transform-origin: top;
 }
+
 .ficha__piramide div {
   position: relative;
   padding: 12px 0;
@@ -2801,9 +4026,11 @@ select {
   grid-template-columns: 96px minmax(0, 1fr);
   gap: 12px;
 }
+
 .ficha__piramide dt {
   color: var(--dorado);
 }
+
 /* Un punto dorado en cada nota, sobre la línea */
 .ficha__piramide div::before {
   content: '';
@@ -2816,13 +4043,16 @@ select {
   border-radius: 50%;
   background: var(--dorado);
 }
+
 /* Las barras de "Los más pedidos", con el fondo de la barra oscuro porque aquí van sobre verde */
 .ficha__medidas {
   margin-top: 20px;
 }
+
 .ficha__medidas .medida {
   font-size: 14px;
 }
+
 .ficha__medidas .barra {
   background: var(--linea);
 }
@@ -2833,6 +4063,7 @@ select {
   flex-wrap: wrap;
   gap: 8px;
 }
+
 .ficha__momentos li {
   padding: 8px 14px;
   border: 1px solid var(--linea);
@@ -2844,10 +4075,12 @@ select {
   display: grid;
   gap: 12px;
 }
+
 .guia__opcion {
   padding: 20px;
   background: var(--verde-oscuro);
 }
+
 .guia__opcion h3 {
   margin-bottom: 8px;
   font-family: var(--fuentes-mayusculas);
@@ -2857,14 +4090,16 @@ select {
   text-transform: uppercase;
   color: var(--dorado);
 }
+
 .guia__opcion p {
   font-size: 15px;
   line-height: 1.6;
 }
+
 .guia__kit {
   margin-top: 16px;
   display: inline-block;
-  
+
   color: var(--dorado-claro);
 }
 
@@ -2877,46 +4112,55 @@ select {
   gap: 12px;
   text-align: center;
 }
+
 .ficha__no-existe h1 {
   font-family: var(--fuentes-titulos);
   font-size: var(--t-seccion);
   font-weight: 500;
   line-height: 1.1;
 }
+
 .ficha__no-existe p {
   color: var(--dorado-claro);
 }
+
 .ficha__no-existe .boton-oscuro {
   background: var(--dorado);
   color: var(--verde);
   font-weight: 500;
 }
+
 .ficha__no-existe .boton-whatsapp {
   margin-top: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .migas a:hover {
     color: var(--dorado-claro);
   }
+
   .tamano:hover {
     border-color: var(--dorado-claro);
   }
 }
 
-/* Tablet: las dos cajas de la guía lado a lado */
 @media (min-width: 640px) {
+
+  /* Tablet: las dos cajas de la guía lado a lado */
   .guia {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Computador: fotos a la izquierda, compra a la derecha; lo demás debajo a lo ancho */
 @media (min-width: 1024px) {
+
+  /* Computador: fotos a la izquierda, compra a la derecha; lo demás debajo a lo ancho */
   .ficha {
     max-width: 1200px;
     padding: 24px 40px 80px;
   }
+
   /* Fotos a la izquierda y compra a la derecha */
   .ficha__principal {
     margin-top: 24px;
@@ -2925,112 +4169,43 @@ select {
     column-gap: 64px;
     align-items: start;
   }
+
   .ficha__galeria {
     margin-top: 0;
     position: sticky; /* al bajar por la compra, la foto se queda a la vista (solo dentro de esta caja) */
     top: 24px;
   }
+
   .ficha__compra {
     margin-top: 0;
   }
+
   .ficha__nombre {
     font-size: 32px;
   }
+
   /* El texto de "Cómo huele" no se estira de lado a lado: se lee mejor en una columna */
   .ficha__aroma {
     max-width: 720px;
   }
-  .ficha__aroma h2,
-  .ficha__momentos h2,
-  .ficha__guia h2,
-  .ficha__relacionados h2 {
+
+  .ficha__aroma h2, .ficha__momentos h2, .ficha__guia h2, .ficha__relacionados h2 {
     font-size: var(--t-seccion);
   }
-  .ficha__aroma,
-  .ficha__momentos,
-  .ficha__guia,
-  .ficha__relacionados {
+
+  .ficha__aroma, .ficha__momentos, .ficha__guia, .ficha__relacionados {
     margin-top: 72px;
   }
+
   .ficha__no-existe {
     max-width: 640px;
     margin: 0 auto;
     align-items: center;
   }
+
   .ficha__no-existe a {
     width: min(100%, 320px);
   }
-}
-
-/* =========================================================
-   ARREGLOS DE UX (revisión con ui-ux-pro-max)
-   ========================================================= */
-
-/* 1. Aviso corto abajo: "Agregado a tu lista · Ver mi lista" / "Quitado · Deshacer".
-      En celular va encima de la barra de WhatsApp; en computador, abajo a la derecha */
-.aviso {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom) + 12px);
-  z-index: 60;
-  min-height: 52px;
-  padding: 6px 6px 6px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  background: var(--crema);
-  color: var(--verde);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  font-size: 15px;
-}
-.aviso__accion {
-  min-height: 44px;
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  border: 0;
-  background: transparent;
-  color: var(--verde);
-  font: inherit;
-  font-weight: 500;
-  text-decoration: underline;
-  white-space: nowrap;
-}
-@media (min-width: 1024px) {
-  .aviso {
-    left: auto;
-    right: 24px;
-    
-    width: 380px;
-  }
-}
-
-/* Texto que solo lee el lector de pantalla (no se ve, pero sigue en la página) */
-.solo-lector {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* 2. "Saltar al contenido": escondido hasta que alguien llega con Tab */
-.saltar {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 100;
-  padding: 12px 16px;
-  background: var(--dorado);
-  color: var(--verde);
-  font-weight: 500;
-  transform: translateY(-200%);
-}
-.saltar:focus {
-  transform: none;
 }
 
 /* 3. Página del perfume: precio debajo del nombre, y foto más baja en celular
@@ -3040,43 +4215,29 @@ select {
   font-size: 20px;
   font-weight: 400;
 }
+
 .ficha__precio-decant {
   font-size: 15px;
   font-weight: 400;
   color: var(--dorado-claro);
 }
+
 @media (max-width: 1023px) {
+
   .ficha__foto {
     aspect-ratio: 4 / 3;
   }
 }
 
-/* 4. Áreas de toque de al menos 44 px, sin cambiar cómo se ven
-      (el relleno agranda la zona que se toca, no el texto) */
-.logo {
-  padding: 2px 0;
-}
-.pie__nav a {
-  display: inline-block;
-  padding: 11px 0;
-}
-.pie__nav {
-  row-gap: 0; /* el relleno de los enlaces ya los separa */
-}
 .migas a {
   display: inline-block;
   padding: 12px 0;
 }
+
 .migas ol {
   align-items: center;
 }
-.mi-lista__quitar {
-  min-height: 44px;
-  padding: 0 10px 0 0;
-}
-.filtros__quitar {
-  padding: 13px 10px;
-}
+
 .guia__kit {
   padding: 12px 0;
 }
@@ -3087,201 +4248,7 @@ select {
 }
 
 /* =========================================================
-   ANIMACIONES (ideas adaptadas de la revisión de axonperfumes.com)
-   Todas se apagan si la persona pidió "reducir movimiento" en su teléfono,
-   o si tocó "Pausar movimiento" en la franja de arriba (clase .sin-movimiento en <html>)
-   ========================================================= */
-
-/* 1. Transición suave entre páginas: al ir del inicio al catálogo o a un perfume,
-      la página se funde en vez de saltar. Funciona en Chrome, Edge y Safari recientes;
-      los demás navegadores simplemente cambian de página como siempre */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 0.35s;
-  }
-}
-
-/* 2. Tarjetas que se levantan un poco al pasar el mouse (solo computador) */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .perfume,
-  .producto {
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-  }
-  .perfume:hover,
-  .producto:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-  }
-}
-
-/* 3. Franja de arriba: varios mensajes en el mismo lugar que se alternan con un fundido.
-      Sin JavaScript se ve solo el primero */
-.franja {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding-right: 44px;  /* espacio para el botón de pausa */
-  padding-left: 44px;
-}
-.franja__mensaje {
-  grid-area: 1 / 1; /* todos los mensajes en la misma celda, uno encima del otro */
-  text-align: center;
-  opacity: 0;
-  filter: blur(2px); /* el que se va se desenfoca un poco: así el cambio no se ve "encimado" */
-  transition: opacity 0.3s ease, filter 0.3s ease;
-}
-/* El nuevo espera 0,3 s a que el anterior termine de irse: nunca se ven los dos a la vez */
-.franja__mensaje.activo {
-  opacity: 1;
-  filter: none;
-  transition-delay: 0.3s;
-}
-
-/* Botón de pausa: a la derecha de la franja. Pausa la franja y las partículas de la vitrina */
-.franja__pausa {
-  position: absolute;
-  top: 50%;
-  
-  width: 36px;
-  height: 36px;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  background: transparent;
-  
-}
-/* Si el teléfono ya pide menos movimiento, no hay nada que pausar */
-@media (prefers-reduced-motion: reduce) {
-  .franja__pausa {
-    display: none;
-  }
-}
-
-/* 4. (El frasco elegido ya no "respira": el humo de fragancia cumple esa función, y los dos
-      juntos sobre el mismo frasco eran demasiado movimiento para una marca discreta) */
-
-/* 5. "Elige por tipo": la línea dorada de arriba de cada fila (GSAP la dibuja al aparecer;
-      sin GSAP se ve completa). --trazo va de 0 (sin línea) a 1 (línea completa) */
-.tipo {
-  position: relative;
-}
-.tipo::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--dorado);
-  transform: scaleX(var(--trazo, 1));
-  transform-origin: left;
-}
-
-/* 6. "Lo que te prometemos" y "Así pides": la misma línea de "Elige por tipo" sobre cada elemento.
-      Sobre crema va en dorado oscuro (el de los nombres de las promesas): el dorado claro casi no se ve ahí */
-.promesa,
-.paso {
-  position: relative;
-  padding-top: 14px;
-}
-.promesa::before,
-.paso::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #7A5D26;
-  transform: scaleX(var(--trazo, 1));
-  transform-origin: left;
-}
-
-/* 7. Franja de arriba más limpia: siempre de una línea y 36 px de alto (antes el mensaje largo
-      ocupaba 2 líneas y dejaba la franja alta y con espacio vacío para los mensajes cortos) */
-.franja {
-  height: 36px;
-  min-height: 0;
-  padding: 0 40px; /* lo mismo a los dos lados: el texto queda centrado de verdad */
-  overflow: hidden;
-}
-.franja__mensaje {
-  white-space: nowrap;
-  letter-spacing: 0.02em;
-}
-/* Botón de pausa discreto: gris y más pequeño; se ilumina al pasar el mouse o con el teclado.
-   El área que se toca sigue siendo de 36 px */
-.franja__pausa {
-  right: 2px;
-  color: var(--gris);
-  opacity: 0.75;
-}
-.franja__pausa svg {
-  width: 11px;
-  height: 11px;
-}
-.franja__pausa:focus-visible {
-  opacity: 1;
-  color: var(--dorado-claro);
-  outline: 1px solid var(--dorado-claro);
-  outline-offset: -6px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .franja__pausa:hover {
-    opacity: 1;
-    color: var(--dorado-claro);
-  }
-}
-
-/* =========================================================
-   VITRINA PROTAGONISTA EN COMPUTADOR (como la referencia)
-   Ahora que la vitrina muestra solo dos repisas, se puede agrandar:
-   la columna del texto pasa a 5 de 12 y la de la vitrina a 7 de 12
-   ========================================================= */
-@media (min-width: 1024px) {
-  .inicio {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    column-gap: 56px;
-    /* En pantallas grandes (1920) el inicio puede ser más ancho y el margen no crece de más:
-       así el título sigue en dos líneas y la vitrina aprovecha el espacio */
-    max-width: 1600px;
-    padding-left: min(5vw, 72px);
-    padding-right: min(5vw, 72px);
-  }
-
-  /* El título, un poco más pequeño para que siga en dos líneas en la columna más angosta */
-  .inicio > h1 {
-    max-width: none;
-    font-size: var(--t-portada);
-  }
-
-  /* La vitrina llena su columna, sin pasarse del alto de la pantalla
-     (100svh - 160px: lo que queda debajo de la franja y el encabezado) */
-  .armario {
-    width: min(100%, calc((100svh - 160px) * 687 / 614));
-    margin: 0 0 0 auto;
-  }
-}
-
-/* Computadores pequeños (1024–1279 px): con 5/7 la columna del texto queda muy angosta
-   (los aromas pasan a dos filas y la tarjeta se aprieta), así que ahí las dos columnas van iguales */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .inicio {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 40px;
-  }
-}
-
-/* =========================================================
-   PÁGINAS LEGALES (terminos.html y privacidad.html)
-   Pensadas para leer: una columna de unos 70 caracteres por línea,
-   letra cómoda y un índice para saltar a la sección que se busca
+   9. PÁGINAS LEGALES: términos y privacidad
    ========================================================= */
 
 .legal {
@@ -3296,7 +4263,6 @@ select {
   scroll-margin-top: 24px;
 }
 
-/* ---------- Cabecera ---------- */
 .legal__antetitulo {
   font-family: var(--fuentes-mayusculas);
   font-size: 12px;
@@ -3304,6 +4270,7 @@ select {
   text-transform: uppercase;
   color: var(--dorado);
 }
+
 .legal__cabecera h1 {
   margin-top: 8px;
   font-family: var(--fuentes-titulos);
@@ -3311,38 +4278,43 @@ select {
   font-weight: 500;
   line-height: 1.05;
 }
+
 .legal__fecha {
   margin-top: 10px;
   font-size: 14px;
   color: var(--gris);
 }
+
 .legal__intro {
   margin-top: 16px;
   font-size: 17px;
   color: var(--dorado-claro);
 }
 
-/* ---------- Índice: una caja con los números en dorado ---------- */
 .legal__indice {
   margin: 32px 0 8px;
   padding: 20px 20px 16px;
   background: var(--verde-oscuro);
 }
+
 .legal__indice ol {
   counter-reset: indice;
 }
+
 .legal__indice li {
   counter-increment: indice;
   display: flex;
   align-items: baseline; /* el número y el texto en la misma línea, aunque el enlace tenga relleno */
   gap: 8px;
 }
+
 .legal__indice li::before {
   content: counter(indice) '.';
   min-width: 1.4em;
   font-variant-numeric: tabular-nums; /* los números quedan alineados */
   color: var(--dorado);
 }
+
 .legal__indice a {
   display: inline-block;
   padding: 6px 0; /* zona de toque cómoda en el celular */
@@ -3350,28 +4322,30 @@ select {
   text-decoration: none;
 }
 
-/* ---------- Secciones ---------- */
 .legal__seccion {
   margin-top: 40px;
   padding-top: 24px;
   border-top: 1px solid var(--linea);
 }
+
 .legal__seccion h2 {
   font-family: var(--fuentes-titulos);
   font-size: 30px;
   font-weight: 500;
   line-height: 1.15;
 }
+
 .legal__seccion h3 {
   margin-top: 22px;
   font-size: 17px;
   font-weight: 500;
   color: var(--dorado-claro);
 }
-.legal__seccion p,
-.legal__seccion ul {
+
+.legal__seccion p, .legal__seccion ul {
   margin-top: 12px;
 }
+
 .legal__seccion strong {
   font-weight: 500;
   color: var(--dorado-claro);
@@ -3382,9 +4356,11 @@ select {
   position: relative;
   padding-left: 20px;
 }
+
 .legal__seccion ul li + li {
   margin-top: 6px;
 }
+
 .legal__seccion ul li::before {
   content: '';
   position: absolute;
@@ -3404,50 +4380,61 @@ select {
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .legal__indice a:hover {
     color: var(--dorado-claro);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+
   .legal__seccion a:hover {
     color: var(--dorado);
   }
 }
 
-/* Computador: más aire arriba y el índice en dos columnas */
 @media (min-width: 1024px) {
+
+  /* Computador: más aire arriba y el índice en dos columnas */
   .legal {
     padding: 64px 40px 96px;
   }
+
   .legal__indice {
     padding: 28px 32px 22px;
   }
+
   .legal__indice ol {
     columns: 2;
     column-gap: 40px;
   }
+
   .legal__indice li {
     break-inside: avoid; /* un punto del índice no se parte entre las dos columnas */
   }
+
   .legal__seccion h2 {
     font-size: 34px;
   }
 }
 
 /* =========================================================
-   ENTRADA (solo inicio, primera vez por visita) — igual al diseño "Entrada"
-   0 s     las puertas cerradas, el sello dorado aparece y se dibuja un anillo
-   0,3 s   aparece el lema: "S. B. PRIVÉ / Perfume que se lleva como un secreto"
-   1,3 s   el lema y el anillo se desvanecen
-   1,5 s   las puertas se entreabren 7 px…
-   1,6 s   …y se abren hacia los lados: el sello se parte en dos
-   1,75 s  la luz de la vitrina se enciende titilando y los frascos suben
-   2,0 s   suben el encabezado, el título y los aromas
-   Todo es CSS: aunque el JavaScript falle, a los 2,1 s la entrada deja de existir
+   10. ENTRADA ELEGANTE Y ANIMACIONES GENERALES
    ========================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* 1. Transición suave entre páginas: al ir del inicio al catálogo o a un perfume,
+      la página se funde en vez de saltar. Funciona en Chrome, Edge y Safari recientes;
+      los demás navegadores simplemente cambian de página como siempre */
+  @view-transition {
+      navigation: auto;
+    }
+}
+
 .entrada {
   display: none;
 }
+
 .con-entrada .entrada {
   display: block;
   position: fixed;
@@ -3456,6 +4443,7 @@ select {
   cursor: pointer;
   animation: entrada-fin 0s linear 2.15s forwards; /* al final deja de existir (también para el mouse) */
 }
+
 /* Al tocarla, se va de una vez (main.js pone la clase "entrada-saltada" en <html>) */
 .entrada-saltada .entrada {
   display: none;
@@ -3470,6 +4458,7 @@ select {
   overflow: hidden; /* cada puerta muestra solo su mitad del sello */
   background: var(--verde);
 }
+
 .entrada__puerta::before {
   content: '';
   position: absolute;
@@ -3477,11 +4466,13 @@ select {
   background: url('../img/logo/patron-monograma.png') repeat center / 60px auto;
   opacity: 0.22;
 }
+
 .entrada__puerta--izquierda {
   left: 0;
    /* la rendija entre las dos puertas */
   animation: entrada-puerta-izquierda 1.3s cubic-bezier(0.7, 0, 0.2, 1) 0.8s both;
 }
+
 .entrada__puerta--derecha {
   right: 0;
   animation: entrada-puerta-derecha 1.3s cubic-bezier(0.7, 0, 0.2, 1) 0.8s both;
@@ -3498,15 +4489,18 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   animation: entrada-sello 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
+
 .entrada__puerta--izquierda .entrada__sello {
   right: -55px;
 }
+
 .entrada__puerta--derecha .entrada__sello {
   left: -55px;
 }
+
 .entrada__sello img {
   width: 60px;
   height: auto;
@@ -3520,6 +4514,7 @@ select {
   margin: -75px 0 0 -75px;
   pointer-events: none;
 }
+
 .entrada__anillo circle {
   stroke-dasharray: 415; /* el largo del círculo: así se puede "dibujar" de 0 a completo */
   animation: entrada-anillo 0.6s cubic-bezier(0.6, 0, 0.3, 1) 0.15s both,
@@ -3541,12 +4536,14 @@ select {
   animation: entrada-sube 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both,
              entrada-desvanece 0.25s linear 1.3s both;
 }
+
 .entrada__marca {
   font-family: var(--fuentes-mayusculas);
   font-size: 13px;
   letter-spacing: 0.45em;
   color: var(--dorado);
 }
+
 .entrada__frase {
   font-family: var(--fuentes-titulos);
   font-style: italic;
@@ -3555,33 +4552,52 @@ select {
   color: var(--crema);
 }
 
-/* ---------- Lo que pasa en la página cuando se abren las puertas (solo la primera vez) ---------- */
 /* "backwards": la animación solo se aplica antes y durante; al terminar, cada elemento vuelve a su estilo normal
    (así el frasco elegido conserva su tamaño) */
-
 /* La luz de la vitrina se enciende titilando */
 .con-entrada:not(.entrada-saltada) .vitrina__fondo {
   animation: entrada-lampara 0.8s linear 1.75s backwards;
 }
+
 /* Los frascos suben uno por uno */
 .con-entrada:not(.entrada-saltada) .frasco {
   animation: entrada-frasco 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(1) { animation-delay: 1.85s; }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(2) { animation-delay: 1.91s; }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(3) { animation-delay: 1.97s; }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(1) { animation-delay: 2.03s; }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(2) { animation-delay: 2.09s; }
-.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(3) { animation-delay: 2.15s; }
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(1) {
+  animation-delay: 1.85s;
+}
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(2) {
+  animation-delay: 1.91s;
+}
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(1) .frasco:nth-child(3) {
+  animation-delay: 1.97s;
+}
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(1) {
+  animation-delay: 2.03s;
+}
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(2) {
+  animation-delay: 2.09s;
+}
+
+.con-entrada:not(.entrada-saltada) .repisa:nth-of-type(2) .frasco:nth-child(3) {
+  animation-delay: 2.15s;
+}
+
 /* El encabezado, el título y lo de abajo suben */
 .con-entrada:not(.entrada-saltada) .encabezado {
   animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2s backwards;
 }
+
 .con-entrada:not(.entrada-saltada) .inicio > h1 {
   animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.1s backwards;
 }
-.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type,
-.con-entrada:not(.entrada-saltada) .inicio > .aromas {
+
+.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type, .con-entrada:not(.entrada-saltada) .inicio > .aromas {
   animation: entrada-sube 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.2s backwards;
 }
 
@@ -3590,30 +4606,37 @@ select {
   60% { transform: translateX(-7px); }   /* se entreabre… */
   100% { transform: translateX(-102%); } /* …y se abre */
 }
+
 @keyframes entrada-puerta-derecha {
   0%, 52% { transform: translateX(0); }
   60% { transform: translateX(7px); }
   100% { transform: translateX(102%); }
 }
+
 @keyframes entrada-sello {
   from { opacity: 0; transform: scale(0.86); }
   to { opacity: 1; transform: scale(1); }
 }
+
 @keyframes entrada-anillo {
   from { stroke-dashoffset: 415; }
   to { stroke-dashoffset: 0; }
 }
+
 @keyframes entrada-sube {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes entrada-frasco {
   from { opacity: 0; transform: translateY(22px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes entrada-desvanece {
   to { opacity: 0; }
 }
+
 @keyframes entrada-lampara {
   0% { filter: brightness(0.45); }
   25% { filter: brightness(0.9); }
@@ -3622,11 +4645,10 @@ select {
   65% { filter: brightness(0.7); }
   100% { filter: brightness(1); }
 }
+
 @keyframes entrada-fin {
   to { visibility: hidden; }
 }
-
-/* ---------- Mejoras de la entrada ---------- */
 
 /* 1. El sello parece de metal: degradado con los tres dorados de la marca y un filo fino.
       Un destello de luz lo cruza una vez antes de que se abran las puertas */
@@ -3635,6 +4657,7 @@ select {
   background: radial-gradient(circle at 35% 30%, var(--dorado-claro) 0%, var(--dorado) 45%, #7A5D26 100%);
   box-shadow: inset 0 0 0 1px rgba(230, 207, 152, 0.55), 0 6px 18px rgba(0, 0, 0, 0.35);
 }
+
 .entrada__sello::after {
   content: '';
   position: absolute;
@@ -3643,6 +4666,7 @@ select {
   transform: translateX(-120%);
   animation: entrada-destello 0.7s ease-in-out 0.55s both;
 }
+
 @keyframes entrada-destello {
   to { transform: translateX(120%); }
 }
@@ -3652,6 +4676,7 @@ select {
   border-right: 0;
   box-shadow: inset -1px 0 0 rgba(200, 164, 92, 0.45), 12px 0 28px rgba(0, 0, 0, 0.45);
 }
+
 .entrada__puerta--derecha {
   box-shadow: inset 1px 0 0 rgba(200, 164, 92, 0.45), -12px 0 28px rgba(0, 0, 0, 0.45);
 }
@@ -3661,810 +4686,60 @@ select {
 .con-entrada:not(.entrada-saltada) .encabezado {
   animation-delay: 1.7s;
 }
+
 .con-entrada:not(.entrada-saltada) .inicio > h1 {
   animation-delay: 1.8s;
 }
-.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type,
-.con-entrada:not(.entrada-saltada) .inicio > .aromas {
+
+.con-entrada:not(.entrada-saltada) .inicio > p:first-of-type, .con-entrada:not(.entrada-saltada) .inicio > .aromas {
   animation-delay: 1.9s;
 }
 
 /* 4. Mientras dura la entrada no se puede hacer scroll (main.js pone y quita "entrada-quieta") */
-.entrada-quieta,
-.entrada-quieta body {
+.entrada-quieta, .entrada-quieta body {
   overflow: hidden;
 }
 
-/* 5. En computador el sello, el anillo y la frase son un poco más grandes */
 @media (min-width: 1024px) {
+
+  /* 5. En computador el sello, el anillo y la frase son un poco más grandes */
   .entrada__sello {
     width: 140px;
     height: 140px;
     margin-top: -70px;
   }
+
   .entrada__puerta--izquierda .entrada__sello {
     right: -70px;
   }
+
   .entrada__puerta--derecha .entrada__sello {
     left: -70px;
   }
+
   .entrada__sello img {
     width: 76px;
   }
+
   .entrada__anillo {
     width: 190px;
     height: 190px;
     margin: -95px 0 0 -95px;
   }
+
   .entrada__puerta::before {
     background-size: 72px auto;
   }
+
   .entrada__lema {
     top: calc(50% + 124px);
   }
+
   .entrada__marca {
     font-size: 14px;
   }
+
   .entrada__frase {
     font-size: 32px;
-  }
-}
-
-/* =========================================================
-   HUMO DE FRAGANCIA (vitrina del inicio)
-   Un lienzo encima del armario donde js/humo.js dibuja una bruma muy suave
-   que sube del frasco elegido. No se puede tocar (los frascos siguen funcionando)
-   ========================================================= */
-.humo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen; /* la bruma solo aclara, como luz sobre el mármol */
-}
-
-/* =========================================================
-   FASE 2 · DETALLES DE LUJO
-   ========================================================= */
-
-/* 1. Botones con rombos: el texto en Cinzel mayúscula (la letra de los nombres de la marca)
-      entre dos rombos finos. Al pasar el mouse, los rombos giran, se rellenan y se abren un poco,
-      y un tono más claro sube desde abajo ("relleno que sube").
-      Los rombos son ::before y ::after, así que ningún botón necesita HTML extra
-      (y el JavaScript puede cambiar su texto sin borrarlos) */
-.boton-whatsapp,
-.boton-oscuro,
-.boton-borde {
-  gap: 12px;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-family: var(--fuentes-mayusculas);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-align: center;
-  /* El relleno que sube es una sombra interior (así ::before y ::after quedan libres para los rombos) */
-  box-shadow: inset 0 0 0 0 var(--relleno, rgba(251, 248, 241, 0.16));
-  transition: transform 120ms ease-out, box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.boton-whatsapp::before,
-.boton-whatsapp::after,
-.boton-oscuro::before,
-.boton-oscuro::after,
-.boton-borde::before,
-.boton-borde::after {
-  content: '';
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.3s ease;
-}
-/* En los botones claros el relleno es un verde suave (el marfil no se notaría) */
-.perfume__agregar {
-  --relleno: rgba(14, 42, 28, 0.1);
-}
-/* Celulares angostos (hasta 400 px): letra y espacios un poco más chicos, para que
-   "Preguntar por WhatsApp" y los demás quepan en una línea. Si un texto muy largo no cabe,
-   se parte en dos líneas parejas */
-@media (max-width: 400px) {
-  .boton-whatsapp,
-  .boton-oscuro,
-  .boton-borde {
-    gap: 9px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-wrap: balance;
-  }
-}
-/* En las tarjetas (catálogo, "También te puede gustar" y el test) no cabe la mayúscula espaciada:
-   "Agregar a mi lista" va en la letra normal y sin rombos, como un control discreto de la tarjeta.
-   Los rombos quedan para los botones principales */
-.perfume__agregar {
-  font-family: var(--fuentes-cuerpo);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-}
-.perfume__agregar::before,
-.perfume__agregar::after {
-  display: none;
-}
-/* Solo con mouse: en el celular no hay "pasar por encima" y el efecto se quedaría pegado al tocar */
-@media (hover: hover) and (pointer: fine) {
-  .boton-whatsapp:hover,
-  .boton-oscuro:hover,
-  .boton-borde:hover {
-    box-shadow: inset 0 -80px 0 0 var(--relleno, rgba(251, 248, 241, 0.16));
-  }
-  .boton-whatsapp:hover::before,
-  .boton-oscuro:hover::before,
-  .boton-borde:hover::before {
-    transform: translateX(-5px) rotate(225deg);
-    background-color: currentColor;
-  }
-  .boton-whatsapp:hover::after,
-  .boton-oscuro:hover::after,
-  .boton-borde:hover::after {
-    transform: translateX(5px) rotate(225deg);
-    background-color: currentColor;
-  }
-}
-
-/* 2. Botón flotante de WhatsApp (celular y computador).
-      Su mensaje cambia según la página: el perfume elegido en el inicio, Mi lista en el catálogo,
-      el tamaño y la cantidad en la ficha. Es un círculo discreto abajo a la derecha; con el mouse
-      (o al llegar con el teclado) se abre y muestra su texto. En el celular queda como círculo:
-      la barra a lo ancho tapaba la página */
-.barra-whatsapp {
-  display: flex;
-  align-items: center;
-  left: auto;
-  right: calc(16px + env(safe-area-inset-right, 0px));
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  height: 52px;
-  padding: 0 52px 0 22px;    /* el texto a la izquierda; el ícono en los últimos 52 px, a la derecha */
-  justify-content: flex-start;
-  white-space: nowrap;
-  border: 1px solid var(--dorado);
-  border-radius: 26px;
-  background: var(--verde-oscuro);
-  color: var(--crema);
-  font-size: 15px;
-  /* Cerrado se recorta a un círculo de 52 px con el ícono. Al abrirse, el recorte se quita y la píldora
-     "sale" del círculo hacia la izquierda. Se anima el recorte (clip-path), no el ancho: más fluido */
-  clip-path: inset(0 0 0 calc(100% - 52px) round 26px);
-  transition: clip-path 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease,
-              transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
-/* El ícono: una burbuja de conversación en dorado */
-.barra-whatsapp::before {
-  content: '';
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  width: 22px;
-  height: 22px;
-  margin-top: -11px;
-  background: var(--dorado);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.5-4.4a8.5 8.5 0 1 1 15.5-4.6z'/%3E%3Cpath d='M8.5 10.5h7M8.5 13.5h4.5'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-/* Al llegar con el teclado, o al pasar el mouse (solo con mouse: en el celular el "hover" queda pegado
-   después de tocar y la píldora se quedaría abierta): se abre y muestra el texto ("Pedir por WhatsApp"…) */
-.barra-whatsapp:focus-visible {
-  clip-path: inset(0 0 0 0 round 26px);
-  border-color: var(--dorado-claro);
-}
-@media (hover: hover) and (pointer: fine) {
-  .barra-whatsapp:hover {
-    clip-path: inset(0 0 0 0 round 26px);
-    border-color: var(--dorado-claro);
-  }
-}
-/* El recorte también cortaría un borde de foco por fuera: por eso va por dentro */
-.barra-whatsapp:focus-visible {
-  outline: 2px solid var(--dorado-claro);
-  outline-offset: -5px;
-}
-/* Catálogo con perfumes en "Mi lista": el numerito sobre el ícono (js/catalogo.js pone data-cuenta).
-   Va dentro del círculo, arriba a la derecha, para que el recorte no lo corte */
-.barra-whatsapp[data-cuenta]::after {
-  content: attr(data-cuenta);
-  position: absolute;
-  right: 5px;
-  top: 6px;
-  min-width: 17px;
-  height: 17px;
-  padding: 0 4px;
-  border-radius: 9px;
-  background: var(--dorado);
-  color: var(--verde);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 17px;
-  text-align: center;
-}
-/* En computador, un poco más separado de la esquina */
-@media (min-width: 1024px) {
-  .barra-whatsapp {
-    right: 24px;
-    bottom: 24px;
-  }
-  /* El aviso "Agregado a tu lista" sube para no quedar encima del botón */
-  .aviso {
-    bottom: 92px;
-  }
-}
-
-/* "Así pides": más aire entre la palabra grande (Elige, Escribe, Paga, Recibe) y su texto.
-   La palabra va en cursiva grande y las letras con cola (la g de Elige, la p de Paga) se salían de su caja
-   y casi tocaban el texto: con alto de línea 1 caben, y el espacio de abajo crece */
-.paso {
-  gap: 14px;
-}
-.paso__verbo {
-  line-height: 1;
-}
-@media (min-width: 1024px) {
-  .paso {
-    gap: 20px;
-  }
-}
-
-/* Celular y tablet: la tarjeta del perfume va de borde a borde, como la vitrina (antes tenía 20 px de margen
-   a cada lado y se veía una franja verde). Su texto queda alineado con el resto del inicio:
-   usa el mismo margen interno (--margen-inicio: 16 px en celular, más en tablet) */
-@media (max-width: 1023px) {
-  .tarjeta {
-    margin: 0;
-    padding-left: var(--margen-inicio, 16px);
-    padding-right: var(--margen-inicio, 16px);
-  }
-}
-
-/* =========================================================
-   ATMÓSFERA DE LA VITRINA
-   ========================================================= */
-
-/* 1. La luz cambia de color según el aroma elegido.
-      @property permite que el color se mezcle poco a poco (casi 1 s), como cambiar la bombilla.
-      La capa va entre la foto y los frascos: tiñe el mármol y la luz del arco, no los frascos */
-@property --luz {
-  syntax: '<color>';
-  inherits: false; /* solo la capa de luz cambia: los frascos no se recalculan durante el cambio */
-  initial-value: rgba(0, 0, 0, 0);
-}
-.armario {
-  touch-action: pan-y; /* deslizar de lado lo maneja la página; de arriba abajo sigue siendo scroll */
-}
-.armario__luz {
-  transition: --luz 0.9s ease;
-}
-.armario[data-aroma="Dulce"] .armario__luz { --luz: rgba(232, 150, 52, 0.8); }      /* ámbar */
-.armario[data-aroma="Fresco"] .armario__luz { --luz: rgba(120, 205, 200, 0.8); }    /* verde frío */
-.armario[data-aroma="Amaderado"] .armario__luz { --luz: rgba(108, 62, 28, 0.95); }  /* madera oscura */
-.armario[data-aroma="Intenso"] .armario__luz { --luz: rgba(170, 30, 48, 0.85); }    /* rojo profundo */
-
-.armario__luz {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  /* La luz nace arriba, en la lámpara del arco, y se abre hacia abajo */
-  background: radial-gradient(ellipse 95% 85% at 50% 15%, var(--luz), transparent 80%);
-  mix-blend-mode: overlay; /* tiñe sin tapar: el mármol y sus vetas se siguen viendo */
-}
-
-/* 2. Profundidad: cada frasco apoyado en su repisa */
-.frasco {
-  position: relative;
-}
-/* Sombra de contacto: una elipse oscura y difusa justo en la base */
-.frasco::after {
-  content: '';
-  position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: -3px;
-  height: 8px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
-/* Reflejo suave del frasco en la repisa, como en vidrio pulido (Chrome y Safari; en Firefox no se ve) */
-.frasco img {
-  -webkit-box-reflect: below 1px linear-gradient(transparent 78%, rgba(255, 255, 255, 0.2));
-}
-
-/* 3. Vitrina "editorial" (revisión de la vitrina) */
-/* Bordes fundidos con el fondo: los lados y la base de la foto se desvanecen en la pared de la página,
-   así la vitrina parece empotrada y no un recuadro pegado (antes se veían franjas oscuras a los lados).
-   Son dos degradados (de lado a lado y de arriba abajo) que se cruzan: solo se ve donde los dos dejan ver */
-.armario {
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 4%, #000 90%, transparent 100%);
-  mask-composite: intersect;
-}
-/* En computador, un poco más de aire sobre el arco */
-@media (min-width: 1024px) {
-  .armario {
-    margin-top: 28px;
-  }
-}
-/* Luz cálida que atraviesa el perfume y cae sobre la repisa, debajo de cada frasco */
-.frasco::before {
-  content: '';
-  position: absolute;
-  left: -10%;
-  right: -10%;
-  bottom: -10px;
-  height: 26px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(240, 190, 110, 0.55), rgba(240, 190, 110, 0.15) 45%, transparent 72%);
-  mix-blend-mode: screen; /* solo aclara, como la luz */
-  pointer-events: none;
-  z-index: -1;
-  transition: opacity 0.4s ease;
-}
-.frasco.apagado::before {
-  opacity: 0.25;
-}
-/* Profundidad de campo: los frascos de otro aroma, además de apagados, quedan un poco fuera de foco.
-   El elegido se queda nítido, como en una foto con lente */
-.frasco.apagado {
-  filter: blur(1.6px);
-}
-
-/* =========================================================
-   ENTRADAS QUE FALTABAN (revisión de animaciones)
-   ========================================================= */
-
-/* El aviso "Agregado a tu lista": sube 8 px y aparece (0,2 s); al irse, se va más rápido (0,15 s).
-   @starting-style da el punto de partida al aparecer; "allow-discrete" deja animar la salida
-   aunque el aviso termine escondido (hidden). En navegadores viejos simplemente aparece, como antes */
-.aviso {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.2s ease-out,
-              transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
-              display 0.2s allow-discrete;
-}
-@starting-style {
-  .aviso {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-.aviso[hidden] {
-  opacity: 0;
-  transform: translateY(4px);
-  transition-duration: 0.15s;
-}
-
-/* El menú del celular: baja 6 px desde el encabezado y aparece (0,2 s), así se entiende de dónde sale.
-   Al cerrar se va al instante, que es lo que espera quien ya eligió */
-@media (max-width: 1023px) {
-  .menu.abierto {
-    transition: opacity 0.2s ease-out, transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  @starting-style {
-    .menu.abierto {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-  }
-}
-
-/* =========================================================
-   "YA LES LLEGÓ": CAPTURAS DE CLIENTES
-   ========================================================= */
-
-/* Cada captura: la foto (vertical, como un celular), y debajo la frase y el perfume */
-.captura {
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border: 0;
-  background: transparent;
-}
-.captura__abrir {
-  display: block;
-  padding: 0;
-  border: 1px solid var(--linea);
-  background: var(--verde);
-  aspect-ratio: 7 / 12;      /* proporción de una captura de celular */
-  overflow: hidden;
-  cursor: zoom-in;
-}
-.captura__abrir img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;      /* lo de arriba del chat es lo que más se lee */
-}
-.captura__abrir:focus-visible {
-  outline: 2px solid var(--dorado-claro);
-  outline-offset: 2px;
-}
-.captura__texto {
-  font-family: var(--fuentes-titulos);
-  font-style: italic;
-  font-size: 18px;
-  line-height: 1.3;
-  color: var(--crema);
-}
-.captura__perfume {
-  align-self: flex-start;
-  padding: 10px 0;           /* zona de toque cómoda */
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  color: var(--dorado-claro);
-}
-
-/* Puntos de posición: los crea main.js, uno por captura */
-.capturas__puntos {
-  display: flex;
-  gap: 8px;
-}
-
-/* El visor: la captura en grande sobre un fondo oscuro */
-.visor {
-  width: min(92vw, 460px);
-  max-height: 92vh;
-  padding: 0;
-  border: 1px solid var(--linea);
-  background: var(--verde-oscuro);
-  overflow: visible;
-}
-.visor::backdrop {
-  background: rgba(7, 24, 16, 0.88);
-}
-.visor__foto {
-  display: block;
-  width: 100%;
-  max-height: 92vh;
-  object-fit: contain;
-}
-.visor__cerrar {
-  position: absolute;
-  top: -52px;
-  right: 0;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  background: transparent;
-  color: var(--crema);
-}
-/* Al abrirse, el visor aparece con un fundido y crece un poco (0,2 s) */
-.visor[open] {
-  transition: opacity 0.2s ease-out, transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-}
-@starting-style {
-  .visor[open] {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .captura__abrir img {
-    transition: transform 0.3s ease-out;
-  }
-  .captura__abrir:hover img {
-    transform: scale(1.03);
-  }
-}
-
-/* Computador: las capturas en cuadrícula (sin deslizar), así que los puntos no hacen falta */
-@media (min-width: 1024px) {
-  #ya-les-llego {
-    padding: 80px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background: transparent;
-  }
-  .capturas__titulo {
-    font-size: var(--t-seccion);
-  }
-  .capturas__lista {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 28px;
-    overflow: visible;
-  }
-  .capturas__guia {
-    display: none;
-  }
-}
-
-/* =========================================================
-   ÍCONOS (Lucide + el frasco dibujado a mano)
-   Todos iguales: línea fina, sin relleno, puntas redondas y del color del texto que acompañan.
-   Van dentro del HTML (no se descargan) y con aria-hidden: son adorno, el texto ya lo dice todo
-   ========================================================= */
-.icono {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* "Lo que te prometemos" y "Así pides": el ícono arriba, en el dorado oscuro de los nombres */
-.promesa__icono,
-.paso__icono {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 4px;
-  color: #7A5D26;
-}
-
-/* "Te respondemos en minutos…": un relojito al principio de la línea */
-.confianza__icono {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-  vertical-align: -3px;
-}
-
-/* =========================================================
-   TEST "¿CUÁL ES TU PERFUME?" (sección "¿No sabes cuál elegir?", js/test.js)
-   Va sobre el fondo dorado de la sección: texto en verde botella
-   ========================================================= */
-
-/* ---------- Parte 1: las preguntas ---------- */
-.test {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 6px;
-}
-
-/* "Pregunta 1 de 3" */
-.test__paso {
-  font-family: var(--fuentes-mayusculas);
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.test__pregunta {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.test__pregunta legend {
-  padding: 0;
-  margin-bottom: 10px;
-  font-family: var(--fuentes-titulos);
-  font-style: italic;
-  font-size: 26px;
-  line-height: 1.1;
-}
-
-/* Cada opción es una fila grande que se toca (no un circulito de formulario) */
-.test__pregunta label {
-  position: relative;
-  min-height: 56px;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border: 1px solid rgba(14, 42, 28, 0.35);
-  background: rgba(251, 248, 241, 0.22);
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-/* La pista corta debajo ("Vainilla, ámbar, caramelo") */
-.test__pregunta label span {
-  font-size: 14px;
-  font-weight: 300;
-  color: #2E3B33;
-}
-/* El circulito queda escondido pero sigue ahí: el teclado y el lector de pantalla lo usan */
-.test__pregunta input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-}
-/* Elegida: verde botella con texto marfil */
-.test__pregunta label:has(input:checked) {
-  border-color: var(--verde);
-  background: var(--verde);
-  color: var(--crema);
-}
-.test__pregunta label:has(input:checked) span {
-  color: var(--dorado-claro);
-}
-/* Con teclado se ve en qué opción está */
-.test__pregunta label:has(input:focus-visible) {
-  outline: 2px solid var(--verde);
-  outline-offset: 3px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .test__pregunta label:hover {
-    border-color: var(--verde);
-  }
-}
-
-/* "Atrás" y "Volver a empezar": enlaces discretos, con zona cómoda para el dedo */
-.test__atras,
-.test__otra-vez {
-  align-self: flex-start;
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--verde);
-  font: inherit;
-  font-size: 15px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  cursor: pointer;
-}
-
-/* ---------- Parte 2: el resultado ---------- */
-.test__resultado {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.test__titulo {
-  font-family: var(--fuentes-titulos);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 26px;
-  line-height: 1.1;
-}
-.test__titulo:focus {
-  outline: none; /* recibe el foco al terminar el test solo para que el lector de pantalla empiece aquí */
-}
-
-/* Las tres tarjetas en una fila que se desliza de lado (como "Los más pedidos"):
-   así ninguna queda sola en una fila, ni en el celular ni en la columna angosta del computador.
-   Se sale del margen de la sección para que la fila llegue al borde */
-.test__lista {
-  display: flex;
-  gap: 12px;
-  margin-left: -16px;
-  margin-right: -16px;
-  padding: 0 16px 4px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: 16px;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none; /* sin barrita: la tarjeta que se asoma a la derecha ya avisa que se desliza */
-}
-.test__lista::-webkit-scrollbar {
-  display: none;
-}
-.test__lista > li {
-  flex: 0 0 min(260px, 74%);
-  scroll-snap-align: start;
-}
-@media (min-width: 1024px) {
-  .test__lista {
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    scroll-padding-left: 0;
-  }
-}
-
-/* Con el resultado en pantalla ya hay un botón de WhatsApp (con las respuestas): el general se esconde */
-.ayuda__contenido:has(.test__resultado:not([hidden])) .ayuda__whatsapp {
-  display: none;
-}
-
-/* =========================================================
-   MARQUESINAS (inicio): franjas de texto que se deslizan lentas y llevan a comprar.
-   1) Después de la vitrina: lleva al catálogo. 2) Antes de "Así pides": abre WhatsApp para el kit.
-   Discretas: Cinzel en mayúscula, rombos finos, sin precios tachados ni urgencia
-   ========================================================= */
-.marquesina {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  /* "safe center": centra el "Abriendo WhatsApp…" que aparece un momento al tocar, pero la pista
-     (más ancha que la pantalla) arranca desde la izquierda; con "center" se corría y dejaba un hueco */
-  justify-content: flex-start;
-  justify-content: safe center;
-  overflow: hidden;
-  border-top: 1px solid var(--dorado);
-  border-bottom: 1px solid var(--dorado);
-  background: var(--verde-oscuro);
-  color: var(--crema);
-  font-family: var(--fuentes-mayusculas);
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.marquesina--kit {
-  border-color: var(--verde);
-  background: var(--dorado);
-  color: var(--verde);
-}
-
-/* La pista lleva el texto dos veces seguidas: al correrse la mitad, empieza de nuevo sin corte */
-.marquesina__pista {
-  display: flex;
-  width: max-content;
-  animation: marquesina 48s linear infinite;
-}
-.marquesina--kit .marquesina__pista {
-  animation-direction: reverse; /* la segunda va en sentido contrario */
-  animation-duration: 36s;
-}
-.marquesina__grupo {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  padding-right: 28px;
-}
-.marquesina__rombo {
-  width: 6px;
-  height: 6px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
-  opacity: 0.8;
-}
-@keyframes marquesina {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* Se detiene al pasar el mouse o al llegar con el teclado, para leerla y tocarla con calma */
-.marquesina:hover .marquesina__pista,
-.marquesina:focus-visible .marquesina__pista {
-  animation-play-state: paused;
-}
-@media (hover: hover) and (pointer: fine) {
-  .marquesina--catalogo:hover {
-    color: var(--dorado-claro);
-  }
-}
-.marquesina:focus-visible {
-  outline: 2px solid var(--dorado-claro);
-  outline-offset: -5px;
-}
-
-/* Quieta con "Pausar movimiento" o si el teléfono pide menos movimiento */
-.sin-movimiento .marquesina__pista {
-  animation: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquesina__pista {
-    animation: none;
   }
 }

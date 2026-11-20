@@ -47,6 +47,12 @@ filtroGenero.hidden = !PERFUMES.some(function (p) { return p.genero; });
 const filtroPrecio = formulario.querySelector('input[name="precio"]').closest('fieldset');
 const rangosListos = Object.values(RANGOS_PRECIO).every(function (r) { return r.desde != null && r.hasta != null; });
 const hayPrecios = PERFUMES.some(function (p) { return p.precio != null; });
+// Sin precios (el cliente los da por WhatsApp), ordenar por precio no hace nada: esas opciones se esconden
+if (!hayPrecios) {
+  formulario.querySelectorAll('select[name="orden"] option[value$="-precio"]').forEach(function (opcion) { opcion.remove(); });
+  // Queda solo "Más pedidos": un selector de una sola opción no sirve, así que se esconde
+  formulario.querySelector('.filtros__ordenar').hidden = true;
+}
 filtroPrecio.hidden = !(rangosListos && hayPrecios);
 if (!filtroPrecio.hidden) {
   // Los textos de las opciones salen de los rangos: "Hasta $200.000", "De $200.000 a $400.000", "Más de $400.000"
@@ -64,6 +70,17 @@ if (!filtroPrecio.hidden) {
 /* ---------- Leer lo que viene en la dirección (catalogo.html?tipo=arabes&q=afnan) ---------- */
 // Así los enlaces del inicio llegan con el filtro marcado, y si alguien comparte la dirección, se ve lo mismo
 const parametros = new URLSearchParams(location.search);
+
+// Las marcas del menú "Marca", en orden alfabético y con cuántos perfumes tiene cada una
+const selectorMarca = formulario.querySelector('select[name="marca"]');
+const cuentaMarcas = {};
+PERFUMES.forEach(function (p) { cuentaMarcas[p.marca] = (cuentaMarcas[p.marca] || 0) + 1; });
+Object.keys(cuentaMarcas).sort(function (a, b) { return a.localeCompare(b, 'es'); }).forEach(function (marca) {
+  const opcion = crear('option', null, marca + ' (' + cuentaMarcas[marca] + ')');
+  opcion.value = marca;
+  selectorMarca.append(opcion);
+});
+if (cuentaMarcas[parametros.get('marca')]) selectorMarca.value = parametros.get('marca');
 campoBuscar.value = parametros.get('q') || '';
 ['tipo', 'genero', 'tamano', 'precio'].forEach(function (nombre) {
   const valor = parametros.get(nombre) || '';
@@ -88,11 +105,13 @@ function elegidos() {
   const tipo = TIPOS[datos.get('tipo')];
   const genero = filtroGenero.hidden ? '' : datos.get('genero');
   const tamano = datos.get('tamano');
+  const marca = datos.get('marca');
   const rango = filtroPrecio.hidden ? null : RANGOS_PRECIO[datos.get('precio')];
 
   const resultado = PERFUMES.filter(function (p) {
     if (busqueda && sinTildes(p.nombre + ' ' + p.marca).indexOf(busqueda) === -1) return false;
     if (tipo && p.tipo !== tipo) return false;
+    if (marca && p.marca !== marca) return false;
     if (genero && sinTildes(p.genero) !== genero) return false;
     if (tamano === 'decant' && !tamanoDecant(p)) return false; // decant de 10 ml o de 5 ml
     if (rango && (p.precio == null || p.precio < rango.desde || p.precio >= rango.hasta)) return false;
@@ -140,7 +159,7 @@ function mostrarCatalogo() {
   const puestos = ['tipo', 'genero', 'tamano', 'precio'].filter(function (nombre) {
     const marcado = formulario.querySelector('input[name="' + nombre + '"]:checked');
     return marcado && marcado.value && !marcado.closest('fieldset').hidden;
-  }).length;
+  }).length + (selectorMarca.value ? 1 : 0);
   resumenFiltros.textContent = puestos ? 'Filtros (' + puestos + ')' : 'Filtros';
 
   // La dirección guarda los filtros (sin recargar), por si recarga o comparte el enlace

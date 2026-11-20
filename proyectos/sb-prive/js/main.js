@@ -58,14 +58,16 @@ botonesFrasco.forEach(function (boton, i) {
   foto.addEventListener('error', function () {
     boton.hidden = true;
   });
-  foto.src = perfume.imagen;
+  // En las repisas va la foto SIN fondo (vitrina); si un perfume no la tiene, la normal
+  foto.src = perfume.vitrina || perfume.imagen;
 });
 
 /* ---------- 2. Mostrar un perfume en la tarjeta ---------- */
 function mostrarPerfume(perfume) {
-  tarjeta.datos.textContent = perfume.marca + ' · 100 ml · ' + perfume.familia;
+  tarjeta.datos.textContent = [perfume.marca, perfume.ml ? perfume.ml + ' ml' : '', perfume.familia || perfume.tipo].filter(Boolean).join(' · ');
   tarjeta.nombre.textContent = perfume.nombre;
-  tarjeta.notas.textContent = perfume.notas;
+  tarjeta.notas.textContent = perfume.notas || '';
+  tarjeta.notas.hidden = !perfume.notas; // sin notas en perfumes.js, esa línea no se muestra
   // Si las notas son muy largas, el CSS las corta a 3 líneas. Al tocarlas se abren completas (ver sección 4)
   tarjeta.notas.classList.remove('tarjeta__notas--completas');
   tarjeta.precio.textContent = precioTexto(perfume.precio);
@@ -218,6 +220,9 @@ if (window.matchMedia('(pointer: coarse)').matches) {
 /* ---------- 8. "Los más pedidos": una tarjeta por cada perfume con masPedido: true ---------- */
 const pistaPedidos = document.querySelector('.pedidos__pista');
 const masPedidos = PERFUMES.filter(function (p) { return p.masPedido; });
+// Mientras ningún perfume tenga masPedido: true, la sección no se muestra (así no queda vacía)
+const seccionPedidos = document.getElementById('mas-pedidos');
+if (seccionPedidos && !masPedidos.length) seccionPedidos.hidden = true;
 
 if (pistaPedidos && masPedidos.length) {
   pistaPedidos.textContent = ''; // quita las tarjetas de ejemplo del HTML
@@ -238,7 +243,7 @@ if (pistaPedidos && masPedidos.length) {
     vitrinaProducto.append(foto);
 
     const info = crear('div', 'producto__info');
-    info.append(crear('p', 'producto__datos', p.marca + ' · 100 ml'));
+    info.append(crear('p', 'producto__datos', [p.marca, p.ml ? p.ml + ' ml' : ''].filter(Boolean).join(' · ')));
     info.append(crear('h3', 'producto__nombre', p.nombre));
 
     // Si al perfume le falta un dato (pirámide, duración o intensidad), esa línea no se muestra.

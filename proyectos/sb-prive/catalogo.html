@@ -101,6 +101,17 @@
                 </button>
             </div>
         </header>
+        <!-- Marquesina bajo el menú (inicio, catálogo y ficha): abre WhatsApp para pedir asesoría.
+             Igual que las del inicio: el texto va cuatro veces, el lector de pantalla lee solo el aria-label,
+             y se detiene con el mouse, el teclado, "Pausar movimiento" o si se pidió menos movimiento -->
+        <a class="marquesina marquesina--menu" href="https://wa.me/573158599499?text=Hola%2C%20quiero%20que%20me%20ayuden%20a%20elegir%20un%20perfume" aria-label="Pedir asesoría por WhatsApp para elegir un perfume">
+            <span class="marquesina__pista" aria-hidden="true">
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+                <span class="marquesina__grupo"><span>Asesoría por WhatsApp</span><span class="marquesina__rombo"></span><span>Perfumes originales</span><span class="marquesina__rombo"></span><span>Decants para probar antes del frasco</span><span class="marquesina__rombo"></span><span>Envíos a toda Colombia</span><span class="marquesina__rombo"></span><span>Te ayudamos a elegir</span><span class="marquesina__rombo"></span></span>
+            </span>
+        </a>
 
         <main class="catalogo" id="contenido">
             <!-- 1. Título -->
@@ -155,6 +166,14 @@
                         <label><input type="radio" name="precio" value="medio"> De $[PRECIO] a $[PRECIO]</label>
                         <label><input type="radio" name="precio" value="alto"> Más de $[PRECIO]</label>
                     </fieldset>
+
+                    <!-- Marca: con tantas marcas, un menú desplegable. El JavaScript lo llena con las de js/perfumes.js -->
+                    <div class="filtro-marca">
+                        <label for="filtro-marca">Marca</label>
+                        <select id="filtro-marca" name="marca">
+                            <option value="">Todas las marcas</option>
+                        </select>
+                    </div>
                     </div>
                 </details>
 
