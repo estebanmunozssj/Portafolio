@@ -316,7 +316,9 @@ marcasPorCantidad.forEach(function (marca, i) {
   boton.append(crear('span', 'casa__numero', String(i + 1).padStart(2, '0') + ' / ' + total));
   boton.append(crear('span', 'casa__nombre', marca));
   const n = cuentaMarcas[marca];
-  boton.append(crear('span', 'casa__cuenta', n === 1 ? '1 perfume' : n + ' perfumes'));
+  const textoCuenta = n === 1 ? '1 perfume' : n + ' perfumes';
+  boton.append(crear('span', 'casa__cuenta', textoCuenta));
+  boton.setAttribute('aria-label', marca + ', ' + textoCuenta); // el lector de pantalla dice "Lattafa, 16 perfumes"
   boton.append(crear('span', 'casa__accion', 'Ver perfumes'));
   // El frasco de uno de sus perfumes (el primero que tenga foto recortada)
   const conFrasco = PERFUMES.find(function (p) { return p.marca === marca && p.vitrina; });
@@ -342,24 +344,18 @@ function marcarCasa() {
 formulario.addEventListener('change', marcarCasa);
 formulario.addEventListener('reset', function () { setTimeout(marcarCasa); });
 
-let casasDetenidas = false;
 botonesCasa.forEach(function (boton) {
   boton.addEventListener('click', function () {
-    casasDetenidas = true;
+    detenerCasas(); // ya eligió: las tarjetas se quedan quietas
     // Tocar la marca elegida otra vez la quita
     selectorMarca.value = selectorMarca.value === boton.dataset.marca ? '' : boton.dataset.marca;
     mostrarCatalogo();
     marcarCasa();
     if (selectorMarca.value) {
-      cuenta.scrollIntoView({ behavior: pideQuietudCatalogo() ? 'auto' : 'smooth', block: 'start' });
+      cuenta.scrollIntoView({ behavior: quiereQuietud() ? 'auto' : 'smooth', block: 'start' });
     }
   });
 });
-
-function pideQuietudCatalogo() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-    document.documentElement.classList.contains('sin-movimiento');
-}
 
 // Mueve la fila una tarjeta (paso 1) o una hacia atrás (paso -1). Al llegar al final, vuelve al inicio
 function moverCasas(paso) {
@@ -369,13 +365,13 @@ function moverCasas(paso) {
   let destino = listaCasas.scrollLeft + paso * ancho;
   if (paso > 0 && alFinal) destino = 0;
   if (paso < 0 && alInicio) destino = listaCasas.scrollWidth;
-  listaCasas.scrollTo({ left: destino, behavior: pideQuietudCatalogo() ? 'auto' : 'smooth' });
+  listaCasas.scrollTo({ left: destino, behavior: quiereQuietud() ? 'auto' : 'smooth' });
 }
 
 explorar.querySelectorAll('.explorar__flecha').forEach(function (flecha) {
   flecha.addEventListener('click', function () {
     moverCasas(Number(flecha.dataset.paso));
-    esperarCasas();
+    pausaCasas.pausarUnRato();
   });
 });
 
@@ -388,26 +384,12 @@ listaCasas.addEventListener('scroll', function () {
 }, { passive: true });
 listaCasas.dispatchEvent(new Event('scroll'));
 
-// Avance solo
-let casasPausadas = false;
-let casasAVista = true;
-let esperaCasas = null;
-function pausarCasas() { casasPausadas = true; clearTimeout(esperaCasas); }
-function esperarCasas() {
-  casasPausadas = true;
-  clearTimeout(esperaCasas);
-  esperaCasas = setTimeout(function () { casasPausadas = false; }, 5000);
+// Avance solo, cada 3,5 s. La pausa al tocar (pausaAlTocar) y quiereQuietud() están en js/comun.js
+const pausaCasas = pausaAlTocar(listaCasas, 5000);
+const relojCasas = setInterval(function () {
+  if (pausaCasas.puedeMoverse()) moverCasas(1);
+}, 3500);
+// Al elegir una marca, el reloj se apaga del todo (no queda despertándose cada 3,5 s)
+function detenerCasas() {
+  clearInterval(relojCasas);
 }
-listaCasas.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pausarCasas(); });
-listaCasas.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') esperarCasas(); });
-listaCasas.addEventListener('touchstart', pausarCasas, { passive: true });
-listaCasas.addEventListener('touchend', esperarCasas, { passive: true });
-listaCasas.addEventListener('focusin', pausarCasas);
-listaCasas.addEventListener('focusout', esperarCasas);
-if ('IntersectionObserver' in window) {
-  new IntersectionObserver(function (e) { casasAVista = e[0].isIntersecting; }).observe(listaCasas);
-}
-function avanceCasas() {
-  if (!casasDetenidas && !casasPausadas && casasAVista && !document.hidden && !pideQuietudCatalogo()) moverCasas(1);
-}
-setInterval(avanceCasas, 3500);

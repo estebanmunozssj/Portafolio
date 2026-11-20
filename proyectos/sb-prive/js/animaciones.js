@@ -68,16 +68,14 @@
   }
 
   /* ---------- El kit que se abre ----------
-     Las tres cajitas suben una tras otra, como si salieran del estuche (se destapan de abajo hacia arriba),
-     y después aparece su número */
+     Los tres decants suben uno tras otro, como si salieran del estuche, y aparecen con un fundido.
+     GSAP respeta la inclinación que les da el CSS a los de los lados */
   function abrirKit() {
-    const cajas = gsap.utils.toArray('.kit__caja');
-    if (!cajas.length) return null;
-    gsap.set(cajas, { clipPath: 'inset(100% 0% 0% 0%)', y: 18 });
-    gsap.set(cajas, { color: 'transparent' });
-    return gsap.timeline({ scrollTrigger: { trigger: '.kit__cajas', start: 'top 80%', once: true } })
-      .to(cajas, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.16 })
-      .to(cajas, { clearProps: 'color', duration: 0.01, stagger: 0.16 }, 0.5);
+    const decants = gsap.utils.toArray('.kit__trio img');
+    if (!decants.length) return null;
+    gsap.set(decants, { y: 28, autoAlpha: 0 });
+    return gsap.timeline({ scrollTrigger: { trigger: '.kit__trio', start: 'top 80%', once: true } })
+      .to(decants, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out', stagger: 0.16 });
   }
 
   /* ---------- La evolución del aroma (página del perfume) ----------

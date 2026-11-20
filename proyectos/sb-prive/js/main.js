@@ -50,9 +50,12 @@ const conFrascoRecortado = PERFUMES.filter(function (p) { return p.vitrina; });
 const cajaOtras = document.querySelector('.vitrina__mas');
 const botonOtras = document.querySelector('.vitrina__otras');
 const textoPagina = document.querySelector('.vitrina__pagina');
-const pideQuietud = window.matchMedia('(prefers-reduced-motion: reduce)');
+const enlaceTodos = document.querySelector('.vitrina__todos');
 let grupo = [];
 let pagina = 0;
+let marcaElegida = null;       // la marca elegida, o null si se eligió un aroma
+let barraPendiente = false;    // true: al terminar de cambiar la vitrina, la barra de WhatsApp pide el perfume nuevo
+let esperaCambio = null;
 
 function totalPaginas() {
   return Math.max(1, Math.ceil(grupo.length / botonesFrasco.length));
@@ -72,21 +75,36 @@ function llenarVitrina() {
       foto.src = perfume.vitrina;
     });
     armario.classList.remove('vitrina--cambiando');
-    if (tanda[0]) mostrarPerfume(tanda[0]);
+    if (tanda[0]) {
+      mostrarPerfume(tanda[0]);
+      // La barra se actualiza aquí, justo cuando la vitrina ya cambió (no con un reloj aparte)
+      if (barraPendiente) barraConPerfume(tanda[0]);
+    }
+    barraPendiente = false;
+
+    // "Otras opciones" solo si hay más de una tanda; el contador dice en cuál va
+    const paginas = totalPaginas();
+    botonOtras.hidden = paginas < 2;
+    textoPagina.hidden = paginas < 2;
+    textoPagina.textContent = (pagina + 1) + ' de ' + paginas;
+    // Con una marca elegida: "Ver los 5 de Dior" (en el catálogo están todos, también los que no tienen frasco aquí)
+    const total = marcaElegida ? cuentaTotalMarca[marcaElegida] : 0;
+    enlaceTodos.hidden = !marcaElegida;
+    if (marcaElegida) {
+      enlaceTodos.textContent = (total === 1 ? 'Ver en el catálogo' : 'Ver los ' + total + ' de ' + marcaElegida);
+      enlaceTodos.href = 'catalogo.html?marca=' + encodeURIComponent(marcaElegida);
+    }
+    cajaOtras.hidden = botonOtras.hidden && enlaceTodos.hidden;
   };
-  const quieta = pideQuietud.matches || document.documentElement.classList.contains('sin-movimiento');
-  if (quieta || !armario.dataset.lleno) {
+  // Si ya había un cambio en camino (toques muy seguidos), se reemplaza: solo cuenta el último
+  clearTimeout(esperaCambio);
+  if (quiereQuietud() || !armario.dataset.lleno) {
     cambiar();
   } else {
     armario.classList.add('vitrina--cambiando'); // el CSS desvanece los frascos
-    setTimeout(cambiar, 220);
+    esperaCambio = setTimeout(cambiar, 220);
   }
   armario.dataset.lleno = 'si';
-
-  // "Otras opciones" solo si hay más de una tanda; el contador dice en cuál va
-  const paginas = totalPaginas();
-  cajaOtras.hidden = paginas < 2;
-  textoPagina.textContent = (pagina + 1) + ' de ' + paginas;
 }
 
 // Si la foto recortada de un frasco no carga (por ejemplo, un navegador viejo sin AVIF), usa la foto normal
@@ -159,6 +177,7 @@ function intercalarMarcas(lista) {
 }
 
 function elegirAroma(aroma) {
+  marcaElegida = null;
   marcarEleccion('aroma', aroma);
   grupo = intercalarMarcas(conFrascoRecortado.filter(function (p) { return p.aroma === aroma; }));
   pagina = 0;
@@ -166,16 +185,19 @@ function elegirAroma(aroma) {
 }
 
 function elegirMarca(marca) {
+  marcaElegida = marca;
   marcarEleccion('marca', marca);
   grupo = conFrascoRecortado.filter(function (p) { return p.marca === marca; });
   pagina = 0;
   llenarVitrina();
 }
 
-// Los botones de marca: de la que más perfumes tiene en la vitrina a la que menos.
-// Cada uno muestra cuántos perfumes tiene esa marca (el número pequeño dorado)
+// Los botones de marca: solo las marcas con algún frasco en la vitrina, de la que más perfumes tiene a la que menos.
+// El número pequeño dorado es cuántos perfumes tiene en TODO el catálogo (el mismo número que sale allá)
+const cuentaTotalMarca = {};
+PERFUMES.forEach(function (p) { cuentaTotalMarca[p.marca] = (cuentaTotalMarca[p.marca] || 0) + 1; });
 const cuentaMarcas = {};
-conFrascoRecortado.forEach(function (p) { cuentaMarcas[p.marca] = (cuentaMarcas[p.marca] || 0) + 1; });
+conFrascoRecortado.forEach(function (p) { cuentaMarcas[p.marca] = cuentaTotalMarca[p.marca]; });
 const marcasOrdenadas = Object.keys(cuentaMarcas)
   .sort(function (a, b) { return cuentaMarcas[b] - cuentaMarcas[a] || a.localeCompare(b, 'es'); });
 
@@ -206,57 +228,39 @@ if (botonesMarca.length) document.querySelector('.marcas').hidden = false;
 // - para siempre, en cuanto la persona elige una marca (así la marca elegida no se va de la pantalla);
 // - si la persona pidió menos movimiento, si la fila no está en pantalla o si la pestaña está oculta.
 // La fila sigue siendo un scroll normal: se puede deslizar con el dedo o la rueda del mouse
+// La pausa al tocar (pausaAlTocar) está en js/comun.js: la usan también las tarjetas de marca del catálogo.
+// El cuadro a cuadro (requestAnimationFrame) solo corre mientras la fila se mueve: quieta, no gasta nada
 const VELOCIDAD_MARCAS = 26; // píxeles por segundo
-let marcasPausadas = false;
 let marcasDetenidas = false;
-let marcasAVista = true;
-let pausaMarcas = null;
+let marcasCorriendo = false;
 let posicionMarcas = 0;
 let tiempoAnterior = null;
+const pausaMarcas = botonesMarca.length ? pausaAlTocar(listaMarcas, 3000, arrancarMarcas) : null;
 
-function marcasQuietas() {
-  return marcasDetenidas || marcasPausadas || !marcasAVista || document.hidden ||
-    pideQuietud.matches || document.documentElement.classList.contains('sin-movimiento');
+function arrancarMarcas() {
+  if (marcasCorriendo || marcasDetenidas || !pausaMarcas.puedeMoverse()) return;
+  marcasCorriendo = true;
+  tiempoAnterior = null;
+  posicionMarcas = listaMarcas.scrollLeft; // si la persona la movió, sigue desde ahí
+  requestAnimationFrame(moverMarcas);
 }
 
 function moverMarcas(tiempo) {
-  if (marcasQuietas()) {
-    tiempoAnterior = null;
-    posicionMarcas = listaMarcas.scrollLeft; // si la persona la movió, sigue desde ahí
-  } else {
-    if (tiempoAnterior !== null) {
-      const vuelta = listaMarcas.scrollWidth / 2; // el ancho de una sola vuelta de marcas
-      posicionMarcas += VELOCIDAD_MARCAS * Math.min(tiempo - tiempoAnterior, 100) / 1000;
-      if (posicionMarcas >= vuelta) posicionMarcas -= vuelta;
-      listaMarcas.scrollLeft = posicionMarcas;
-    }
-    tiempoAnterior = tiempo;
+  if (marcasDetenidas || !pausaMarcas.puedeMoverse()) {
+    marcasCorriendo = false; // se detiene; arrancarMarcas la vuelve a poner en marcha
+    return;
   }
+  if (tiempoAnterior !== null) {
+    const vuelta = listaMarcas.scrollWidth / 2; // el ancho de una sola vuelta de marcas
+    posicionMarcas += VELOCIDAD_MARCAS * Math.min(tiempo - tiempoAnterior, 100) / 1000;
+    if (posicionMarcas >= vuelta) posicionMarcas -= vuelta;
+    listaMarcas.scrollLeft = posicionMarcas;
+  }
+  tiempoAnterior = tiempo;
   requestAnimationFrame(moverMarcas);
 }
 
-function pausarMarcas() {
-  marcasPausadas = true;
-  clearTimeout(pausaMarcas);
-}
-function seguirMarcasLuego() {
-  clearTimeout(pausaMarcas);
-  pausaMarcas = setTimeout(function () { marcasPausadas = false; }, 3000);
-}
-
-if (botonesMarca.length) {
-  listaMarcas.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pausarMarcas(); });
-  listaMarcas.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') seguirMarcasLuego(); });
-  listaMarcas.addEventListener('touchstart', pausarMarcas, { passive: true });
-  listaMarcas.addEventListener('touchend', seguirMarcasLuego, { passive: true });
-  listaMarcas.addEventListener('wheel', function () { pausarMarcas(); seguirMarcasLuego(); }, { passive: true });
-  listaMarcas.addEventListener('focusin', pausarMarcas);
-  listaMarcas.addEventListener('focusout', seguirMarcasLuego);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entradas) { marcasAVista = entradas[0].isIntersecting; }).observe(listaMarcas);
-  }
-  requestAnimationFrame(moverMarcas);
-}
+if (pausaMarcas) arrancarMarcas();
 
 /* ---------- 4. Escuchar los toques ---------- */
 // La barra fija de abajo empieza con un mensaje general ("quiero pedir un perfume").
@@ -268,24 +272,22 @@ function barraConPerfume(perfume) {
     barraWhatsApp.href = enlacePedido(perfume);
   }
 }
+// La vitrina tarda un momento en cambiar (se desvanece): la barra se actualiza cuando termina (ver llenarVitrina)
 function barraConElegido() {
-  // La vitrina tarda un momento en cambiar (se desvanece): la barra se actualiza después
-  setTimeout(function () {
-    barraConPerfume(buscarPerfume(document.querySelector('.frasco.activo')?.dataset.id));
-  }, 260);
+  barraPendiente = true;
 }
 
 botonesAroma.forEach(function (boton) {
   boton.addEventListener('click', function () {
-    elegirAroma(boton.dataset.aroma);
     barraConElegido();
+    elegirAroma(boton.dataset.aroma);
   });
 });
 botonesMarca.forEach(function (boton) {
   boton.addEventListener('click', function () {
     marcasDetenidas = true; // ya eligió: la fila se queda quieta
-    elegirMarca(boton.dataset.marca);
     barraConElegido();
+    elegirMarca(boton.dataset.marca);
   });
 });
 
@@ -302,8 +304,8 @@ botonesFrasco.forEach(function (boton) {
 // "Otras opciones": la tanda siguiente; después de la última, vuelve a la primera
 function otrasOpciones(paso) {
   pagina = (pagina + paso + totalPaginas()) % totalPaginas();
-  llenarVitrina();
   barraConElegido();
+  llenarVitrina();
 }
 botonOtras.addEventListener('click', function () { otrasOpciones(1); });
 
@@ -574,14 +576,7 @@ if (seccionRedes && typeof PUBLICACIONES !== 'undefined') {
     });
   }
 
-  // Cuando estén los datos de la cuenta, el usuario y los botones llevan a los perfiles reales
-  if (typeof REDES !== 'undefined') {
-    if (REDES.instagram) {
-      seccionRedes.querySelectorAll('.redes__usuario, .redes__instagram').forEach(function (a) { a.href = REDES.instagram; });
-    }
-    if (REDES.usuario) seccionRedes.querySelector('.redes__usuario').textContent = '@' + REDES.usuario;
-    if (REDES.tiktok) seccionRedes.querySelector('.redes__tiktok').href = REDES.tiktok;
-  }
+  // El usuario y los enlaces a los perfiles los pone js/comun.js con los datos de js/redes.js (igual que en el pie)
 }
 
 /* ---------- "Ver catálogo" dice cuántos perfumes hay ---------- */

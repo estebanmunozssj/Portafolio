@@ -436,32 +436,34 @@ function tarjetaPerfume(p, nivelTitulo) {
 /* ---------- Al cargar cualquier página: el número de la bolsa ---------- */
 pintarBolsa();
 
+/* El botón flotante de WhatsApp (.barra-whatsapp) queda SIEMPRE a la vista, aunque haya otro botón
+   de WhatsApp en pantalla: el cliente lo prefiere así (lo buscaba y no lo encontraba) */
+
 /* =========================================================
-   La barra fija de WhatsApp se esconde cuando ya hay otro botón de WhatsApp a la vista
-   (el de la tarjeta, el de la ficha, "Enviar mi lista"...), y vuelve sola cuando ese botón
-   sale de la pantalla. Así siempre hay UN botón de WhatsApp a mano: nunca cero, nunca dos.
+   El frasco que rocía junto al logo: cada tanto de scroll (unos 260 px, hacia arriba o hacia abajo)
+   se presiona y suelta bruma. Con "Pausar movimiento" o menos movimiento, el CSS lo deja quieto
    ========================================================= */
-function esconderBarraConOtroBoton() {
-  const barra = document.querySelector('.barra-whatsapp');
-  if (!barra || !('IntersectionObserver' in window)) return;
-
-  const otrosBotones = document.querySelectorAll('a[href^="https://wa.me/"]:not(.barra-whatsapp)');
-  const aLaVista = new Set();
-
-  const observador = new IntersectionObserver(function (entradas) {
-    entradas.forEach(function (entrada) {
-      if (entrada.isIntersecting) aLaVista.add(entrada.target);
-      else aLaVista.delete(entrada.target);
-    });
-    const esconder = aLaVista.size > 0;
-    document.body.classList.toggle('con-otro-whatsapp', esconder);
-    barra.inert = esconder; // escondida, tampoco se llega a ella con el teclado
-  }, { rootMargin: '0px 0px -64px 0px' }); // la franja de abajo (donde está la barra) no cuenta
-
-  // Un botón con "hidden" (ej: "Enviar mi lista" con la lista vacía) nunca cuenta como visible
-  otrosBotones.forEach(function (boton) { observador.observe(boton); });
-}
-esconderBarraConOtroBoton();
+(function () {
+  const rocio = document.querySelector('.rocio');
+  if (!rocio) return;
+  let ultimo = window.scrollY;
+  let recorrido = 0;
+  let rociando = false;
+  window.addEventListener('scroll', function () {
+    recorrido += Math.abs(window.scrollY - ultimo);
+    ultimo = window.scrollY;
+    if (recorrido < 260 || rociando) return;
+    recorrido = 0;
+    rociando = true;
+    rocio.classList.remove('rociando');
+    void rocio.offsetWidth; // reinicia la animación aunque la clase acabe de quitarse
+    rocio.classList.add('rociando');
+    setTimeout(function () {
+      rocio.classList.remove('rociando');
+      rociando = false;
+    }, 1300);
+  }, { passive: true });
+})();
 
 /* =========================================================
    Movimiento: la franja de arriba que alterna mensajes y el botón "Pausar movimiento"
@@ -478,9 +480,17 @@ function leerPausa() {
   }
 }
 
-// La clase .sin-movimiento en <html> apaga las partículas de la vitrina (humo.js) y la franja (abajo)
+// ¿Hay que quedarse quieto? Sí si el teléfono pide menos movimiento o la persona tocó "Pausar movimiento".
+// Una sola regla para todo lo que se mueve solo (vitrina, marcas, tarjetas de marca...)
+function quiereQuietud() {
+  return pideMenosMovimiento.matches || document.documentElement.classList.contains('sin-movimiento');
+}
+
+// La clase .sin-movimiento en <html> apaga las partículas de la vitrina (humo.js) y la franja (abajo).
+// Al cambiar, avisa con el evento "cambio-movimiento", para que lo que se mueve solo se detenga o arranque
 function ponerPausa(pausado) {
   document.documentElement.classList.toggle('sin-movimiento', pausado);
+  document.dispatchEvent(new Event('cambio-movimiento'));
   const boton = document.querySelector('.franja__pausa');
   if (boton) {
     boton.setAttribute('aria-pressed', pausado ? 'true' : 'false');
@@ -503,6 +513,68 @@ if (botonPausa) {
   botonPausa.addEventListener('click', function () {
     ponerPausa(!document.documentElement.classList.contains('sin-movimiento'));
   });
+}
+
+pideMenosMovimiento.addEventListener('change', function () {
+  document.dispatchEvent(new Event('cambio-movimiento'));
+});
+
+/* =========================================================
+   Pausa al tocar: para filas que avanzan solas (las marcas del inicio, las tarjetas de marca del catálogo).
+   Se pausan con el mouse encima, al tocarlas con el dedo, con la rueda del mouse o con el teclado,
+   y siguen "espera" milisegundos después. También dice si la fila está en pantalla.
+   alSeguir: se llama cuando vuelve a poder moverse (para arrancar de nuevo lo que se había detenido)
+   ========================================================= */
+function pausaAlTocar(elemento, espera, alSeguir) {
+  const estado = { pausada: false, aLaVista: true };
+  let reloj = null;
+  function avisar() { if (alSeguir) alSeguir(); }
+  function pausar() {
+    estado.pausada = true;
+    clearTimeout(reloj);
+  }
+  function seguirLuego() {
+    clearTimeout(reloj);
+    reloj = setTimeout(function () { estado.pausada = false; avisar(); }, espera);
+  }
+  elemento.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pausar(); });
+  elemento.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') seguirLuego(); });
+  elemento.addEventListener('touchstart', pausar, { passive: true });
+  elemento.addEventListener('touchend', seguirLuego, { passive: true });
+  elemento.addEventListener('wheel', function () { pausar(); seguirLuego(); }, { passive: true });
+  elemento.addEventListener('focusin', pausar);
+  elemento.addEventListener('focusout', seguirLuego);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      estado.aLaVista = entradas[0].isIntersecting;
+      if (estado.aLaVista) avisar();
+    }).observe(elemento);
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) avisar(); });
+  document.addEventListener('cambio-movimiento', avisar);
+  // Para las flechas: pausa un rato, como si la hubieran tocado
+  estado.pausarUnRato = function () { pausar(); seguirLuego(); };
+  // ¿Puede moverse ahora?
+  estado.puedeMoverse = function () {
+    return !estado.pausada && estado.aLaVista && !document.hidden && !quiereQuietud();
+  };
+  return estado;
+}
+
+/* =========================================================
+   Redes: los enlaces de Instagram y TikTok de toda la página (pie y sección "Síguenos")
+   toman los datos de js/redes.js. Mientras estén vacíos, quedan los textos entre corchetes
+   ========================================================= */
+if (typeof REDES !== 'undefined') {
+  if (REDES.instagram) {
+    document.querySelectorAll('a[href="#[URL DE INSTAGRAM]"]').forEach(function (a) { a.href = REDES.instagram; });
+  }
+  if (REDES.tiktok) {
+    document.querySelectorAll('a[href="#[URL DE TIKTOK]"]').forEach(function (a) { a.href = REDES.tiktok; });
+  }
+  if (REDES.usuario) {
+    document.querySelectorAll('.redes__usuario').forEach(function (a) { a.textContent = '@' + REDES.usuario; });
+  }
 }
 
 // Franja: cada 5 segundos pasa al siguiente mensaje, con un fundido (el CSS hace el fundido).

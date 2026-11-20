@@ -36,6 +36,7 @@
         <!-- Primero la lista de perfumes, después lo compartido y al final lo de esta página.
              OJO: aquí NO va main.js, porque busca la vitrina del inicio y esta página no la tiene -->
         <script src="js/perfumes.js" defer></script>
+        <script src="js/redes.js" defer></script>
         <script src="js/comun.js" defer></script>
         <script src="js/catalogo.js" defer></script>
 
@@ -67,6 +68,22 @@
         <header class="encabezado">
             <a href="index.html" class="logo">
                 <img src="img/logo/logo-horizontal-dorado.webp" alt="S. B. Privé, ir al inicio" width="259" height="80">
+                <!-- El frasco que rocía: adorno junto al logo. Al hacer scroll se presiona y suelta bruma (comun.js) -->
+                <span class="rocio" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" focusable="false">
+                        <g class="rocio__boton"><rect x="13" y="5" width="7" height="5" rx="1"/><path d="M20 7.5h2.5"/></g>
+                        <rect x="14.5" y="10" width="4" height="3"/>
+                        <rect x="11.5" y="13" width="10" height="2.4" rx="0.6"/>
+                        <rect x="8" y="15.4" width="17" height="21" rx="3.5"/>
+                        <path class="rocio__liquido" d="M10 26.5h13"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="0.9"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="0.7"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="1"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="0.6"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="0.8"/>
+                        <circle class="rocio__gota" cx="24" cy="7.5" r="0.5"/>
+                    </svg>
+                </span>
             </a>
             <nav class="menu" id="menu" aria-label="Navegación principal">
                 <a href="catalogo.html?tipo=arabes">Árabes</a>
