@@ -2670,6 +2670,209 @@ html {
   color: var(--dorado-claro);
 }
 
+/* Mientras no haya capturas: marcos de ejemplo con la forma de un celular */
+.captura__marco {
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(200, 164, 92, 0.5);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(200, 164, 92, 0.1) 0 14%, transparent 14%), /* la barra de arriba del chat */
+    repeating-linear-gradient(180deg, transparent 0 34px, rgba(255, 255, 255, 0.035) 34px 52px), /* los mensajes */
+    var(--verde);
+  cursor: default;
+}
+
+.captura__aviso {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(7, 24, 16, 0.8);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--dorado-claro);
+}
+
+.captura--ejemplo .captura__texto, .captura--ejemplo .captura__perfume {
+  opacity: 0.6;
+}
+
+/*SÍGUENOS: INSTAGRAM Y TIKTOK*/
+.redes {
+  padding: 56px 16px;
+  background: var(--verde);
+}
+
+.redes__antetitulo {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.redes__titulo {
+  margin-top: 4px;
+  font-family: var(--fuentes-titulos);
+  font-size: var(--t-seccion);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--crema);
+}
+
+.redes__texto {
+  margin-top: 10px;
+  max-width: 34em;
+  color: var(--dorado-claro);
+}
+
+.redes__usuario {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 0;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--crema);
+  text-decoration: underline;
+  text-decoration-color: rgba(200, 164, 92, 0.5);
+  text-underline-offset: 4px;
+}
+
+/* Celular: una fila que se desliza con el dedo. Computador: 6 en fila */
+.redes__lista {
+  margin: 20px -16px 0;
+  padding: 0 16px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 16px;
+  scrollbar-width: none;
+}
+
+.redes__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.redes__lista > li {
+  flex: 0 0 44%;
+  scroll-snap-align: start;
+}
+
+/* Cada publicación: vertical 4:5, como la cuadrícula de Instagram */
+.publicacion {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--verde-oscuro);
+}
+
+.publicacion img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* El ícono de "reproducir" de los reels, arriba a la derecha */
+.publicacion__reel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(7, 24, 16, 0.6);
+}
+
+.publicacion__reel svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--crema);
+}
+
+.publicacion:focus-visible {
+  outline: 2px solid var(--dorado-claro);
+  outline-offset: 2px;
+}
+
+/* Marcos de ejemplo mientras no haya publicaciones */
+.publicacion--ejemplo {
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(200, 164, 92, 0.5);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(200, 164, 92, 0.16), transparent 60%),
+    var(--verde-oscuro);
+}
+
+.publicacion__aviso {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--dorado-claro);
+}
+
+.redes__botones {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.redes__tiktok {
+  align-self: center;
+  padding: 12px 8px;  /* zona de toque cómoda */
+  font-size: 14px;
+  color: var(--dorado-claro);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .publicacion:hover img {
+    transform: scale(1.04);
+  }
+
+  .redes__tiktok:hover, .redes__usuario:hover {
+    color: var(--dorado-claro);
+    text-decoration-color: var(--dorado);
+  }
+}
+
+@media (min-width: 1024px) {
+  .redes {
+    padding: 88px 5vw;
+  }
+
+  .redes__arriba, .redes__lista, .redes__botones {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .redes__lista {
+    margin-top: 28px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+    overflow: visible;
+  }
+
+  .redes__botones {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .redes__instagram {
+    padding: 0 28px;
+  }
+}
+
 /* Puntos de posición: los crea main.js, uno por captura */
 .capturas__puntos {
   display: flex;
@@ -2940,16 +3143,51 @@ html {
   animation-duration: 72s;
 }
 
-/* La de debajo del menú: más delgada y sin filete arriba, para leerse como parte del encabezado */
+/* La de debajo del menú: delgada, con filete dorado arriba y abajo, letra dorada clara
+   y un brillo de luz que la cruza despacio, como un reflejo sobre metal dorado */
 .marquesina--menu {
-  height: 38px;
-  border-top: 0;
+  position: relative;
+  height: 40px;
+  border-top: 1px solid var(--dorado);
+  border-bottom: 1px solid var(--dorado);
+  background: linear-gradient(180deg, #0F2C1E, var(--verde-oscuro));
+  color: var(--dorado-claro);
   font-size: 11px;
   letter-spacing: 0.22em;
 }
 .marquesina--menu .marquesina__grupo {
   gap: 22px;
   padding-right: 22px;
+}
+/* Los rombos de esta franja van rellenos de dorado: se notan más */
+.marquesina--menu .marquesina__rombo {
+  border-color: var(--dorado);
+  background: var(--dorado);
+  opacity: 1;
+}
+/* El reflejo: una franja de luz inclinada que pasa cada 7 s */
+.marquesina--menu::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 35%, rgba(230, 207, 152, 0.16) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: reflejo-dorado 7s ease-in-out 1.5s infinite;
+  pointer-events: none;
+}
+@keyframes reflejo-dorado {
+  0% { transform: translateX(-100%); }
+  35%, 100% { transform: translateX(100%); }
+}
+.sin-movimiento .marquesina--menu::after {
+  animation: none;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquesina--menu::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .marquesina__grupo {

@@ -110,7 +110,10 @@ function mostrarPerfume(perfume) {
   tarjeta.precio.textContent = precioTexto(perfume.precio);
   // El decant de 10 ml o, si no hay, el de 5 ml (tamanoDecant y datosTamano están en js/comun.js)
   const decant = datosTamano(perfume, tamanoDecant(perfume));
-  tarjeta.decant.textContent = decant ? decant.texto + ': ' + precioTexto(decant.precio) : '';
+  if (!decant) tarjeta.decant.textContent = '';
+  // Sin precios, no se repite "Precio por WhatsApp" dos veces: solo se cuenta que también viene en decant
+  else if (decant.precio == null && perfume.precio == null) tarjeta.decant.textContent = 'También en ' + decant.texto.replace('Decant', 'decant de');
+  else tarjeta.decant.textContent = decant.texto + ': ' + precioTexto(decant.precio);
   tarjeta.boton.href = enlacePedido(perfume);
 
   // La luz de la vitrina toma el color del aroma de este perfume (ámbar, verde frío, madera, rojo)
@@ -452,7 +455,8 @@ if (pistaPedidos && masPedidos.length) {
 }
 
 /* ---------- "Ya les llegó": las capturas de los clientes (js/capturas.js) ---------- */
-// Con capturas en la lista, la sección aparece; sin capturas, sigue escondida
+// Con capturas en la lista, salen las capturas. Sin capturas todavía, salen marcos de ejemplo
+// que dicen qué va en cada lugar (nunca reseñas inventadas)
 const seccionCapturas = document.getElementById('ya-les-llego');
 const listaCapturas = typeof CAPTURAS !== 'undefined' ? CAPTURAS.filter(function (c) { return c && c.imagen; }) : [];
 
@@ -514,7 +518,76 @@ if (seccionCapturas && listaCapturas.length) {
   visor.addEventListener('click', function (evento) {
     if (evento.target === visor) visor.close();
   });
+} else if (seccionCapturas) {
+  const carrusel = seccionCapturas.querySelector('.capturas__lista');
+  for (let i = 0; i < 4; i++) {
+    const item = crear('li', 'captura captura--ejemplo');
+    item.setAttribute('aria-hidden', 'true'); // es solo de muestra: el lector de pantalla no lo lee
+    const marco = crear('div', 'captura__abrir captura__marco');
+    marco.append(crear('span', 'captura__aviso', '[Captura de cliente]'));
+    item.append(marco);
+    item.append(crear('p', 'captura__texto', '[Frase corta del cliente]'));
+    item.append(crear('span', 'captura__perfume', '[Perfume que pidió]'));
+    carrusel.append(item);
+  }
+  seccionCapturas.querySelector('.capturas__guia').hidden = true;
 }
+
+/* ---------- "Síguenos": publicaciones de Instagram (js/redes.js) ---------- */
+// Cada publicación es un enlace a Instagram con su portada. Sin publicaciones todavía,
+// salen 6 marcos de ejemplo (reels y fotos) para ver cómo queda
+const seccionRedes = document.getElementById('redes');
+if (seccionRedes && typeof PUBLICACIONES !== 'undefined') {
+  const listaRedes = seccionRedes.querySelector('.redes__lista');
+  const publicaciones = PUBLICACIONES.filter(function (p) { return p && p.imagen && p.enlace; });
+  const iconoReel = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+
+  if (publicaciones.length) {
+    publicaciones.slice(0, 6).forEach(function (p) {
+      const item = crear('li');
+      const enlace = crear('a', 'publicacion' + (p.tipo === 'reel' ? ' publicacion--reel' : ''));
+      enlace.href = p.enlace;
+      enlace.target = '_blank';
+      enlace.rel = 'noopener noreferrer';
+      enlace.setAttribute('aria-label', (p.tipo === 'reel' ? 'Reel: ' : 'Publicación: ') + (p.texto || 'ver en Instagram'));
+      const foto = crear('img');
+      foto.src = p.imagen;
+      foto.alt = '';
+      foto.width = 300;
+      foto.height = 375;
+      foto.loading = 'lazy';
+      foto.addEventListener('error', function () { item.remove(); });
+      enlace.append(foto);
+      if (p.tipo === 'reel') enlace.insertAdjacentHTML('beforeend', '<span class="publicacion__reel">' + iconoReel + '</span>');
+      item.append(enlace);
+      listaRedes.append(item);
+    });
+  } else {
+    ['reel', 'foto', 'reel', 'foto', 'reel', 'foto'].forEach(function (tipo) {
+      const item = crear('li');
+      item.setAttribute('aria-hidden', 'true'); // es solo de muestra
+      const marco = crear('div', 'publicacion publicacion--ejemplo' + (tipo === 'reel' ? ' publicacion--reel' : ''));
+      marco.append(crear('span', 'publicacion__aviso', tipo === 'reel' ? '[Reel]' : '[Publicación]'));
+      if (tipo === 'reel') marco.insertAdjacentHTML('beforeend', '<span class="publicacion__reel">' + iconoReel + '</span>');
+      item.append(marco);
+      listaRedes.append(item);
+    });
+  }
+
+  // Cuando estén los datos de la cuenta, el usuario y los botones llevan a los perfiles reales
+  if (typeof REDES !== 'undefined') {
+    if (REDES.instagram) {
+      seccionRedes.querySelectorAll('.redes__usuario, .redes__instagram').forEach(function (a) { a.href = REDES.instagram; });
+    }
+    if (REDES.usuario) seccionRedes.querySelector('.redes__usuario').textContent = '@' + REDES.usuario;
+    if (REDES.tiktok) seccionRedes.querySelector('.redes__tiktok').href = REDES.tiktok;
+  }
+}
+
+/* ---------- "Ver catálogo" dice cuántos perfumes hay ---------- */
+// Un número concreto ("Ver los 162 perfumes") dice más que "Ver catálogo". Se cuenta solo de js/perfumes.js
+const botonCatalogo = document.querySelector('.inicio__catalogo');
+if (botonCatalogo && PERFUMES.length > 20) botonCatalogo.textContent = 'Ver los ' + PERFUMES.length + ' perfumes';
 
 /* ---------- 9. "Elige por tipo": el precio "desde" sale de la lista ---------- */
 // Cada fila busca el precio más bajo de su tipo. La de Decants busca el decant más barato.
@@ -528,21 +601,29 @@ document.querySelectorAll('.tipo').forEach(function (fila) {
   const desde = fila.querySelector('.tipo__desde');
   if (!desde) return;
   let precios;
+  let cuantos;
   if (fila.getAttribute('href') === '#kit') {
     // La fila de Decants: el decant más barato (de 10 ml o de 5 ml)
     precios = [];
+    cuantos = 0;
     PERFUMES.forEach(function (p) {
       if (p.decant) precios.push(p.decant.precio);
       if (p.decant5) precios.push(p.decant5.precio);
+      if (p.decant || p.decant5) cuantos++;
     });
   } else {
     // Cada fila dice su tipo en data-tipo="arabes" (así no depende de a dónde lleve el enlace)
     const tipo = TIPOS[fila.dataset.tipo];
     if (!tipo) return; // fila nueva que no está en TIPOS: se deja el texto del HTML
-    precios = PERFUMES.filter(function (p) { return p.tipo === tipo; }).map(function (p) { return p.precio; });
+    const delTipo = PERFUMES.filter(function (p) { return p.tipo === tipo; });
+    precios = delTipo.map(function (p) { return p.precio; });
+    cuantos = delTipo.length;
   }
   const minimo = precioMinimo(precios);
-  desde.textContent = minimo == null ? 'Precio por WhatsApp' : 'Desde ' + precioTexto(minimo);
+  // Con precios: "Desde $X". Sin precios: cuántos perfumes hay (decir "Precio por WhatsApp" en las cuatro filas no aporta)
+  if (minimo != null) desde.textContent = 'Desde ' + precioTexto(minimo);
+  else if (cuantos) desde.textContent = cuantos + (cuantos === 1 ? ' perfume' : ' perfumes');
+  else desde.textContent = 'Precio por WhatsApp';
 });
 
 /* =========================================================

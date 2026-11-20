@@ -40,6 +40,7 @@
         <!-- Primero la lista de perfumes y después el código que la usa (defer respeta este orden) -->
         <script src="js/perfumes.js" defer></script>
         <script src="js/capturas.js" defer></script>
+        <script src="js/redes.js" defer></script>
         <script src="js/comun.js" defer></script>
         <script src="js/main.js" defer></script>
         <script src="js/test.js" defer></script>
@@ -445,7 +446,7 @@
             <!-- 7. Ya les llegó: las capturas que mandan los clientes.
                  Las capturas se agregan en js/capturas.js; el JavaScript las pone aquí y muestra la sección.
                  hidden: mientras no haya capturas (o sin JavaScript), la sección no se ve -->
-            <section id="ya-les-llego" hidden>
+            <section id="ya-les-llego">
                  <h2 class="capturas__titulo">Ya les llegó</h2>
                  <p class="capturas__texto">Lo que nos escriben quienes ya recibieron su perfume.</p>
                  <!-- Cada captura: la foto (se toca para verla en grande), una frase y el perfume. Las crea main.js -->
@@ -467,6 +468,22 @@
                     </svg>
                 </button>
             </dialog>
+
+            <!-- Síguenos: reels y publicaciones de Instagram (y TikTok). Las arma main.js con js/redes.js.
+                 Son enlaces a Instagram: la página no carga nada de Instagram -->
+            <section id="redes" class="redes" aria-labelledby="titulo-redes">
+                <div class="redes__arriba">
+                    <p class="redes__antetitulo">Síguenos</p>
+                    <h2 class="redes__titulo" id="titulo-redes">Míralos antes de olerlos</h2>
+                    <p class="redes__texto">Reels de cada perfume y lo que va llegando a la tienda.</p>
+                    <a class="redes__usuario" href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">@[USUARIO DE INSTAGRAM]</a>
+                </div>
+                <ul class="redes__lista"></ul>
+                <div class="redes__botones">
+                    <a class="boton-borde redes__instagram" href="#[URL DE INSTAGRAM]" target="_blank" rel="noopener noreferrer">Seguir en Instagram</a>
+                    <a class="redes__tiktok" href="#[URL DE TIKTOK]" target="_blank" rel="noopener noreferrer">También en TikTok</a>
+                </div>
+            </section>
 
             <!-- Marquesina 2: abre WhatsApp para armar el kit (va en sentido contrario a la primera).
                  Toda la franja es un enlace. El texto va cuatro veces seguidas para que el giro no tenga corte, ni en pantallas muy anchas;
