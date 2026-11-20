@@ -2889,6 +2889,80 @@ html {
   outline-offset: 2px;
 }
 
+/* El reel destacado (el primero): vertical 9:16, del mismo alto que las demás en el celular
+   (las demás miden 44 % de ancho en 4:5 → 55 % de alto; 31 % de ancho en 9:16 da lo mismo) */
+.redes__lista > li.redes__destacado {
+  flex-basis: 31%;
+}
+
+.publicacion--video {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  aspect-ratio: 9 / 16;
+  cursor: pointer;
+}
+
+/* En el reel con video, el ícono de reproducir va grande y al centro: se entiende que es un video */
+.publicacion--video .publicacion__reel {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border: 1px solid rgba(230, 207, 152, 0.7);
+  background: rgba(7, 24, 16, 0.55);
+  transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.publicacion--video .publicacion__reel svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 3px; /* el triángulo se ve centrado */
+}
+
+/* El reproductor del reel: el video vertical en grande, sobre un fondo oscuro */
+.reproductor {
+  max-width: min(92vw, 420px);
+  max-height: 92vh;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.reproductor::backdrop {
+  background: rgba(4, 12, 8, 0.86);
+}
+
+.reproductor__video {
+  display: block;
+  width: 100%;
+  max-height: 88vh;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  background: #000;
+}
+
+/* La X va dentro del video, arriba a la derecha: así nunca queda fuera de la pantalla */
+.reproductor__cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(230, 207, 152, 0.5);
+  border-radius: 50%;
+  background: rgba(7, 24, 16, 0.8);
+  color: var(--crema);
+  cursor: pointer;
+}
+
 /* Marcos de ejemplo mientras no haya publicaciones */
 .publicacion--ejemplo {
   display: grid;
@@ -2925,6 +2999,10 @@ html {
     transform: scale(1.04);
   }
 
+  .publicacion--video:hover .publicacion__reel {
+    transform: scale(1.1);
+  }
+
   .redes__tiktok:hover, .redes__usuario:hover {
     color: var(--dorado-claro);
     text-decoration-color: var(--dorado);
@@ -2942,13 +3020,30 @@ html {
     margin-right: auto;
   }
 
+  /* Computador: el reel ocupa dos filas a la izquierda y las 8 publicaciones van en 4 columnas */
   .redes__lista {
     margin-top: 28px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    /* La primera columna (el reel) es 1,4 veces más ancha: así el reel cabe completo en 9:16
+       al lado de dos filas de publicaciones 4:5 (dos filas de 1,25 de alto ≈ 1,4 × 16/9) */
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 14px;
     overflow: visible;
+  }
+
+  /* Solo si el primero es un reel con video (destacado), su columna es más ancha */
+  .redes__lista:has(> .redes__destacado) {
+    grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr));
+  }
+
+  .redes__lista > li.redes__destacado {
+    grid-row: span 2;
+  }
+
+  .redes__destacado .publicacion--video {
+    height: 100%;
+    aspect-ratio: auto;
   }
 
   .redes__botones {

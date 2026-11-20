@@ -549,29 +549,58 @@ if (seccionCapturas && listaCapturas.length) {
 const seccionRedes = document.getElementById('redes');
 if (seccionRedes && typeof PUBLICACIONES !== 'undefined') {
   const listaRedes = seccionRedes.querySelector('.redes__lista');
-  const publicaciones = PUBLICACIONES.filter(function (p) { return p && p.imagen && p.enlace; });
+  const publicaciones = PUBLICACIONES.filter(function (p) { return p && p.imagen; });
   const iconoReel = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  const perfil = (typeof REDES !== 'undefined' && REDES.instagram) || '#[URL DE INSTAGRAM]';
+  const reproductor = seccionRedes.querySelector('.reproductor');
+  const videoReel = reproductor && reproductor.querySelector('video');
 
   if (publicaciones.length) {
-    publicaciones.slice(0, 6).forEach(function (p) {
+    publicaciones.slice(0, 9).forEach(function (p, i) {
       const item = crear('li');
-      const enlace = crear('a', 'publicacion' + (p.tipo === 'reel' ? ' publicacion--reel' : ''));
-      enlace.href = p.enlace;
-      enlace.target = '_blank';
-      enlace.rel = 'noopener noreferrer';
-      enlace.setAttribute('aria-label', (p.tipo === 'reel' ? 'Reel: ' : 'Publicación: ') + (p.texto || 'ver en Instagram'));
+      const conVideo = p.tipo === 'reel' && p.video && reproductor;
+      // El primero, si es un reel con video, va más grande (vertical, como en Instagram)
+      if (i === 0 && conVideo) item.className = 'redes__destacado';
+      // Reel con video: botón que lo abre aquí mismo. Lo demás: enlace a la publicación (o al perfil)
+      const caja = crear(conVideo ? 'button' : 'a', 'publicacion' + (p.tipo === 'reel' ? ' publicacion--reel' : '') + (conVideo ? ' publicacion--video' : ''));
+      if (conVideo) {
+        caja.type = 'button';
+        caja.setAttribute('aria-label', 'Ver reel: ' + (p.texto || 'S. B. Privé'));
+        caja.addEventListener('click', function () {
+          videoReel.src = p.video;
+          videoReel.poster = p.imagen;
+          reproductor.showModal();
+          videoReel.play().catch(function () {}); // si el navegador no deja reproducir solo, queda el botón de play
+        });
+      } else {
+        caja.href = p.enlace || perfil;
+        caja.target = '_blank';
+        caja.rel = 'noopener noreferrer';
+        caja.setAttribute('aria-label', (p.tipo === 'reel' ? 'Reel: ' : 'Publicación: ') + (p.texto || 'ver en Instagram'));
+      }
       const foto = crear('img');
       foto.src = p.imagen;
       foto.alt = '';
-      foto.width = 300;
-      foto.height = 375;
+      foto.width = conVideo ? 540 : 600;
+      foto.height = conVideo ? 960 : 750;
       foto.loading = 'lazy';
       foto.addEventListener('error', function () { item.remove(); });
-      enlace.append(foto);
-      if (p.tipo === 'reel') enlace.insertAdjacentHTML('beforeend', '<span class="publicacion__reel">' + iconoReel + '</span>');
-      item.append(enlace);
+      caja.append(foto);
+      if (p.tipo === 'reel') caja.insertAdjacentHTML('beforeend', '<span class="publicacion__reel">' + iconoReel + '</span>');
+      item.append(caja);
       listaRedes.append(item);
     });
+
+    // El reproductor se cierra con la X, con Esc o tocando fuera del video; al cerrar, el video se detiene
+    if (reproductor) {
+      reproductor.querySelector('.reproductor__cerrar').addEventListener('click', function () { reproductor.close(); });
+      reproductor.addEventListener('click', function (evento) { if (evento.target === reproductor) reproductor.close(); });
+      reproductor.addEventListener('close', function () {
+        videoReel.pause();
+        videoReel.removeAttribute('src');
+        videoReel.load();
+      });
+    }
   } else if (!new URLSearchParams(location.search).has('ejemplos')) {
     // Sin publicaciones todavía: queda el título, el usuario y los botones a Instagram y TikTok, sin cuadrícula
     listaRedes.hidden = true;

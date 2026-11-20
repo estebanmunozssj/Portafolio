@@ -30,10 +30,14 @@ if (!perfume) {
 function llenarFicha(p) {
   /* ---------- Título de la pestaña y lo que muestra Google ---------- */
   document.title = p.nombre + ' de ' + p.marca + ' | S. B. Privé';
-  const descripcionCorta = (p.descripcion || p.notas || '') + ' En frasco' + (p.decant ? ' y en decant' : '') + '. Pide por WhatsApp.';
+  // Ej: "Eros de Versace, perfume original de diseñador. En frasco y en decant. Pide por WhatsApp, envíos a toda Colombia."
+  const tipoTexto = { 'Árabes': 'árabe', 'Diseñador': 'de diseñador', 'Nicho': 'de nicho' }[p.tipo] || '';
+  const descripcionCorta = p.nombre + ' de ' + p.marca + ', perfume original' + (tipoTexto ? ' ' + tipoTexto : '') + '. ' +
+    (p.descripcion || p.notas ? (p.descripcion || p.notas) + ' ' : '') +
+    'En frasco' + (p.decant ? ' y en decant' : '') + '. Pide por WhatsApp, envíos a toda Colombia.';
   document.querySelector('meta[name="description"]').content = descripcionCorta.trim();
-  // Dirección oficial del sitio. OJO: cuando el cliente tenga su dominio, cambiarla aquí (y en los .html)
-  const SITIO = 'https://estebandev.online/proyectos/sb-prive/';
+  // Dirección oficial del sitio (el dominio del cliente). Si algún día cambia, cambiarla aquí y en los .html
+  const SITIO = 'https://sbprive.com/';
   const direccion = SITIO + 'perfume.html?id=' + encodeURIComponent(p.id);
 
   const canonica = document.createElement('link');
