@@ -175,7 +175,7 @@
                         <span class="tamano__nombre">Decant [ML] ml</span>
                         <span class="tamano__precio">[PRECIO]</span>
                     </label>
-                    <!-- OJO: el decant de 5 ml todavía no está en perfumes.js. Si el cliente no lo vende, se borra esta opción -->
+                    <!-- Decant de 5 ml: solo aparece si el perfume tiene "decant5" en perfumes.js (hoy ninguno; los decants sueltos son de 10 ml) -->
                     <label class="tamano">
                         <input type="radio" name="tamano" value="decant-5">
                         <span class="tamano__nombre">Decant 5 ml</span>
@@ -204,7 +204,7 @@
                     <button class="boton-borde ficha__agregar" type="button" aria-pressed="false">Agregar a mi lista</button>
                 </div>
 
-                <!-- Cuándo llega: el JavaScript calcula las fechas con los días de entrega (falta del cliente) -->
+                <!-- Cuándo llega: el JavaScript calcula las fechas con los días de entrega (ENTREGA en js/comun.js) -->
                 <p class="ficha__entrega">Llega entre el [FECHA] y el [FECHA] si pides hoy antes de las [HORA].</p>
                 <p class="ficha__confianza"><svg class="icono confianza__icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Te respondemos en minutos, de lunes a sábado, de 8:00 a. m. a 5:00 p. m. Pagas solo cuando confirmes.</p>
             </section>
@@ -213,7 +213,7 @@
             <!-- 3. Cómo huele: descripción, pirámide, duración e intensidad -->
             <section class="ficha__aroma" aria-labelledby="titulo-aroma">
                 <h2 id="titulo-aroma">Cómo huele</h2>
-                <!-- OJO: la descripción y los momentos todavía no están en perfumes.js (falta del cliente).
+                <!-- La descripción y los momentos son opcionales en perfumes.js (hoy ningún perfume los tiene).
                      Si un perfume no tiene descripción, se muestra su frase corta de "notas" -->
                 <p class="ficha__descripcion">[DESCRIPCIÓN: dos o tres frases sobre cómo huele y para quién es]</p>
 

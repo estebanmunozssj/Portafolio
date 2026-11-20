@@ -176,7 +176,7 @@
                         <label><input type="radio" name="tipo" value="nicho"> De nicho</label>
                     </fieldset>
 
-                    <!-- OJO: para este filtro, cada perfume de js/perfumes.js necesita el dato "genero" (falta del cliente) -->
+                    <!-- Este filtro usa el dato "genero" de cada perfume en js/perfumes.js -->
                     <fieldset class="filtro">
                         <legend>Para</legend>
                         <label><input type="radio" name="genero" value="" checked> Todos</label>
@@ -192,7 +192,7 @@
                         <label><input type="radio" name="tamano" value="decant"> Decant</label>
                     </fieldset>
 
-                    <!-- OJO: los rangos se ajustan cuando el cliente dé los precios reales -->
+                    <!-- Sin precios en js/perfumes.js, este filtro se esconde solo. Si algún día hay precios, ajustar RANGOS_PRECIO en js/catalogo.js -->
                     <fieldset class="filtro">
                         <legend>Precio</legend>
                         <label><input type="radio" name="precio" value="" checked> Todos</label>

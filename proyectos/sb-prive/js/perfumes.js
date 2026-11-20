@@ -17,10 +17,10 @@
    - duracion: horas que dura en la piel (ej: 8).
    - intensidad: 'Cerca de la piel', 'Media', 'Fuerte' o 'Muy fuerte'.
    - precio: número sin puntos (ej: 350000 → se ve $350.000). null = "Precio por WhatsApp".
-   - decant: { ml: 10, precio: 45000 } o null si no hay decant.
+   - decant: DECANT (10 ml, ver abajo) o null si no hay decant.
    - masPedido: true si va en "Los más pedidos" (solo si de verdad es de los más pedidos).
    - pocasPiezas: true solo si de verdad quedan pocas unidades.
-   - imagen: foto del frasco sin fondo, en img/perfumes/.
+   - imagen: foto del frasco con fondo blanco, en img/perfumes/<marca>/.
 
    Opcionales (si no están, esa parte de la página del perfume no se muestra):
    - descripcion: dos o tres frases sobre cómo huele y para quién es. Si falta, se usa "notas".
@@ -31,12 +31,10 @@
    - color: el color de las partículas que salen del frasco en la vitrina (ej: '#2F5D9E').
      Si no se pone, se saca solo de la foto del frasco; si el frasco es plateado o transparente, sale perla.
 
-   La vitrina del inicio muestra los 6 PRIMEROS perfumes de esta lista (dos repisas de 3).
-   Conviene que entre esos 6 haya al menos uno de cada aroma (Dulce, Fresco, Amaderado, Intenso):
-   si falta alguno, su botón no aparece en la vitrina. El catálogo muestra todos.
-   Campos nuevos:
-   - vitrina: foto del frasco SIN fondo (AVIF, recortada) para las repisas del inicio. La vitrina solo muestra
-     perfumes que la tienen; el catálogo y la ficha usan "imagen" (foto con fondo blanco).
+   La vitrina del inicio muestra los perfumes del aroma o la marca elegida, de a 6, solo los que tienen "vitrina".
+   Si ningún perfume de un aroma tiene "vitrina", su botón no aparece. El catálogo muestra todos.
+   - vitrina: foto del frasco SIN fondo (AVIF, recortada) para las repisas del inicio.
+     El catálogo y la ficha usan "imagen" (foto con fondo blanco).
    - ml: opcional, los mililitros del frasco (ej: 100). Si no está, la página dice solo "Frasco".
    - descripcion, notas, piramide, duracion, intensidad, momentos: opcionales. Si faltan, esa parte no se muestra.
    Fotos: una carpeta por marca en img/perfumes/ (ej: img/perfumes/lattafa/khamrah.jpg).

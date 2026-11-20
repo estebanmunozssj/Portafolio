@@ -680,7 +680,7 @@ input, textarea, select {
   color: var(--crema);
 }
 
-/*BOTÓN FLOTANTE DE WHATSAPP (antes era una barra a lo ancho en el celular).
+/*BOTÓN FLOTANTE DE WHATSAPP.
   Su forma de círculo y su ícono están más abajo, en "2. Botón flotante de WhatsApp" */
 .barra-whatsapp {
   position: fixed;

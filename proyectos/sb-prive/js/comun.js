@@ -329,7 +329,7 @@ function tamanoDeTarjeta(id) {
   return typeof tamanoAlAgregar === 'function' ? tamanoAlAgregar(id) : 'frasco';
 }
 
-// El botón "Agregar a mi lista" de una tarjeta dice si SU tamaño ya está en la lista.
+// El corazón de una tarjeta (o el botón "Agregar a mi lista") dice si SU tamaño ya está en la lista.
 // Así no toca lo que se agregó con otro tamaño desde la página del perfume
 function marcarBotonAgregar(boton) {
   const dentro = estaEnLista(boton.dataset.id, tamanoDeTarjeta(boton.dataset.id));
@@ -344,7 +344,7 @@ function marcarBotonAgregar(boton) {
   boton.textContent = dentro ? 'En mi lista ✓' : 'Agregar a mi lista';
 }
 
-// Un solo oyente para todos los "Agregar a mi lista" de las tarjetas (las tarjetas se crean y se borran).
+// Un solo oyente para todos los corazones de las tarjetas (las tarjetas se crean y se borran).
 // Agrega o quita solo el tamaño de la tarjeta
 document.addEventListener('click', function (evento) {
   const boton = evento.target.closest('.perfume__agregar');
@@ -369,7 +369,7 @@ window.addEventListener('storage', function (evento) {
 
 /* =========================================================
    Tarjeta de un perfume (catálogo y "También te puede gustar")
-   Se arma aquí, en un solo lugar (antes era una plantilla copiada en dos HTML).
+   Se arma aquí, en un solo lugar.
    nivelTitulo: 'h2' en el catálogo; 'h3' donde la sección ya tiene su h2
    Devuelve el <li> listo para poner en una lista .catalogo__lista
    ========================================================= */

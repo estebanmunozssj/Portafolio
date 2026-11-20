@@ -47,7 +47,7 @@
   /* ---------- Puntos de cada perfume ---------- */
   //   Aroma igual: 10 puntos (es lo que más pesa).
   //   Intensidad: hasta 4 puntos, menos cuanto más lejos esté de lo que pidió.
-  //   Momento: 3 puntos, solo si el perfume ya tiene el dato "momentos" (falta del cliente).
+  //   Momento: 3 puntos, solo si el perfume tiene el dato "momentos" (opcional en perfumes.js).
   //   Si empatan, gana el que está entre los más pedidos.
   function puntos(perfume, respuestas) {
     let total = 0;
