@@ -1033,6 +1033,7 @@ button, .boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .tipo, .m
 /* "Otras opciones": recarga la vitrina con 6 perfumes más del mismo aroma o marca */
 .vitrina__mas {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 14px;
@@ -1041,8 +1042,11 @@ button, .boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .tipo, .m
 .vitrina__mas[hidden] {
   display: none;
 }
-/* Con una marca elegida: "Ver los 5 de Dior" (lleva al catálogo con todos los de esa marca) */
+/* Con una marca elegida: "Ver los 5 de Dior" (lleva al catálogo con todos los de esa marca).
+   Va en su propia línea, debajo de "Otras opciones", para que nada se apriete */
 .vitrina__todos {
+  flex-basis: 100%;
+  text-align: center;
   padding: 12px 4px; /* zona de toque cómoda */
   font-size: 14px;
   color: var(--dorado-claro);
@@ -1055,6 +1059,10 @@ button, .boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .tipo, .m
   .vitrina__todos:hover {
     text-decoration-color: var(--dorado);
   }
+}
+
+.vitrina__otras, .vitrina__pagina {
+  white-space: nowrap;
 }
 
 .vitrina__pagina {
@@ -1324,6 +1332,10 @@ button, .boton-whatsapp, .barra-whatsapp, .boton-oscuro, .boton-borde, .tipo, .m
     grid-column: 1;
     justify-content: flex-start;
     padding: 16px 0 0;
+  }
+
+  .vitrina__todos {
+    text-align: left;
   }
   .tarjeta {
     grid-column: 1;
