@@ -19,7 +19,7 @@
     /* ----- 1. Títulos, textos y listas aparecen al llegar a ellos ----- */
     // Los .boton no van aquí: ya tienen su propio efecto al tocarlos
     const aparecen = gsap.utils.toArray(
-      '.seccion h2, .cita-granos, .cita p, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .resenas-nota, .resenas-lista li, .instagram-intro, .lista-experiencias li, .visitanos h2, .datos > div'
+      '.seccion h2, .cita-granos, .cita p, .historia > p, .menu-ayuda, .categorias, .galeria-intro, .galeria-fila li, .resenas-nota, .resenas-lista li, .ig-perfil, .instagram-fotos li, .cafe-ficha, .lista-experiencias li, .visitanos h2, .datos > div'
     );
 
     gsap.set(aparecen, { autoAlpha: 0, y: 28 });
@@ -39,36 +39,33 @@
         }),
     });
 
-    /* ----- 2. Los 4 pasos aparecen y se "iluminan" uno por uno ----- */
-    // Solo si hay pasos (están en la portada, no en menu.html)
+    /* ----- 2. Los pasos aparecen uno por uno y luego entran las fotos del proceso ----- */
+    // Solo si hay pasos (están en la portada, no en menu.html).
+    // Los colores de los pasos NO se animan aquí: los maneja main.js según la foto que estás viendo
     if (document.querySelector('.pasos')) {
       // timeline: encadena animaciones en orden
-      const pasos = gsap.timeline({
-        scrollTrigger: { trigger: '.pasos', start: 'top 85%', once: true },
-      });
-
-      pasos
+      gsap.timeline({ scrollTrigger: { trigger: '.proceso', start: 'top 85%', once: true } })
         .from('.pasos li', {
           autoAlpha: 0,
           y: 16,
           duration: 0.5,
           ease: 'power3.out',
-          stagger: 0.12,
+          stagger: 0.1,
         })
-        .to('.pasos span', {
-          backgroundColor: '#e6bd85',
-          borderColor: '#e6bd85',
-          color: '#3b2418',
-          duration: 0.35,
-          ease: 'power2.out',
-          stagger: 0.25,
-        }, '-=0.2'); // Empieza 0,2 s antes de que termine lo anterior
+        .from('.proceso-fotos li', {
+          autoAlpha: 0,
+          x: 40, // Entran de lado: así se entiende que la fila se desliza
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.08,
+          clearProps: 'opacity,visibility,transform', // Al terminar, devuelve la opacidad al CSS (fotos suaves / activa)
+        }, '-=0.25'); // Empieza 0,25 s antes de que termine lo anterior
     }
 
-    /* ----- 3. El video de la finca y la foto de la fachada se revelan de abajo hacia arriba ----- */
+    /* ----- 3. La foto de la fachada se revela de abajo hacia arriba ----- */
     // inset(100% ...) = foto oculta; inset(0% ...) = foto completa
     // forEach: cada foto tiene su propio trigger y se revela cuando ELLA llega a la pantalla
-    gsap.utils.toArray('.video-finca-clip, .foto-fachada').forEach((foto) => {
+    gsap.utils.toArray('.foto-fachada').forEach((foto) => {
       gsap.fromTo(foto,
         { clipPath: 'inset(100% 0% 0% 0% round 1.25rem)' },
         {
@@ -80,7 +77,12 @@
       );
     });
 
-    /* ----- 4. Parallax en la portada: el logo y la frase bajan más lento que la página ----- */
+  });
+
+  /* ----- 4. Parallax en la portada: el logo y la frase bajan más lento que la página ----- */
+  // Solo en computador: ahí las fotos van al lado. En celular van DEBAJO del texto
+  // y, si el texto bajara, se montaría sobre la foto de la finca
+  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 900px)', () => {
     // Se mueve el bloque completo para que el logo no se monte sobre la frase.
     // scrub: la animación sigue el scroll (si subes, se devuelve)
     // Solo en la portada (index.html): en menu.html no existe y GSAP avisaría en la consola

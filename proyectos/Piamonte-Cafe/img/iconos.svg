@@ -45,6 +45,49 @@
     <path d="M10.6 4.6c3.6 3.8-2.9 8.2.6 14.6" fill="none" stroke="var(--fondo-grano, #3b2418)" stroke-width="1.6" stroke-linecap="round"/>
   </symbol>
 
+  <!-- ===== Pasos del café (sección Historia): de la siembra a tu taza ===== -->
+  <symbol id="paso-siembra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Brote con dos hojas saliendo de la tierra -->
+    <path d="M12 20v-8"/>
+    <path d="M12 12c0-3.6-2.6-5.6-6.5-5.6 0 3.6 2.6 5.6 6.5 5.6z"/>
+    <path d="M12 10c0-3.6 2.6-5.6 6.5-5.6 0 3.6-2.6 5.6-6.5 5.6z"/>
+    <path d="M6 20h12"/>
+  </symbol>
+
+  <symbol id="paso-cosecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Dos cerezas de café colgando de su rama, con una hoja -->
+    <circle cx="8" cy="16.5" r="3.5"/>
+    <circle cx="16" cy="16.5" r="3.5"/>
+    <path d="M8 13c.8-3.8 2.6-6.4 4-8.5M16 13c-.8-3.8-2.6-6.4-4-8.5"/>
+    <path d="M12 4.5c2-1.6 4.8-1.6 7 .4-2.2 1.6-5 1.6-7-.4z"/>
+  </symbol>
+
+  <symbol id="paso-secado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Sol sobre una fila de granos secándose -->
+    <circle cx="12" cy="8.5" r="3.2"/>
+    <path d="M12 2.5v1.2M5.8 8.5H4.6M19.4 8.5h-1.2M7.6 4.1l.9.9M16.4 4.1l-.9.9"/>
+    <ellipse cx="7" cy="16.4" rx="2.1" ry="1.4"/>
+    <ellipse cx="12" cy="16.4" rx="2.1" ry="1.4"/>
+    <ellipse cx="17" cy="16.4" rx="2.1" ry="1.4"/>
+    <path d="M3 20h18"/>
+  </symbol>
+
+  <symbol id="paso-tostion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Grano de café sobre una llama -->
+    <ellipse cx="12" cy="7" rx="3.2" ry="4.4" transform="rotate(35 12 7)"/>
+    <path d="M10.4 4c2.4 1.4.4 4.2 3.2 6"/>
+    <path d="M6 21.5h12"/>
+    <path d="M12 19.5c-2.2 0-3.4-1.2-3.4-2.6 0-1.4 1.2-2 1.8-3 .5.8 1.1 1 1.1 1s.3-.9 1-1.6c.7 1 2.3 2 2.3 3.6 0 1.4-1 2.6-2.8 2.6z"/>
+  </symbol>
+
+  <symbol id="paso-taza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Taza con su vapor y el plato -->
+    <path d="M5 9.5h11.5v4.5a5 5 0 0 1-5 5h-1.5a5 5 0 0 1-5-5z"/>
+    <path d="M16.5 11h1.3a2.4 2.4 0 0 1 0 4.8h-1.5"/>
+    <path d="M3.5 21.5h14.5"/>
+    <path d="M9 2.8c-.9 1.2.9 2.1 0 3.4M12.5 2.8c-.9 1.2.9 2.1 0 3.4"/>
+  </symbol>
+
   <!-- ===== Ilustraciones provisionales de Experiencias (mientras llegan las fotos) ===== -->
   <symbol id="exp-fiesta" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <!-- Dos tazas brindando, con chispas y una nota musical -->

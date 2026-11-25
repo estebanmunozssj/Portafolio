@@ -107,6 +107,7 @@ const FEED_INSTAGRAM = '';
 
 /* =========================================================
    INSTAGRAM EN VIVO (Behold): las últimas 6 publicaciones de @piamonte.cafe
+   Mientras FEED_INSTAGRAM esté vacío, se quedan las 6 fotos fijas del HTML
    Plan gratis de Behold: 1.200 consultas al mes. Para no gastarlas, cada visitante
    guarda el feed 12 horas en su navegador (localStorage) y no lo vuelve a pedir
    ========================================================= */
@@ -153,6 +154,8 @@ const FEED_INSTAGRAM = '';
       // Texto alternativo: el que puso Piamonte en Instagram o, si no hay, el comienzo de la publicación
       img.alt = post.altText || (post.prunedCaption || 'Publicación de Piamonte Café en Instagram').slice(0, 120);
       enlace.appendChild(img);
+      // El mismo ícono que llevan las fotos fijas del HTML (aparece al pasar el mouse)
+      enlace.insertAdjacentHTML('beforeend', '<svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>');
       li.appendChild(enlace);
       lista.appendChild(li);
     });
@@ -182,6 +185,63 @@ const FEED_INSTAGRAM = '';
   });
 })();
 
+/* =========================================================
+   ¿ABIERTO AHORA? (portada)
+   Usa la hora de Colombia aunque quien visita esté en otro país.
+   Si cambia el horario: actualizar AQUÍ, en "Visítanos" (index.html) y en openingHoursSpecification (<head>)
+   ========================================================= */
+
+// Días: 0 = domingo, 1 = lunes ... 6 = sábado. [abre, cierra] en horas de 24 (16 = 4 p. m.). Sin dato = cerrado
+const HORARIO = { 0: [16, 22], 3: [16, 22], 4: [16, 22], 5: [16, 22], 6: [16, 22] };
+
+(() => {
+  const caja = document.getElementById('estado');
+  const texto = document.getElementById('estado-texto');
+  if (!caja || !texto) return;
+
+  const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  const hora12 = (h) => `${h > 12 ? h - 12 : h} ${h < 12 ? 'a. m.' : 'p. m.'}`; // 22 → "10 p. m."
+
+  // Día y hora en Colombia. formatToParts separa la fecha en piezas (día, hora, minuto)
+  function ahoraEnColombia() {
+    const partes = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Bogota', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const pieza = (tipo) => partes.find((p) => p.type === tipo).value;
+    const dia = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(pieza('weekday'));
+    return { dia, hora: Number(pieza('hour')) + Number(pieza('minute')) / 60 }; // 16:30 → 16.5
+  }
+
+  function actualizar() {
+    const { dia, hora } = ahoraEnColombia();
+    const hoy = HORARIO[dia];
+
+    if (hoy && hora >= hoy[0] && hora < hoy[1]) {
+      caja.classList.add('abierto');
+      texto.textContent = `Abierto ahora · hasta las ${hora12(hoy[1])}`;
+    } else {
+      caja.classList.remove('abierto');
+      if (hoy && hora < hoy[0]) {
+        texto.textContent = `Cerrado · abrimos hoy a las ${hora12(hoy[0])}`;
+      } else {
+        // Busca el próximo día que abre (máximo una semana adelante)
+        for (let i = 1; i <= 7; i++) {
+          const siguiente = (dia + i) % 7;
+          if (HORARIO[siguiente]) {
+            const cuando = i === 1 ? 'mañana' : `el ${DIAS[siguiente]}`;
+            texto.textContent = `Cerrado · abrimos ${cuando} a las ${hora12(HORARIO[siguiente][0])}`;
+            break;
+          }
+        }
+      }
+    }
+    caja.hidden = false;
+  }
+
+  actualizar();
+  setInterval(actualizar, 60 * 1000); // Revisa cada minuto: si alguien deja la página abierta, cambia sola a las 4 o a las 10
+})();
+
 /* ===== AÑO DEL PIE DE PÁGINA ===== */
 
 (() => {
@@ -189,21 +249,64 @@ const FEED_INSTAGRAM = '';
   if (anio) anio.textContent = new Date().getFullYear();
 })();
 
-/* ===== VIDEO DE LA COSECHA ===== */
-// Se reproduce solo cuando está en pantalla (ahorra datos y batería) y se pausa al salir.
-// Con "reducir movimiento" activado no se reproduce: queda la imagen de portada.
+/* ===== PROCESO: pasos + carrusel de fotos (sección Historia) =====
+   Al deslizar las fotos: la línea de los pasos se llena y se marca el paso de la foto que ves.
+   Al tocar un paso: la fila se desliza hasta su foto (sin mover la página hacia arriba o abajo) */
 
 (() => {
-  const video = document.querySelector('.video-finca-clip');
-  if (!video || !('IntersectionObserver' in window)) return;
+  const fila = document.getElementById('proceso-fotos');
+  const pasos = document.getElementById('pasos');
+  if (!fila || !pasos) return;
 
+  const fotos = [...fila.children];                 // Los <li> de las fotos
+  const enlaces = [...pasos.querySelectorAll('a')]; // Los pasos (mismo orden que las fotos)
   const quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let pendiente = false;
 
-  new IntersectionObserver(([entrada]) => {
-    if (entrada.isIntersecting && !quieto.matches) {
-      video.play().catch(() => {}); // Si el navegador no deja reproducir, se queda la portada
-    } else {
-      video.pause();
-    }
-  }, { threshold: 0.3 }).observe(video); // 0.3 = cuando se ve al menos el 30 % del video
+  // ¿Qué foto está en el centro de la fila? La que tenga su centro más cerca del centro de la fila
+  function fotoActual() {
+    const centro = fila.scrollLeft + fila.clientWidth / 2;
+    let mejor = 0;
+    fotos.forEach((foto, i) => {
+      const distancia = Math.abs(foto.offsetLeft + foto.offsetWidth / 2 - centro);
+      const distanciaMejor = Math.abs(fotos[mejor].offsetLeft + fotos[mejor].offsetWidth / 2 - centro);
+      if (distancia < distanciaMejor) mejor = i;
+    });
+    return mejor;
+  }
+
+  function actualizar() {
+    pendiente = false;
+    const maximo = fila.scrollWidth - fila.clientWidth;          // Cuánto se puede deslizar en total
+    const avance = maximo > 0 ? Math.min(1, fila.scrollLeft / maximo) : 0;
+    pasos.style.setProperty('--avance', avance.toFixed(3));      // La línea sigue al dedo, sin saltos
+
+    const actual = fotoActual();
+    enlaces.forEach((a, i) => {
+      a.parentElement.classList.toggle('hecho', i < actual);     // Los pasos de antes quedan en caramelo
+      if (i === actual) a.setAttribute('aria-current', 'step');  // El lector de pantalla dice "paso actual"
+      else a.removeAttribute('aria-current');
+    });
+    fotos.forEach((foto, i) => foto.classList.toggle('activa', i === actual));
+  }
+
+  // Igual que la cafetera: máximo una vez por cuadro aunque el deslizado avise muchas veces
+  fila.addEventListener('scroll', () => {
+    if (!pendiente) { pendiente = true; requestAnimationFrame(actualizar); }
+  }, { passive: true });
+  window.addEventListener('resize', actualizar);
+
+  // Tocar un paso: centra su foto. preventDefault evita que el enlace (#paso-...) mueva la página entera
+  enlaces.forEach((a, i) => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const foto = fotos[i];
+      fila.scrollTo({
+        left: foto.offsetLeft - (fila.clientWidth - foto.offsetWidth) / 2,
+        behavior: quieto.matches ? 'auto' : 'smooth',
+      });
+    });
+  });
+
+  actualizar();
 })();

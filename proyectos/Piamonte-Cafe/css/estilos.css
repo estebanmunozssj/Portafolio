@@ -119,19 +119,6 @@ h2 {
     .datos a:hover { color: var(--dorado-suave); }
 }
 
-/* Video de la cosecha: recortado a 4:5 para que no quede tan alto.
-   max-width: en celular ocupa todo el ancho; en computador se queda centrado y no crece de más */
-.video-finca { max-width: 24rem; margin: 2rem auto 0; }
-.video-finca-clip {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: 1.25rem;
-    background: var(--crema-oscura);
-}
-
 /* ===== ENCABEZADO FIJO ===== */
 .encabezado {
     position: fixed;
@@ -260,7 +247,9 @@ h2 {
 .js .portada:not(.lista) .portada-logo,
 .js .portada:not(.lista) .portada-lugar,
 .js .portada:not(.lista) .portada-frase,
-.js .portada:not(.lista) .portada-boton { opacity: 0; }
+.js .portada:not(.lista) .portada-estado,
+.js .portada:not(.lista) .portada-botones,
+.js .portada:not(.lista) .portada-fotos { opacity: 0; }
 
 .lista .lo-grano {
     transform-box: fill-box;
@@ -280,7 +269,20 @@ h2 {
 .lista .lo-cafe { animation: aparecer 500ms var(--ease-out) 1.45s both; }
 .lista .portada-frase { animation: aparecer 500ms var(--ease-out) 1.65s both; }
 .lista .portada-lugar { animation: aparecer 500ms var(--ease-out) 1.73s both; }
-.lista .portada-boton { animation: aparecer 500ms var(--ease-out) 1.81s both; }
+.lista .portada-estado { animation: aparecer 500ms var(--ease-out) 1.81s both; }
+.lista .portada-botones { animation: aparecer 500ms var(--ease-out) 1.89s both; }
+/* Las fotos cierran la entrada: el arco de la finca se descubre de abajo hacia arriba y luego llega la taza */
+.lista .portada-finca { animation: revelar-arco 1s var(--ease-in-out) 1.5s both; }
+.lista .portada-taza { animation: llegar-taza 600ms var(--ease-out) 2.25s both; }
+
+@keyframes revelar-arco {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+@keyframes llegar-taza {
+    from { opacity: 0; transform: translateY(12px) scale(0.7) rotate(-10deg); }
+    to { opacity: 1; transform: none; }
+}
 
 @keyframes caer-grano {
     from { opacity: 0; transform: translateY(-24px) scale(0.6); }
@@ -312,24 +314,80 @@ h2 {
     margin-bottom: 0.6rem;
     text-wrap: balance;
 }
-.portada-boton {
-    margin-top: auto; /* Lo empuja al fondo de la pantalla */
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column;
+/* ----- Aviso de abierto / cerrado (lo llena js/main.js) ----- */
+.portada-estado {
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
+    margin: 1.1rem 0 0;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: #fffaf3;
+    border: 1.5px solid var(--crema-oscura);
+    font-size: 0.88rem;
     font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    text-decoration: none;
 }
-.portada-boton svg { animation: rebote 1.6s var(--ease-in-out) 2.4s 3; } /* Rebota 3 veces y se queda quieta */
+.portada-estado[hidden] { display: none; }
+.estado-punto {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--cafe-suave); /* Cerrado: punto apagado */
+}
+/* Abierto: punto verde con un pulso suave, como una luz encendida */
+.portada-estado.abierto .estado-punto {
+    background: #4f8a3a;
+    box-shadow: 0 0 0 0 rgba(79, 138, 58, 0.5);
+    animation: pulso 2s ease-out infinite;
+}
+@keyframes pulso {
+    to { box-shadow: 0 0 0 0.45rem rgba(79, 138, 58, 0); }
+}
 
-@keyframes rebote {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateX(6px); } /* De lado: la flecha lleva a otra página (el menú) */
+/* ----- Botones: Ver menú (principal) y Cómo llegar (de borde) ----- */
+.portada-botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.4rem;
+}
+.portada-botones .boton { margin-top: 0; display: inline-flex; align-items: center; justify-content: center; }
+/* Celular: uno debajo del otro y del mismo ancho (al lado no caben y quedaban desparejos) */
+@media (max-width: 480px) {
+    .portada-botones { flex-direction: column; align-items: center; }
+    .portada-botones .boton { width: min(100%, 15rem); }
+}
+.boton .icono-final { margin: 0 0 0 0.45em; } /* La flecha va después del texto */
+
+/* ----- Fotos: la finca en arco + la taza en círculo ----- */
+.portada-fotos {
+    position: relative;
+    width: min(74%, 19rem);
+    margin: 2.5rem auto 0;
+}
+.portada-finca {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    /* Arco: arriba un medio círculo (50 % del ancho = 40 % del alto en 4:5), abajo esquinas suaves */
+    border-radius: 50% 50% 1.25rem 1.25rem / 40% 40% 1.25rem 1.25rem;
+    background: var(--crema-oscura);
+}
+.portada-taza {
+    position: absolute;
+    left: -16%;
+    bottom: -7%;
+    width: 44%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--crema); /* Borde del color del fondo: la taza parece "salir" del arco */
+    box-shadow: 0 10px 24px rgba(59, 36, 24, 0.22);
+    background: var(--crema-oscura);
 }
 
 /* ===== MARQUESINA (franja café con mensajes que pasan) ===== */
@@ -372,27 +430,124 @@ h2 {
 }
 
 /* ===== HISTORIA ===== */
+
+/* ----- Proceso: pasos arriba + carrusel de fotos abajo (lo mueve js/main.js) ----- */
+.proceso { margin-top: 2rem; }
+
 .pasos {
+    --avance: 0; /* De 0 (primera foto) a 1 (última): lo cambia main.js al deslizar */
+    position: relative;
     list-style: none;
     padding: 0;
-    margin: 1.75rem 0 0;
+    margin: 0;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(5, 1fr);
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
 }
-.pasos span {
+/* La línea que une los pasos: ::before es el riel vacío, ::after el café que lo va llenando.
+   Va del centro del primer círculo (10 %) al centro del último (90 %); top = la mitad del círculo */
+.pasos::before,
+.pasos::after {
+    content: '';
+    position: absolute;
+    top: calc(2.75rem / 2 - 1.5px);
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--crema-oscura);
+}
+.pasos::after {
+    background: var(--caramelo);
+    transform-origin: left;
+    transform: scaleX(var(--avance));
+}
+/* Cada paso va por encima de la línea. Hace falta en el <li> (no solo en el círculo):
+   la animación de GSAP le deja un transform al <li>, y eso encierra el z-index del círculo */
+.pasos li { position: relative; z-index: 1; }
+.pasos a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    color: var(--cafe-suave);
+    transition: color 200ms ease;
+}
+.paso-circulo {
+    position: relative;
+    z-index: 1; /* Encima de la línea */
     display: grid;
     place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: 0 auto 0.4rem;
+    width: 2.75rem; /* 44 px: cómodo para el dedo */
+    height: 2.75rem;
     border-radius: 50%;
     border: 2px solid var(--caramelo);
+    background: var(--crema); /* Tapa la línea por dentro del círculo */
     color: var(--caramelo-oscuro);
+    transition: background-color 250ms var(--ease-out), border-color 250ms var(--ease-out),
+                color 250ms var(--ease-out), transform 250ms var(--ease-out);
+}
+.paso-circulo svg { width: 1.45rem; height: 1.45rem; }
+/* Pasos por los que ya pasaste: caramelo, como la línea */
+.pasos .hecho .paso-circulo { background: var(--caramelo-claro); border-color: var(--caramelo-claro); color: var(--cafe); }
+/* El paso de la foto que estás viendo: café oscuro y un poco más grande */
+.pasos a[aria-current="step"] { color: var(--cafe); }
+.pasos a[aria-current="step"] .paso-circulo {
+    background: var(--cafe);
+    border-color: var(--cafe);
+    color: var(--crema);
+    transform: scale(1.1);
+}
+.pasos a:active .paso-circulo { transform: scale(0.94); }
+
+/* Fila de fotos que se desliza con el dedo (como la galería), una por paso */
+.proceso-fotos {
+    position: relative; /* main.js mide dónde está cada foto desde aquí */
+    list-style: none;
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain; /* Al llegar al final no "jala" la página ni el gesto de atrás */
+    scrollbar-width: none;
+    margin: 1.5rem calc(var(--margen) * -1) 0; /* Llega hasta el borde de la pantalla */
+    padding: 0 var(--margen) 0.5rem;
+    scroll-padding-inline: var(--margen);
+}
+.proceso-fotos::-webkit-scrollbar { display: none; }
+.proceso-fotos li {
+    flex: none;
+    width: 82%; /* Se ve un pedacito de la siguiente: se entiende que hay más */
+    max-width: 22rem;
+    scroll-snap-align: center;
+    transition: opacity 300ms ease;
+}
+/* Con JavaScript, las fotos que no estás viendo quedan más suaves */
+.js .proceso-fotos li:not(.activa) { opacity: 0.5; }
+.proceso-fotos figure { margin: 0; }
+.proceso-fotos img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    background: var(--crema-oscura);
+}
+.proceso-fotos figcaption {
+    margin-top: 0.75rem;
+    color: var(--cafe-suave);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+.proceso-fotos figcaption strong {
+    display: block;
     font-family: var(--letra-titulo);
+    font-size: 1.2rem;
+    color: var(--cafe);
 }
 .historia-cierre {
     margin-top: 1.75rem;
@@ -401,6 +556,137 @@ h2 {
     font-size: 1.15rem;
     line-height: 1.5;
     color: var(--cafe-suave);
+}
+
+/* ===== NUESTRO CAFÉ (ficha de cata, como la etiqueta de la bolsa) ===== */
+.seccion.cafe-nuestro { padding-top: 0; } /* Sigue a la historia: sin doble espacio entre las dos */
+.cafe-intro { color: var(--cafe-suave); }
+
+.cafe-ficha {
+    position: relative;
+    overflow: hidden; /* La mancha de taza se recorta en la esquina */
+    margin-top: 1.5rem;
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-radius: 1.25rem;
+    background: #fffaf3;
+    border: 1.5px solid var(--crema-oscura);
+    border-top: 6px solid var(--caramelo); /* La franja de color de la etiqueta */
+}
+.cafe-mancha {
+    position: absolute;
+    top: -2.5rem;
+    right: -2.5rem;
+    width: 9rem;
+    height: auto;
+    fill: none;
+    stroke: var(--caramelo);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.18;
+    transform: rotate(-12deg);
+    pointer-events: none;
+}
+.cafe-mancha path + path { stroke-width: 1.5; opacity: 0.7; }
+
+.ficha-cabecera {
+    position: relative; /* Por encima de la mancha */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.ficha-cabecera p { margin: 0; }
+.ficha-etiqueta,
+.ficha-taza dt,
+.ficha-datos dt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--caramelo-oscuro);
+}
+.ficha-tostion {
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background: var(--cafe);
+    color: var(--crema);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Notas de sabor: etiquetas con un punto del color de cada nota */
+.ficha-notas {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+.ficha-notas li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem 0.4rem 0.5rem;
+    border-radius: 999px;
+    background: var(--crema);
+    border: 1.5px solid var(--crema-oscura);
+    font-family: var(--letra-titulo);
+    font-weight: 600;
+    font-size: 1rem;
+}
+.ficha-notas li::before {
+    content: '';
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--nota);
+    box-shadow: inset 0 0 0 1.5px rgba(59, 36, 24, 0.25); /* Borde suave: el chocolate blanco no se pierde en el crema */
+}
+
+/* Cuerpo y acidez: lo más importante de la taza, en grande */
+.ficha-taza {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0 0;
+    padding: 1rem 0;
+    border-block: 1px dashed var(--crema-oscura);
+}
+.ficha-taza dd { margin: 0.15rem 0 0; font-family: var(--letra-titulo); font-weight: 600; font-size: 1.1rem; }
+
+/* Datos de origen, en cuadrícula como la etiqueta */
+.ficha-datos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem 1rem;
+    margin: 1rem 0 0;
+}
+.ficha-datos dd { margin: 0.1rem 0 0; font-weight: 700; }
+.ficha-ancho { grid-column: 1 / -1; }
+
+/* Llévalo a casa: precio y botón al pie de la ficha */
+.ficha-llevar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding: 1.1rem 1.25rem;
+    margin-inline: -1.25rem;
+    margin-bottom: -1.25rem;
+    background: var(--crema-oscura);
+}
+.ficha-llevar p { margin: 0; font-size: 0.92rem; color: var(--cafe-suave); }
+.ficha-llevar strong { display: block; font-family: var(--letra-titulo); font-size: 1.15rem; color: var(--cafe); }
+.ficha-llevar .boton { margin-top: 0; }
+.sin-cortar { white-space: nowrap; } /* "500 g $50.000" siempre en la misma línea */
+
+@media (min-width: 769px) {
+    .cafe-ficha { padding: 2rem 2rem 1.5rem; } /* Los datos siguen en 2 columnas: con 3 se parten la altura y el origen */
+    .ficha-llevar { margin-inline: -2rem; margin-bottom: -1.5rem; padding: 1.25rem 2rem; }
 }
 
 /* ===== FRASE (franja café) ===== */
@@ -760,19 +1046,61 @@ h2 {
     .resenas-lista { grid-template-columns: 1fr 1fr; }
 }
 
-/* ===== INSTAGRAM (fotos en vivo de Behold, las pone js/main.js) ===== */
-.instagram-intro { color: var(--cafe-suave); }
-.instagram-intro strong { color: var(--cafe); }
+/* ===== INSTAGRAM: se ve como el perfil (foto, nombre, botón Seguir y cuadrícula) ===== */
+.ig-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.ig-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0; /* Deja que el texto se encoja en pantallas angostas */
+    text-decoration: none;
+}
+/* Foto de perfil: anillo de caramelo a café (como el de las historias), separado del logo por un borde crema */
+.ig-avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    height: 4.25rem;
+    border-radius: 50%;
+    padding: 3px;
+    background: conic-gradient(from 200deg, var(--caramelo-claro), var(--caramelo), var(--cafe), var(--caramelo-claro));
+}
+.ig-avatar svg {
+    width: 100%;
+    height: 100%;
+    padding: 0.55rem 0.4rem;
+    border-radius: 50%;
+    border: 3px solid var(--crema);
+    background: #fffaf3;
+    overflow: visible;
+}
+.ig-datos { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.ig-datos strong { font-size: 1.05rem; }
+.ig-datos span { font-size: 0.88rem; color: var(--cafe-suave); }
+.ig-seguir { flex: none; margin-top: 0; padding: 0.7rem 1.2rem; }
+
 .instagram-fotos {
     list-style: none;
     padding: 0;
-    margin: 1.5rem 0 0;
+    margin: 1.25rem 0 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Como el perfil de Instagram: 3 por fila */
-    gap: 0.35rem;
+    gap: 0.3rem;
 }
 .instagram-fotos[hidden] { display: none; }
-.instagram-fotos a { display: block; border-radius: 0.6rem; overflow: hidden; }
+.instagram-fotos a {
+    position: relative;
+    display: block;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
 .instagram-fotos img {
     display: block;
     width: 100%;
@@ -780,10 +1108,44 @@ h2 {
     aspect-ratio: 1;
     object-fit: cover;
     background: var(--crema-oscura);
-    transition: transform 300ms var(--ease-out);
+    transition: transform 400ms var(--ease-out);
+}
+/* Velo café con el ícono de Instagram: aparece al pasar el mouse (en celular no hace falta: se toca y ya) */
+.instagram-fotos a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(59, 36, 24, 0.45);
+    opacity: 0;
+    transition: opacity 250ms ease;
+}
+.ig-icono {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 1.9rem;
+    height: 1.9rem;
+    color: var(--crema);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: opacity 250ms ease, transform 250ms var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-    .instagram-fotos a:hover img { transform: scale(1.05); }
+    .instagram-fotos a:hover img { transform: scale(1.06); }
+    .instagram-fotos a:hover::after,
+    .instagram-fotos a:hover .ig-icono { opacity: 1; }
+    .instagram-fotos a:hover .ig-icono { transform: translate(-50%, -50%) scale(1); }
+}
+.instagram-fotos a:focus-visible::after,
+.instagram-fotos a:focus-visible .ig-icono { opacity: 1; } /* Con teclado también se ve */
+
+/* Computador: más ancha y las 6 fotos en una sola franja */
+@media (min-width: 769px) {
+    .seccion.instagram { width: min(100% - var(--margen) * 2, 64rem); }
+    .ig-perfil { justify-content: flex-start; gap: 2rem; }
+    .instagram-fotos { grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 1.5rem; }
+    .instagram-fotos a { border-radius: 0.8rem; }
 }
 
 /* ===== EXPERIENCIAS ===== */
@@ -951,6 +1313,20 @@ h2 {
     .nav-enlaces { gap: 2rem; }
 }
 
+/* ===== PORTADA EN PANTALLA ANCHA: logo y textos a la izquierda, fotos a la derecha ===== */
+@media (min-width: 900px) {
+    .portada {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        column-gap: 3rem;
+        /* El contenido no pasa de ~70rem aunque la pantalla sea enorme */
+        padding-inline: max(var(--margen), (100% - 70rem) / 2);
+    }
+    .portada-fotos { width: min(100%, 24rem); margin: 0 auto; }
+    .portada-taza { left: -20%; }
+}
+
 /* ===== MENÚ EN PANTALLA ANCHA: más espacio para la cuadrícula ===== */
 @media (min-width: 960px) {
     .seccion.menu { width: min(100% - var(--margen) * 2, 64rem); }
@@ -967,7 +1343,9 @@ h2 {
     .lista .menu-logo,
     .lista .portada-frase,
     .lista .portada-lugar,
-    .lista .portada-boton { animation: desvanecer 400ms ease both !important; }
+    .lista .portada-estado,
+    .lista .portada-botones,
+    .lista .portada-fotos { animation: desvanecer 400ms ease both !important; }
     .dibujo { animation: desvanecer 200ms ease !important; }
     .marquesina-pista { width: auto; }
     .marquesina-grupo { flex: 1; min-width: 0; flex-wrap: wrap; justify-content: center; row-gap: 0.4rem; } /* flex: 1 = se ajusta al ancho de la pantalla */

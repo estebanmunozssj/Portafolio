@@ -104,11 +104,28 @@
         </h1>
         <p class="portada-frase">De la finca, directo a tu mesa.</p>
         <p class="portada-lugar">Café 100% colombiano · Yotoco, Valle</p>
+
+        <!-- ¿Abierto o cerrado? Lo calcula js/main.js con la hora de Colombia (lista HORARIO).
+             Sin JavaScript no se muestra (hidden): mejor nada que un dato equivocado -->
+        <p class="portada-estado" id="estado" hidden><span class="estado-punto" aria-hidden="true"></span><span id="estado-texto"></span></p>
+
+        <div class="portada-botones">
+            <a href="menu.html" class="boton">
+                Ver menú
+                <svg class="icono icono-final" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="https://maps.app.goo.gl/hvNeRe5YRefwaEbQ7" class="boton boton-borde" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#ubicacion"/></svg>Cómo llegar</a>
         </div>
-        <a href="menu.html" class="portada-boton">
-            Ver menú
-            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        </div>
+
+        <!-- La frase hecha imagen: la finca (arco grande) → tu mesa (taza en círculo).
+             Es lo primero que se ve: SIN loading="lazy" y con fetchpriority="high" para que cargue rápido -->
+        <div class="portada-fotos">
+            <img class="portada-finca" src="img/finca-casa.jpg" width="662" height="840" fetchpriority="high" decoding="async"
+                 alt="Casa de la finca Piamonte entre montañas verdes en Dopo, Yotoco, con una palma alta al lado">
+            <img class="portada-taza" src="img/capuchino.jpg" width="800" height="800" decoding="async"
+                 alt="Capuchino con arte de flor servido en Piamonte Café">
+        </div>
     </section>
 
     <main id="contenido">
@@ -142,22 +159,107 @@
             <p>En lo profundo de Yotoco nace una pasión que se cultiva grano a grano. Nuestro café viene de nuestra finca <strong>Piamonte, en las montañas de Dopo</strong>: 8 hectáreas que trabajamos con agricultura limpia, en una tierra única por su suelo, su clima y su agua.</p>
             <p>Lo sembramos nosotros mismos y cada grano se cosecha a mano, respetando los tiempos de la naturaleza. Luego lo tostamos y te lo servimos aquí, desde la semilla hasta tu mesa.</p>
 
-            <ol class="pasos">
-                <li><span>1</span>Siembra</li>
-                <li><span>2</span>Cosecha</li>
-                <li><span>3</span>Tostión</li>
-                <li><span>4</span>Tu taza</li>
-            </ol>
+            <!-- ===== PROCESO: los pasos son el carrusel =====
+                 Arriba, los pasos (con su línea que se llena de café). Abajo, una foto por paso que se desliza con el dedo.
+                 Tocar un paso lleva a su foto (js/main.js). Sin JavaScript, los pasos son enlaces y la fila se desliza igual.
+                 Para cambiar una foto: cambia src, width, height y alt en su <li> de "proceso-fotos" -->
+            <div class="proceso" role="region" aria-label="Del cafetal a tu taza">
+                <ol class="pasos" id="pasos">
+                    <li><a href="#paso-siembra"><span class="paso-circulo"><svg aria-hidden="true"><use href="img/iconos.svg#paso-siembra"/></svg></span>Siembra</a></li>
+                    <li><a href="#paso-cosecha"><span class="paso-circulo"><svg aria-hidden="true"><use href="img/iconos.svg#paso-cosecha"/></svg></span>Cosecha</a></li>
+                    <li><a href="#paso-secado"><span class="paso-circulo"><svg aria-hidden="true"><use href="img/iconos.svg#paso-secado"/></svg></span>Secado</a></li>
+                    <li><a href="#paso-tostion"><span class="paso-circulo"><svg aria-hidden="true"><use href="img/iconos.svg#paso-tostion"/></svg></span>Tostión</a></li>
+                    <li><a href="#paso-taza"><span class="paso-circulo"><svg aria-hidden="true"><use href="img/iconos.svg#paso-taza"/></svg></span>Tu taza</a></li>
+                </ol>
 
-            <!-- Clip de 7 s sin sonido, recortado del reel con Camino del Pacífico (sin sus logos).
-                 preload="none": no se descarga hasta que aparece en pantalla (lo maneja main.js) -->
-            <div class="video-finca">
-                <video class="video-finca-clip" src="video/finca-cosecha.mp4" poster="img/finca-cosecha.jpg"
-                       width="540" height="960" muted loop playsinline preload="none"
-                       aria-label="Manos cosechando granos rojos de café en la finca Piamonte, en las montañas de Dopo"></video>
+                <ul class="proceso-fotos" id="proceso-fotos">
+                    <li id="paso-siembra">
+                        <figure>
+                            <img src="img/siembra.jpg" width="709" height="900" loading="lazy" decoding="async"
+                                 alt="Ladera sembrada de cafetales en la finca Piamonte, en las montañas de Dopo">
+                            <figcaption><strong>Siembra</strong>Cafetales en las laderas de Dopo, con agricultura limpia.</figcaption>
+                        </figure>
+                    </li>
+                    <li id="paso-cosecha">
+                        <figure>
+                            <img src="img/finca-cosecha.jpg" width="540" height="960" loading="lazy" decoding="async"
+                                 alt="Manos recogiendo cerezas rojas de café de la rama">
+                            <figcaption><strong>Cosecha</strong>A mano, grano por grano, solo los que ya están maduros.</figcaption>
+                        </figure>
+                    </li>
+                    <li id="paso-secado">
+                        <figure>
+                            <img src="img/secado.jpg" width="800" height="763" loading="lazy" decoding="async"
+                                 alt="Caficultor moviendo con un rastrillo el café que se seca al sol en la finca">
+                            <figcaption><strong>Secado</strong>El grano se seca al sol y lo movemos para que seque parejo.</figcaption>
+                        </figure>
+                    </li>
+                    <li id="paso-tostion">
+                        <figure>
+                            <img src="img/cafe-bolsa.jpg" width="675" height="900" loading="lazy" decoding="async"
+                                 alt="Bolsa de café Piamonte de 500 gramos junto a un molino y una taza con el logo">
+                            <figcaption><strong>Tostión</strong>Lo tostamos en punto medio y lo empacamos con nuestra marca.</figcaption>
+                        </figure>
+                    </li>
+                    <li id="paso-taza">
+                        <figure>
+                            <img src="img/capuchino.jpg" width="800" height="800" loading="lazy" decoding="async"
+                                 alt="Capuchino con una flor dibujada en chocolate sobre la espuma">
+                            <figcaption><strong>Tu taza</strong>Y llega a tu mesa, aquí en Yotoco.</figcaption>
+                        </figure>
+                    </li>
+                </ul>
             </div>
 
             <p class="historia-cierre">Queremos que cuando vengas no solo tomes café: que sientas la historia de nuestra tierra, el esfuerzo de nuestras familias y el orgullo de Yotoco.</p>
+        </section>
+
+        <!-- ===== NUESTRO CAFÉ: ficha de cata, con los datos de la etiqueta de la bolsa (img/cafe-bolsa.jpg).
+             OJO: confirmar los datos con el dueño antes de publicar. Precios: los mismos de js/menu.js ===== -->
+        <section class="seccion cafe-nuestro" id="nuestro-cafe">
+            <h2>A qué sabe nuestro café.</h2>
+            <p class="cafe-intro">Café 100% colombiano de la finca Piamonte. Así lo describimos en la taza:</p>
+
+            <article class="cafe-ficha" aria-label="Ficha de cata del café Piamonte">
+                <!-- Mancha de taza (como cuando apoyas la taza en el papel): solo adorno -->
+                <svg class="cafe-mancha" viewBox="0 0 120 120" aria-hidden="true">
+                    <path d="M60 8c29 1 52 22 52 52 0 28-22 51-51 52C31 113 8 90 8 61 8 31 30 7 60 8z"/>
+                    <path d="M60 15c25 0 45 20 45 45s-19 45-44 46"/>
+                </svg>
+
+                <div class="ficha-cabecera">
+                    <p class="ficha-etiqueta">Perfil de taza</p>
+                    <p class="ficha-tostion">Tostión media</p>
+                </div>
+
+                <!-- Notas: cada una con el color de lo que recuerda (--nota) -->
+                <ul class="ficha-notas" aria-label="Notas de sabor">
+                    <li style="--nota: #efe3c8">Chocolate blanco</li>
+                    <li style="--nota: #c08a4e">Caramelo</li>
+                    <li style="--nota: #f2c38a">Melón</li>
+                    <li style="--nota: #e8892f">Naranja</li>
+                    <li style="--nota: #9a5b2a">Panela</li>
+                </ul>
+
+                <dl class="ficha-taza">
+                    <div><dt>Cuerpo</dt><dd>Cremoso</dd></div>
+                    <div><dt>Acidez</dt><dd>Cítrica y delicada</dd></div>
+                </dl>
+
+                <dl class="ficha-datos">
+                    <div><dt>Variedad</dt><dd>Castillo</dd></div>
+                    <div><dt>Proceso</dt><dd>Lavado</dd></div>
+                    <div class="ficha-ancho"><dt>Origen</dt><dd>Finca Piamonte · Dopo, Yotoco</dd></div>
+                    <!-- &nbsp;: espacio que no deja partir la línea ahí -->
+                    <div class="ficha-ancho"><dt>Altura</dt><dd>1.450 – 1.700&nbsp;m&nbsp;s.&nbsp;n.&nbsp;m.</dd></div>
+                    <div class="ficha-ancho"><dt>Caficultor</dt><dd>Alexander López Zapata</dd></div>
+                </dl>
+
+                <div class="ficha-llevar">
+                    <p><strong>Llévalo a casa</strong>Molido o en grano · <span class="sin-cortar">250 g $25.000</span> · <span class="sin-cortar">500 g $50.000</span></p>
+                    <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero comprar café de la finca" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg>Pedir por WhatsApp</a>
+                </div>
+            </article>
         </section>
 
         <!-- ===== FRASE (de la pizarra de Piamonte) ===== -->
@@ -315,13 +417,53 @@
             <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero información sobre sus experiencias" target="_blank" rel="noopener">Pregunta por WhatsApp</a>
         </section>
 
-        <!-- ===== INSTAGRAM: últimas 6 publicaciones, en vivo (servicio Behold; lo arma js/main.js).
-             Si el feed no está configurado o no carga, solo se ve el botón al perfil ===== -->
+        <!-- ===== INSTAGRAM: se ve como el perfil de Piamonte (foto, nombre y cuadrícula de fotos).
+             Las 6 fotos son nuestras y llevan al perfil. Si algún día se conecta Behold (FEED_INSTAGRAM en js/main.js),
+             main.js cambia estas fotos por las últimas publicaciones en vivo.
+             Para cambiar una foto: cambia src, width, height y alt en su <li> ===== -->
         <section class="seccion instagram" id="instagram">
             <h2>Síguenos en Instagram.</h2>
-            <p class="instagram-intro">Lo último de <strong>@piamonte.cafe</strong></p>
-            <ul class="instagram-fotos" id="instagram-fotos" hidden></ul>
-            <a class="boton" href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>Ver @piamonte.cafe</a>
+
+            <div class="ig-perfil">
+                <a class="ig-cabecera" href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <!-- Foto de perfil: el logo dentro de un anillo caramelo (como las historias de Instagram) -->
+                    <span class="ig-avatar" aria-hidden="true">
+                        <svg viewBox="244 109 1104 774">
+                            <use class="lo-grano" href="img/logo-piamonte.svg#grano-1"/>
+                            <use class="lo-grano" href="img/logo-piamonte.svg#grano-2"/>
+                            <use class="lo-grano" href="img/logo-piamonte.svg#grano-3"/>
+                            <use class="lo-nombre" href="img/logo-piamonte.svg#nombre"/>
+                            <use class="lo-cafe" href="img/logo-piamonte.svg#cafe"/>
+                        </svg>
+                    </span>
+                    <span class="ig-datos">
+                        <strong>piamonte.cafe</strong>
+                        <span>Café de finca · Yotoco, Valle</span>
+                    </span>
+                </a>
+                <a class="boton ig-seguir" href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg>Seguir</a>
+            </div>
+
+            <ul class="instagram-fotos" id="instagram-fotos">
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/passion-coffee.jpg" width="900" height="675" loading="lazy" decoding="async" alt="Passion coffee de Piamonte, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/waffle-hawaiano.jpg" width="900" height="675" loading="lazy" decoding="async" alt="Waffle hawaiano de Piamonte, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/latte-frio.jpg" width="599" height="900" loading="lazy" decoding="async" alt="Latte frío de Piamonte, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/red-velvet.jpg" width="1000" height="855" loading="lazy" decoding="async" alt="Porción de red velvet de Piamonte, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/tres-notas.jpg" width="777" height="764" loading="lazy" decoding="async" style="object-position: center 10%" alt="Tres notas café, soda de maracuyá con espresso, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+                <li><a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener">
+                    <img src="img/luna-serrana.jpg" width="900" height="675" loading="lazy" decoding="async" alt="Luna serrana, croissant con jamón serrano, ver en Instagram">
+                    <svg class="ig-icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a></li>
+            </ul>
         </section>
 
         <!-- ===== VISÍTANOS ===== -->
