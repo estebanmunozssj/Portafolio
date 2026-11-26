@@ -470,6 +470,26 @@ main section h2 {
 }
 .hechos { margin-bottom: 1.5rem; }
 .acciones-caso { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+/* Reel dentro del caso: celular pequeño con borde cian y el texto al lado */
+.caso-reel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.caso-reel video {
+  flex: none;
+  width: 8.5rem;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border: 1.5px solid var(--cian);
+  border-radius: 1rem;
+  background: var(--fondo);
+  box-shadow: 0 0 24px -8px rgba(0, 245, 255, .6);
+}
+.caso-reel p { margin: 0; color: var(--suave); font-size: .95rem; }
+.caso-reel strong { color: var(--texto); font-weight: 500; }
 .hechos li { position: relative; padding: .3rem 0 .3rem 1.5rem; }
 .hechos li::before { content: "✓"; position: absolute; left: 0; color: var(--cian); }
 
@@ -583,6 +603,9 @@ footer {
   font-size: .95rem;
 }
 
+/* Espacio abajo para que el botón flotante de WhatsApp no tape los enlaces del pie */
+footer { padding-bottom: 6rem; }
+
 footer p { 
   margin: 0; 
 }
@@ -601,9 +624,6 @@ footer ul {
   header, main { 
     padding-left: 1.25rem; 
     padding-right: 1.25rem; }
-
-  /* Espacio abajo para que el botón flotante de WhatsApp no tape los enlaces del pie */
-  footer { padding-bottom: 6rem; }
 
   /* La cinta y el carrusel llegan hasta el borde del celular */
   .cinta, .carrusel { margin-left: -1.25rem; margin-right: -1.25rem; }
@@ -639,6 +659,9 @@ footer ul {
   padding-top: 2rem;
 }
 .plan-principal .btn { width: 100%; }
+.plan-redes .btn { width: 100%; }
+/* Sello "Nuevo" en cian para no competir con el flamingo de "Empieza aquí" */
+.sello.sello-nuevo { background: var(--cian); box-shadow: 0 0 16px -2px var(--cian); }
 
 /* Sello flamingo pegado al borde de arriba */
 .sello {
@@ -705,7 +728,44 @@ footer ul {
 
 @media (min-width: 48rem) {
   .planes { grid-template-columns: 1.2fr 1fr; gap: 1.5rem; }
+  .plan-redes { grid-column: 1 / -1; } /* entre 48 y 64rem va abajo, a lo ancho */
   .pasos { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+}
+
+/* En pantallas grandes, los tres planes en una fila */
+@media (min-width: 64rem) {
+  .planes { grid-template-columns: 1.2fr 1fr 1fr; }
+  .plan-redes { grid-column: auto; }
+}
+
+/* Preguntas frecuentes: cada una se abre al tocarla */
+.preguntas { margin-top: 3rem; max-width: 44rem; }
+.preguntas h3 { font-size: 1.4rem; margin: 0 0 1rem; }
+.preguntas details { border-bottom: 1px solid var(--borde); }
+.preguntas summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 56px;
+  cursor: pointer;
+  font-weight: 500;
+  list-style: none; /* quita el triángulo del navegador */
+}
+.preguntas summary::-webkit-details-marker { display: none; }
+/* Un "+" cian que gira y se vuelve "×" al abrir */
+.preguntas summary::after {
+  content: "+";
+  flex: none;
+  color: var(--cian);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 200ms var(--ease-out);
+}
+.preguntas details[open] summary::after { transform: rotate(45deg); }
+.preguntas details p { margin: 0 0 1.25rem; color: var(--suave); }
+@media (hover: hover) and (pointer: fine) {
+  .preguntas summary:hover { color: var(--lima); }
 }
 
 /* ===== Sobre mí ===== */
@@ -749,6 +809,7 @@ footer ul {
 }
 .contacto-caja h2 { margin-bottom: 1rem; }
 .contacto-caja > p:not(.numero-seccion) { color: var(--suave); margin: 0 0 1.5rem; }
+.contacto-caja .red-social { margin: 1.25rem 0 0; font-size: .95rem; color: var(--suave); }
 .contacto-caja a:not(.btn) { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
 
 /* ===== Recorrido: iguanita que camina por el borde derecho según cuánto has bajado ===== */
@@ -834,6 +895,51 @@ footer ul {
 
 .whatsapp-flotante:active { transform: scale(0.95); }
 
+/* ===== Páginas sencillas: privacidad y 404 ===== */
+/* Cabecera con solo el logo y un enlace para volver */
+.cabecera-simple { grid-template-columns: 1fr auto; }
+.volver { display: inline-flex; align-items: center; min-height: 44px; color: var(--suave); font-size: .95rem; }
+@media (hover: hover) and (pointer: fine) {
+  .volver:hover { color: var(--lima); }
+}
+
+/* Privacidad: texto cómodo de leer */
+.pagina-legal { max-width: 44rem; padding-top: 2rem; padding-bottom: 5rem; }
+.pagina-legal h1 { font-size: clamp(2.2rem, 8vw, 3.25rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 .5rem; }
+.pagina-legal .vigencia { color: var(--cian); font-size: .9rem; margin: 0 0 1.5rem; }
+.pagina-legal h2 { font-size: 1.35rem; margin: 2.5rem 0 .75rem; }
+.pagina-legal p, .pagina-legal li { color: var(--suave); }
+.pagina-legal strong { color: var(--texto); font-weight: 500; }
+.pagina-legal ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 1rem; }
+.pagina-legal li { padding: .2rem 0; }
+.pagina-legal li::marker { color: var(--lima); }
+.pagina-legal a:not(.btn) { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.pagina-legal .btn { margin-top: 2rem; }
+
+/* 404: iguana grande y mensaje centrado */
+.pagina-404 {
+  min-height: 70svh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+.iguana-404 {
+  width: min(260px, 70vw);
+  margin-bottom: 1.5rem;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 0 24px rgba(180, 255, 0, .3));
+}
+.iguana-404 svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pagina-404 h1 { font-size: clamp(2.2rem, 8vw, 3.5rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 1rem; max-width: 14em; }
+.pagina-404 > p:not(.numero-seccion) { color: var(--suave); max-width: 32rem; margin: 0 0 2rem; }
+.pagina-404 .acciones { justify-content: center; }
+
+/* Pie: enlace a la política de privacidad */
+.pie-legal a { color: var(--suave); text-decoration: underline; text-underline-offset: .2em; }
+
 /* Movimiento reducido: sin desplazamientos ni escalas,
    pero se conservan los cambios de color y opacidad (ayudan a entender) */
 @media (prefers-reduced-motion: reduce) {
@@ -843,7 +949,7 @@ footer ul {
   #inicio .linea > span,
   #inicio .beneficio, #inicio .quien, #inicio .acciones, #inicio .nota-cta,
   .disponible .punto, #par { animation: none; }
-  .menu, .raya { transition: none; }
+  .menu, .raya, .preguntas summary::after { transition: none; }
   /* La iguanita sigue mostrando el avance, pero sin mover patas ni girar */
   .recorrido.caminando .pata-a, .recorrido.caminando .pata-b,
   .recorrido.caminando .iguanita svg { animation: none; }

@@ -21,7 +21,7 @@
     ['#clientes > *', 60],
     ['.proyectos > .numero-seccion, .proyectos > h2', 60],
     ['.proyectos .carrusel', 60], // el carrusel entero: así las fichas de los lados no quedan ocultas al deslizar
-    ['.servicios-intro > *, .plan, .como-trabajo h3, .pasos li', 60],
+    ['.servicios-intro > *, .plan, .como-trabajo h3, .pasos li, .preguntas h3, .preguntas details', 60],
     ['#sobre-mi > *', 60],
     ['#contacto > *', 60]
   ];

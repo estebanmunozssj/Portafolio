@@ -53,7 +53,7 @@
           "telephone": "+57 314 777 2991",
           "address": { "@type": "PostalAddress", "addressLocality": "Yotoco", "addressRegion": "Valle del Cauca", "addressCountry": "CO" },
           "knowsAbout": ["HTML", "CSS", "JavaScript", "Git"],
-          "sameAs": ["https://github.com/estebanmunozssj"]
+          "sameAs": ["https://github.com/estebanmunozssj", "https://www.instagram.com/estebanssj.dev_/"]
         },
         {
           "@type": "Service",
@@ -69,6 +69,11 @@
             },
             {
               "@type": "Offer",
+              "name": "Reel animado para redes sociales",
+              "priceSpecification": { "@type": "PriceSpecification", "minPrice": 50000, "priceCurrency": "COP" }
+            },
+            {
+              "@type": "Offer",
               "name": "Mantenimiento mensual",
               "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": 50000, "priceCurrency": "COP", "unitText": "mes" }
             }
@@ -79,7 +84,7 @@
     </script>
     <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=23">
+    <link rel="stylesheet" href="css/estilos.css?v=29">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -181,6 +186,11 @@
                     <li>Lista de pedido directo a WhatsApp</li>
                     <li>Dominio propio: sbprive.com</li>
                 </ul>
+                <!-- Reel que le hice para Instagram: no suena solo, la persona le da play -->
+                <div class="caso-reel">
+                    <video src="video/reel-sb-prive.mp4" poster="img/reel-sb-prive.jpg" controls playsinline preload="none" width="540" height="960" aria-label="Reel de Instagram de S. B. Privé que muestra su página web en un celular"></video>
+                    <p><strong>También le hice sus reels</strong> y un carrusel para Instagram, para llevar gente a la página.</p>
+                </div>
                 <!-- Botón principal: pedir una igual. El enlace al sitio queda como secundario para no sacar a la gente de aquí -->
                 <div class="acciones-caso">
                     <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20vi%20la%20p%C3%A1gina%20de%20S.%20B.%20Priv%C3%A9%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Quiero una página así</a>
@@ -280,6 +290,19 @@
                         <li>Ficha en Google</li>
                     </ul>
                 </article>
+
+                <!-- Servicio nuevo: contenido para redes (primera venta: S. B. Privé) -->
+                <article class="plan plan-redes">
+                    <p class="sello sello-nuevo">Nuevo</p>
+                    <h3>Contenido para redes</h3>
+                    <p class="desde">desde <strong>$50.000</strong> <small>por reel</small></p>
+                    <ul class="lista-check">
+                        <li>Reels animados para Instagram, TikTok y estados de WhatsApp</li>
+                        <li>Carruseles que la gente guarda y comparte</li>
+                        <li>Con los colores y el logo de tu negocio</li>
+                    </ul>
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20reels%20para%20mi%20negocio" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Quiero reels para mi negocio</a>
+                </article>
             </div>
 
             <div class="como-trabajo">
@@ -289,6 +312,31 @@
                     <li><span aria-hidden="true">2</span><div><strong>Ves el diseño</strong> Te muestro cómo se verá antes de programarla.</div></li>
                     <li><span aria-hidden="true">3</span><div><strong>Sale en línea</strong> La publico con dominio propio y te enseño a usarla.</div></li>
                 </ol>
+            </div>
+
+            <!-- Preguntas frecuentes: <details> abre y cierra sin JavaScript y funciona con teclado -->
+            <div class="preguntas">
+                <h3>Preguntas frecuentes</h3>
+                <details>
+                    <summary>¿Cuánto tarda mi página?</summary>
+                    <p>Te la entrego en una semana o menos.</p>
+                </details>
+                <details>
+                    <summary>¿Cómo se paga?</summary>
+                    <p>Por transferencia, Nequi, Daviplata o en efectivo. Por ahora no recibo pagos con tarjeta.</p>
+                </details>
+                <details>
+                    <summary>¿Qué te tengo que enviar?</summary>
+                    <p>Tu logo si lo tienes, fotos de tus productos o tu local, lo que vendes con sus precios, tu dirección y horarios, y el número de WhatsApp donde quieres recibir los pedidos.</p>
+                </details>
+                <details>
+                    <summary>¿Puedo cambiar cosas después?</summary>
+                    <p>Sí. Con el plan de mantenimiento cambio precios, fotos y textos cuando lo necesites.</p>
+                </details>
+                <details>
+                    <summary>¿Trabajas solo en Yotoco?</summary>
+                    <p>No. Trabajo con negocios de todo el Valle del Cauca y de Colombia: todo lo coordinamos por WhatsApp.</p>
+                </details>
             </div>
         </section>
 
@@ -315,14 +363,17 @@
                 <h2 id="titulo-contacto">Hablemos de tu negocio</h2>
                 <p>Escríbeme por WhatsApp y en una conversación te digo qué necesitas y cuánto cuesta, sin compromiso. Si tienes una vacante para tu equipo, también puedes escribirme a <a href="mailto:estebanmunozssj@gmail.com">estebanmunozssj@gmail.com</a>.</p>
                 <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
+                <!-- Instagram: ahí muestro trabajos y consejos -->
+                <p class="red-social">Mira mis trabajos y consejos en Instagram: <a href="https://www.instagram.com/estebanssj.dev_/" target="_blank" rel="noopener noreferrer">@estebanssj.dev_</a></p>
             </div>
         </section>
     </main>
     <!--Pie de pagina-->
     <footer>
-        <p>&copy; 2026 Esteban Muñoz</p>
+        <p>&copy; 2026 Esteban Muñoz · <span class="pie-legal"><a href="privacidad.html">Política de privacidad</a></span></p>
         <nav aria-label="Redes sociales">
             <ul>
+                <li><a href="https://www.instagram.com/estebanssj.dev_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
                 <li><a href="https://github.com/estebanmunozssj" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 <!--LinkedIn oculto hasta tener el enlace: <li><a href="https://www.linkedin.com/in/TU-USUARIO" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>-->
                 <li><a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
