@@ -54,6 +54,18 @@
 
 html{
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent; /* sin el destello gris al tocar: cada botón ya tiene su :active */
+    -webkit-text-size-adjust: 100%;           /* el celular no agranda las letras al girarlo */
+}
+
+/* Toque inmediato: el navegador no espera a ver si es doble toque (zoom) */
+a, button { touch-action: manipulation; }
+
+/* Mantener presionado un botón no selecciona su texto (el texto normal sí se puede copiar) */
+.btn, .menu-boton, .flecha, .whatsapp-flotante {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 body {
@@ -274,6 +286,8 @@ main section h2 {
 
 #inicio .beneficio { font-size: 1.15rem; color: var(--texto); max-width: 32rem; margin: 0 0 .5rem; }
 #inicio .quien { color: var(--suave); font-size: .95rem; max-width: 32rem; margin: 0 0 2rem; }
+/* Frase pequeña bajo los botones: quita el miedo a escribir */
+#inicio .nota-cta { margin: .75rem 0 0; font-size: .85rem; color: var(--suave); animation: aparecer 0.7s cubic-bezier(.2, .8, .2, 1) 0.35s both; }
 
 /* En móvil los botones van uno debajo del otro, a lo ancho: se tocan fácil */
 #inicio .acciones { display: grid; }
@@ -361,55 +375,6 @@ main section h2 {
 
 @media (hover: hover) and (pointer: fine) {
   .btn-borde:hover { filter: none; box-shadow: 0 0 18px rgba(0, 245, 255, .35); }
-}
-
- /* Sobre mí */
-/* Imagen a la izquierda y texto a la derecha; en móvil, texto primero */
-#sobre-mi { 
-    display: grid;
-    grid-template-columns: 16rem 1fr; 
-    gap: 3rem; 
-    align-items: center; 
-}
-
-#sobre-mi h2 { 
-    margin-bottom: 1rem;
-}
-
-/* Logo <M>: el mismo de Instagram */
-#sobre-mi .marca-m { 
-    grid-row: 1;
-    grid-column: 1;
-    width: 100%;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    background: var(--acento);
-    color: var(--fondo);
-    border-radius: 1.75rem;
-    font-family: var(--fuente-titulo);
-    font-weight: 700;
-    font-size: 4.5rem;
-    line-height: 1;
-    letter-spacing: -.04em;
-}
-
-#sobre-mi p { 
-    color: var(--texto-suave); 
-    max-width: 35rem; 
-}
-
-/* Habilidades: etiquetas redondeadas */
-#habilidades ul { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: .75rem;
-}
-#habilidades li {
-  background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: 999px;
-  padding: .6rem 1.4rem;
 }
 
 /* Número de sección: "01 / Cliente", "02 / Proyectos"... en letra de código y cian */
@@ -504,6 +469,7 @@ main section h2 {
   color: var(--lima);
 }
 .hechos { margin-bottom: 1.5rem; }
+.acciones-caso { display: flex; flex-wrap: wrap; gap: .75rem; }
 .hechos li { position: relative; padding: .3rem 0 .3rem 1.5rem; }
 .hechos li::before { content: "✓"; position: absolute; left: 0; color: var(--cian); }
 
@@ -553,21 +519,11 @@ main section h2 {
   -webkit-text-stroke: 1.5px var(--lima);
 }
 
-/* Abajo: "Ver código" a la izquierda y botón redondo de flecha a la derecha */
+/* Abajo a la derecha: botón redondo de flecha */
 .enlaces {
   margin-top: auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.enlaces a:first-child {
-  position: relative;
-  z-index: 1; /* queda por encima del enlace que cubre toda la tarjeta */
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  font-size: .9rem;
-  color: var(--suave);
+  justify-content: flex-end;
 }
 .flecha {
   width: 44px;
@@ -581,15 +537,16 @@ main section h2 {
   transition: background-color 200ms ease, color 200ms ease;
 }
 /* El enlace de la flecha se estira sobre toda la tarjeta: tocar cualquier parte abre el sitio */
-.flecha::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.flecha::after { content: ""; position: absolute; inset: 0; border-radius: 1.4rem; } /* mismo radio de la tarjeta */
 .flecha:focus-visible { outline: none; }
 .proyectos article:has(.flecha:focus-visible) { outline: 2px solid var(--lima); outline-offset: 3px; }
+/* Navegadores sin :has(): la flecha muestra su propio contorno */
+@supports not selector(:has(*)) { .flecha:focus-visible { outline: 2px solid var(--lima); outline-offset: 3px; } }
 
 @media (hover: hover) and (pointer: fine) {
   .proyectos article:hover { border-color: var(--cian); transform: translateY(-4px); }
   .proyectos article:hover .marco img { transform: scale(1.03); }
   .proyectos article:hover .flecha { background: var(--cian); color: var(--fondo); }
-  .enlaces a:first-child:hover { color: var(--lima); }
 }
 .proyectos article:active { transform: scale(.99); }
 
@@ -610,19 +567,7 @@ main section h2 {
   .caso .marco { grid-row: 1 / span 7; align-self: start; }
   .caso > :not(.marco) { margin: 0; }
   .caso .tipo { margin-top: .5rem; }
-  .caso .btn { justify-self: start; }
-}
-
-/* Contacto: formulario */
-#contacto { 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr)); 
-    gap: 3rem; 
-    padding-bottom: 6rem; 
-}
-
-#contacto h2 { 
-    margin-bottom: 0; 
+  .acciones-caso { align-self: start; }
 }
 
 /* 6. Pie de página */
@@ -657,6 +602,9 @@ footer ul {
     padding-left: 1.25rem; 
     padding-right: 1.25rem; }
 
+  /* Espacio abajo para que el botón flotante de WhatsApp no tape los enlaces del pie */
+  footer { padding-bottom: 6rem; }
+
   /* La cinta y el carrusel llegan hasta el borde del celular */
   .cinta, .carrusel { margin-left: -1.25rem; margin-right: -1.25rem; }
   .carrusel { padding-left: 1.25rem; padding-right: 1.25rem; scroll-padding: 0 1.25rem; }
@@ -667,64 +615,198 @@ footer ul {
   main section h2 { 
     font-size: 2rem; }
 
-
-  #sobre-mi {
-    grid-template-columns: 1fr;
-    gap: 2rem; }
-
-  #sobre-mi .marca-m {
-    grid-row: auto;
-    grid-column: auto;
-    order: -1;
-    max-width: 9rem;
-    font-size: 2.75rem;
-    border-radius: 1.25rem; }
 }
 
-/* Texto de apoyo junto al título de Contacto */
-#contacto h2 + p { color: var(--texto-suave); max-width: 32ch; margin: 1rem 0 0; }
+/* ===== Servicios ===== */
+.servicios-intro { max-width: 40rem; }
+.servicios-intro h2 { margin-bottom: 1rem; }
+.servicios-intro > p:last-child { color: var(--suave); margin: 0 0 2.5rem; }
 
-#contacto h2 + p a { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.planes { display: grid; gap: 1.25rem; align-items: start; }
 
-/* Servicios: la oferta a la izquierda, lo que incluye a la derecha */
-#servicios {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: 3rem 4rem;
-  align-items: start;
-}
-.servicios-intro p { color: var(--texto-suave); max-width: 34ch; margin: 0 0 1rem; }
-.servicios-intro .btn { margin-top: .75rem; }
-
-/* Precios "desde" en Servicios */
-.precios-desde { margin: .5rem 0 1.25rem; display: grid; gap: .75rem; }
-.precios-desde li { display: flex; flex-direction: column; color: var(--texto-suave); }
-.precios-desde strong { font-size: 1.75rem; font-weight: 600; line-height: 1.15; color: var(--acento); font-variant-numeric: tabular-nums; }
-.precios-desde small { font-size: 1rem; font-weight: 400; color: var(--texto-suave); }
-.servicios-listas h3 { font-size: 1.25rem; margin: 0 0 1rem; }
-.servicios-listas h3 + ul { margin-bottom: 2.5rem; }
-.servicios-listas ul:last-child { margin-bottom: 0; }
-.lista-servicios li {
+.plan {
   position: relative;
-  padding: 0 0 1rem 1.5rem;
-  color: var(--texto-suave);
+  padding: 1.5rem 1.25rem;
+  border: 1px solid var(--borde);
+  border-radius: 1.4rem;
+  background: var(--tarjeta);
 }
-.lista-servicios li::before {
-  content: "";
+.plan h3 { font-size: 1.4rem; margin: 0; }
+/* El plan principal resalta: borde cian con brillo */
+.plan-principal {
+  border: 1.5px solid var(--cian);
+  box-shadow: 0 0 36px -12px rgba(0, 245, 255, .6);
+  padding-top: 2rem;
+}
+.plan-principal .btn { width: 100%; }
+
+/* Sello flamingo pegado al borde de arriba */
+.sello {
   position: absolute;
-  left: 0;
-  top: .6em;
-  width: .6rem;
-  height: 2px;
-  background: var(--acento);
+  top: -.8rem;
+  left: 1.25rem;
+  margin: 0;
+  padding: .2rem .8rem;
+  border-radius: 999px;
+  background: var(--flamingo);
+  color: var(--fondo);
+  font-size: .8rem;
+  font-weight: 500;
+  box-shadow: 0 0 16px -2px var(--flamingo);
 }
-.lista-servicios strong { display: block; color: var(--texto); font-weight: 500; }
 
-/* Botón de WhatsApp en Contacto */
-#contacto h2 + p + .btn { margin-top: 1.5rem; }
+/* Precio grande en lima */
+.desde { margin: .4rem 0 1.25rem; color: var(--suave); font-size: .9rem; }
+.desde strong {
+  margin: 0 .3rem;
+  font-family: var(--fuente-titulo);
+  font-weight: 800;
+  font-size: 2.3rem;
+  letter-spacing: -.02em;
+  color: var(--lima);
+  font-variant-numeric: tabular-nums;
+}
 
-@media (max-width: 40rem) {
-  #servicios { grid-template-columns: 1fr; gap: 2.5rem; }
+/* Listas con chulito */
+.lista-check { margin-bottom: 1.5rem; }
+.lista-check li { position: relative; padding: .35rem 0 .35rem 1.6rem; }
+.lista-check li::before { content: "✓"; position: absolute; left: 0; color: var(--lima); }
+.plan:not(.plan-principal) .lista-check { margin-bottom: 1.25rem; }
+.plan h4 { margin: 0 0 .75rem; font-size: .95rem; font-weight: 500; color: var(--suave); }
+
+/* Etiquetas redondeadas (servicios extra y habilidades) */
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips li {
+  padding: .4rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--fondo);
+  font-size: .9rem;
+}
+
+/* Así trabajamos: 3 pasos con número en recuadro flamingo */
+.como-trabajo { margin-top: 3rem; }
+.como-trabajo h3 { font-size: 1.4rem; margin: 0 0 1.25rem; }
+.pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.pasos li { display: grid; grid-template-columns: 2.75rem 1fr; gap: 1rem; align-items: start; color: var(--suave); }
+.pasos span {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--flamingo);
+  border-radius: .8rem;
+  color: var(--flamingo);
+  font-family: var(--fuente-titulo);
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+.pasos strong { display: block; color: var(--texto); font-weight: 500; }
+
+@media (min-width: 48rem) {
+  .planes { grid-template-columns: 1.2fr 1fr; gap: 1.5rem; }
+  .pasos { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+}
+
+/* ===== Sobre mí ===== */
+#sobre-mi > p:not(.numero-seccion) { color: var(--suave); max-width: 38rem; margin: 0 0 1.5rem; }
+#sobre-mi h2 { margin-bottom: 1rem; }
+
+/* Enlace a GitHub debajo de las habilidades */
+.enlace-github {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 1rem;
+  color: var(--cian);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+@media (hover: hover) and (pointer: fine) {
+  .enlace-github:hover { color: var(--lima); }
+}
+
+/* Título que leen los lectores de pantalla pero no se ve */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ===== Contacto: recuadro con brillo cian ===== */
+#contacto { padding-bottom: 6rem; }
+.contacto-caja {
+  max-width: 44rem;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--cian);
+  border-radius: 1.5rem;
+  background: var(--tarjeta);
+  box-shadow: 0 0 40px -14px rgba(0, 245, 255, .55);
+}
+.contacto-caja h2 { margin-bottom: 1rem; }
+.contacto-caja > p:not(.numero-seccion) { color: var(--suave); margin: 0 0 1.5rem; }
+.contacto-caja a:not(.btn) { color: var(--texto); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+
+/* ===== Recorrido: iguanita que camina por el borde derecho según cuánto has bajado ===== */
+/* js/recorrido.js pone --avance (de 0 a 1) y las clases .visible, .caminando y .subiendo */
+.recorrido {
+  --avance: 0;
+  position: fixed;
+  top: 5.5rem;
+  bottom: 7.5rem;    /* termina antes del botón de WhatsApp (la iguana sobresale media cabeza) */
+  right: 1rem; /* la iguana mide 22 px: así no se corta en el borde */
+  width: 2px;
+  border-radius: 2px;
+  background: var(--borde);
+  z-index: 900;
+  pointer-events: none; /* no estorba: los toques pasan a lo que hay debajo */
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.recorrido.visible { opacity: 1; }
+
+/* La parte ya recorrida se pinta de lima */
+.recorrido-relleno {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lima);
+  box-shadow: 0 0 8px var(--lima);
+  transform-origin: top;
+  transform: scaleY(var(--avance));
+}
+
+.iguanita {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--avance) * 100%);
+  width: 22px;
+  height: 44px;
+  margin: -22px 0 0 -11px; /* centra la iguana sobre su punto de la línea */
+  transition: transform 250ms var(--ease-out);
+  filter: drop-shadow(0 0 6px rgba(180, 255, 0, .45));
+}
+.iguanita svg { display: block; }
+/* Si subes, se voltea y camina hacia arriba */
+.recorrido.subiendo .iguanita { transform: rotate(180deg); }
+
+/* Patas */
+.iguanita path:not([fill]):not([stroke]) { stroke: #7FB800; stroke-width: 2.4; stroke-linecap: round; }
+.pata-a, .pata-b { transform-box: view-box; }
+
+/* Al caminar: las patas se mueven por parejas cruzadas y el cuerpo se menea un poquito */
+.recorrido.caminando .pata-a { animation: paso 280ms ease-in-out infinite alternate; }
+.recorrido.caminando .pata-b { animation: paso 280ms ease-in-out infinite alternate-reverse; }
+.recorrido.caminando .iguanita svg { animation: meneo 280ms ease-in-out infinite alternate; }
+@keyframes paso { from { transform: translateY(-1.6px); } to { transform: translateY(1.6px); } }
+@keyframes meneo { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+
+@media (min-width: 48rem) {
+  .recorrido { right: .9rem; top: 7rem; }
 }
 
 .whatsapp-flotante {
@@ -759,9 +841,13 @@ footer ul {
 
   /* Hero: el título y los textos aparecen ya en su sitio; la iguana no parpadea */
   #inicio .linea > span,
-  #inicio .beneficio, #inicio .quien, #inicio .acciones,
+  #inicio .beneficio, #inicio .quien, #inicio .acciones, #inicio .nota-cta,
   .disponible .punto, #par { animation: none; }
   .menu, .raya { transition: none; }
+  /* La iguanita sigue mostrando el avance, pero sin mover patas ni girar */
+  .recorrido.caminando .pata-a, .recorrido.caminando .pata-b,
+  .recorrido.caminando .iguanita svg { animation: none; }
+  .iguanita { transition: none; }
 
   .btn { transition: filter 150ms ease, border-color 150ms ease; }
   .proyectos article { transition: border-color 200ms ease; }

@@ -1,4 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#0E1220"/>
-  <path d="M10 7h13v4h-8.5v3.5H22v4h-7.5V21H23v4H10z" fill="#C6F24E"/>
+  <!-- Ícono de la pestaña: la cabeza de la iguana sobre el fondo del sitio -->
+  <rect width="32" height="32" rx="7" fill="#0A0A12"/>
+  <g transform="translate(-4 -0.6) scale(0.1)">
+    <path d="M70 150 L112 126 L152 110 L192 102 L214 70 L232 104 L256 78 L268 118 L296 94 L304 134 L330 120 L322 170 L296 214 L240 232 L180 214 L128 192 L78 168 Z" fill="#B4FF00"/>
+    <path d="M78 168 L128 192 L180 214 L240 232 L296 214 L322 170 L280 190 L200 186 L130 172 Z" fill="#7FB800"/>
+    <path d="M138 196 L176 208 L152 262 Z" fill="#FF2ED1"/>
+    <path d="M134 142 L153 131 L172 142 L153 150 Z" fill="#00F5FF"/>
+  </g>
 </svg>

@@ -14,23 +14,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--SEO basico: titulos unico y descripcion de 150 caracteres-->
-    <title>Esteban Muñoz | Desarrollador Web Frontend</title>
-    <meta name="description" content="Portafolio de Esteban Muñoz, desarrollador web frontend. Páginas web a la medida para negocios locales, hechas con HTML, CSS y JavaScript.">
+    <title>Páginas web para negocios del Valle del Cauca | Esteban DEV</title>
+    <meta name="description" content="Páginas web a la medida para negocios del Valle del Cauca: menú o catálogo, ubicación y pedidos por WhatsApp. Hechas por Esteban Muñoz. Cotización gratis.">
+    <!--Dirección oficial de esta página: evita que Google la vea duplicada-->
+    <link rel="canonical" href="https://estebandev.online/">
     <meta name="author" content="Esteban Muñoz">
     <!--Open graph: vista previa al compartir en redes sociales-->
-    <meta property="og:title" content="Esteban Muñoz | Desarrollador Web Frontend">
-    <meta property="og:description" content="Mira mis proyectos y escríbeme.">
+    <meta property="og:title" content="Páginas web para negocios locales | Esteban DEV">
+    <meta property="og:description" content="Páginas web para negocios locales: menú o catálogo, ubicación y pedidos por WhatsApp. Mira mis trabajos y escríbeme.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://estebandev.online/">
     <meta property="og:locale" content="es_CO">
-    <meta property="og:image" content="https://estebandev.online/img/compartir.jpg">
+    <meta property="og:image" content="https://estebandev.online/img/compartir.jpg?v=2">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Esteban DEV: páginas web a la medida para negocios locales, Yotoco, Valle del Cauca">
+    <meta property="og:image:alt" content="Esteban DEV: páginas web a la medida para negocios locales, con la iguana lima de su logo">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="icon/favicon.svg" type="image/svg+xml">
+    <!--Datos estructurados: le explican a Google quién soy y qué servicio ofrezco (deben coincidir con lo que se ve en la página)-->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://estebandev.online/#sitio",
+          "name": "Esteban DEV",
+          "url": "https://estebandev.online/",
+          "inLanguage": "es-CO"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://estebandev.online/#esteban",
+          "name": "Esteban Muñoz",
+          "jobTitle": "Desarrollador web",
+          "url": "https://estebandev.online/",
+          "image": "https://estebandev.online/img/compartir.jpg",
+          "email": "mailto:estebanmunozssj@gmail.com",
+          "telephone": "+57 314 777 2991",
+          "address": { "@type": "PostalAddress", "addressLocality": "Yotoco", "addressRegion": "Valle del Cauca", "addressCountry": "CO" },
+          "knowsAbout": ["HTML", "CSS", "JavaScript", "Git"],
+          "sameAs": ["https://github.com/estebanmunozssj"]
+        },
+        {
+          "@type": "Service",
+          "name": "Páginas web a la medida para negocios locales",
+          "serviceType": "Diseño y desarrollo de páginas web",
+          "provider": { "@id": "https://estebandev.online/#esteban" },
+          "areaServed": { "@type": "AdministrativeArea", "name": "Valle del Cauca, Colombia" },
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Página web",
+              "priceSpecification": { "@type": "PriceSpecification", "minPrice": 500000, "priceCurrency": "COP" }
+            },
+            {
+              "@type": "Offer",
+              "name": "Mantenimiento mensual",
+              "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": 50000, "priceCurrency": "COP", "unitText": "mes" }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=16">
+    <link rel="stylesheet" href="css/estilos.css?v=23">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -85,6 +134,7 @@
                     <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Quiero mi página</a>
                     <a href="#proyectos" class="btn btn-borde">Ver trabajos</a>
                 </div>
+                <p class="nota-cta">Cotización gratis y sin compromiso.</p>
             </div>
             <!-- Iguana: mi logo. El ojo sigue el dedo o el ratón (js/iguana.js) -->
             <div class="iguana">
@@ -131,7 +181,11 @@
                     <li>Lista de pedido directo a WhatsApp</li>
                     <li>Dominio propio: sbprive.com</li>
                 </ul>
-                <a href="https://sbprive.com/" class="btn" target="_blank" rel="noopener noreferrer">Visitar sbprive.com ↗</a>
+                <!-- Botón principal: pedir una igual. El enlace al sitio queda como secundario para no sacar a la gente de aquí -->
+                <div class="acciones-caso">
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20vi%20la%20p%C3%A1gina%20de%20S.%20B.%20Priv%C3%A9%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Quiero una página así</a>
+                    <a href="https://sbprive.com/" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Visitar sbprive.com ↗</a>
+                </div>
             </article>
         </section>
 
@@ -151,7 +205,6 @@
                         <h3>Piamonte Cafe</h3>
                         <p>Menú, ubicación y reservas por WhatsApp para un café real.</p>
                         <div class="enlaces">
-                            <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Piamonte-Cafe" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Piamonte Cafe en GitHub">Ver código</a>
                             <a href="proyectos/Piamonte-Cafe/index.html" class="flecha" aria-label="Ver el sitio de Piamonte Cafe">↗</a>
                         </div>
                     </article>
@@ -167,7 +220,6 @@
                         <h3>Hospedaje Rey de los Vientos</h3>
                         <p>Diseño propuesto para un hospedaje: tarifas por habitación, lugares cercanos y reserva directa.</p>
                         <div class="enlaces">
-                            <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Hotel-Rey-de-los-Vientos" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Hospedaje Rey de los Vientos en GitHub">Ver código</a>
                             <a href="proyectos/Hotel-Rey-de-los-Vientos/index.html" class="flecha" aria-label="Ver el sitio de Hospedaje Rey de los Vientos">↗</a>
                         </div>
                     </article>
@@ -183,7 +235,6 @@
                         <h3>Cuchilla Urbana</h3>
                         <p>Servicios con reserva por WhatsApp, galería de cortes y productos.</p>
                         <div class="enlaces">
-                            <a href="https://github.com/estebanmunozssj/Portafolio/tree/main/proyectos/Cuchilla-urbana" target="_blank" rel="noopener noreferrer" aria-label="Ver el código de Cuchilla Urbana en GitHub">Ver código</a>
                             <a href="proyectos/Cuchilla-urbana/index.html" class="flecha" aria-label="Ver el sitio de Cuchilla Urbana">↗</a>
                         </div>
                     </article>
@@ -191,60 +242,78 @@
             </ul>
             <p class="pista" aria-hidden="true">Desliza para ver más →</p>
         </section>
-        <!--Proyectos propios: ideas mías, no son para un cliente-->
-        
-        <!--Servicios: qué ofrezco a los negocios-->
+        <!--Servicios: planes con precio "desde" y cómo trabajamos-->
         <section id="servicios" aria-labelledby="titulo-servicios">
             <div class="servicios-intro">
-                <h2 id="titulo-servicios">Servicios</h2>
-                <p>Hago la página web de tu negocio, lista para que tus clientes te encuentren y te escriban.</p>
-                <!-- Precios "desde": para que la gente vea que es accesible y se anime a escribir -->
-                <ul class="precios-desde">
-                    <li><span>Páginas web desde</span> <strong>$500.000</strong></li>
-                    <li><span>Mantenimiento desde</span> <strong>$50.000 <small>al mes</small></strong></li>
-                </ul>
-                <p>Cuéntame qué necesitas y te doy el precio exacto, sin compromiso.</p>
-                <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Pide tu cotización gratis por WhatsApp</a>
+                <p class="numero-seccion">03 / Servicios</p>
+                <h2 id="titulo-servicios">¿Tu negocio aún no aparece en internet?</h2>
+                <p>Hoy la gente busca en Google o pregunta por WhatsApp antes de ir. Con tu página te encuentran, ven lo que ofreces y te escriben.</p>
             </div>
-            <div class="servicios-listas">
-                <h3>Toda página incluye</h3>
-                <ul class="lista-servicios">
-                    <li><strong>Botón de WhatsApp</strong> Tus clientes te escriben o reservan con un toque.</li>
-                    <li><strong>Se ve bien en celular</strong> Adaptada a celular, tablet y computador.</li>
-                    <li><strong>Ubicación y horarios</strong> Mapa de Google, dirección y horarios a la vista.</li>
-                    <li><strong>Galería de fotos</strong> Tus productos, tus servicios o tu local.</li>
-                </ul>
-                <h3>También puedo encargarme de</h3>
-                <ul class="lista-servicios">
-                    <li><strong>Dominio y publicación</strong> Dejo tu página en internet con su propia dirección.</li>
-                    <li><strong>Aparecer en Google</strong> Preparo los datos para que Google muestre tu negocio en búsquedas locales.</li>
-                    <li><strong>Plan de mantenimiento</strong> Actualizo textos, precios y fotos cuando lo necesites.</li>
-                </ul>
+
+            <div class="planes">
+                <!-- Plan principal: borde cian con brillo y sello flamingo -->
+                <article class="plan plan-principal">
+                    <p class="sello">Empieza aquí</p>
+                    <h3>Página web</h3>
+                    <p class="desde">desde <strong>$500.000</strong> <small>pago único</small></p>
+                    <ul class="lista-check">
+                        <li>Botón de WhatsApp para pedir o reservar</li>
+                        <li>Se ve perfecta en celular, tablet y computador</li>
+                        <li>Mapa de Google, dirección y horarios</li>
+                        <li>Galería de tus productos o tu local</li>
+                        <li>Lista para aparecer en Google</li>
+                    </ul>
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Cotiza gratis por WhatsApp</a>
+                </article>
+
+                <article class="plan">
+                    <h3>Mantenimiento</h3>
+                    <p class="desde">desde <strong>$50.000</strong> <small>al mes</small></p>
+                    <ul class="lista-check">
+                        <li>Cambio precios, fotos y textos cuando lo necesites</li>
+                        <li>Tu página siempre al día</li>
+                    </ul>
+                    <h4>También me encargo de</h4>
+                    <ul class="chips">
+                        <li>Dominio propio</li>
+                        <li>Publicar tu página</li>
+                        <li>Ficha en Google</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="como-trabajo">
+                <h3>Así trabajamos</h3>
+                <ol class="pasos">
+                    <li><span aria-hidden="true">1</span><div><strong>Me escribes</strong> Me cuentas de tu negocio por WhatsApp.</div></li>
+                    <li><span aria-hidden="true">2</span><div><strong>Ves el diseño</strong> Te muestro cómo se verá antes de programarla.</div></li>
+                    <li><span aria-hidden="true">3</span><div><strong>Sale en línea</strong> La publico con dominio propio y te enseño a usarla.</div></li>
+                </ol>
             </div>
         </section>
-        <!--Sobre mi-->
+
+        <!--Sobre mí + habilidades-->
         <section id="sobre-mi" aria-labelledby="titulo-sobre-mi">
-            <div>
-                <h2 id="titulo-sobre-mi">Sobre mí</h2>
-                <p>Construyo sitios web completos, desde la estructura hasta el último detalle visual. Sigo aprendiendo, y cada proyecto nuevo me sale mejor que el anterior.</p>
-            </div>
-            <div class="marca-m" aria-hidden="true">&lt;M&gt;</div>
-        </section>
-        <!--Habilidades-->
-        <section id="habilidades" aria-labelledby="titulo-habilidades">
-            <h2 id="titulo-habilidades">Habilidades</h2>
-            <ul>
+            <p class="numero-seccion">04 / Sobre mí</p>
+            <h2 id="titulo-sobre-mi">Hola, soy Esteban</h2>
+            <p>Soy de Yotoco, Valle. Hago páginas para negocios locales y las escribo a mano, sin plantillas, para que carguen rápido y se vean como tu negocio, no como cualquier otro. Te acompaño desde la primera idea hasta que tu página esté en línea.</p>
+            <h3 class="visualmente-oculto">Habilidades</h3>
+            <ul class="chips">
                 <li>HTML5</li>
                 <li>CSS3</li>
                 <li>JavaScript</li>
                 <li>Git y GitHub</li>
             </ul>
+            <!-- Para reclutadores: todo mi código en un solo lugar -->
+            <a href="https://github.com/estebanmunozssj" class="enlace-github" target="_blank" rel="noopener noreferrer">Mira mi código en GitHub →</a>
         </section>
-        <!--Contacto: cada campo con su label asociado-->
+
+        <!--Contacto: recuadro con brillo cian-->
         <section id="contacto" aria-labelledby="titulo-contacto">
-            <div>
-                <h2 id="titulo-contacto">Contacto</h2>
-                <p>¿Tienes un negocio que necesita página web, o una vacante para tu equipo? Escríbeme por WhatsApp o por correo a <a href="mailto:estebanmunozssj@gmail.com">estebanmunozssj@gmail.com</a>.</p>
+            <div class="contacto-caja">
+                <p class="numero-seccion">05 / Contacto</p>
+                <h2 id="titulo-contacto">Hablemos de tu negocio</h2>
+                <p>Escríbeme por WhatsApp y en una conversación te digo qué necesitas y cuánto cuesta, sin compromiso. Si tienes una vacante para tu equipo, también puedes escribirme a <a href="mailto:estebanmunozssj@gmail.com">estebanmunozssj@gmail.com</a>.</p>
                 <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>
             </div>
         </section>
@@ -262,6 +331,30 @@
         </nav>
     </footer>
 
+    <!-- Recorrido: una iguanita baja por el borde derecho mientras haces scroll (js/recorrido.js). Es decoración -->
+    <div class="recorrido" aria-hidden="true">
+        <div class="recorrido-relleno"></div>
+        <div class="iguanita">
+            <!-- Vista desde arriba: la cabeza mira hacia abajo -->
+            <svg viewBox="0 0 24 48" width="22" height="44" focusable="false">
+                <g class="pata-a">
+                    <path d="M8 31 L3 35" />
+                    <path d="M16 21 L21 17" />
+                </g>
+                <g class="pata-b">
+                    <path d="M16 31 L21 35" />
+                    <path d="M8 21 L3 17" />
+                </g>
+                <path d="M12 4 Q10.5 12 9.5 18 L14.5 18 Q13.5 12 12 4 Z" fill="#7FB800" />
+                <ellipse cx="12" cy="26" rx="5" ry="9" fill="#B4FF00" />
+                <path d="M12 19 V33" stroke="#7FB800" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="1.5 1.8" />
+                <ellipse cx="12" cy="38" rx="4" ry="5" fill="#B4FF00" />
+                <circle cx="10.2" cy="39.5" r="1" fill="#00F5FF" />
+                <circle cx="13.8" cy="39.5" r="1" fill="#00F5FF" />
+            </svg>
+        </div>
+    </div>
+
     <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio"
        class="whatsapp-flotante" target="_blank" rel="noopener noreferrer"
        aria-label="Escribir por WhatsApp">
@@ -271,9 +364,10 @@
     </a>
     <!--El script va al final y con defer para no bloquear la carga de la página-->
         <script src="js/script.js?v=2" defer></script>
-        <script src="js/scroll.js?v=3" defer></script>
+        <script src="js/scroll.js?v=5" defer></script>
         <script src="js/iguana.js?v=1" defer></script>
         <script src="js/menu.js?v=1" defer></script>
+        <script src="js/recorrido.js?v=1" defer></script>
 
     
 </body>

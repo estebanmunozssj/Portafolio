@@ -1,0 +1,5 @@
+# Todo el sitio se puede rastrear. El mapa le dice a Google qué páginas importan.
+User-agent: *
+Allow: /
+
+Sitemap: https://estebandev.online/sitemap.xml
