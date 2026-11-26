@@ -52,6 +52,8 @@ video/              Reel de muestra (versión liviana)
 icon/               Ícono de la pestaña
 proyectos/          Cada proyecto en su carpeta, con su propio html, css, js e img
 md/                 Notas del producto
+llms.txt            Resumen en texto simple para las IAs (ChatGPT, Claude, Perplexity)
+precios.md          Precios en texto simple para las IAs
 robots.txt          Le dice a Google que puede revisar todo el sitio
 sitemap.xml         Lista de páginas para Google
 CNAME               Dominio estebandev.online (debe quedarse en la raíz)
