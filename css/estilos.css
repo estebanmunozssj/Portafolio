@@ -969,3 +969,36 @@ footer ul {
   .whatsapp-flotante:active { transform: none; }
 }
 
+
+/* ===== Interacción (js/interaccion.js) ===== */
+
+/* Dos cintas: tipos de negocio y servicios. La segunda va al revés, más pequeña y en lima */
+.cintas { margin: 0 -2rem; border-block: 1px solid var(--borde); }
+.cintas .cinta { margin: 0; border-block: 0; }
+.cintas .cinta + .cinta { border-top: 1px solid var(--borde); }
+.cinta-servicios { padding: .65rem 0; background: rgba(180, 255, 0, .04); }
+.cinta-servicios p {
+  font-family: var(--fuente-texto);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--lima);
+  animation-direction: reverse;
+  animation-duration: 24s;
+}
+.cinta-servicios span { color: var(--cian); font-size: .55em; vertical-align: middle; margin: 0 1rem; }
+/* Con GSAP activo, la animación de CSS se apaga: la mueve el script */
+.gsap-activo .cinta p { animation: none; will-change: transform; }
+
+/* Brillo cian que sigue el ratón dentro de las tarjetas (solo con ratón) */
+@media (hover: hover) and (pointer: fine) {
+  .con-brillo { background-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 245, 255, 0), transparent 70%); }
+  .con-brillo:hover { background-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 245, 255, .10), transparent 70%); }
+}
+
+/* Los contadores no saltan de ancho mientras suben */
+.logros strong { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 767px) {
+  .cintas { margin-left: -1.25rem; margin-right: -1.25rem; }
+  .cinta-servicios p { font-size: .9rem; }
+}

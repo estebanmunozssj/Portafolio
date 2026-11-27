@@ -91,7 +91,7 @@
     </script>
     <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=29">
+    <link rel="stylesheet" href="css/estilos.css?v=30">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -165,9 +165,11 @@
             </div>
             <!--CV oculto hasta tener el PDF: <a href="cv-esteban-munoz.pdf" class="btn btn-borde" download>Descargar CV</a>-->
         </section>
-        <!--Cinta que corre: tipos de negocio. Es decoración, los lectores de pantalla la saltan-->
-        <div class="cinta" aria-hidden="true">
-            <p>Perfumerías <span>✦</span> Cafés <span>✦</span> Barberías <span>✦</span> Hospedajes <span>✦</span> Tiendas <span>✦</span> Perfumerías <span>✦</span> Cafés <span>✦</span> Barberías <span>✦</span> Hospedajes <span>✦</span> Tiendas <span>✦</span></p>
+        <!--Dos cintas que corren: tipos de negocio y servicios. Son decoración, los lectores de pantalla las saltan.
+            Sin JavaScript corren con CSS; con js/interaccion.js (GSAP) se aceleran con el scroll y frenan con el ratón-->
+        <div class="cintas" aria-hidden="true">
+            <div class="cinta"><p>Perfumerías <span>✦</span> Cafés <span>✦</span> Restaurantes <span>✦</span> Artistas <span>✦</span> Tiendas <span>✦</span> Panaderías <span>✦</span> Barberías <span>✦</span> Hospedajes <span>✦</span> Perfumerías <span>✦</span> Cafés <span>✦</span> Restaurantes <span>✦</span> Artistas <span>✦</span> Tiendas <span>✦</span> Panaderías <span>✦</span> Barberías <span>✦</span> Hospedajes <span>✦</span></p></div>
+            <div class="cinta cinta-servicios"><p>Páginas web <span>●</span> Catálogo con pedido por WhatsApp <span>●</span> Reels animados <span>●</span> Carruseles para Instagram <span>●</span> Menú digital con QR <span>●</span> Tarjeta de sellos <span>●</span> Dominio propio <span>●</span> Ficha en Google <span>●</span> Mantenimiento <span>●</span> Páginas web <span>●</span> Catálogo con pedido por WhatsApp <span>●</span> Reels animados <span>●</span> Carruseles para Instagram <span>●</span> Menú digital con QR <span>●</span> Tarjeta de sellos <span>●</span> Dominio propio <span>●</span> Ficha en Google <span>●</span> Mantenimiento <span>●</span></p></div>
         </div>
 
         <!--Cliente real: el trabajo que más convence-->
@@ -212,7 +214,7 @@
             <h2 id="titulo-proyectos">Otros trabajos</h2>
             <ul class="carrusel">
                 <li>
-                    <article>
+                    <article class="con-brillo">
                         <div class="marco">
                             <img src="img/v4.jpg" alt="Portada del sitio Mundos en Lienzos" width="400" height="300" loading="lazy" decoding="async">
                             <span class="numero" aria-hidden="true">01</span>
@@ -227,7 +229,7 @@
                     </article>
                 </li>
                 <li>
-                    <article>
+                    <article class="con-brillo">
                         <div class="marco">
                             <img src="img/v3.jpg" alt="Portada del sitio Piamonte Cafe" width="400" height="300" loading="lazy" decoding="async">
                             <span class="numero" aria-hidden="true">02</span>
@@ -254,7 +256,7 @@
 
             <div class="planes">
                 <!-- Plan principal: borde cian con brillo y sello flamingo -->
-                <article class="plan plan-principal">
+                <article class="plan plan-principal con-brillo">
                     <p class="sello">Empieza aquí</p>
                     <h3>Página web</h3>
                     <p class="desde">desde <strong>$500.000</strong> <small>pago único</small></p>
@@ -268,7 +270,7 @@
                     <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Cotiza gratis por WhatsApp</a>
                 </article>
 
-                <article class="plan">
+                <article class="plan con-brillo">
                     <h3>Mantenimiento</h3>
                     <p class="desde">desde <strong>$50.000</strong> <small>al mes</small></p>
                     <ul class="lista-check">
@@ -284,7 +286,7 @@
                 </article>
 
                 <!-- Servicio nuevo: contenido para redes (primera venta: S. B. Privé) -->
-                <article class="plan plan-redes">
+                <article class="plan plan-redes con-brillo">
                     <p class="sello sello-nuevo">Nuevo</p>
                     <h3>Contenido para redes</h3>
                     <p class="desde">desde <strong>$50.000</strong> <small>por reel</small></p>
@@ -411,6 +413,10 @@
         <script src="js/iguana.js?v=1" defer></script>
         <script src="js/menu.js?v=1" defer></script>
         <script src="js/recorrido.js?v=1" defer></script>
+        <!-- GSAP 3.13 (gratis, con ScrollTrigger) desde cdnjs, con huella de integridad. Si no carga, la página funciona igual -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha512-P2IDYZfqSwjcSjX0BKeNhwRUH8zRPGlgcWl5n6gBLzdi4Y5/0O4zaXrtO4K9TZK6Hn1BenYpKowuCavNandERg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="js/interaccion.js?v=1" defer></script>
 
     
 </body>
