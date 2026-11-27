@@ -1,4 +1,4 @@
-# Esteban DEV · Portafolio de Esteban Muñoz
+# Esteban DEV · Estudio de presencia digital de Esteban Muñoz
 
 Hago páginas web a la medida para negocios locales: menú o catálogo, ubicación y pedidos por WhatsApp, todo en una sola página. También hago reels y carruseles para sus redes. Estoy en Yotoco, Valle del Cauca, y trabajo con negocios de toda Colombia.
 

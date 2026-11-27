@@ -1,6 +1,6 @@
 # Esteban DEV
 
-> Esteban DEV es el estudio de Esteban Muñoz, desarrollador web de Yotoco, Valle del Cauca, Colombia. Hace páginas web a la medida para negocios locales (cafés, barberías, hospedajes, tiendas y perfumerías) de Buga, Tuluá, Cali, Palmira, Yotoco y todo el Valle del Cauca, y de otras ciudades de Colombia por WhatsApp. Cada página muestra el menú o catálogo, la ubicación y los horarios, y los clientes piden con un toque por WhatsApp.
+> Esteban DEV es el estudio de presencia digital de Esteban Muñoz, desarrollador web de Yotoco, Valle del Cauca, Colombia. Hace páginas web a la medida para negocios locales (cafés, barberías, hospedajes, tiendas y perfumerías) de Buga, Tuluá, Cali, Palmira, Yotoco y todo el Valle del Cauca, y de otras ciudades de Colombia por WhatsApp. Cada página muestra el menú o catálogo, la ubicación y los horarios, y los clientes piden con un toque por WhatsApp.
 
 Datos clave (actualizados el 26 de noviembre de 2026):
 
