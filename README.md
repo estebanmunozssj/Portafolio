@@ -16,11 +16,7 @@ Hago páginas web a la medida para negocios locales: menú o catálogo, ubicaci�
 |---|---|---|---|
 | Mundos en Lienzos | En construcción (cliente real) | Página para Dahiana Ortega, artista de Yotoco que pinta retratos a mano: carrusel y galería de obras reales, precios de lienzos, retablos y fundas, proceso de pedido y pedidos por WhatsApp. | [Ver](https://estebandev.online/proyectos/Mundos-en-Lienzos/) |
 | Piamonte Café | En construcción (cliente real) | Página para un café de Yotoco: menú, ubicación y reservas por WhatsApp. | [Ver](https://estebandev.online/proyectos/Piamonte-Cafe/) |
-| Hospedaje Rey de los Vientos | Propuesta | Diseño propuesto para un hospedaje: tarifas por habitación, lugares cercanos y reserva directa. | [Ver](https://estebandev.online/proyectos/Hotel-Rey-de-los-Vientos/) |
-| Cuchilla Urbana | Práctica | Página para una barbería: servicios con reserva por WhatsApp, galería de cortes y productos. | [Ver](https://estebandev.online/proyectos/Cuchilla-urbana/) |
 | Juego de rutas por Yotoco | En construcción | Recorrido por el pueblo con códigos QR, sellos y álbum de postales. Está en su propio repositorio. | Pronto |
-
-Rey de los Vientos y Cuchilla Urbana fueron mis primeras páginas. Las dejo como están, a propósito, para que se vea desde dónde empecé.
 
 ## Servicios
 
