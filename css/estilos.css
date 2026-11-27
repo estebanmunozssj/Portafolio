@@ -1002,3 +1002,69 @@ footer ul {
   .cintas { margin-left: -1.25rem; margin-right: -1.25rem; }
   .cinta-servicios p { font-size: .9rem; }
 }
+
+/* ===== Íconos de marca ===== */
+.icono { width: 1.15em; height: 1.15em; flex: none; fill: currentColor; }
+
+/* ===== Contacto con canales ===== */
+.btn-whatsapp { display: inline-flex; align-items: center; gap: .6rem; }
+.btn-whatsapp .icono { width: 1.35em; height: 1.35em; }
+.contacto-caja .nota-cta { margin: .75rem 0 0; font-size: .9rem; color: var(--suave); }
+.canales { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: .75rem; }
+.contacto-caja .canal {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .9rem;
+  padding: .85rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 1rem;
+  background: var(--fondo);
+  color: var(--texto);
+  text-decoration: none;
+  transition: border-color 200ms ease, transform 250ms var(--ease-out);
+}
+.canal-icono { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: .8rem; }
+.canal-icono .icono { width: 1.35rem; height: 1.35rem; }
+.canal-ig { background: radial-gradient(circle at 30% 110%, #FFDB8B 0%, #EE653D 25%, #D42E81 50%, #A237B3 75%, #3E57BC 100%); color: #fff; }
+.canal-correo { background: #fff; color: #EA4335; }
+.canal-gh { background: #F5F0FF; color: #181717; }
+.canal-texto { display: grid; gap: .15rem; min-width: 0; }
+.canal-texto strong { font-family: var(--fuente-titulo); font-weight: 800; font-size: 1.05rem; }
+.canal-texto small { color: var(--suave); font-size: .85rem; overflow-wrap: anywhere; }
+.canal-flecha { color: var(--cian); font-size: 1.1rem; transition: transform 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .contacto-caja .canal:hover { border-color: var(--cian); transform: translateY(-2px); }
+  .contacto-caja .canal:hover .canal-flecha { transform: translate(2px, -2px); }
+}
+@media (min-width: 48rem) { .canales { grid-template-columns: repeat(3, 1fr); } .contacto-caja .canal { grid-template-columns: auto 1fr; } .canal-flecha { display: none; } }
+@media (min-width: 48rem) { .contacto-caja { max-width: 60rem; padding: 2.5rem; } }
+
+/* ===== Pie de página nuevo ===== */
+footer { display: block; padding: 3rem 2rem 6rem; }
+.pie-arriba { display: grid; gap: 2.25rem; max-width: 72rem; }
+.pie-marca .logo { font-size: 1.35rem; }
+.pie-marca p { margin: .75rem 0 1.25rem; max-width: 26rem; color: var(--suave); line-height: 1.55; }
+.pie-cta { gap: .5rem; padding: 0 1.1rem; border: 1px solid var(--lima); border-radius: 999px; color: var(--lima); font-weight: 500; }
+.pie-cta .icono { width: 1.1rem; height: 1.1rem; }
+.pie-titulo { margin: 0 0 .5rem; font-family: var(--fuente-titulo); font-weight: 800; color: var(--texto); font-size: 1rem; }
+footer ul.pie-lista { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
+.pie-lista a { color: var(--suave); }
+.pie-redes a { gap: .6rem; }
+.pie-redes .icono { width: 1.15rem; height: 1.15rem; color: var(--texto); }
+.pie-abajo {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: center;
+  max-width: 72rem; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--borde);
+  font-size: .9rem;
+}
+.volver-arriba { gap: .35rem; color: var(--cian); }
+@media (hover: hover) and (pointer: fine) {
+  .pie-cta:hover { background: rgba(180, 255, 0, .08); color: var(--lima); }
+  .pie-lista a:hover, .volver-arriba:hover { color: var(--lima); }
+}
+@media (min-width: 48rem) { .pie-arriba { grid-template-columns: 2fr 1fr 1fr; } }
+@media (max-width: 40rem) { footer { padding: 2.5rem 1.25rem 6rem; } }
+@media (prefers-reduced-motion: reduce) { .contacto-caja .canal, .canal-flecha { transition: none; } .contacto-caja .canal:hover, .contacto-caja .canal:hover .canal-flecha { transform: none; } }
+
+/* Las tarjetas de canal no llevan subrayado (la regla general de enlaces del contacto sí) */
+.contacto-caja a.canal { text-decoration: none; overflow-wrap: normal; }
