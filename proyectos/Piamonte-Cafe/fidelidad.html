@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- SEGURIDAD (CSP): igual a menu.html (incluye cdnjs para GSAP), más Google Apps Script (script.google.com responde
+         desde script.googleusercontent.com), que es donde se guardan los sellos.
+         OJO: el script que agrega la clase "js" está permitido por su huella sha256. Si cambias su texto, recalcula la huella. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Mi tarjeta | Piamonte Café</title>
+    <meta name="description" content="Tarjeta de sellos de Piamonte Café: junta 10 sellos y tu próximo café va por la casa.">
+    <meta name="theme-color" content="#f6efe4">
+
+    <!-- Al compartir el enlace (WhatsApp, Facebook...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Piamonte Café">
+    <meta property="og:title" content="Mi tarjeta | Piamonte Café">
+    <meta property="og:description" content="Junta 10 sellos y tu próximo café va por la casa.">
+    <meta property="og:locale" content="es_CO">
+    <meta property="og:url" content="https://estebandev.online/proyectos/Piamonte-Cafe/fidelidad.html">
+    <meta property="og:image" content="https://estebandev.online/proyectos/Piamonte-Cafe/img/compartir.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://estebandev.online/proyectos/Piamonte-Cafe/fidelidad.html">
+
+    <!-- Ícono de la pestaña (grano de café) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233b2418'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' transform='rotate(30 16 16)' fill='%23f5ede1'/%3E%3Cpath d='M12.5 8.5c5 4 1 11 7 15' stroke='%233b2418' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&display=swap">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/fidelidad.css">
+    <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+    <!-- ÍCONOS DE LA TARJETA, DENTRO DE LA PÁGINA: así cargan siempre (también abriendo el archivo
+         desde la carpeta, donde el navegador bloquea los .svg externos). Son copia de img/iconos.svg
+         y de los 3 granos de img/logo-piamonte.svg: si cambias un ícono allá, cámbialo también aquí -->
+    <svg class="sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-grano" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="12" rx="6.5" ry="9" transform="rotate(25 12 12)" fill="currentColor"/>
+        <path d="M10.6 4.6c3.6 3.8-2.9 8.2.6 14.6" fill="none" stroke="var(--fondo-grano, #3b2418)" stroke-width="1.6" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="i-paso-taza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 9.5h11.5v4.5a5 5 0 0 1-5 5h-1.5a5 5 0 0 1-5-5z"/>
+        <path d="M16.5 11h1.3a2.4 2.4 0 0 1 0 4.8h-1.5"/>
+        <path d="M3.5 21.5h14.5"/>
+        <path d="M9 2.8c-.9 1.2.9 2.1 0 3.4M12.5 2.8c-.9 1.2.9 2.1 0 3.4"/>
+        </symbol>
+        <symbol id="i-regalo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3.5" y="8.5" width="17" height="4.5" rx="1"/>
+        <path d="M5 13v7.5h14V13M12 8.5v12"/>
+        <path d="M12 8.5C10 4 6.2 4.6 7.4 7.5M12 8.5c2-4.5 5.8-3.9 4.6-1"/>
+        </symbol>
+        <symbol id="i-sello" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9.2"/>
+        <ellipse cx="12" cy="12" rx="3.3" ry="4.9" transform="rotate(25 12 12)"/>
+        <path d="M11.2 7.6c2 2.1-1.6 4.5.4 8.1"/>
+        </symbol>
+        <symbol id="i-tarjeta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+        <circle cx="7.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="16.5" cy="12" r="1.7"/>
+        </symbol>
+        <symbol id="i-actualizar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/>
+        <path d="M19.5 4.5v4.2h-4.2"/>
+        </symbol>
+        <symbol id="i-buscar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10.5" cy="10.5" r="6.5"/>
+        <path d="m20 20-4.6-4.6"/>
+        </symbol>
+        <symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor"/>
+        </symbol>
+        <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3.6 20.4l1.2-4.1A8.6 8.6 0 1 1 8 19.3z"/>
+        <path d="M9.2 8.4c.3-.6.9-.6 1.2-.1l.7 1.4c.2.4 0 .8-.3 1.1l-.4.4c.5 1.1 1.4 2 2.5 2.5l.4-.4c.3-.3.7-.5 1.1-.3l1.4.7c.5.3.5.9-.1 1.2-.9.6-2 .7-3 .2a8 8 0 0 1-3.7-3.7c-.5-1-.4-2.1.2-3z"/>
+        </symbol>
+        <symbol id="i-logo-granos" viewBox="636 114 340 340"><g fill-rule="evenodd"><path d="M820 264.8C823.1 262.7 825.7 245.4 829 238.2C832.3 230.9 831.4 230.3 840 221.2C848.6 212.1 871.5 192.8 880.7 183.5C889.8 174.2 891.3 171.3 895 165.5C898.7 159.7 901 154.4 903 148.8C905 143.2 906.5 136.1 907 131.8C907.5 127.5 909 125.1 905.8 123C902.6 120.9 892.9 119.8 887.8 119.3C882.7 118.9 880.7 118.7 875.2 120.3C869.6 121.9 861.5 124.5 854.5 129C847.5 133.5 838.8 141.3 833 147.2C827.2 153.1 823.3 159.4 820 164.5C816.7 169.6 815.5 170.8 813 177.5C810.5 184.2 806.3 194.6 805 204.5C803.7 214.4 804.1 229.1 805 236.8C805.9 244.6 807.8 246.2 810.3 250.8C812.8 255.5 816.9 266.9 820 264.8Z"/><path d="M855.7 277.8C862.9 277.9 868.1 276.5 874.5 273.7C880.9 270.9 886.7 267.5 893.8 261C900.9 254.5 911.3 242.5 917 234.5C922.7 226.5 925.3 219.8 928 212.8C930.7 205.8 932.1 200.6 933 192.5C933.9 184.4 934.7 172.9 933.7 164.5C932.7 156.1 929.8 147.6 927 142.2C924.2 136.8 920.2 129.1 917.2 132C914.2 134.9 912 152 909 159.5C906 167 903.5 170.7 899 176.8C894.5 182.9 889.7 188.4 881.8 196C874 203.6 858.8 215.8 852 222.5C845.2 229.2 843.8 232.3 841 236.5C838.2 240.7 836.7 243.5 835 247.8C833.3 252.2 831.6 258.2 831 262.5C830.4 266.8 827.2 270.9 831.3 273.5C835.4 276.1 848.5 277.8 855.7 277.8Z"/></g><g fill-rule="evenodd"><path d="M660.7 372.5C663.5 370.2 669.6 360.2 675.2 355C680.8 349.8 682.5 346.3 694.2 341C705.8 335.7 732.6 328.3 745.2 323C757.8 317.7 763.4 313.5 769.8 309C776.3 304.5 779.8 301 784 295.8C788.2 290.7 793.8 282 795 278.2C796.2 274.4 794.5 275.4 791.5 273C788.5 270.6 781.1 266 776.8 264C772.6 262 771.2 261.5 766.2 261C761.1 260.5 753.5 260 746.5 261C739.5 262 729.9 265.1 724.2 267C718.4 268.9 718.7 268.2 712.2 272.3C705.7 276.5 692.2 285.5 685.2 292C678.1 298.5 674.5 304 670 311.5C665.5 319 660.3 329.9 658 336.8C655.7 343.7 656.3 347.6 656.3 352.8C656.3 358.1 657.3 365.2 658 368.5C658.7 371.8 657.8 374.8 660.7 372.5Z"/><path d="M710.7 401.5C716.5 401 723.9 400.1 730.5 398C737.1 395.9 743.9 392.7 750.5 389C757.1 385.3 763.8 381 769.8 376C775.9 371 782 364.9 786.7 358.8C791.4 352.8 794.8 347 798 339.8C801.2 332.7 804.7 322.6 806 315.8C807.3 309.1 806.6 303.9 806 299.5C805.4 295.1 803.4 291.3 802.7 289.5C801.9 287.7 802.3 288.2 801.5 288.7C800.7 289.1 800.9 288.6 798 292.2C795.1 295.7 789.1 304.9 783.8 310C778.6 315.1 772.3 319.3 766.5 323C760.7 326.7 759.2 328 748.8 332C738.4 336 715.5 341.9 704.2 347C692.9 352.1 686.9 357.3 681 362.5C675.1 367.7 671.3 374.3 669 378.2C666.7 382.1 664.4 382.5 667 385.8C669.6 389.1 680.1 395.5 684.8 398C689.6 400.5 691.2 400.4 695.5 401C699.8 401.6 704.8 402 710.7 401.5Z"/></g><g fill-rule="evenodd"><path d="M910 449.8C916.1 449.9 924.5 450.7 923.7 447.2C922.8 443.7 909.6 434.2 905 428.8C900.4 423.5 898.8 420.8 896 415.2C893.2 409.5 891 404.4 888 394.8C885 385.3 881.1 366.9 878 357.8C874.9 348.7 872.5 345.2 869.7 340.2C866.8 335.1 864.7 331.9 861 327.5C857.3 323.1 851.4 317.2 847.5 314C843.6 310.8 840.2 308.8 837.8 308C835.4 307.2 835.8 306.3 833 309.2C830.2 312 823.9 319.8 821.3 325.2C818.7 330.6 817.7 334.3 817.3 341.5C816.9 348.7 816.9 358.8 819 368.2C821.1 377.5 825.6 389.1 830 397.5C834.4 405.9 838.8 411.8 845.3 418.5C851.9 425.2 862.3 433.2 869.2 438C876.1 442.8 880 445 886.8 447C893.6 449 903.9 449.8 910 449.8Z"/><path d="M937.3 440.8C941.1 440.4 943.7 434.6 946 431.5C948.3 428.4 949.5 426.3 951 422.5C952.5 418.7 954.2 412.7 955 408.5C955.8 404.3 956.5 403.7 955.7 397.2C954.8 390.6 953.3 378.3 950 369.2C946.7 360 941.5 350.3 936 342.2C930.5 334 924.1 326.5 916.8 320.3C909.6 314.1 898.6 308.4 892.5 305C886.4 301.6 884.7 301.3 880.2 300C875.7 298.7 871 297.2 865.5 297.3C860 297.5 846.6 296.9 847.2 301C847.8 305.1 863.4 315.5 869 322.2C874.6 328.8 877.5 334 881 340.8C884.5 347.7 887 353.6 890 363.2C893 372.7 896 389.3 899 398.2C902 407.1 904 410.5 908 416.5C912 422.5 918.3 429.9 923.2 434C928.1 438.1 933.5 441.2 937.3 440.8Z"/></g></symbol>
+    </svg>
+    <a class="saltar-link" href="#contenido">Saltar al contenido</a>
+
+    <!-- ===== ENCABEZADO FIJO (el mismo de menu.html) ===== -->
+    <header class="encabezado solido" id="encabezado">
+        <a href="index.html" class="logo" aria-label="Piamonte Café, ir al inicio">
+            <span class="logo-nombre">Piamonte</span>
+            <span class="logo-cafe">café</span>
+        </a>
+        <nav aria-label="Principal">
+            <ul class="nav-enlaces">
+                <li><a href="menu.html">Menú</a></li>
+                <li><a href="index.html#visitanos">Visítanos</a></li>
+                <li><a href="fidelidad.html" aria-current="page">Mi tarjeta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenido" class="pagina-menu con-granos"> <!-- con-granos: granos que flotan (js/granos.js) -->
+        <!-- ===== MENSAJE DEL DÍA: uno para la vida, distinto cada día (js/mensaje-del-dia.js) =====
+             Se mueve como la marquesina de la portada; se pausa al pasar el mouse.
+             Sin JavaScript no aparece (hidden) -->
+        <div class="marquesina marquesina-dia" id="mensaje-del-dia" role="region" aria-label="Mensaje del día" hidden>
+            <div class="marquesina-pista"></div>
+        </div>
+
+        <!-- Una sola tarjeta siempre visible: antes de entrar es un ejemplo ("Así se ve tu tarjeta"),
+             después se llena con los sellos de la persona. En computador: texto a la izquierda, tarjeta a la derecha -->
+        <section class="seccion fidelidad">
+            <div class="fidelidad-encabezado">
+                <p class="fidelidad-antetitulo"><svg class="icono" aria-hidden="true"><use href="#i-sello"/></svg>Tarjeta de sellos</p>
+                <h1 class="fidelidad-titulo">Diez cafés y el siguiente va por la casa</h1>
+            </div>
+
+            <!-- ===== LA TARJETA (la llena js/fidelidad.js) ===== -->
+            <div class="fidelidad-visual">
+                <div class="tarjeta muestra" id="tarjeta">
+                    <!-- Marca de agua: el logo de Piamonte grande y tenue detrás de los sellos -->
+                    <svg class="tarjeta-marca-agua" aria-hidden="true" focusable="false"><use href="#i-logo-granos"/></svg>
+                    <div class="tarjeta-cabeza">
+                        <span class="tarjeta-marca"><span class="logo-nombre">Piamonte</span> <span class="logo-cafe">café</span></span>
+                        <span class="tarjeta-premios" id="tarjeta-premios"></span>
+                    </div>
+                    <p class="tarjeta-hola" id="tarjeta-hola">Tu tarjeta</p>
+                    <p class="tarjeta-mensaje" id="tarjeta-mensaje" aria-live="polite"></p>
+                    <ol class="sellos" id="sellos" aria-label="Sellos"></ol>
+                    <!-- Pie de tiquete: línea punteada con dos muescas, barra de avance y cuánto falta -->
+                    <div class="tarjeta-pie">
+                        <div class="tarjeta-progreso">
+                            <div class="tarjeta-barra" role="progressbar" aria-label="Avance de la tarjeta" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="tarjeta-barra"><span></span></div>
+                            <span class="tarjeta-conteo" id="tarjeta-conteo">0/10</span>
+                        </div>
+                        <p class="tarjeta-estado" id="tarjeta-estado"></p>
+                    </div>
+                </div>
+                <p class="tarjeta-nota" id="tarjeta-nota">Así se ve tu tarjeta</p>
+            </div>
+
+            <div class="fidelidad-acciones">
+                <!-- ===== PANTALLA 1: CONSULTAR ===== -->
+                <div class="fidelidad-pantalla" id="pantalla-consultar">
+                    <form class="formulario" id="form-consultar" novalidate>
+                        <label for="consultar-celular">Tu celular</label>
+                        <input id="consultar-celular" name="celular" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="316 000 0000" maxlength="16" required>
+                        <p class="formulario-error" id="consultar-error" role="alert"></p>
+                        <button type="submit" class="boton"><svg class="icono" aria-hidden="true"><use href="#i-tarjeta"/></svg>Ver mi tarjeta</button>
+                    </form>
+                    <p class="fidelidad-cambio">¿Primera vez? <button type="button" class="enlace-boton" data-ir="inscribir">Saca tu tarjeta gratis</button></p>
+                </div>
+
+                <!-- ===== PANTALLA 2: INSCRIBIRSE ===== -->
+                <div class="fidelidad-pantalla" id="pantalla-inscribir" hidden>
+                    <form class="formulario" id="form-inscribir" novalidate>
+                        <label for="inscribir-nombre">Tu nombre</label>
+                        <input id="inscribir-nombre" name="nombre" type="text" autocomplete="name" maxlength="60" required>
+
+                        <label for="inscribir-celular">Tu celular</label>
+                        <input id="inscribir-celular" name="celular" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="316 000 0000" maxlength="16" required>
+
+                        <!-- Autorización de datos (Ley 1581 de 2012): sin marcarla no se guarda nada -->
+                        <label class="casilla">
+                            <input type="checkbox" id="inscribir-acepta" required>
+                            <span>Autorizo a Piamonte Café a guardar mi nombre y celular solo para llevar mis sellos. Puedo pedir que los borren cuando quiera.</span>
+                        </label>
+
+                        <p class="formulario-error" id="inscribir-error" role="alert"></p>
+                        <button type="submit" class="boton"><svg class="icono" aria-hidden="true"><use href="#i-tarjeta"/></svg>Sacar mi tarjeta</button>
+                    </form>
+                    <p class="fidelidad-cambio">¿Ya tienes tarjeta? <button type="button" class="enlace-boton" data-ir="consultar">Búscala con tu celular</button></p>
+                </div>
+
+                <!-- ===== PANTALLA 3: YA ENTRÓ (la tarjeta de arriba muestra sus sellos) ===== -->
+                <div class="fidelidad-pantalla" id="pantalla-tarjeta" hidden>
+                    <p class="fidelidad-ayuda">En caja, dile tu celular al barista y te pone el sello.</p>
+                    <button type="button" class="boton boton-borde" id="actualizar"><svg class="icono" aria-hidden="true"><use href="#i-actualizar"/></svg>Actualizar mis sellos</button>
+                    <p class="fidelidad-cambio"><button type="button" class="enlace-boton" id="salir">No soy yo</button></p>
+                </div>
+
+                <noscript><p>Para ver tu tarjeta, activa JavaScript o pregunta en caja.</p></noscript>
+
+                <!-- Aviso que solo aparece en modo demo (ver js/fidelidad-api.js) -->
+                <p class="aviso-demo" id="aviso-demo" hidden>Demo: los sellos se guardan solo en este navegador</p>
+            </div>
+
+            <!-- ===== CÓMO FUNCIONA ===== -->
+            <ol class="pasos-tarjeta">
+                <li><svg class="icono" aria-hidden="true"><use href="#i-tarjeta"/></svg><span><strong>Saca tu tarjeta</strong> con tu nombre y celular. Es gratis.</span></li>
+                <li><svg class="icono" aria-hidden="true"><use href="#i-sello"/></svg><span><strong>Cada compra suma un sello.</strong> Solo di tu celular en caja.</span></li>
+                <li><svg class="icono" aria-hidden="true"><use href="#i-regalo"/></svg><span><strong>Al llegar a 10</strong>, tu próximo café va por la casa.</span></li>
+            </ol>
+        </section>
+    </main>
+
+    <!-- Pie (el mismo de las otras páginas) -->
+    <div class="visitanos">
+        <footer class="pie">
+            <!-- 1. Piamonte y sus redes -->
+            <div class="pie-marca">
+                <div>
+                    <p class="pie-nombre">Piamonte · Café de finca · <span id="anio">2026</span></p>
+                    <p>Fotos: Piamonte Café</p>
+                </div>
+                <!-- Redes con íconos (img/iconos.svg). aria-label: el lector de pantalla dice a dónde lleva -->
+                <p class="pie-redes">
+                    <a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener" aria-label="Instagram de Piamonte"><svg class="icono" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+                    <a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener" aria-label="WhatsApp de Piamonte"><svg class="icono" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+                </p>
+            </div>
+
+            <!-- Aviso de privacidad (Ley 1581 de 2012): esta página SÍ guarda datos -->
+            <details class="privacidad">
+                <summary>Aviso de privacidad</summary>
+                <p>Para la tarjeta de sellos guardamos tu nombre, tu celular, cuántos sellos tienes y la fecha de cada sello. Los usamos solo para llevar tu tarjeta: no los vendemos ni te enviamos publicidad.</p>
+                <p>Este celular recuerda tu número para abrir tu tarjeta más rápido. Con "No soy yo" se borra.</p>
+                <p>Responsable: Piamonte Café, Calle 6 # 3-116, Yotoco, Valle del Cauca. Según la Ley 1581 de 2012 puedes conocer, actualizar o pedir que borremos tus datos escribiéndonos al WhatsApp 316 879 8017.</p>
+            </details>
+
+            <!-- 3. Firma del desarrollador (con la iguana de estebandev.online), panel del barista y volver arriba -->
+            <div class="pie-firma">
+                <a class="pie-autor" href="https://estebandev.online/" target="_blank" rel="noopener">
+                    <span>Hecho por</span>
+                    <!-- Insignia: la iguana de estebandev.online sobre su fondo oscuro, con ojo, ceja y escamas.
+                         Parpadea cada tanto, como en el portafolio -->
+                    <span class="pie-insignia" aria-hidden="true">
+                        <svg class="pie-iguana" viewBox="60 60 280 210" focusable="false">
+                            <path d="M70 150 L112 126 L152 110 L192 102 L214 70 L232 104 L256 78 L268 118 L296 94 L304 134 L330 120 L322 170 L296 214 L240 232 L180 214 L128 192 L78 168 Z" fill="#B4FF00"/>
+                            <path d="M78 168 L128 192 L180 214 L240 232 L296 214 L322 170 L280 190 L200 186 L130 172 Z" fill="#7FB800"/>
+                            <path d="M138 196 L176 208 L152 262 Z" fill="#FF2ED1"/>
+                            <path d="M230 150 L252 162 M252 138 L276 152 M274 172 L296 160" stroke="#7FB800" stroke-width="5" stroke-linecap="round" fill="none"/>
+                            <path d="M134 142 L153 131 L172 142 L153 150 Z" fill="#00F5FF"/>
+                            <rect x="150.5" y="132" width="5" height="17" rx="1.5" fill="#0A0A12"/>
+                            <path class="pie-iguana-parpado" d="M134 142 L153 131 L172 142 L153 150 Z" fill="#B4FF00" stroke="#0A0A12" stroke-width="2.5"/>
+                            <path d="M120 130 L176 114" stroke="#0A0A12" stroke-width="7" stroke-linecap="round" fill="none"/>
+                        </svg>
+                    </span>
+                    <strong>Esteban Muñoz</strong>
+                </a>
+                <!-- Entrada al panel del barista (panel.html). Discreta a propósito: lo protege el PIN -->
+                <a class="pie-equipo" href="panel.html" rel="nofollow">Equipo Piamonte</a>
+                <a class="pie-volver" href="#contenido">Volver arriba</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+            integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+            integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/main.js"></script>
+    <script src="js/mensaje-del-dia.js"></script>
+    <script src="js/fidelidad-api.js"></script>
+    <script src="js/fidelidad.js"></script>
+    <script src="js/granos.js"></script>
+</body>
+</html>

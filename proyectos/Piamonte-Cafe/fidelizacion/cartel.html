@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- SEGURIDAD (CSP): solo carga la librería del QR (cdnjs) y lo propio -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartel QR | Piamonte Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;700&family=Dancing+Script:wght@700&display=swap">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        /* Cartel para imprimir en media carta (o carta) y poner junto a la caja */
+        body { background: var(--crema-oscura); }
+
+        .controles {
+            width: min(100% - 2rem, 34rem);
+            margin: 1.5rem auto;
+            display: grid;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .controles label { font-weight: 700; }
+        .controles input {
+            padding: 0.7rem 0.9rem;
+            border: 2px solid var(--crema-oscura);
+            border-radius: 0.8rem;
+            background: #fffaf3;
+            font: inherit;
+        }
+        .controles .boton { justify-self: start; margin-top: 0.5rem; border: 0; cursor: pointer; }
+        .controles p { margin: 0; color: var(--cafe-suave); }
+
+        .cartel {
+            width: min(100% - 2rem, 34rem);
+            aspect-ratio: 5.5 / 8.5; /* Media carta */
+            margin: 0 auto 2rem;
+            padding: 2.2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            background: var(--cafe);
+            color: var(--crema);
+            border-radius: 1.2rem;
+        }
+        .cartel-marca { display: flex; align-items: baseline; gap: 0.4rem; }
+        .cartel-marca .logo-nombre { font-size: 2.2rem; }
+        .cartel-marca .logo-cafe { font-size: 0.8rem; }
+        .cartel-antetitulo {
+            margin: 0 0 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--caramelo-claro);
+        }
+        .cartel h1 {
+            font-family: var(--letra-titulo);
+            font-weight: 800;
+            font-size: clamp(1.7rem, 7vw, 2.4rem);
+            line-height: 1.05;
+            text-transform: uppercase;
+            text-wrap: balance;
+        }
+        /* El QR va sobre blanco: los lectores lo leen mejor con buen contraste */
+        .cartel-qr {
+            width: 58%;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            background: #fff;
+        }
+        .cartel-qr svg { display: block; width: 100%; height: auto; }
+        .cartel-qr path, .cartel-qr rect[fill="black"] { fill: var(--cafe); }
+        .cartel-escanea { margin: 0; font-weight: 700; font-size: 1.1rem; }
+        .cartel-direccion { margin: 0.3rem 0 0; font-size: 0.75rem; opacity: 0.7; word-break: break-all; }
+
+        @media print {
+            @page { size: 5.5in 8.5in; margin: 0; }
+            body { background: none; }
+            .controles { display: none; }
+            .cartel { width: 100%; height: 100vh; margin: 0; border-radius: 0; aspect-ratio: auto; }
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; } /* Imprime el fondo café */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Esto no se imprime -->
+    <div class="controles">
+        <label for="direccion">Dirección de "Mi tarjeta" (el QR lleva aquí)</label>
+        <input id="direccion" type="url">
+        <p>Se llena sola con la dirección del sitio donde abriste este cartel. Revísala antes de imprimir.</p>
+        <button type="button" class="boton" id="imprimir">Imprimir cartel</button>
+    </div>
+
+    <main class="cartel">
+        <div class="cartel-marca"><span class="logo-nombre">Piamonte</span><span class="logo-cafe">café</span></div>
+        <div>
+            <p class="cartel-antetitulo">Tarjeta de sellos</p>
+            <h1>Diez cafés y el siguiente va por la casa</h1>
+        </div>
+        <div class="cartel-qr" id="qr" role="img" aria-label="Código QR para sacar la tarjeta de sellos"></div>
+        <div>
+            <p class="cartel-escanea">Escanea y saca tu tarjeta gratis</p>
+            <p class="cartel-direccion" id="direccion-texto"></p>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"
+            integrity="sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="cartel.js"></script>
+</body>
+</html>

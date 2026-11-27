@@ -78,6 +78,7 @@
             <ul class="nav-enlaces">
                 <li><a href="menu.html">Menú</a></li> <!-- El menú tiene su propia página -->
                 <li><a href="#visitanos" data-seccion="visitanos">Visítanos</a></li>
+                <li><a href="fidelidad.html">Mi tarjeta</a></li> <!-- Tarjeta de sellos -->
             </ul>
         </nav>
     </header>
@@ -128,7 +129,7 @@
         </div>
     </section>
 
-    <main id="contenido">
+    <main id="contenido" class="con-granos"> <!-- con-granos: granos que flotan (js/granos.js) -->
         <!-- ===== MARQUESINA: mensajes que pasan de lado a lado =====
              Truco: los mensajes van DOS veces seguidas y la fila se corre exactamente la mitad;
              al terminar, la segunda copia queda donde empezó la primera y el ciclo no se nota.
@@ -417,6 +418,28 @@
             <a href="#" class="boton js-whatsapp" data-mensaje="Hola Piamonte, quiero información sobre sus experiencias" target="_blank" rel="noopener">Pregunta por WhatsApp</a>
         </section>
 
+        <!-- ===== TARJETA DE SELLOS: lleva a fidelidad.html =====
+             La tarjetica es solo de adorno (6 de 10 sellos) para que se entienda la idea de un vistazo -->
+        <section class="seccion sellos-promo" aria-labelledby="sellos-promo-titulo">
+            <div class="sellos-promo-caja">
+                <ol class="sellos-promo-tarjeta" aria-hidden="true">
+                    <li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li class="lleno"><svg aria-hidden="true"><use href="img/iconos.svg#grano"/></svg></li><li></li><li></li><li></li><li class="premio"><svg><use href="img/iconos.svg#paso-taza"/></svg></li>
+                </ol>
+                <div class="sellos-promo-texto">
+                    <p class="sellos-promo-antetitulo">Tarjeta de sellos</p>
+                    <h2 id="sellos-promo-titulo">Diez cafés y el siguiente va por la casa</h2>
+                    <p>Saca tu tarjeta gratis con tu celular. En caja te ponemos un sello por cada compra.</p>
+                    <a href="fidelidad.html" class="boton"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#tarjeta"/></svg>Saca tu tarjeta</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MENSAJE DEL DÍA: uno para la vida, distinto cada día (js/mensaje-del-dia.js) =====
+             Se mueve como la marquesina de avisos; se pausa al pasar el mouse. Sin JavaScript no aparece (hidden) -->
+        <div class="marquesina marquesina-dia" id="mensaje-del-dia" role="region" aria-label="Mensaje del día" hidden>
+            <div class="marquesina-pista"></div>
+        </div>
+
         <!-- ===== INSTAGRAM: se ve como el perfil de Piamonte (foto, nombre y cuadrícula de fotos).
              Las 6 fotos son nuestras y llevan al perfil. Si algún día se conecta Behold (FEED_INSTAGRAM en js/main.js),
              main.js cambia estas fotos por las últimas publicaciones en vivo.
@@ -497,23 +520,52 @@
             </div>
 
             <footer class="pie">
-                <p>Piamonte · Café de finca · <span id="anio">2026</span></p>
-                <p>Fotos: Piamonte Café · Hecho por Esteban Muñoz</p>
-                <!-- Redes con íconos (img/iconos.svg). aria-label: el lector de pantalla dice a dónde lleva -->
-                <p class="pie-redes">
-                    <a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener" aria-label="Instagram de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a>
-                    <a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener" aria-label="WhatsApp de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg></a>
-                </p>
-                <a href="#inicio">Volver arriba</a>
+                <!-- 1. Piamonte y sus redes -->
+                <div class="pie-marca">
+                    <div>
+                        <p class="pie-nombre">Piamonte · Café de finca · <span id="anio">2026</span></p>
+                        <p>Fotos: Piamonte Café</p>
+                    </div>
+                    <!-- Redes con íconos (img/iconos.svg). aria-label: el lector de pantalla dice a dónde lleva -->
+                    <p class="pie-redes">
+                        <a href="https://www.instagram.com/piamonte.cafe/" target="_blank" rel="noopener" aria-label="Instagram de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#instagram"/></svg></a>
+                        <a href="#" class="js-whatsapp" data-mensaje="Hola Piamonte" target="_blank" rel="noopener" aria-label="WhatsApp de Piamonte"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg></a>
+                    </p>
+                </div>
 
                 <!-- Aviso de privacidad (Ley 1581 de 2012) -->
                 <details class="privacidad">
                     <summary>Aviso de privacidad</summary>
-                    <p>Esta página no usa cookies ni herramientas de seguimiento, y no te pide ni guarda tu nombre, correo ni teléfono.</p>
+                    <p>Esta página no usa cookies ni herramientas de seguimiento. Solo si sacas la tarjeta de sellos guardamos tu nombre y celular, y únicamente para llevar tus sellos (detalles en <a href="fidelidad.html">Mi tarjeta</a>).</p>
                     <p>Si nos escribes por WhatsApp, esa conversación la maneja WhatsApp (Meta) con sus propias reglas de privacidad.</p>
                     <p>Las fotos de Instagram se muestran a través de Behold (behold.so), que entrega las publicaciones y sus imágenes. No pone cookies; como cualquier sitio que sirve imágenes, recibe tu dirección IP.</p>
                     <p>Responsable: Piamonte Café, Calle 6 # 3-116, Yotoco, Valle del Cauca. Según la Ley 1581 de 2012 puedes conocer, actualizar o pedir que borremos tus datos escribiéndonos al WhatsApp 316 879 8017.</p>
                 </details>
+
+                <!-- 3. Firma del desarrollador (con la iguana de estebandev.online), panel del barista y volver arriba -->
+                <div class="pie-firma">
+                    <a class="pie-autor" href="https://estebandev.online/" target="_blank" rel="noopener">
+                        <span>Hecho por</span>
+                        <!-- Insignia: la iguana de estebandev.online sobre su fondo oscuro, con ojo, ceja y escamas.
+                             Parpadea cada tanto, como en el portafolio -->
+                        <span class="pie-insignia" aria-hidden="true">
+                            <svg class="pie-iguana" viewBox="60 60 280 210" focusable="false">
+                                <path d="M70 150 L112 126 L152 110 L192 102 L214 70 L232 104 L256 78 L268 118 L296 94 L304 134 L330 120 L322 170 L296 214 L240 232 L180 214 L128 192 L78 168 Z" fill="#B4FF00"/>
+                                <path d="M78 168 L128 192 L180 214 L240 232 L296 214 L322 170 L280 190 L200 186 L130 172 Z" fill="#7FB800"/>
+                                <path d="M138 196 L176 208 L152 262 Z" fill="#FF2ED1"/>
+                                <path d="M230 150 L252 162 M252 138 L276 152 M274 172 L296 160" stroke="#7FB800" stroke-width="5" stroke-linecap="round" fill="none"/>
+                                <path d="M134 142 L153 131 L172 142 L153 150 Z" fill="#00F5FF"/>
+                                <rect x="150.5" y="132" width="5" height="17" rx="1.5" fill="#0A0A12"/>
+                                <path class="pie-iguana-parpado" d="M134 142 L153 131 L172 142 L153 150 Z" fill="#B4FF00" stroke="#0A0A12" stroke-width="2.5"/>
+                                <path d="M120 130 L176 114" stroke="#0A0A12" stroke-width="7" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </span>
+                        <strong>Esteban Muñoz</strong>
+                    </a>
+                    <!-- Entrada al panel del barista (panel.html). Discreta a propósito: lo protege el PIN -->
+                    <a class="pie-equipo" href="panel.html" rel="nofollow">Equipo Piamonte</a>
+                    <a class="pie-volver" href="#inicio">Volver arriba</a>
+                </div>
             </footer>
         </section>
 
@@ -529,6 +581,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/main.js"></script>
     <script src="js/scroll.js"></script>
+    <script src="js/mensaje-del-dia.js"></script>
+    <script src="js/granos.js"></script>
 
 </body>
 

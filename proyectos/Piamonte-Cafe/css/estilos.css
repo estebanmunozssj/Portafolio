@@ -814,7 +814,10 @@ h2 {
     align-items: center;
     gap: 1rem;
 }
-.destacado-texto { padding-right: 0.5rem; }
+.destacado-texto { padding-right: 0.5rem; min-width: 0; }
+/* Sin foto, el botón ✕ quedaría encima del título: se va a la esquina y el texto le deja su espacio */
+.detalle-caja:has(.detalle-foto[hidden]) .detalle-cerrar { top: 0.5rem; right: 0.5rem; }
+.detalle-foto[hidden] + .destacado .destacado-texto { padding-right: 3rem; }
 .destacado .unidad { text-transform: none; } /* "250 g" y no "250 G" */
 .destacado h3 {
     font-family: var(--letra-titulo);
@@ -822,6 +825,9 @@ h2 {
     font-size: 1.2rem;
     text-transform: uppercase;
     line-height: 1.1;
+    /* Nombres con palabras largas ("Limonada envenenada"): se parten con guion en vez de salirse */
+    hyphens: auto;
+    overflow-wrap: break-word;
 }
 .destacado-precio { margin: 0.3rem 0 0.4rem; font-size: 0.95rem; }
 .destacado-capas {
@@ -1257,13 +1263,73 @@ h2 {
     margin-inline: auto;
     padding: 1.5rem 0 calc(1.5rem + env(safe-area-inset-bottom)); /* Respeta la barra del iPhone */
     border-top: 1px solid rgba(246, 239, 228, 0.25);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.25rem 1rem;
+    /* Tres franjas: Piamonte y redes / aviso de privacidad / firma, equipo y volver arriba */
+    display: grid;
+    gap: 0.5rem;
     font-size: 0.85rem;
 }
 .pie p { margin: 0; opacity: 0.8; }
+.pie-marca { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.pie .pie-nombre { opacity: 1; font-weight: 700; }
+
+/* Franja final: separada por una línea fina */
+.pie-firma {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1.25rem;
+    margin-top: 0.5rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(246, 239, 228, 0.15);
+}
+/* Firma del desarrollador: "Hecho por [iguana] Esteban Muñoz", en una píldora suave */
+.pie-autor {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    margin-right: auto; /* Empuja "Equipo Piamonte" y "Volver arriba" a la derecha */
+    padding: 0 0.9rem 0 0.75rem;
+    border-radius: 999px;
+    background: rgba(246, 239, 228, 0.08);
+    text-decoration: none;
+    transition: background-color 200ms ease;
+}
+.pie-autor > span:not(.pie-insignia) { opacity: 0.75; } /* "Hecho por" más suave; la iguana, con todo su color */
+/* Insignia de la iguana: círculo oscuro (#0A0A12, el fondo de estebandev.online) para que sus colores resalten */
+.pie-insignia {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #0A0A12;
+    box-shadow: 0 0 0 2px rgba(180, 255, 0, 0.35); /* Aro lima suave */
+    transition: transform 250ms var(--ease-out), box-shadow 250ms ease;
+}
+.pie-iguana {
+    width: 2.15rem;
+    height: auto;
+    margin-left: 0.1rem; /* La cabeza mira a la izquierda: se centra mejor corrida un poquito */
+    overflow: visible;
+}
+/* Parpadea cada 5 segundos (igual que en el portafolio) */
+.pie-iguana-parpado {
+    transform-box: fill-box;
+    transform-origin: top;
+    transform: scaleY(0);
+    animation: iguana-parpadeo 5s infinite;
+}
+@keyframes iguana-parpadeo {
+    0%, 92%, 100% { transform: scaleY(0); }
+    96% { transform: scaleY(1); }
+}
+.pie-volver { display: inline-flex; align-items: center; min-height: 44px; }
+@media (hover: hover) and (pointer: fine) {
+    .pie-autor:hover { background: rgba(246, 239, 228, 0.16); }
+    .pie-autor:hover .pie-insignia { transform: rotate(-10deg) scale(1.1); box-shadow: 0 0 0 2px #B4FF00; } /* La iguana levanta la cabeza */
+}
 
 /* Íconos (img/iconos.svg): miden lo mismo que la letra (1em) y toman su color (currentColor) */
 .icono {
@@ -1293,7 +1359,7 @@ h2 {
 }
 
 /* Aviso de privacidad (se despliega al tocarlo) */
-.privacidad { flex-basis: 100%; margin-top: 0.75rem; }
+.privacidad { margin-top: 0.25rem; }
 .privacidad summary {
     cursor: pointer;
     text-decoration: underline;
@@ -1350,4 +1416,169 @@ h2 {
     .marquesina-pista { width: auto; }
     .marquesina-grupo { flex: 1; min-width: 0; flex-wrap: wrap; justify-content: center; row-gap: 0.4rem; } /* flex: 1 = se ajusta al ancho de la pantalla */
     .marquesina-grupo[aria-hidden="true"] { display: none; }
+}
+
+/* ===== TARJETA DE SELLOS: bloque de la portada (lleva a fidelidad.html) ===== */
+.sellos-promo { padding-top: 0; }
+.sellos-promo-caja {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1.75rem 1.5rem;
+    border-radius: 1.4rem;
+    background: var(--cafe);
+    color: var(--crema);
+}
+.sellos-promo-tarjeta {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    max-width: 16rem;
+}
+.sellos-promo-tarjeta li {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px dashed rgb(246 239 228 / 0.35);
+}
+.sellos-promo-tarjeta li.lleno {
+    border: 0;
+    background: var(--caramelo-claro);
+    color: var(--cafe);
+    --fondo-grano: var(--caramelo-claro); /* Ranura del grano del color del sello */
+}
+.sellos-promo-tarjeta li.premio { border-color: var(--caramelo-claro); color: var(--caramelo-claro); }
+.sellos-promo-tarjeta svg { width: 60%; height: 60%; }
+.sellos-promo-tarjeta li.lleno:nth-child(odd) svg { transform: rotate(-12deg); }
+
+.sellos-promo-antetitulo {
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramelo-claro);
+}
+.sellos-promo h2 { font-size: clamp(1.6rem, 6.5vw, 2.1rem); }
+.sellos-promo-texto p:not(.sellos-promo-antetitulo) { margin: 0; color: var(--crema-oscura); }
+.sellos-promo .boton { background: var(--caramelo-claro); color: var(--cafe); }
+
+@media (min-width: 769px) {
+    .sellos-promo-caja { grid-template-columns: 15rem 1fr; align-items: center; gap: 2.5rem; padding: 2.25rem; }
+}
+@media (hover: hover) and (pointer: fine) {
+    .sellos-promo .boton:hover { background: var(--crema); }
+}
+
+/* Entrada al panel del barista en el pie: discreta, pero cómoda de tocar */
+.pie-equipo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    opacity: 0.55;
+    text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) {
+    .pie-equipo:hover { opacity: 1; text-decoration: underline; }
+}
+
+/* Menú con 3 enlaces (Menú, Visítanos, Mi tarjeta): los textos nunca se parten en dos líneas.
+   En celulares pequeños no caben junto al logo completo: se esconde la palabra "café" del logo pequeño */
+.nav-enlaces a { white-space: nowrap; }
+@media (max-width: 400px) {
+    .encabezado .logo-cafe { display: none; }
+    .nav-enlaces { gap: 1rem; }
+}
+
+/* =========================================
+   MENSAJE DEL DÍA (marquesina verde, js/mensaje-del-dia.js)
+   Portada, menú y Mi tarjeta. Usa la marquesina de avisos con otro color y otra letra
+   ========================================= */
+.marquesina-dia {
+    --fondo-grano: var(--verde); /* La ranura del grano, del color de la franja */
+    background: var(--verde);
+}
+.marquesina-dia .marquesina-pista { animation-duration: 45s; } /* Más lenta: es una frase para leer */
+.marquesina-dia .marquesina-grupo { padding: 0.75rem 0; }
+.marquesina-dia .marquesina-grupo li {
+    gap: 0.75rem;
+    padding: 0 2.5rem 0 0.9rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.mensaje-etiqueta {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dorado-suave);
+}
+.mensaje-texto {
+    font-family: var(--letra-titulo);
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+/* =========================================
+   GRANOS QUE FLOTAN (js/granos.js): detrás del contenido de <main class="con-granos">
+   Suben y giran con el scroll. Nunca tapan textos ni botones
+   ========================================= */
+.con-granos {
+    position: relative;
+    overflow-x: clip; /* Los granos que se asoman por el borde no crean scroll hacia el lado */
+}
+/* El contenido va encima de los granos. (Al <dialog> del menú no se le toca la posición) */
+.con-granos > section,
+.con-granos > .marquesina {
+    position: relative;
+    z-index: 1;
+}
+.granos-fondo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+.grano-flota {
+    position: absolute;
+    left: calc(var(--x) * 1%); /* --x lo pone js/granos.js */
+    color: var(--caramelo);
+    opacity: 0.6;
+    --fondo-grano: var(--crema); /* La ranura, del color de la página */
+    will-change: transform;
+}
+.grano-flota svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Flotan suave en reposo. Cada uno con su tiempo (--i) para que no se muevan en coro */
+    animation: flotar calc(5s + var(--i) * 0.45s) ease-in-out calc(var(--i) * -0.7s) infinite alternate;
+}
+/* Los de "lejos": más claros y un poco borrosos, como fuera de foco */
+.grano-flota.lejos { opacity: 0.4; filter: blur(1.2px); }
+
+@keyframes flotar {
+    from { transform: translateY(-6px) rotate(-6deg); }
+    to { transform: translateY(6px) rotate(6deg); }
+}
+
+/* Computador: hay espacio libre a los lados del contenido. Los granos se corren hacia adentro
+   (en celular se asoman desde afuera de la pantalla y aquí quedarían ocultos) */
+@media (min-width: 900px) {
+    .grano-flota.izq { left: calc((var(--x) + 7) * 1%); }
+    .grano-flota.der { left: calc((var(--x) - 3) * 1%); }
+}
+
+/* Menos movimiento: la frase del día queda quieta (en varias líneas si hace falta) y los granos también.
+   La entrada y el scroll de los granos ya los apaga gsap.matchMedia en js/granos.js */
+@media (prefers-reduced-motion: reduce) {
+    .marquesina-dia .marquesina-grupo li { white-space: normal; justify-content: center; flex-wrap: wrap; text-align: center; }
+    .marquesina-dia .marquesina-grupo li[aria-hidden="true"] { display: none; }
+    .grano-flota svg { animation: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pie-iguana-parpado { animation: none; }
 }

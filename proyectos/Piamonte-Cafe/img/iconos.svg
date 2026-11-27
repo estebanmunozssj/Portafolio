@@ -124,4 +124,34 @@
     <ellipse cx="60" cy="50" rx="9" ry="13" transform="rotate(20 60 50)"/><path d="M58 38c5 6-4 13 1 24"/>
     <path d="M92 60h18v20H92z"/><path d="M101 60v20M92 68h18"/><path d="M101 60c-6-8-12-4-8 0M101 60c6-8 12-4 8 0"/>
   </symbol>
+
+  <!-- ===== Tarjeta de sellos (fidelidad.html, panel.html y el bloque de la portada) =====
+       Mismo estilo que los pasos: trazo 1.8, puntas redondeadas, 24 x 24 -->
+  <symbol id="tarjeta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Tarjeta con tres sellos -->
+    <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+    <circle cx="7.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="16.5" cy="12" r="1.7"/>
+  </symbol>
+  <symbol id="sello" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Sello redondo con un grano adentro -->
+    <circle cx="12" cy="12" r="9.2"/>
+    <ellipse cx="12" cy="12" rx="3.3" ry="4.9" transform="rotate(25 12 12)"/>
+    <path d="M11.2 7.6c2 2.1-1.6 4.5.4 8.1"/>
+  </symbol>
+  <symbol id="regalo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Regalo con moño: el premio -->
+    <rect x="3.5" y="8.5" width="17" height="4.5" rx="1"/>
+    <path d="M5 13v7.5h14V13M12 8.5v12"/>
+    <path d="M12 8.5C10 4 6.2 4.6 7.4 7.5M12 8.5c2-4.5 5.8-3.9 4.6-1"/>
+  </symbol>
+  <symbol id="actualizar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Flecha en círculo: traer los sellos nuevos -->
+    <path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/>
+    <path d="M19.5 4.5v4.2h-4.2"/>
+  </symbol>
+  <symbol id="buscar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lupa -->
+    <circle cx="10.5" cy="10.5" r="6.5"/>
+    <path d="m20 20-4.6-4.6"/>
+  </symbol>
 </svg>

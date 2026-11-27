@@ -1,0 +1,628 @@
+/* =========================================
+   PIAMONTE CAFÉ - Tarjeta de sellos (fidelidad.html y panel.html)
+   Usa los colores y letras de estilos.css
+   ========================================= */
+
+/* "hidden" siempre esconde, aunque la pieza tenga display: block, grid o flex (JS muestra y esconde con hidden) */
+[hidden] { display: none !important; }
+
+/* Depósito de íconos dentro de la página (<svg class="sprite">): no se ve, solo lo usan los <use href="#..."> */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ===== DISTRIBUCIÓN DE "MI TARJETA" =====
+   Celular: título, tarjeta, formulario y pasos, uno debajo del otro.
+   Computador: título y formulario a la izquierda, la tarjeta grande a la derecha */
+.fidelidad {
+    display: grid;
+    gap: 1.75rem;
+    text-align: center;
+}
+.seccion.fidelidad { padding-top: 2rem; } /* Menos aire arriba: el botón principal entra en la primera pantalla */
+.fidelidad-acciones .fidelidad-pantalla { display: grid; justify-items: center; }
+.fidelidad-acciones .formulario { width: 100%; max-width: 24rem; } /* Mismo ancho que la tarjeta */
+.fidelidad-acciones .aviso-demo { margin: 1.25rem 0 0; }
+
+@media (min-width: 900px) {
+    .seccion.fidelidad {
+        width: min(100% - var(--margen) * 2, 64rem);
+        min-height: calc(100svh - var(--alto-encabezado));
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "encabezado visual"
+            "acciones   visual"
+            "pasos      visual";
+        grid-template-rows: auto auto 1fr;
+        column-gap: 4.5rem;
+        row-gap: 1.5rem;
+        align-content: center;
+        text-align: left;
+    }
+    .fidelidad-encabezado { grid-area: encabezado; }
+    .fidelidad-acciones { grid-area: acciones; }
+    .fidelidad-visual { grid-area: visual; align-self: center; }
+    .pasos-tarjeta { grid-area: pasos; margin: 0.5rem 0 0 !important; align-self: start; }
+    .fidelidad-acciones .fidelidad-pantalla { justify-items: start; }
+    .fidelidad .formulario { margin-inline: 0; }
+    .fidelidad .formulario .boton { justify-self: start; }
+    .fidelidad-titulo { font-size: clamp(2.4rem, 4vw, 3.1rem) !important; }
+    .fidelidad .tarjeta { max-width: 27rem; }
+}
+
+.fidelidad-antetitulo {
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramelo-oscuro);
+}
+.fidelidad-titulo {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    text-wrap: balance;
+}
+
+/* Aviso del modo demo: pequeño, para que no compita con la tarjeta */
+.aviso-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    color: var(--cafe-suave);
+}
+.aviso-demo::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--caramelo);
+}
+
+/* Debajo de la tarjeta de ejemplo */
+.tarjeta-nota {
+    margin: 0.9rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cafe-suave);
+    text-align: center;
+}
+
+/* ===== FORMULARIOS ===== */
+.formulario {
+    display: grid;
+    gap: 0.4rem;
+    max-width: 22rem;
+    margin-inline: auto;
+    text-align: left;
+}
+.formulario label { font-weight: 700; margin-top: 0.6rem; }
+.formulario input[type="tel"],
+.formulario input[type="text"],
+.formulario input[type="password"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--crema-oscura);
+    border-radius: 0.9rem;
+    background: #fffaf3;
+    color: var(--cafe);
+    font: inherit;
+    font-size: 1.15rem; /* 16px o más: el iPhone no hace zoom al tocar el campo */
+    transition: border-color 150ms ease;
+}
+.formulario input:focus { border-color: var(--cafe-suave); outline: none; }
+.formulario input:focus-visible { outline: 3px solid var(--cafe); outline-offset: 2px; }
+.formulario .boton { justify-self: center; margin-top: 0.25rem; border: 0; cursor: pointer; }
+.formulario .boton[disabled] { opacity: 0.6; cursor: wait; }
+
+.casilla {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    font-weight: 400 !important;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    cursor: pointer;
+}
+.casilla input { flex: none; width: 1.3rem; height: 1.3rem; margin-top: 0.1rem; accent-color: var(--cafe); }
+
+.formulario-error {
+    min-height: 1.2em; /* Reserva el espacio: el formulario no salta cuando aparece un error */
+    margin: 0.3rem 0 0;
+    color: #a3341f;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.fidelidad-cambio { margin-top: 1.25rem; font-size: 0.95rem; }
+.enlace-boton {
+    padding: 0.5rem 0.2rem; /* Área de toque más grande sin cambiar cómo se ve */
+    border: 0;
+    background: none;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* Entrada suave al cambiar de pantalla */
+.fidelidad-pantalla:not([hidden]) { animation: pantalla-entra 300ms var(--ease-out); }
+@keyframes pantalla-entra {
+    from { opacity: 0; transform: translateY(8px); }
+}
+
+/* ===== LA TARJETA ===== */
+.tarjeta {
+    max-width: 24rem;
+    margin-inline: auto;
+    padding: 1.4rem 1.25rem 1.5rem;
+    border-radius: 1.4rem;
+    /* Brillo cálido en la esquina: se siente como una tarjeta de cartón, no un rectángulo plano */
+    background:
+        radial-gradient(circle at 100% 0%, rgb(230 189 133 / 0.2), transparent 55%),
+        var(--cafe);
+    color: var(--crema);
+    box-shadow: 0 18px 40px -18px rgb(59 36 24 / 0.6);
+    text-align: left;
+    transition: transform 450ms var(--ease-out);
+    position: relative; /* Los granos de la celebración se ubican dentro */
+}
+/* El ejemplo va un poco inclinado, como puesto sobre la mesa. Al entrar, se endereza */
+.tarjeta.muestra { transform: rotate(-2.5deg); }
+.tarjeta-cabeza { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.tarjeta-marca { display: flex; align-items: baseline; gap: 0.35rem; }
+.tarjeta-premios { font-size: 0.8rem; color: var(--dorado-suave); text-align: right; }
+.tarjeta-hola {
+    margin: 1rem 0 1.1rem;
+    font-family: var(--letra-titulo);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.15;
+}
+
+.sellos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.6rem;
+}
+.sello {
+    position: relative; /* Para el anillo de tinta del sello nuevo */
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px dashed rgb(246 239 228 / 0.3);
+    color: var(--caramelo-claro);
+}
+.sello .icono { width: 55%; height: 55%; margin: 0; }
+
+/* Casilla vacía: un grano tenue esperando su sello (la ranura, del color de la tarjeta) */
+.sello .sello-vacio {
+    width: 46%;
+    height: 46%;
+    color: rgb(246 239 228 / 0.16);
+    --fondo-grano: var(--cafe);
+    transform: rotate(-8deg);
+}
+
+/* Casilla sellada: los 3 granos del logo de Piamonte, en café sobre caramelo */
+.sello.lleno {
+    border: 0;
+    background: var(--caramelo-claro);
+    box-shadow: inset 0 0 0 3px rgb(59 36 24 / 0.12); /* Borde de tinta: se ve estampado */
+}
+.sello-logo { width: 70%; height: 70%; fill: var(--cafe); }
+/* Cada sello queda un poco torcido, como puesto a mano */
+.sello.lleno:nth-child(3n+1) .sello-logo { transform: rotate(-10deg); }
+.sello.lleno:nth-child(3n+2) .sello-logo { transform: rotate(7deg); }
+.sello.lleno:nth-child(3n) .sello-logo { transform: rotate(-3deg); }
+
+/* La última casilla es el premio */
+.sello.premio { border-color: var(--caramelo-claro); }
+.sello.premio.lleno { background: var(--crema); color: var(--cafe); }
+
+/* Sello recién puesto: baja y se estampa, y deja un anillo de tinta que se abre */
+.sello.nuevo { animation: sellar 450ms var(--ease-out) both; }
+.sello.nuevo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--caramelo-claro);
+    opacity: 0;
+    animation: tinta 600ms var(--ease-out) both;
+    animation-delay: inherit; /* El mismo turno que su sello */
+    pointer-events: none;
+}
+@keyframes sellar {
+    0% { opacity: 0; transform: scale(1.45) rotate(-14deg); }
+    55% { opacity: 1; transform: scale(0.93) rotate(2deg); }
+    100% { opacity: 1; transform: none; }
+}
+@keyframes tinta {
+    0%, 40% { opacity: 0.7; transform: scale(0.95); }
+    100% { opacity: 0; transform: scale(1.45); }
+}
+
+/* Tarjeta llena: la taza del premio salta una vez */
+.tarjeta.completa .sello.premio { animation: premio 600ms var(--ease-out) both; }
+@keyframes premio {
+    0% { transform: scale(0.9); }
+    50% { transform: scale(1.12); }
+    100% { transform: none; }
+}
+
+/* Granos de la celebración (los crea js/fidelidad.js) */
+.grano-celebra {
+    position: absolute;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--caramelo-claro);
+    --fondo-grano: var(--cafe);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Mensaje del día bajo el saludo */
+.tarjeta-mensaje {
+    margin: -0.6rem 0 1.1rem;
+    color: var(--crema-oscura);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    text-wrap: pretty;
+}
+
+.tarjeta-estado { margin: 1.1rem 0 0; font-weight: 700; font-size: 0.95rem; color: var(--caramelo-claro); }
+.tarjeta.completa .tarjeta-estado { color: var(--crema); }
+
+.fidelidad-ayuda { margin: 0; color: var(--cafe-suave); }
+.fidelidad .boton-borde { margin-top: 0.9rem; border: 0; cursor: pointer; }
+
+/* ===== CÓMO FUNCIONA ===== */
+.pasos-tarjeta {
+    list-style: none;
+    max-width: 24rem;
+    margin: 1rem auto 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--crema-oscura);
+    display: grid;
+    gap: 0.9rem;
+    text-align: left;
+}
+.pasos-tarjeta li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.75rem;
+    align-items: center;
+}
+/* Cada paso con su ícono en un círculo: tarjeta, sello y regalo */
+.pasos-tarjeta .icono {
+    width: 2.4rem;
+    height: 2.4rem;
+    margin: 0;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: var(--crema-oscura);
+    color: var(--caramelo-oscuro);
+    vertical-align: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .enlace-boton:hover { color: var(--caramelo-oscuro); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sello.nuevo { animation: desvanecer 300ms ease both !important; }
+    .sello.nuevo::after { display: none; }
+    .tarjeta.completa .sello.premio { animation: none !important; }
+    .tarjeta.muestra { transform: none; }
+}
+
+/* =========================================
+   PANEL DEL BARISTA (panel.html)
+   Botones grandes: se usa de pie, rápido y con una mano
+   ========================================= */
+.panel { min-height: 100svh; }
+
+.panel-barra {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--alto-encabezado);
+    padding: 0 var(--margen);
+    background: var(--cafe);
+    color: var(--crema);
+}
+.panel-salir {
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 1px solid rgb(246 239 228 / 0.4);
+    border-radius: 999px;
+    background: none;
+    color: var(--crema);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.panel-contenido {
+    width: min(100% - var(--margen) * 2, 28rem);
+    margin-inline: auto;
+    padding: 2rem 0 6rem;
+    text-align: center;
+}
+.panel-contenido .aviso-demo { margin: 0 0 1.5rem; }
+
+.panel-titulo {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+#pin { font-size: 1.6rem; letter-spacing: 0.4em; text-align: center; }
+
+/* Buscar: campo y botón en la misma fila */
+.panel-buscar { max-width: none; }
+.panel-buscar-fila { display: flex; gap: 0.5rem; }
+.panel-buscar-fila input { flex: 1; min-width: 0; }
+.panel-buscar-fila .boton { margin: 0; padding-inline: 1.2rem; }
+
+/* Cliente encontrado */
+.panel-cliente {
+    margin-top: 0.5rem;
+    padding: 1.4rem 1.25rem 1.25rem;
+    border-radius: 1.4rem;
+    background: /* El mismo brillo de la tarjeta del cliente */
+        radial-gradient(circle at 100% 0%, rgb(230 189 133 / 0.2), transparent 55%),
+        var(--cafe);
+    color: var(--crema);
+    animation: pantalla-entra 250ms var(--ease-out);
+}
+.panel-nombre {
+    margin: 0;
+    font-family: var(--letra-titulo);
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.15;
+}
+.panel-celular { margin: 0.2rem 0 1.1rem; color: var(--dorado-suave); font-size: 0.95rem; }
+.sellos-panel { gap: 0.45rem; }
+.sellos-panel .sello { font-size: 0.75rem; }
+.panel-conteo { margin: 1rem 0 0; font-weight: 700; font-size: 1.15rem; }
+
+.boton.panel-sellar {
+    display: block;
+    width: 100%;
+    margin-top: 1.1rem;
+    padding: 1.15rem;
+    border: 0;
+    background: var(--caramelo-claro);
+    color: var(--cafe);
+    font-size: 1.35rem;
+    cursor: pointer;
+}
+.boton.panel-premio { background: var(--crema); }
+.boton[disabled] { opacity: 0.6; cursor: wait; }
+.panel-quitar { margin-top: 0.6rem; color: var(--dorado-suave); font-size: 0.9rem; }
+
+/* Confirmar sello reciente */
+.panel-confirmar {
+    margin-top: 1.1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgb(246 239 228 / 0.1);
+}
+.panel-confirmar p { margin: 0 0 0.8rem; font-weight: 700; }
+.panel-confirmar-botones { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+.panel-confirmar .boton { margin: 0; border: 0; cursor: pointer; background: var(--caramelo-claro); color: var(--cafe); }
+.panel-confirmar .boton-borde { background: transparent; color: var(--crema); box-shadow: inset 0 0 0 2px var(--crema); }
+
+/* Cliente nuevo */
+.panel-nuevo {
+    max-width: none;
+    margin-top: 0.5rem;
+    padding: 1.25rem;
+    border: 2px dashed var(--crema-oscura);
+    border-radius: 1.4rem;
+    animation: pantalla-entra 250ms var(--ease-out);
+}
+.panel-nuevo-titulo { margin: 0; font-weight: 700; text-align: center; }
+
+/* Aviso que aparece abajo unos segundos */
+.panel-aviso {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    width: max-content;
+    max-width: calc(100% - 2rem);
+    margin: 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 999px;
+    background: var(--verde);
+    color: var(--crema);
+    font-weight: 700;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%, 12px);
+    transition: opacity 200ms ease, transform 250ms var(--ease-out);
+    pointer-events: none;
+}
+.panel-aviso.visible { opacity: 1; transform: translate(-50%, 0); }
+
+@media (hover: hover) and (pointer: fine) {
+    .boton.panel-sellar:hover { background: var(--crema); }
+    .panel-salir:hover { background: rgb(246 239 228 / 0.1); }
+}
+
+/* ===== ÍCONOS ===== */
+.fidelidad-antetitulo .icono { width: 1.35em; height: 1.35em; margin-right: 0.35em; vertical-align: -0.35em; }
+.formulario .boton .icono,
+.fidelidad .boton-borde .icono { width: 1.2em; height: 1.2em; vertical-align: -0.25em; }
+
+/* Panel: mensaje para que el barista se lo diga al cliente */
+.panel-mensaje {
+    margin: 0.5rem 0 0;
+    color: var(--dorado-suave);
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.45;
+    text-wrap: pretty;
+}
+.boton.panel-sellar .icono { width: 1.15em; height: 1.15em; vertical-align: -0.18em; }
+.panel-buscar-fila .boton .icono { width: 1.2em; height: 1.2em; margin-right: 0.35em; vertical-align: -0.25em; }
+/* En celulares angostos el botón Buscar queda solo con la lupa */
+@media (max-width: 360px) {
+    .panel-buscar-texto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .panel-buscar-fila .boton .icono { margin: 0; }
+}
+
+
+
+
+/* Celular: menos aire entre bloques para que, con la marquesina, "Ver mi tarjeta" siga en la primera pantalla */
+@media (max-width: 899px) {
+    .seccion.fidelidad { padding-top: 1.1rem; gap: 1.2rem; }
+    .marquesina-dia .marquesina-grupo { padding: 0.6rem 0; }
+    .tarjeta-nota { margin-top: 0.6rem; }
+    .tarjeta { padding-top: 1.2rem; }
+}
+
+
+/* =========================================
+   TARJETA MÁS VIVA: marca de agua, próximo sello, etiqueta "Gratis",
+   pie de tiquete con muescas, barra de avance y brillo al aparecer
+   ========================================= */
+
+/* El contenido va encima de la marca de agua (los granos de la celebración siguen flotando libres) */
+.tarjeta > :not(.tarjeta-marca-agua):not(.grano-celebra) { position: relative; z-index: 1; }
+
+/* Marca de agua: el logo de Piamonte grande y tenue, un poco girado */
+.tarjeta-marca-agua {
+    position: absolute;
+    top: 2.4rem;
+    right: 0.75rem;
+    width: 8.5rem;
+    height: 8.5rem;
+    fill: var(--crema);
+    opacity: 0.06;
+    transform: rotate(14deg);
+    pointer-events: none;
+}
+
+/* Casillas vacías: el grano se ve un poco más */
+.sello .sello-vacio { color: rgb(246 239 228 / 0.2); }
+
+/* Próximo sello: anillo caramelo y un halo que late suave ("aquí va el siguiente") */
+.sello.siguiente:not(.lleno) { border-color: rgb(230 189 133 / 0.75); border-style: solid; }
+.sello.siguiente:not(.lleno) .sello-vacio { color: rgb(230 189 133 / 0.45); }
+.sello.siguiente:not(.lleno)::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--caramelo-claro);
+    animation: latido 2.4s var(--ease-out) infinite;
+    pointer-events: none;
+}
+@keyframes latido {
+    0% { opacity: 0.6; transform: scale(1); }
+    70%, 100% { opacity: 0; transform: scale(1.35); }
+}
+
+/* Etiqueta "Gratis" colgando de la taza del premio */
+.sello-etiqueta {
+    position: absolute;
+    bottom: -0.45rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background: var(--caramelo-claro);
+    color: var(--cafe);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+}
+.sello.premio.lleno .sello-etiqueta { background: var(--cafe); color: var(--caramelo-claro); }
+
+/* Pie de tiquete: línea punteada con una muesca redonda a cada lado, como tarjeta troquelada */
+.tarjeta-pie {
+    margin-top: 1.4rem;
+    padding-top: 1rem;
+    border-top: 2px dashed rgb(246 239 228 / 0.18);
+}
+.tarjeta-pie::before,
+.tarjeta-pie::after {
+    content: "";
+    position: absolute;
+    top: -0.8rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--crema); /* El color de la página: parece un hueco */
+}
+.tarjeta-pie::before { left: -2rem; }
+.tarjeta-pie::after { right: -2rem; }
+
+/* Barra de avance: se llena con transform (suave y sin trabar la página) */
+.tarjeta-progreso { display: flex; align-items: center; gap: 0.75rem; }
+.tarjeta-barra {
+    flex: 1;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: rgb(246 239 228 / 0.14);
+    overflow: hidden;
+}
+.tarjeta-barra span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--caramelo), var(--caramelo-claro));
+    transform-origin: left;
+    transform: scaleX(var(--avance, 0));
+    transition: transform 800ms var(--ease-out);
+}
+.tarjeta-conteo {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--caramelo-claro);
+    font-variant-numeric: tabular-nums;
+}
+.tarjeta-pie .tarjeta-estado { margin-top: 0.55rem; }
+
+/* Brillo que cruza la tarjeta una vez cuando aparece la tuya */
+.tarjeta.brilla::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    background: linear-gradient(105deg, transparent 38%, rgb(255 240 215 / 0.2) 50%, transparent 62%) no-repeat;
+    background-size: 250% 100%;
+    animation: brillo 1.3s var(--ease-out) 0.2s both;
+    pointer-events: none;
+}
+@keyframes brillo {
+    from { background-position: 130% 0; }
+    to { background-position: -30% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sello.siguiente:not(.lleno)::after { animation: none; opacity: 0.5; }
+    .tarjeta.brilla::after { display: none; }
+    .tarjeta-barra span { transition: none; }
+}
