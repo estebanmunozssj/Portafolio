@@ -1119,3 +1119,63 @@ footer ul.pie-lista { display: grid; gap: 0; list-style: none; margin: 0; paddin
 /* Los paquetes de redes van uno debajo de otro hasta que caben los tres */
 @media (max-width: 63.99rem) { .planes.planes-redes { grid-template-columns: 1fr; } }
 .prueba .precio-prueba { color: var(--lima); }
+
+/* ===== Precio por día ===== */
+.desde + .por-dia { margin: -1rem 0 1.1rem; color: var(--cian); font-size: .85rem; }
+.plan-paquete .desde + .por-dia { margin: -1rem 0 .6rem; }
+
+/* ===== Tabla contra las otras opciones ===== */
+.comparar { margin-top: 3rem; }
+.comparar h3 { font-size: 1.4rem; margin: 0 0 1rem; }
+.tabla-envoltura { overflow-x: auto; border: 1px solid var(--borde); border-radius: 1.2rem; background: var(--tarjeta); }
+.tabla-envoltura:focus-visible { outline: 2px solid var(--cian); outline-offset: 2px; }
+.tabla-comparar { width: 100%; min-width: 44rem; border-collapse: collapse; font-size: .92rem; }
+.tabla-comparar th, .tabla-comparar td { padding: .85rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--borde); }
+.tabla-comparar tbody tr:last-child > * { border-bottom: 0; }
+.tabla-comparar thead th { font-family: var(--fuente-titulo); font-weight: 800; color: var(--texto); font-size: .95rem; }
+.tabla-comparar tbody th { color: var(--texto); font-weight: 500; white-space: nowrap; }
+.tabla-comparar td { color: var(--suave); }
+.tabla-comparar td span[aria-hidden] { display: inline-block; width: 1.3em; font-weight: 800; }
+.tabla-comparar .c-si span[aria-hidden] { color: var(--lima); }
+.tabla-comparar .c-medio span[aria-hidden] { color: #FFC24B; }
+.tabla-comparar .c-no span[aria-hidden] { color: var(--flamingo); }
+/* La columna "Conmigo" resalta */
+.tabla-comparar th.destacada { color: var(--lima); }
+.tabla-comparar tr > :nth-child(2) { background: rgba(180, 255, 0, .06); color: var(--texto); }
+
+/* ===== Línea de tiempo de 7 días ===== */
+.linea-tiempo .dia {
+  width: auto; min-width: 2.75rem; height: auto; min-height: 2.75rem; padding: .35rem .6rem;
+  font-size: .8rem; line-height: 1.15; text-align: center; white-space: nowrap;
+}
+.linea-tiempo li { grid-template-columns: 4.75rem 1fr; }
+@media (min-width: 48rem) {
+  .pasos.linea-tiempo { grid-template-columns: repeat(4, 1fr); }
+  .linea-tiempo li { grid-template-columns: 1fr; position: relative; }
+  .linea-tiempo li:not(:last-child)::after {
+    content: ""; position: absolute; top: 1.4rem; left: 5.6rem; right: -1rem; height: 1px;
+    background: linear-gradient(90deg, var(--flamingo), transparent);
+  }
+  .linea-tiempo .dia { justify-self: start; }
+}
+/* La tabla se desliza dentro de su caja: la caja no puede crecer más que la pantalla */
+.comparar { min-width: 0; max-width: 100%; }
+#servicios > * { min-width: 0; }
+.tabla-envoltura { max-width: 100%; }
+@media (max-width: 47.99rem) {
+  /* En el celular la tabla se vuelve tarjetas: una por cada cosa que se compara */
+  .tabla-envoltura { overflow: visible; border: 0; background: none; }
+  .tabla-comparar, .tabla-comparar tbody, .tabla-comparar tr, .tabla-comparar th, .tabla-comparar td { display: block; }
+  .tabla-comparar { min-width: 0; font-size: .9rem; }
+  .tabla-comparar thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tabla-comparar tr { margin-bottom: .75rem; border: 1px solid var(--borde); border-radius: 1rem; background: var(--tarjeta); overflow: hidden; }
+  .tabla-comparar tbody th { padding: .8rem 1rem .4rem; font-family: var(--fuente-titulo); font-weight: 800; font-size: 1rem; white-space: normal; }
+  .tabla-comparar td { display: grid; grid-template-columns: 7.5rem 1fr; gap: .6rem; padding: .5rem 1rem; border-bottom: 0; }
+  .tabla-comparar td::before { content: attr(data-op); color: var(--suave); font-size: .8rem; }
+  .tabla-comparar td span[aria-hidden] { display: none; }
+  .tabla-comparar .c-si { color: var(--texto); }
+  .tabla-comparar td.c-si::after, .tabla-comparar td.c-medio::after, .tabla-comparar td.c-no::after { content: none; }
+  .tabla-comparar tr > :nth-child(2) { background: rgba(180, 255, 0, .08); }
+  .tabla-comparar tr > :nth-child(2)::before { color: var(--lima); font-weight: 500; }
+  .tabla-comparar tr > :last-child { padding-bottom: .9rem; }
+}

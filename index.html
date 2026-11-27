@@ -91,7 +91,7 @@
     </script>
     <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=34">
+    <link rel="stylesheet" href="css/estilos.css?v=37">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -146,10 +146,10 @@
                 <p class="disponible"><span class="punto" aria-hidden="true"></span>Agenda abierta · Valle del Cauca</p>
                 <!-- Cada línea va en su propio span para animarla por separado -->
                 <h1 id="titulo-inicio">
-                    <span class="linea"><span>Páginas web a la medida</span></span>
-                    <span class="linea linea-lima"><span>para negocios locales</span></span>
+                    <span class="linea"><span>Que te encuentren en Google</span></span>
+                    <span class="linea linea-lima"><span>y te pidan por WhatsApp</span></span>
                 </h1>
-                <p class="beneficio">Tus clientes ven tu menú o catálogo, saben dónde estás y te piden por WhatsApp. Todo en una sola página.</p>
+                <p class="beneficio">Hago páginas web a la medida para negocios locales: tu menú o catálogo, dónde estás y un botón para que te pidan por WhatsApp. Todo en una sola página.</p>
                 <p class="quien">Soy Esteban Muñoz. Escribo cada sitio a mano con HTML, CSS y JavaScript, sin plantillas.</p>
                 <div class="acciones">
                     <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Quiero mi página</a>
@@ -269,6 +269,7 @@
                     <p class="sello">Empieza aquí</p>
                     <h3>Página web</h3>
                     <p class="desde">desde <strong>$500.000</strong> <small>pago único</small></p>
+                    <p class="por-dia">menos de $1.400 al día durante un año</p>
                     <ul class="lista-check">
                         <li>Botón de WhatsApp para pedir o reservar</li>
                         <li>Se ve perfecta en celular, tablet y computador</li>
@@ -282,6 +283,7 @@
                 <article class="plan con-brillo">
                     <h3>Mantenimiento</h3>
                     <p class="desde">desde <strong>$50.000</strong> <small>al mes</small></p>
+                    <p class="por-dia">unos $1.700 al día</p>
                     <ul class="lista-check">
                         <li>Cambio precios, fotos y textos cuando lo necesites</li>
                         <li>Tu página siempre al día</li>
@@ -296,18 +298,53 @@
 
             </div>
 
+
+            <!-- Comparación con las otras opciones que tiene un negocio. Sin nombrar marcas -->
+            <div class="comparar">
+                <h3>¿Por qué no una plantilla o solo Instagram?</h3>
+                <div class="tabla-envoltura" tabindex="0" role="region" aria-label="Comparación de opciones para tener página web">
+                    <table class="tabla-comparar">
+                        <thead>
+                            <tr><th scope="col"><span class="visualmente-oculto">Qué comparo</span></th><th scope="col" class="destacada">Conmigo</th><th scope="col">Plantilla que haces tú</th><th scope="col">Agencia grande</th><th scope="col">Solo Instagram</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr><th scope="row">Hecha para tu negocio</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>A la medida, sin plantillas</td><td data-op="Plantilla que haces tú" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>Una plantilla que adaptas tú</td><td data-op="Agencia grande" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Sí</td><td data-op="Solo Instagram" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Tu perfil se ve como todos</td></tr>
+                        <tr><th scope="row">Te piden por WhatsApp</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Botón con el pedido escrito</td><td data-op="Plantilla que haces tú" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>Si lo configuras tú</td><td data-op="Agencia grande" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Sí</td><td data-op="Solo Instagram" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>Solo por mensaje directo</td></tr>
+                        <tr><th scope="row">Te encuentran en Google</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Lista para aparecer</td><td data-op="Plantilla que haces tú" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>Depende de ti</td><td data-op="Agencia grande" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Sí</td><td data-op="Solo Instagram" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Casi nunca</td></tr>
+                        <tr><th scope="row">Dominio propio</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>tunegocio.com</td><td data-op="Plantilla que haces tú" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>Casi siempre pagando aparte</td><td data-op="Agencia grande" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Sí</td><td data-op="Solo Instagram" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>No</td></tr>
+                        <tr><th scope="row">Quién hace el trabajo</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Yo, de principio a fin</td><td data-op="Plantilla que haces tú" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Tú, en tus ratos libres</td><td data-op="Agencia grande" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Un equipo</td><td data-op="Solo Instagram" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Tú</td></tr>
+                        <tr><th scope="row">Cómo pagas</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Desde $500.000, una vez</td><td data-op="Plantilla que haces tú" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Una cuota cada mes</td><td data-op="Agencia grande" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Mucho más costosa</td><td data-op="Solo Instagram" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Gratis</td></tr>
+                        <tr><th scope="row">Alguien de tu zona te ayuda</th><td data-op="Conmigo" class="c-si"><span aria-hidden="true">✓</span><span class="visualmente-oculto">Sí: </span>Sí, en el Valle del Cauca</td><td data-op="Plantilla que haces tú" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>Soporte en línea</td><td data-op="Agencia grande" class="c-medio"><span aria-hidden="true">~</span><span class="visualmente-oculto">A medias: </span>A veces</td><td data-op="Solo Instagram" class="c-no"><span aria-hidden="true">✕</span><span class="visualmente-oculto">No: </span>No</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="como-trabajo">
-                <h3>Así trabajamos</h3>
-                <ol class="pasos">
-                    <li><span aria-hidden="true">1</span><div><strong>Me escribes</strong> Me cuentas de tu negocio por WhatsApp.</div></li>
-                    <li><span aria-hidden="true">2</span><div><strong>Ves el diseño</strong> Te muestro cómo se verá antes de programarla.</div></li>
-                    <li><span aria-hidden="true">3</span><div><strong>Sale en línea</strong> La publico con dominio propio y te enseño a usarla.</div></li>
+                <h3>Tu página en una semana</h3>
+                <ol class="pasos linea-tiempo">
+                    <li><span class="dia">Día 1</span><div><strong>Me escribes</strong> Me cuentas de tu negocio por WhatsApp y me mandas fotos, precios y horarios.</div></li>
+                    <li><span class="dia">Día 2</span><div><strong>Ves el diseño</strong> Te muestro cómo se verá antes de programarla, y lo ajustamos juntos.</div></li>
+                    <li><span class="dia">Día 3 a 6</span><div><strong>La construyo</strong> La programo a mano y la pruebas en tu celular.</div></li>
+                    <li><span class="dia">Día 7</span><div><strong>Sale en línea</strong> La publico con dominio propio y te enseño a usarla.</div></li>
                 </ol>
             </div>
 
             <!-- Preguntas frecuentes: <details> abre y cierra sin JavaScript y funciona con teclado -->
             <div class="preguntas">
                 <h3>Preguntas frecuentes</h3>
+                <details>
+                    <summary>¿Y si no sé nada de tecnología?</summary>
+                    <p>No necesitas saber. Me mandas fotos, precios y horarios por WhatsApp y yo me encargo del resto. Cuando esté lista, te enseño a usarla.</p>
+                </details>
+                <details>
+                    <summary>¿Necesito tener Instagram o redes primero?</summary>
+                    <p>No. La página funciona sola: la gente te encuentra en Google y te escribe por WhatsApp. Si ya tienes redes, las conecto a tu página.</p>
+                </details>
+                <details>
+                    <summary>¿Por qué no hago yo mismo una página con una plantilla?</summary>
+                    <p>Puedes, pero te toca a ti armarla, escribirla, pagar una cuota cada mes y hacer que aparezca en Google. Conmigo pagas una vez y te la entrego lista, hecha para tu negocio.</p>
+                </details>
                 <details>
                     <summary>¿Cuánto tarda mi página?</summary>
                     <p>Te la entrego en una semana o menos.</p>
@@ -373,6 +410,7 @@
                     <h3>Arranque</h3>
                     <p class="para-quien">Para empezar a mostrar tu negocio en redes.</p>
                     <p class="desde"><strong>$120.000</strong> <small>al mes</small></p>
+                    <p class="por-dia">unos $4.000 al día</p>
                     <p class="por-pieza">6 piezas · te sale a $20.000 cada una</p>
                     <ul class="lista-check">
                         <li><strong>2</strong> reels animados con voz</li>
@@ -386,6 +424,7 @@
                     <h3>Crecer</h3>
                     <p class="para-quien">Para publicar casi todas las semanas y no desaparecer.</p>
                     <p class="desde"><strong>$240.000</strong> <small>al mes</small></p>
+                    <p class="por-dia">unos $8.000 al día, menos que un almuerzo</p>
                     <p class="por-pieza">20 piezas · te sale a $12.000 cada una</p>
                     <ul class="lista-check">
                         <li><strong>4</strong> reels animados con voz</li>
@@ -399,6 +438,7 @@
                     <h3>Pro</h3>
                     <p class="para-quien">Para estar presente todos los días.</p>
                     <p class="desde"><strong>$450.000</strong> <small>al mes</small></p>
+                    <p class="por-dia">unos $15.000 al día</p>
                     <p class="por-pieza">38 piezas · te sale a $11.800 cada una</p>
                     <ul class="lista-check">
                         <li><strong>8</strong> reels animados con voz</li>
