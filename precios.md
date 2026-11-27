@@ -25,7 +25,7 @@ Reels animados con voz, publicaciones, carruseles e historias para Instagram, Ti
 - Arranque: $120.000 COP al mes. 2 reels, 3 publicaciones y 1 carrusel (6 piezas)
 - Crecer (recomendado): $240.000 COP al mes. 4 reels, 6 publicaciones, 2 carruseles y 8 historias o estados (20 piezas)
 - Pro: $450.000 COP al mes. 8 reels, 10 publicaciones, 4 carruseles y 16 historias o estados (38 piezas)
-- Reel suelto de prueba: desde $50.000 COP
+- Paquete de prueba: desde $50.000 COP. 1 reel animado con voz, 1 publicación y 1 historia, sin compromiso de seguir
 
 ## Formas de pago
 - Transferencia, Nequi, Daviplata o efectivo

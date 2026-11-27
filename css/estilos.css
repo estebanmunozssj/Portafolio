@@ -1118,3 +1118,4 @@ footer ul.pie-lista { display: grid; gap: 0; list-style: none; margin: 0; paddin
 @media (min-width: 64rem) { #servicios .planes { grid-template-columns: 1.2fr 1fr; } }
 /* Los paquetes de redes van uno debajo de otro hasta que caben los tres */
 @media (max-width: 63.99rem) { .planes.planes-redes { grid-template-columns: 1fr; } }
+.prueba .precio-prueba { color: var(--lima); }
