@@ -1068,3 +1068,53 @@ footer ul.pie-lista { display: grid; gap: 0; list-style: none; margin: 0; paddin
 
 /* Las tarjetas de canal no llevan subrayado (la regla general de enlaces del contacto sí) */
 .contacto-caja a.canal { text-decoration: none; overflow-wrap: normal; }
+
+/* ===== Menú digital: texto + celular que desplaza el menú de Piamonte ===== */
+.menus { display: grid; gap: 2.5rem; align-items: center; }
+.menus-texto > p:not(.numero-seccion):not(.nota-cta) { color: var(--suave); }
+.menus .lista-check { margin: 1.25rem 0 1.5rem; }
+.celular {
+  justify-self: center;
+  display: block;
+  width: min(300px, 78vw);
+  padding: 12px;
+  border-radius: 2.6rem;
+  background: #05050B;
+  border: 1px solid var(--borde-fuerte);
+  box-shadow: 0 0 0 1px rgba(0, 245, 255, .25), 0 0 60px -10px rgba(0, 245, 255, .45), 0 30px 60px -30px rgba(0, 0, 0, .8);
+}
+.celular-pantalla { display: block; aspect-ratio: 390 / 780; overflow: hidden; border-radius: 2rem; background: #F5EEE3; }
+.celular-pantalla img { display: block; width: 100%; height: auto; }
+@media (min-width: 48rem) { .menus { grid-template-columns: 1.2fr 1fr; } }
+
+/* ===== Contenido para redes: tipos de pieza y paquetes ===== */
+.piezas { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: .75rem; }
+.piezas li { display: grid; gap: .25rem; padding: 1rem 1.1rem; border: 1px solid var(--borde); border-radius: 1rem; background: var(--tarjeta); }
+.piezas strong { font-family: var(--fuente-titulo); font-weight: 800; color: var(--lima); }
+.piezas span { color: var(--suave); font-size: .92rem; line-height: 1.5; }
+@media (min-width: 48rem) { .piezas { grid-template-columns: repeat(4, 1fr); } }
+
+.planes-redes { align-items: stretch; }
+.plan-paquete { display: flex; flex-direction: column; }
+.plan-paquete .btn { margin-top: auto; width: 100%; }
+.plan-paquete .lista-check { margin-bottom: 1.5rem; }
+.para-quien { margin: .35rem 0 0; color: var(--suave); font-size: .95rem; }
+.por-pieza {
+  display: inline-block; margin: 0 0 1rem; padding: .3rem .7rem; border-radius: 999px;
+  background: rgba(0, 245, 255, .08); color: var(--cian); font-size: .82rem; font-weight: 500;
+}
+@media (min-width: 64rem) {
+  .planes.planes-redes { grid-template-columns: 1fr 1.12fr 1fr; align-items: center; }
+  .planes-redes .plan-principal { padding-block: 2.5rem; }
+}
+.incluye-todo { margin: 1.5rem 0 0; color: var(--suave); font-size: .92rem; text-align: center; }
+.prueba {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  margin-top: 1.5rem; padding: 1.1rem 1.25rem; border: 1px dashed var(--borde-fuerte); border-radius: 1.2rem;
+}
+.prueba p { margin: 0; color: var(--suave); }
+.prueba strong { color: var(--texto); }
+/* Servicios ahora tiene dos planes (página y mantenimiento): dos columnas también en pantallas grandes */
+@media (min-width: 64rem) { #servicios .planes { grid-template-columns: 1.2fr 1fr; } }
+/* Los paquetes de redes van uno debajo de otro hasta que caben los tres */
+@media (max-width: 63.99rem) { .planes.planes-redes { grid-template-columns: 1fr; } }

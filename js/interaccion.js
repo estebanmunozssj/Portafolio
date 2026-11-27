@@ -8,7 +8,8 @@
    1. Cintas: corren solas y se aceleran con la velocidad del scroll. La de servicios va al revés.
    2. Contadores: las cifras de S. B. Privé suben desde 0 la primera vez que se ven.
    3. Botones magnéticos: los botones principales se acercan un poco al ratón (solo con ratón).
-   4. Brillo: las tarjetas tienen una luz cian que sigue el ratón (solo con ratón). Este no usa GSAP. */
+   4. Brillo: las tarjetas tienen una luz cian que sigue el ratón (solo con ratón). Este no usa GSAP.
+   5. Menú digital: el menú de Piamonte se desplaza dentro del celular mientras bajas. */
 
 (() => {
   const conRaton = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -80,6 +81,19 @@
         onStart: () => { cifra.textContent = '0'; },
         onUpdate: () => { cifra.textContent = Math.round(valor.n); },
       });
+    });
+  });
+
+  /* --- 5. El menú de Piamonte se desplaza dentro del celular mientras bajas --- */
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const pantalla = document.querySelector('.celular-pantalla');
+    const img = pantalla && pantalla.querySelector('img');
+    if (!img) return;
+    const recorrer = () => -(img.offsetHeight - pantalla.clientHeight); // cuánto le sobra a la imagen
+    gsap.fromTo(img, { y: 0 }, {
+      y: () => recorrer(),
+      ease: 'none',
+      scrollTrigger: { trigger: '.celular', start: 'top 85%', end: 'bottom 15%', scrub: 0.6, invalidateOnRefresh: true },
     });
   });
 

@@ -91,7 +91,7 @@
     </script>
     <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=32">
+    <link rel="stylesheet" href="css/estilos.css?v=33">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -132,6 +132,8 @@
                 <li><a href="#clientes">Clientes</a></li>
                 <li><a href="#proyectos">Proyectos</a></li>
                 <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#menus">Menús</a></li>
+                <li><a href="#redes">Redes</a></li>
                 <li><a href="#sobre-mi">Sobre mí</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
@@ -292,18 +294,6 @@
                     </ul>
                 </article>
 
-                <!-- Servicio nuevo: contenido para redes (primera venta: S. B. Privé) -->
-                <article class="plan plan-redes con-brillo">
-                    <p class="sello sello-nuevo">Nuevo</p>
-                    <h3>Contenido para redes</h3>
-                    <p class="desde">desde <strong>$50.000</strong> <small>por reel</small></p>
-                    <ul class="lista-check">
-                        <li>Reels animados para Instagram, TikTok y estados de WhatsApp</li>
-                        <li>Carruseles que la gente guarda y comparte</li>
-                        <li>Con los colores y el logo de tu negocio</li>
-                    </ul>
-                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20reels%20para%20mi%20negocio" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Quiero reels para mi negocio</a>
-                </article>
             </div>
 
             <div class="como-trabajo">
@@ -341,9 +331,94 @@
             </div>
         </section>
 
+        <!--Menú digital: el ejemplo real es el de Piamonte Café. El celular desplaza el menú mientras bajas (js/interaccion.js)-->
+        <section id="menus" class="menus" aria-labelledby="titulo-menus">
+            <div class="menus-texto">
+                <p class="numero-seccion">04 / Menú digital</p>
+                <h2 id="titulo-menus">Tu menú en el celular de tus clientes</h2>
+                <p>Para cafés, restaurantes, panaderías y heladerías. Tus clientes escanean el código QR de la mesa, ven tus productos con fotos y precios, y te piden por WhatsApp.</p>
+                <ul class="lista-check">
+                        <li>Menú con fotos, precios y categorías</li>
+                        <li>Código QR para tus mesas y tu vitrina</li>
+                        <li>Botón para pedir o reservar por WhatsApp</li>
+                        <li>Cambias precios y productos cuando quieras</li>
+                        <li>Opcional: tarjeta de sellos para premiar a los clientes que vuelven</li>
+                </ul>
+                <div class="acciones">
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20un%20men%C3%BA%20digital%20para%20mi%20negocio" class="btn" target="_blank" rel="noopener noreferrer">Quiero el menú de mi negocio</a>
+                    <a href="proyectos/Piamonte-Cafe/menu.html" class="btn btn-borde">Ver el menú de Piamonte</a>
+                </div>
+                <p class="nota-cta">Ejemplo real: el menú de Piamonte Café, en Yotoco. Cotización gratis.</p>
+            </div>
+            <a class="celular" href="proyectos/Piamonte-Cafe/menu.html" aria-label="Ver el menú digital de Piamonte Café">
+                <span class="celular-pantalla"><img src="img/menu-piamonte-largo.jpg" alt="Menú digital de Piamonte Café en un celular: categorías Calientes, Fríos y Cócteles con fotos y precios" width="390" height="3000" loading="lazy" decoding="async"></span>
+            </a>
+        </section>
+
+        <!--Contenido para redes: paquetes mensuales. El del medio va marcado como recomendado; "por pieza" muestra cuánto se ahorra al subir de plan-->
+        <section id="redes" aria-labelledby="titulo-redes">
+            <div class="servicios-intro">
+                <p class="numero-seccion">05 / Contenido para redes</p>
+                <h2 id="titulo-redes">Tus redes del mes, listas para publicar</h2>
+                <p>Me mandas fotos y precios, y te entrego el contenido de todo el mes con los colores y el logo de tu negocio. Tú solo publicas.</p>
+            </div>
+            <ul class="piezas">
+                <li><strong>Reels animados</strong><span>Videos verticales con voz para Instagram, TikTok y estados. No tienes que grabarte.</span></li>
+                <li><strong>Publicaciones</strong><span>Diseños para tu perfil con tus productos, precios y promociones.</span></li>
+                <li><strong>Carruseles</strong><span>Varias láminas que la gente guarda y comparte: consejos, menús, antes y después.</span></li>
+                <li><strong>Historias y estados</strong><span>Para Instagram y los estados de WhatsApp, donde tus clientes ya te ven todos los días.</span></li>
+            </ul>
+            <div class="planes planes-redes">
+                <article class="plan plan-paquete con-brillo">
+                    <h3>Arranque</h3>
+                    <p class="para-quien">Para empezar a mostrar tu negocio en redes.</p>
+                    <p class="desde"><strong>$120.000</strong> <small>al mes</small></p>
+                    <p class="por-pieza">6 piezas · te sale a $20.000 cada una</p>
+                    <ul class="lista-check">
+                        <li><strong>2</strong> reels animados con voz</li>
+                        <li><strong>3</strong> publicaciones</li>
+                        <li><strong>1</strong> carrusel</li>
+                    </ul>
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20el%20plan%20Arranque%20de%20contenido%20para%20redes" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Quiero el plan Arranque</a>
+                </article>
+                <article class="plan plan-paquete con-brillo plan-principal">
+                    <p class="sello">Recomendado</p>
+                    <h3>Crecer</h3>
+                    <p class="para-quien">Para publicar casi todas las semanas y no desaparecer.</p>
+                    <p class="desde"><strong>$240.000</strong> <small>al mes</small></p>
+                    <p class="por-pieza">20 piezas · te sale a $12.000 cada una</p>
+                    <ul class="lista-check">
+                        <li><strong>4</strong> reels animados con voz</li>
+                        <li><strong>6</strong> publicaciones</li>
+                        <li><strong>2</strong> carruseles</li>
+                        <li><strong>8</strong> historias y estados de WhatsApp</li>
+                    </ul>
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20el%20plan%20Crecer%20de%20contenido%20para%20redes" class="btn" target="_blank" rel="noopener noreferrer">Quiero el plan Crecer</a>
+                </article>
+                <article class="plan plan-paquete con-brillo">
+                    <h3>Pro</h3>
+                    <p class="para-quien">Para estar presente todos los días.</p>
+                    <p class="desde"><strong>$450.000</strong> <small>al mes</small></p>
+                    <p class="por-pieza">38 piezas · te sale a $11.800 cada una</p>
+                    <ul class="lista-check">
+                        <li><strong>8</strong> reels animados con voz</li>
+                        <li><strong>10</strong> publicaciones</li>
+                        <li><strong>4</strong> carruseles</li>
+                        <li><strong>16</strong> historias y estados de WhatsApp</li>
+                    </ul>
+                    <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20el%20plan%20Pro%20de%20contenido%20para%20redes" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Quiero el plan Pro</a>
+                </article>
+            </div>
+            <p class="incluye-todo">Todos los planes: mes a mes y sin permanencia · pagas el mes por adelantado · 2 rondas de cambios por pieza · tu logo y tus colores.</p>
+            <div class="prueba con-brillo">
+                <p><strong>¿Primero quieres probar?</strong> Un reel suelto desde $50.000.</p>
+                <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20un%20reel%20de%20prueba%20para%20mi%20negocio" class="btn btn-borde" target="_blank" rel="noopener noreferrer">Pedir un reel de prueba</a>
+            </div>
+        </section>
+
         <!--Sobre mí + habilidades-->
         <section id="sobre-mi" aria-labelledby="titulo-sobre-mi">
-            <p class="numero-seccion">04 / Sobre mí</p>
+            <p class="numero-seccion">06 / Sobre mí</p>
             <h2 id="titulo-sobre-mi">Hola, soy Esteban</h2>
             <p>Soy de Yotoco, Valle. Hago páginas para negocios locales y las escribo a mano, sin plantillas, para que carguen rápido y se vean como tu negocio, no como cualquier otro. Te acompaño desde la primera idea hasta que tu página esté en línea.</p>
             <h3 class="visualmente-oculto">Habilidades</h3>
@@ -360,7 +435,7 @@
         <!--Contacto: recuadro con brillo cian-->
         <section id="contacto" aria-labelledby="titulo-contacto">
             <div class="contacto-caja con-brillo">
-                <p class="numero-seccion">05 / Contacto</p>
+                <p class="numero-seccion">07 / Contacto</p>
                 <h2 id="titulo-contacto">Hablemos de tu negocio</h2>
                 <p>Escríbeme por WhatsApp y en una conversación te digo qué necesitas y cuánto cuesta, sin compromiso.</p>
                 <a href="https://wa.me/573147772991?text=Hola%20Esteban%2C%20quiero%20una%20cotizaci%C3%B3n%20para%20la%20p%C3%A1gina%20de%20mi%20negocio" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer"><svg class="icono" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg>Escríbeme por WhatsApp</a>
@@ -395,6 +470,8 @@
                     <li><a href="#clientes">Clientes</a></li>
                     <li><a href="#proyectos">Proyectos</a></li>
                     <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#menus">Menú digital</a></li>
+                    <li><a href="#redes">Contenido para redes</a></li>
                     <li><a href="#sobre-mi">Sobre mí</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
@@ -456,7 +533,7 @@
         <!-- GSAP 3.13 (gratis, con ScrollTrigger) desde cdnjs, con huella de integridad. Si no carga, la página funciona igual -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha512-P2IDYZfqSwjcSjX0BKeNhwRUH8zRPGlgcWl5n6gBLzdi4Y5/0O4zaXrtO4K9TZK6Hn1BenYpKowuCavNandERg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-        <script src="js/interaccion.js?v=1" defer></script>
+        <script src="js/interaccion.js?v=2" defer></script>
 
     
 </body>
