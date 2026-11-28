@@ -86,7 +86,7 @@
                     </svg>
                 </h1>
                 <h2>¿Qué vas a pedir?</h2>
-                <p class="menu-ayuda">Toca un producto para verlo en grande y saber qué lleva.</p>
+                <p class="menu-ayuda">Toca un producto para verlo en grande. Con el <span class="menu-ayuda-mas" aria-hidden="true">+</span><span class="solo-lectores">botón más</span> lo guardas en tu lista y, al llegar, se la muestras al barista.</p>
             </div>
 
             <div class="categorias" id="categorias" role="group" aria-label="Categorías del menú"></div>
@@ -120,6 +120,48 @@
                         <p class="destacado-precio" id="destacado-precio"></p>
                         <ul class="destacado-capas" id="destacado-capas"></ul>
                     </div>
+                </div>
+                <!-- Añade el producto a "Mi lista" (js/lista.js) -->
+                <button type="button" class="boton detalle-agregar" id="detalle-agregar">Añadir a mi lista</button>
+            </div>
+        </dialog>
+
+        <!-- ===== MI LISTA (js/lista.js) =====
+             Barra que aparece abajo cuando el cliente añade algo. Al tocarla abre la lista -->
+        <button type="button" class="lista-barra" id="lista-barra" aria-haspopup="dialog" hidden>
+            <svg class="lista-barra-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a1 1 0 0 1 1 1v17l-3-2-3 2-3-2-3 2V4a1 1 0 0 1 1-1z M9 8h6M9 12h6M9 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="lista-barra-texto">Mi lista</span>
+            <span class="lista-barra-cantidad" id="lista-barra-cantidad">0</span>
+            <span class="lista-barra-total" id="lista-barra-total"></span>
+        </button>
+
+        <!-- La lista: se edita con − y +. "Mostrar al barista" la pone en letra grande para leerla en la barra -->
+        <dialog class="lista" id="lista" aria-labelledby="lista-titulo">
+            <div class="lista-caja">
+                <button type="button" class="detalle-cerrar lista-cerrar" id="lista-cerrar" aria-label="Cerrar">✕</button>
+                <header class="lista-cabeza">
+                    <p class="lista-marca">Piamonte café</p>
+                    <h3 id="lista-titulo">Mi lista</h3>
+                    <p class="lista-ayuda" id="lista-ayuda">Cuando llegues a la barra, toca «Mostrar al barista».</p>
+                </header>
+
+                <!-- El papelito: los productos y el total -->
+                <div class="lista-papel">
+                    <ul class="lista-filas" id="lista-filas"></ul>
+                    <p class="lista-vacia-texto">Tu lista está vacía. Toca el <strong>+</strong> de lo que se te antoje.</p>
+                    <div class="lista-suma">
+                        <span>Total aproximado</span>
+                        <strong id="lista-total">$0</strong>
+                    </div>
+                    <p class="lista-total-nota" id="lista-total-nota" hidden></p>
+                </div>
+
+                <div class="lista-acciones">
+                    <button type="button" class="boton lista-barista" id="lista-barista">Mostrar al barista</button>
+                    <!-- Para domicilios: abre WhatsApp con la lista ya escrita (el enlace lo arma js/lista.js) -->
+                    <a href="#" class="boton boton-borde lista-whatsapp" id="lista-whatsapp" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="img/iconos.svg#whatsapp"/></svg>Pedir a domicilio por WhatsApp</a>
+                    <button type="button" class="lista-seguir" id="lista-seguir">Seguir viendo el menú</button>
+                    <button type="button" class="lista-vaciar" id="lista-vaciar">Vaciar lista</button>
                 </div>
             </div>
         </dialog>
@@ -184,6 +226,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/lista.js"></script>
     <script src="js/scroll.js"></script>
     <script src="js/mensaje-del-dia.js"></script>
     <script src="js/granos.js"></script>

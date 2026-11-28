@@ -479,6 +479,7 @@ function dibujar(producto) {
   const nombre = document.getElementById('destacado-nombre');
   const precio = document.getElementById('destacado-precio');
   const capas = document.getElementById('destacado-capas');
+  const agregarDetalle = document.getElementById('detalle-agregar');
   if (!cajaCategorias || !cajaProductos || !ventana) return;
 
   const textoPrecio = (p) => (p ? '$' + p.toLocaleString('es-CO') : 'Precio pronto'); // 6500 → $6.500
@@ -516,9 +517,35 @@ function dibujar(producto) {
       .map(([ing]) => `<li><span style="background:${INGREDIENTES[ing].color}"></span>${INGREDIENTES[ing].nombre}</li>`)
       .join('');
 
+    // Botón "Añadir a mi lista" (js/lista.js)
+    agregarDetalle.dataset.nombre = producto.nombre;
+    textoAgregar();
+
     if (ventana.showModal) ventana.showModal(); // Navegadores muy viejos no tienen showModal
     else ventana.setAttribute('open', '');
   }
+
+  // Texto del botón de la ventana: cambia si el producto ya está en la lista
+  const lista = () => (typeof ListaPedido === 'undefined' ? null : ListaPedido); // lista.js carga después
+  function textoAgregar() {
+    const n = lista() ? lista().cantidad(agregarDetalle.dataset.nombre) : 0;
+    agregarDetalle.classList.remove('agregado');
+    agregarDetalle.innerHTML = n
+      ? `Añadir otro <span class="detalle-agregar-cuenta">llevas ${n}</span>`
+      : 'Añadir a mi lista';
+  }
+
+  // Al añadir desde la ventana: confirma con un ✓ y se cierra sola, para seguir mirando el menú
+  let cerrarLuego = null;
+  agregarDetalle.addEventListener('click', () => {
+    if (!lista()) return;
+    lista().agregar(agregarDetalle.dataset.nombre);
+    agregarDetalle.classList.add('agregado');
+    agregarDetalle.textContent = '✓ Añadido a tu lista';
+    clearTimeout(cerrarLuego);
+    cerrarLuego = setTimeout(() => ventana.close(), menosMovimiento.matches ? 600 : 750);
+  });
+  ventana.addEventListener('close', () => clearTimeout(cerrarLuego));
 
   // Un cuadro de la cuadrícula: foto (con el dibujo pequeño al lado del nombre) o, si no hay foto, el dibujo
   function crearCuadro(producto) {
@@ -537,7 +564,28 @@ function dibujar(producto) {
       <span class="producto-imagen${producto.foto ? '' : ' sin-foto'}">${imagen}</span>
       <span class="producto-info">${mini}<span class="producto-texto"><span>${producto.nombre}</span><strong>${textoPrecio(producto.precio)}</strong></span></span>`;
     boton.addEventListener('click', () => abrirProducto(producto));
-    return boton;
+
+    // Botón "+" en la esquina de la foto: añade a la lista sin abrir la ventana.
+    // Va al lado del cuadro (no dentro): un botón no puede ir dentro de otro botón
+    const agregar = document.createElement('button');
+    agregar.type = 'button';
+    agregar.className = 'producto-agregar';
+    agregar.dataset.nombre = producto.nombre;
+    agregar.addEventListener('click', () => {
+      if (!lista()) return;
+      lista().agregar(producto.nombre);
+      if (agregar.animate && !menosMovimiento.matches) {
+        agregar.animate([{ transform: 'scale(0.8)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1)' }],
+          { duration: 300, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+      }
+    });
+
+    const celda = document.createElement('div');
+    celda.className = 'producto-celda';
+    celda.append(boton, agregar);
+    if (lista()) lista().marcar(agregar);
+    else agregar.textContent = '+'; // Al cargar, lista.js todavía no existe: él los marca cuando arranca
+    return celda;
   }
 
   function mostrarCategoria(indice) {

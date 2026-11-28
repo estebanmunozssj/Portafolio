@@ -918,6 +918,339 @@ h2 {
     .domicilio .boton:hover { background: var(--caramelo-claro); }
 }
 
+/* ===== MI LISTA (js/lista.js): el cliente guarda lo que quiere y se lo muestra al barista ===== */
+
+/* El "+" que explica la ayuda bajo el título */
+.menu-ayuda-mas {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-inline: 0.1em;
+    border-radius: 50%;
+    background: #fffaf3;
+    box-shadow: 0 2px 6px rgba(59, 36, 24, 0.2);
+    color: var(--cafe);
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: 0.05em;
+}
+
+/* Cada cuadro va dentro de una celda: así el "+" puede ir encima de la foto sin estar dentro del botón */
+.producto-celda { position: relative; display: flex; }
+.producto-celda .producto { flex: 1; width: 100%; }
+.producto-agregar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--crema);
+    color: var(--cafe);
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(59, 36, 24, 0.28);
+    transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+}
+.producto-agregar::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; } /* 48 px para el dedo */
+.producto-agregar:active { transform: scale(0.9); }
+/* Ya está en la lista: verde con el número de unidades */
+.producto-agregar.en-lista {
+    background: var(--verde);
+    color: var(--crema);
+    font-family: var(--letra-titulo);
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 0 0 3px var(--crema), 0 3px 10px rgba(59, 36, 24, 0.28);
+}
+
+/* Botón "Añadir a mi lista" dentro de la ventana de detalle */
+.detalle-agregar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 3.1rem;
+    margin-top: 1rem;
+    border: 0;
+    cursor: pointer;
+}
+.detalle-agregar-cuenta { font-weight: 400; font-size: 0.85em; opacity: 0.8; }
+.detalle-agregar-cuenta::before { content: '· '; }
+.detalle-agregar.agregado { background: var(--verde); }
+
+/* Barra flotante de abajo: "Mi lista · 3 · $25.000" */
+.lista-barra {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    z-index: 30;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 3.4rem;
+    max-width: calc(100% - 2rem);
+    padding: 0.5rem 0.55rem 0.5rem 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--cafe);
+    color: var(--crema);
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(30, 18, 12, 0.35), 0 0 0 3px rgba(246, 239, 228, 0.9);
+    animation: barra-entrar 320ms var(--ease-out);
+}
+.lista-barra[hidden] { display: none; } /* display: flex le ganaría a hidden */
+@keyframes barra-entrar {
+    from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+}
+.lista-barra-icono { width: 1.35rem; height: 1.35rem; flex: none; }
+.lista-barra-cantidad {
+    display: grid;
+    place-items: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: var(--caramelo-claro);
+    color: var(--cafe);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+}
+.lista-barra-total {
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(246, 239, 228, 0.14);
+    font-variant-numeric: tabular-nums;
+}
+.lista-barra-total:empty { display: none; }
+.lista-barra-total:empty ~ * { margin-right: 0.5rem; }
+/* Con la barra a la vista, el pie deja espacio para que no tape "Volver arriba" */
+body.con-lista .pie { padding-bottom: calc(6rem + env(safe-area-inset-bottom)); }
+
+/* La ventana de la lista: en celular sube desde abajo; en pantalla grande va centrada */
+.lista {
+    width: 100%;
+    max-width: 100%;
+    max-height: min(92dvh, 48rem);
+    margin: auto auto 0;
+    padding: 0;
+    border: 0;
+    border-radius: 1.5rem 1.5rem 0 0;
+    background: var(--crema);
+    color: var(--cafe);
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+.lista::backdrop { background: rgba(30, 18, 12, 0.75); }
+.lista[open] { animation: lista-subir 300ms var(--ease-out); }
+@keyframes lista-subir {
+    from { transform: translateY(40px); opacity: 0; }
+}
+.lista-caja {
+    position: relative;
+    width: min(100%, 30rem);
+    margin-inline: auto;
+    padding: 1.5rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+}
+.lista-caja .lista-cerrar { top: 1rem; right: 1rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+
+.lista-cabeza { text-align: center; padding-inline: 2.75rem; }
+.lista-marca {
+    margin: 0;
+    font-family: var(--letra-logo);
+    font-weight: 700;
+    font-size: 1.45rem;
+    line-height: 1;
+    color: var(--caramelo-oscuro);
+}
+.lista-cabeza h3 {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+.lista-ayuda { margin: 0.35rem 0 1.1rem; font-size: 0.9rem; color: var(--cafe-suave); text-wrap: balance; }
+
+/* El papelito (como la comanda de la barra), con borde de ticket abajo */
+.lista-papel {
+    position: relative;
+    margin-bottom: 12px;
+    padding: 0.25rem 1rem 1rem;
+    border-radius: 1rem 1rem 0 0;
+    background: #fffaf3;
+    box-shadow: 0 10px 24px rgba(59, 36, 24, 0.07);
+}
+.lista-papel::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 10px;
+    background: radial-gradient(circle at 50% 100%, transparent 5px, #fffaf3 5.5px) 0 0 / 14px 10px repeat-x;
+}
+.lista-filas { list-style: none; margin: 0; padding: 0; }
+.lista-fila {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 0;
+    border-bottom: 1.5px dashed var(--crema-oscura);
+}
+.lista-cantidad-grande { display: none; } /* Solo en "Mostrar al barista" */
+.lista-mini {
+    display: block;
+    width: 3.25rem;
+    aspect-ratio: 1;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--crema-oscura);
+}
+.lista-mini img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lista-mini.sin-foto { display: grid; place-items: center; padding: 0.3rem; }
+.lista-mini .dibujo .vapor path,
+.lista-mini .dibujo .liquido { animation: none; }
+.lista-texto { min-width: 0; }
+.lista-nombre { display: block; font-weight: 700; line-height: 1.25; overflow-wrap: break-word; hyphens: auto; }
+.lista-precio { display: block; margin-top: 0.1rem; font-size: 0.85rem; color: var(--verde); font-variant-numeric: tabular-nums; }
+
+/* − 2 + */
+.lista-precio small { font-size: 0.8em; color: var(--cafe-suave); white-space: nowrap; }
+
+/* − 2 + */
+.lista-control {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    border-radius: 999px;
+    background: var(--crema);
+}
+.lista-control button {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 200ms ease, transform 160ms var(--ease-out);
+}
+.lista-control button:active { transform: scale(0.88); }
+.lista-control button:disabled { opacity: 0.35; cursor: default; }
+.lista-control svg { width: 1.1rem; height: 1.1rem; }
+.lista-control .lista-mas { background: var(--cafe); color: var(--crema); }
+.lista-numero { min-width: 1.6rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.lista-suma {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-top: 0.9rem;
+    font-weight: 700;
+}
+.lista-suma strong { font-family: var(--letra-titulo); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.lista-total-nota { margin: 0.2rem 0 0; font-size: 0.8rem; text-align: right; color: var(--cafe-suave); }
+.lista-vacia-texto { display: none; margin: 0; padding: 1.75rem 0.5rem 1rem; text-align: center; color: var(--cafe-suave); }
+
+.lista-acciones { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; margin-top: 1.25rem; }
+.lista-acciones .lista-barista { width: 100%; min-height: 3.2rem; margin-top: 0; border: 0; font-size: 1.05rem; cursor: pointer; }
+/* Botón de WhatsApp (domicilios): con borde, para que "Mostrar al barista" siga siendo el principal */
+.lista-acciones .lista-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 3.2rem;
+    margin: 0.5rem 0 0.25rem;
+}
+.lista-seguir,
+.lista-vaciar {
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 0;
+    background: none;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+}
+.lista-vaciar { font-weight: 400; font-size: 0.9rem; color: #9b3b2a; }
+
+/* Lista vacía (borraste todo): solo el mensaje y "Seguir viendo el menú" */
+.lista.vacia .lista-vacia-texto { display: block; }
+.lista.vacia .lista-suma,
+.lista.vacia .lista-total-nota,
+.lista.vacia .lista-barista,
+.lista.vacia .lista-whatsapp,
+.lista.vacia .lista-vaciar { display: none; }
+
+/* "Mostrar al barista": letra grande, sin fotos ni botones, para leerla de un vistazo */
+.lista.modo-barista .lista-mini,
+.lista.modo-barista .lista-control,
+.lista.modo-barista .lista-precio,
+.lista.modo-barista .lista-seguir,
+.lista.modo-barista .lista-whatsapp,
+.lista.modo-barista .lista-vaciar { display: none; }
+.lista.modo-barista .lista-papel { padding: 0.5rem 1.25rem 1.25rem; }
+.lista.modo-barista .lista-fila { grid-template-columns: auto 1fr; gap: 0.9rem; padding: 1rem 0; align-items: baseline; }
+.lista.modo-barista .lista-cantidad-grande {
+    display: block;
+    min-width: 2.6ch;
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: var(--caramelo-oscuro);
+    font-variant-numeric: tabular-nums;
+}
+.lista.modo-barista .lista-nombre {
+    font-family: var(--letra-titulo);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 6vw, 1.7rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+.lista.modo-barista .lista-suma strong { font-size: 2rem; }
+.lista.modo-barista .lista-barista { background: transparent; color: var(--cafe); box-shadow: inset 0 0 0 2px var(--cafe); }
+.lista.modo-barista .lista-cabeza h3 { font-size: 2.2rem; }
+
+@media (min-width: 600px) {
+    .lista { width: min(100% - 2rem, 30rem); margin: auto; border-radius: 1.5rem; }
+    .lista[open] { animation: detalle-abrir 240ms var(--ease-out); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .producto-agregar:hover { background: var(--caramelo-claro); }
+    .producto-agregar.en-lista:hover { background: var(--cafe); }
+    .lista-barra:hover { background: var(--verde); }
+    .lista-control button:hover { background: var(--crema-oscura); }
+    .lista-control .lista-mas:hover { background: var(--verde); }
+    .lista.modo-barista .lista-barista:hover { background: var(--crema-oscura); }
+    .lista-seguir:hover,
+    .lista-vaciar:hover { text-decoration-thickness: 2.5px; }
+}
+
 /* ===== DIBUJOS (taza, vaso, platos) ===== */
 .dibujo { width: 100%; height: auto; display: block; overflow: visible; }
 .dibujo .ceramica { fill: none; stroke: var(--cafe); stroke-width: 4; }
