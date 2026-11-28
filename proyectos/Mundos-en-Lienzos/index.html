@@ -2,6 +2,8 @@
 <html lang="es" data-type="product" data-radius="round" data-buttons="pill" data-motion>
 <head>
 <meta charset="utf-8">
+<!-- La primera foto del carrusel es lo primero grande que se ve: se pide antes que todo lo demás -->
+<link rel="preload" as="image" href="img/sammy.avif" imagesrcset="img/sammy-800.avif 600w, img/sammy.avif 1200w" imagesizes="(min-width: 640px) 52vw, 92vw" type="image/avif" fetchpriority="high">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mundos en Lienzos: retratos pintados a mano por Dahiana Ortega, Yotoco</title>
 <meta name="description" content="Mándame una foto de tu mascota, tu familia o tu casa y la pinto a mano en lienzo, maceta, funda o adorno de Navidad. Envíos desde Yotoco a toda Colombia.">
@@ -18,13 +20,13 @@
 <meta name="page-type" content="product">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..700&family=Dancing+Script:wght@500..700&display=swap" rel="stylesheet">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..700&family=Dancing+Script:wght@500..700&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..700&family=Dancing+Script:wght@500..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..700&family=Dancing+Script:wght@500..700&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="assets/system.css">
 <link rel="stylesheet" href="assets/ui/cards.css">
 <link rel="stylesheet" href="assets/motion/motion.css">
-<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
 <link rel="stylesheet" href="assets/layout/layout.css">
-<link rel="stylesheet" href="assets/icons/icon.css">
 <style>
 :root {
   /* marca "Mundos en Lienzos" (tablero de marca): crema, tinta morada, rosa intenso; lavanda, cielo y rosa de apoyo */
@@ -45,7 +47,6 @@
 h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WONK" 1; }
 </style>
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
-<script src="assets/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link rel="modulepreload" href="assets/moments/moments.js">
 <link rel="modulepreload" href="assets/moments/lib.js">
@@ -167,7 +168,7 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
   "description": "Retratos pintados a mano desde una foto (mascotas, personas, familias, casas y lugares) en lienzos, retablos de madera, macetas, fundas de celular y adornos de Navidad.",
   "founder": { "@type": "Person", "name": "Dahiana Ortega" },
   "priceRange": "$55.000 - $120.000 COP",
-  "image": "img/sammy.jpg",
+  "image": "https://estebandev.online/proyectos/Mundos-en-Lienzos/share.jpg",
   "logo": "img/logo-500.png",
   "address": { "@type": "PostalAddress", "addressLocality": "Yotoco", "addressRegion": "Valle del Cauca", "addressCountry": "CO" },
   "areaServed": { "@type": "Country", "name": "Colombia" },
@@ -207,7 +208,7 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
               <a href="#preguntas">Preguntas<span>Precio, envíos y encargos</span></a>
             </div>
             <a class="menu-card span-3 start-10" href="#trabajos">
-              <div class="panel"><img class="frame__img" src="img/adorno-vino-800.jpg" alt="Adorno de Navidad redondo color vino con un perro blanco y negro, copos de nieve y moños"></div>
+              <div class="panel"><img class="frame__img" src="img/adorno-vino-800.avif" alt="Adorno de Navidad redondo color vino con un perro blanco y negro, copos de nieve y moños"></div>
               <span class="t-card">Adornos de Navidad</span>
               <span class="t-small muted">Para colgar en el árbol</span>
             </a>
@@ -234,12 +235,12 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
     <div class="wrap"><div class="hero-text hero__in">
       <div class="hero__media hero__fill">
         <!-- carrusel: 4 a 6 fotos horizontales de sus mejores trabajos (lienzo, maceta, funda, adorno), con la misma luz -->
-        <img class="carrusel__img is-on" src="img/sammy.jpg" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="1200" height="1600" fetchpriority="high">
-        <img class="carrusel__img" src="img/loro-retablo.jpg" alt="Retablo redondo de madera con un loro verde de frente amarilla, pintado a mano" width="1125" height="1500" loading="lazy" aria-hidden="true">
-        <img class="carrusel__img" src="img/linda.jpg" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="1200" height="1600" loading="lazy" aria-hidden="true">
-        <img class="carrusel__img" src="img/bombon.jpg" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" width="1413" height="1500" loading="lazy" aria-hidden="true">
-        <img class="carrusel__img" src="img/puky.jpg" alt="Retrato de Puky, un perro negro y café con gorro de Navidad, pintado en lienzo" width="1200" height="1600" loading="lazy" aria-hidden="true">
-        <img class="carrusel__img" src="img/gato-negro.jpg" alt="Retrato de un gato negro de ojo verde asomado al borde del lienzo" width="1212" height="1500" loading="lazy" aria-hidden="true">
+        <img class="carrusel__img is-on" src="img/sammy.avif" srcset="img/sammy-800.avif 600w, img/sammy.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="1200" height="1600" fetchpriority="high">
+        <img class="carrusel__img" data-src="img/loro-retablo.avif" data-srcset="img/loro-retablo-800.avif 600w, img/loro-retablo.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retablo redondo de madera con un loro verde de frente amarilla, pintado a mano" width="1125" height="1500" aria-hidden="true">
+        <img class="carrusel__img" data-src="img/linda.avif" data-srcset="img/linda-800.avif 600w, img/linda.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="1200" height="1600" aria-hidden="true">
+        <img class="carrusel__img" data-src="img/bombon.avif" data-srcset="img/bombon-800.avif 600w, img/bombon.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" width="1413" height="1500" aria-hidden="true">
+        <img class="carrusel__img" data-src="img/puky.avif" data-srcset="img/puky-800.avif 600w, img/puky.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retrato de Puky, un perro negro y café con gorro de Navidad, pintado en lienzo" width="1200" height="1600" aria-hidden="true">
+        <img class="carrusel__img" data-src="img/gato-negro.avif" data-srcset="img/gato-negro-800.avif 600w, img/gato-negro.avif 1200w" sizes="(min-width: 640px) 52vw, 92vw" alt="Retrato de un gato negro de ojo verde asomado al borde del lienzo" width="1212" height="1500" aria-hidden="true">
         <div class="carrusel__ctrl" role="group" aria-label="Fotos de trabajos">
           <button class="carrusel__pausa" type="button" aria-label="Pausar el carrusel" aria-pressed="false">
             <svg class="i-pausa" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -270,7 +271,7 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
       </div>
       <div class="grid">
         <a class="tile span-3" style="--tile-ratio: 1 / 1" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20retrato%20en%20lienzo">
-          <div class="tile__media"><img src="img/linda-800.jpg" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="800" height="1067" loading="lazy"></div>
+          <div class="tile__media"><img src="img/linda-800.avif" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="800" height="1067" loading="lazy"></div>
           <div class="tile__head"><h3>Lienzos y retablos</h3></div>
           <p>En tela o en madera, para la pared, con el nombre escrito si lo quieres. Desde $55.000.</p>
           <span class="link tile__cta">Pedir un lienzo</span>
@@ -282,13 +283,13 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
           <span class="link tile__cta">Pedir una maceta</span>
         </a>
         <a class="tile span-3" style="--tile-ratio: 1 / 1" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20una%20funda%20pintada">
-          <div class="tile__media"><img src="img/funda-whanda-800.jpg" alt="Funda de celular negra pintada con Whanda, una bull terrier blanca con collar rosado, y su nombre en dorado" width="600" height="800" loading="lazy"></div>
+          <div class="tile__media"><img src="img/funda-whanda-800.avif" alt="Funda de celular negra pintada con Whanda, una bull terrier blanca con collar rosado, y su nombre en dorado" width="600" height="800" loading="lazy"></div>
           <div class="tile__head"><h3>Fundas de celular</h3></div>
           <p>A quien más quieres, contigo todo el día. Con una mascota, $80.000.</p>
           <span class="link tile__cta">Pedir una funda</span>
         </a>
         <a class="tile span-3" style="--tile-ratio: 1 / 1" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20adorno%20de%20Navidad%20pintado">
-          <div class="tile__media"><img src="img/adorno-verde-800.jpg" alt="Adorno de Navidad verde con un perro café con suéter rojo, sobre un caballete pequeño" width="600" height="800" loading="lazy"></div>
+          <div class="tile__media"><img src="img/adorno-verde-800.avif" alt="Adorno de Navidad verde con un perro café con suéter rojo, sobre un caballete pequeño" width="600" height="800" loading="lazy"></div>
           <div class="tile__head"><h3>Adornos de Navidad</h3></div>
           <p>Lo cuelgas en el árbol y vuelve a salir cada diciembre.</p>
           <span class="link tile__cta">Pedir un adorno</span>
@@ -375,17 +376,17 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
         <h2 id="trabajos-h">Retratos que ya están en su casa</h2>
       </div>
       <div class="wall">
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/puky-800.jpg" alt="Retrato de Puky, un perro negro y café con gorro de Navidad, pintado en lienzo" width="800" height="1067" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/linda-800.jpg" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="800" height="1067" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/sammy-800.jpg" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="800" height="1067" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/loro-retablo-800.jpg" alt="Retablo redondo de madera con un loro verde de frente amarilla, pintado a mano" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/bombon-800.jpg" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/gato-negro-800.jpg" alt="Retrato de un gato negro de ojo verde asomado al borde del lienzo" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/funda-whanda-800.jpg" alt="Funda de celular negra pintada con Whanda, una bull terrier blanca con collar rosado, y su nombre en dorado" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/funda-sombrero-800.jpg" alt="Funda de celular dorada pintada con un golden retriever con sombrero negro y corazones" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-vino-800.jpg" alt="Adorno de Navidad redondo color vino con un perro blanco y negro, copos de nieve y moños" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-verde-800.jpg" alt="Adorno de Navidad verde con un perro café con suéter rojo, sobre un caballete pequeño" loading="lazy"></div></a>
-        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-sasha-800.jpg" alt="Adorno de Navidad verde con el nombre Sasha en letra cursiva y copos dorados" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/puky-800.avif" alt="Retrato de Puky, un perro negro y café con gorro de Navidad, pintado en lienzo" width="800" height="1067" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/linda-800.avif" alt="Retrato de Linda, una gata de ojos verdes sobre fondo verde oliva, firmado D. Ortega" width="800" height="1067" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/sammy-800.avif" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="800" height="1067" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/loro-retablo-800.avif" alt="Retablo redondo de madera con un loro verde de frente amarilla, pintado a mano" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/bombon-800.avif" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/gato-negro-800.avif" alt="Retrato de un gato negro de ojo verde asomado al borde del lienzo" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/funda-whanda-800.avif" alt="Funda de celular negra pintada con Whanda, una bull terrier blanca con collar rosado, y su nombre en dorado" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/funda-sombrero-800.avif" alt="Funda de celular dorada pintada con un golden retriever con sombrero negro y corazones" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-vino-800.avif" alt="Adorno de Navidad redondo color vino con un perro blanco y negro, copos de nieve y moños" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-verde-800.avif" alt="Adorno de Navidad verde con un perro café con suéter rojo, sobre un caballete pequeño" loading="lazy"></div></a>
+        <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/adorno-sasha-800.avif" alt="Adorno de Navidad verde con el nombre Sasha en letra cursiva y copos dorados" loading="lazy"></div></a>
         <a class="wall__item" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20trabajo%20como%20los%20de%20tu%20galer%C3%ADa"><div class="tile__media"><img src="img/marco-5.svg" alt="Maceta con un perro salchicha" loading="lazy"></div></a>
       </div>
       <div class="ig" aria-labelledby="instagram-h">
@@ -453,7 +454,7 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
           <li class="mo-pc__step">
             <h3>1. Elegimos juntos tu idea</h3>
             <p>Me mandas por WhatsApp la foto o referencia y el tamaño de lienzo o retablo. Juntos definimos el diseño, los colores y los detalles.</p>
-            <figure class="mo-pc__visual"><img src="img/bombon.jpg" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" width="1413" height="1500"></figure>
+            <figure class="mo-pc__visual"><img src="img/bombon.avif" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" width="1413" height="1500"></figure>
           </li>
           <li class="mo-pc__step">
             <h3>2. Separas con el 50 %</h3>
@@ -463,12 +464,12 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
           <li class="mo-pc__step">
             <h3>3. La pinto a mano</h3>
             <p>Toma de 15 a 20 días hábiles, porque cada pieza la pinto detalle por detalle.</p>
-            <figure class="mo-pc__visual"><img src="img/sammy.jpg" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="1200" height="1600"></figure>
+            <figure class="mo-pc__visual"><img src="img/sammy.avif" alt="Retrato de Sammy, un perro blanco asomado entre hojas verdes, pintado en lienzo cuadrado" width="1200" height="1600"></figure>
           </li>
           <li class="mo-pc__step">
             <h3>4. Pagas el resto y te llega</h3>
             <p>El otro 50 % se paga cuando la pieza está lista, antes de la entrega o el envío.</p>
-            <figure class="mo-pc__visual"><img src="img/puky.jpg" alt="Retrato terminado de Puky en las manos de su dueño" width="1200" height="1600"></figure>
+            <figure class="mo-pc__visual"><img src="img/puky.avif" alt="Retrato terminado de Puky en las manos de su dueño" width="1200" height="1600"></figure>
           </li>
         </ol>
       </div>
@@ -524,7 +525,7 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
         <div><h2 id="close-h">Pide tu retrato pintado a mano</h2><p class="frase-pincel">Mándame la foto, yo le pongo el corazón.</p><p class="t-lead">Si es para Navidad, escríbeme pronto: cada pieza toma de 15 a 20 días hábiles.</p></div>
         <a class="btn btn--primary" href="https://wa.me/?text=Hola%20Dahiana%2C%20quiero%20un%20retrato%20pintado%20a%20mano.%20Te%20mando%20la%20foto%20o%20referencia%20y%20el%20tama%C3%B1o%3A%20">Pedir por WhatsApp</a>
       </div>
-      <div class="close__media"><img src="img/bombon.jpg" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" style="object-position: 50% 35%" loading="lazy"></div>
+      <div class="close__media"><img src="img/bombon.avif" alt="Retrato de Bombón, una perra cocker con moños rosados, sobre fondo verde limón" style="object-position: 50% 35%" loading="lazy"></div>
     </div>
     <div class="closing__links">
       <div class="grid">
@@ -553,6 +554,6 @@ h1, h2, h3, .nav__logo, .footer__lede { font-variation-settings: "SOFT" 100, "WO
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
-<script src="carrusel.js" defer></script>
+<script src="carrusel.js?v=2" defer></script>
 </body>
 </html>

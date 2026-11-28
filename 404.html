@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-97SQJ39PMK"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-97SQJ39PMK');
-    </script>
     <meta charset="UTF-8">
+    <!--Seguridad: solo se cargan archivos de este sitio, de Google Analytics y de cdnjs (GSAP)-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; font-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--Letras propias (OFL): se cargan desde este sitio, sin bloquear el arranque-->
+    <link rel="preload" href="/fonts/bricolage-grotesque-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <!--Google Analytics 4: la configuración está en js/analitica.js-->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-97SQJ39PMK"></script>
+    <script src="/js/analitica.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página no encontrada | Esteban DEV</title>
     <!-- Esta página no debe salir en Google -->
@@ -18,10 +19,7 @@
     <!-- GitHub Pages muestra esta página en cualquier dirección que no exista:
          por eso todas las rutas empiezan con / (desde la raíz del sitio) -->
     <link rel="icon" href="/icon/favicon.svg?v=3" type="image/svg+xml">
-    <link rel="stylesheet" href="/css/estilos.css?v=26">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/estilos.css?v=38">
 </head>
 
 <body>

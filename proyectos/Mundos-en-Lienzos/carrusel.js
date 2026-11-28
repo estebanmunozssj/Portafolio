@@ -7,11 +7,19 @@
   const puntos = [...hero.querySelectorAll(".carrusel__dot")];
   const pausa = hero.querySelector(".carrusel__pausa");
   if (fotos.length < 2) return;
+
+  // Las fotos que no se ven al principio se piden cuando la página ya cargó, para no competir con la primera
+  const cargarResto = () => fotos.forEach((f) => {
+    if (f.dataset.srcset) { f.srcset = f.dataset.srcset; delete f.dataset.srcset; }
+    if (f.dataset.src) { f.src = f.dataset.src; delete f.dataset.src; }
+  });
+  if (document.readyState === "complete") cargarResto(); else window.addEventListener("load", cargarResto, { once: true });
   let actual = 0, reloj = null;
   let pausado = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const mostrar = (i) => {
     actual = (i + fotos.length) % fotos.length;
+    if (fotos[actual].dataset.src) cargarResto();
     fotos.forEach((f, n) => { f.classList.toggle("is-on", n === actual); n === actual ? f.removeAttribute("aria-hidden") : f.setAttribute("aria-hidden", "true"); });
     puntos.forEach((p, n) => n === actual ? p.setAttribute("aria-current", "true") : p.removeAttribute("aria-current"));
   };

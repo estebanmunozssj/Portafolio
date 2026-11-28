@@ -1,3 +1,7 @@
+/*0. Letras propias (licencia OFL), servidas desde este sitio */
+@font-face { font-family: "Bricolage Grotesque"; src: url("../fonts/bricolage-grotesque-800-latin.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("../fonts/inter-latin.woff2") format("woff2"); font-weight: 400 500; font-style: normal; font-display: swap; }
+
 /*1. Variables: cambia un color aqui y cambia en toda la pagina*/
 :root {
   /* Paleta "Afterparty": fondo oscuro con detalles neón */

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!--GOOGLE ANALITIC-->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-97SQJ39PMK"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-97SQJ39PMK');
-    </script>
     <!--codificacion y viewport obligatorios para que se vea bien en moviles-->
     <meta charset="UTF-8">
+    <!--Seguridad: solo se cargan archivos de este sitio, de Google Analytics y de cdnjs (GSAP)-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; font-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--Letras propias (OFL): se cargan desde este sitio, sin bloquear el arranque-->
+    <link rel="preload" href="fonts/bricolage-grotesque-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <!--Google Analytics 4: la configuración está en js/analitica.js-->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-97SQJ39PMK"></script>
+    <script src="js/analitica.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--SEO basico: titulos unico y descripcion de 150 caracteres-->
     <title>Páginas web para negocios del Valle del Cauca | Esteban DEV</title>
@@ -48,19 +48,20 @@
           "@type": "Person",
           "@id": "https://estebandev.online/#esteban",
           "name": "Esteban Muñoz",
-          "jobTitle": "Desarrollador web",
+          "jobTitle": "Desarrollador web y fundador de Esteban DEV",
           "url": "https://estebandev.online/",
           "image": "https://estebandev.online/img/compartir.jpg",
           "email": "mailto:estebanmunozssj@gmail.com",
           "telephone": "+57 314 777 2991",
           "address": { "@type": "PostalAddress", "addressLocality": "Yotoco", "addressRegion": "Valle del Cauca", "addressCountry": "CO" },
-          "knowsAbout": ["HTML", "CSS", "JavaScript", "Git"],
+          "knowsAbout": ["HTML", "CSS", "JavaScript", "GSAP", "Git", "Remotion"],
           "sameAs": ["https://github.com/estebanmunozssj", "https://www.instagram.com/estebanssj.dev_/"]
         },
         {
           "@type": "Service",
-          "name": "Páginas web a la medida para negocios locales",
-          "serviceType": "Diseño y desarrollo de páginas web",
+          "name": "Esteban DEV, estudio de presencia digital para negocios locales",
+          "serviceType": "Páginas web, menús digitales y contenido para redes",
+          "description": "Páginas web a la medida, menús digitales con QR y contenido para redes para negocios del Valle del Cauca, con pedidos por WhatsApp.",
           "provider": { "@id": "https://estebandev.online/#esteban" },
           "areaServed": [
             { "@type": "AdministrativeArea", "name": "Valle del Cauca, Colombia" },
@@ -71,21 +72,13 @@
             { "@type": "City", "name": "Yotoco" }
           ],
           "offers": [
-            {
-              "@type": "Offer",
-              "name": "Página web",
-              "priceSpecification": { "@type": "PriceSpecification", "minPrice": 500000, "priceCurrency": "COP" }
-            },
-            {
-              "@type": "Offer",
-              "name": "Reel animado para redes sociales",
-              "priceSpecification": { "@type": "PriceSpecification", "minPrice": 50000, "priceCurrency": "COP" }
-            },
-            {
-              "@type": "Offer",
-              "name": "Mantenimiento mensual",
-              "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": 50000, "priceCurrency": "COP", "unitText": "mes" }
-            }
+            { "@type": "Offer", "name": "Página web a la medida", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 500000, "priceCurrency": "COP" } },
+            { "@type": "Offer", "name": "Mantenimiento mensual", "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": 50000, "priceCurrency": "COP", "unitText": "mes" } },
+            { "@type": "Offer", "name": "Menú digital con código QR", "description": "Menú en el celular con fotos y precios, QR para mesas y pedidos por WhatsApp. Se cotiza." },
+            { "@type": "Offer", "name": "Contenido para redes: plan Arranque", "description": "2 reels, 3 publicaciones y 1 carrusel al mes", "price": 120000, "priceCurrency": "COP" },
+            { "@type": "Offer", "name": "Contenido para redes: plan Crecer", "description": "4 reels, 6 publicaciones, 2 carruseles y 8 historias al mes", "price": 240000, "priceCurrency": "COP" },
+            { "@type": "Offer", "name": "Contenido para redes: plan Pro", "description": "8 reels, 10 publicaciones, 4 carruseles y 16 historias al mes", "price": 450000, "priceCurrency": "COP" },
+            { "@type": "Offer", "name": "Paquete de prueba de contenido para redes", "description": "1 reel, 1 publicación y 1 historia", "priceSpecification": { "@type": "PriceSpecification", "minPrice": 50000, "priceCurrency": "COP" } }
           ]
         }
       ]
@@ -94,10 +87,7 @@
     <link rel="icon" href="icon/favicon.svg?v=3" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
     <meta name="theme-color" content="#0A0A12">
-    <link rel="stylesheet" href="css/estilos.css?v=37">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css?v=38">
 
 </head>
 
@@ -190,7 +180,7 @@
             <h2 id="titulo-clientes">Ya está vendiendo en línea</h2>
             <article class="caso">
                 <div class="marco">
-                    <img src="img/sb-prive.jpg" alt="Inicio de la página de S. B. Privé: vitrina con perfumes y botón para ver el catálogo" width="1200" height="750" loading="lazy" decoding="async">
+                    <picture><source type="image/avif" srcset="img/sb-prive-640.avif 640w, img/sb-prive-1200.avif 1200w" sizes="(min-width: 64rem) 560px, 92vw"><img src="img/sb-prive.jpg" alt="Inicio de la página de S. B. Privé: vitrina con perfumes y botón para ver el catálogo" width="1200" height="750" loading="lazy" decoding="async"></picture>
                     <span class="estado estado-vivo">● En línea</span>
                 </div>
                 <p class="tipo">// perfumería · Cali</p>
@@ -209,7 +199,7 @@
                 </ul>
                 <!-- Reel que le hice para Instagram: no suena solo, la persona le da play -->
                 <div class="caso-reel">
-                    <video src="video/reel-sb-prive.mp4" poster="img/reel-sb-prive.jpg" controls playsinline preload="none" width="540" height="960" aria-label="Reel de Instagram de S. B. Privé que muestra su página web en un celular"></video>
+                    <video src="video/reel-sb-prive.mp4" poster="img/reel-sb-prive.avif" controls playsinline preload="none" width="540" height="960" aria-label="Reel de Instagram de S. B. Privé que muestra su página web en un celular"></video>
                     <p><strong>También le hice sus reels</strong> y un carrusel para Instagram, para llevar gente a la página.</p>
                 </div>
                 <!-- Botón principal: pedir una igual. El enlace al sitio queda como secundario para no sacar a la gente de aquí -->
@@ -228,7 +218,7 @@
                 <li>
                     <article class="con-brillo">
                         <div class="marco">
-                            <img src="img/v4.jpg" alt="Portada del sitio Mundos en Lienzos" width="400" height="300" loading="lazy" decoding="async">
+                            <picture><source type="image/avif" srcset="img/v4-480.avif 480w, img/v4-800.avif 800w" sizes="(min-width: 48rem) 400px, 84vw"><img src="img/v4.jpg" alt="Portada del sitio Mundos en Lienzos" width="400" height="300" loading="lazy" decoding="async"></picture>
                             <span class="numero" aria-hidden="true">01</span>
                             <span class="estado estado-obra">En construcción</span>
                         </div>
@@ -243,7 +233,7 @@
                 <li>
                     <article class="con-brillo">
                         <div class="marco">
-                            <img src="img/v3.jpg" alt="Portada del sitio Piamonte Cafe" width="400" height="300" loading="lazy" decoding="async">
+                            <picture><source type="image/avif" srcset="img/v3-480.avif 480w, img/v3-800.avif 800w" sizes="(min-width: 48rem) 400px, 84vw"><img src="img/v3.jpg" alt="Portada del sitio Piamonte Cafe" width="400" height="300" loading="lazy" decoding="async"></picture>
                             <span class="numero" aria-hidden="true">02</span>
                             <span class="estado estado-obra">En construcción</span>
                         </div>
@@ -391,7 +381,7 @@
                 <p class="nota-cta">Ejemplo real: el menú de Piamonte Café, en Yotoco. Cotización gratis.</p>
             </div>
             <a class="celular" href="proyectos/Piamonte-Cafe/menu.html" aria-label="Ver el menú digital de Piamonte Café">
-                <span class="celular-pantalla"><img src="img/menu-piamonte-largo.jpg" alt="Menú digital de Piamonte Café en un celular: categorías Calientes, Fríos y Cócteles con fotos y precios" width="390" height="3000" loading="lazy" decoding="async"></span>
+                <span class="celular-pantalla"><picture><source type="image/avif" srcset="img/menu-piamonte-largo.avif 390w" sizes="300px"><img src="img/menu-piamonte-largo.jpg" alt="Menú digital de Piamonte Café en un celular: categorías Calientes, Fríos y Cócteles con fotos y precios" width="390" height="3000" loading="lazy" decoding="async"></picture></span>
             </a>
         </section>
 
